@@ -81,12 +81,12 @@ angular.module('starter', ['ionic', 'ionic.utils', 'starter.controllers', 'start
 
   // Each tab has its own nav history stack:
 
-  .state('app.dashboard', {
-    url: '/dashboard',
+  .state('app.outgoing', {
+    url: '/outgoing',
     views: {
       'view-container': {
-        templateUrl: 'templates/dashboard.html',
-        controller: 'DashboardCtrl'
+        templateUrl: 'templates/messages.html',
+        controller: 'MessagesCtrl'
       }
     }
   })

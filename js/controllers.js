@@ -1,18 +1,18 @@
 angular.module('starter.controllers', ['ionic.utils'])
 
-    .controller('CommonCtrl', function($scope, $location, $ionicSideMenuDelegate, $http, Settings) {
+    .controller('CommonCtrl', function($scope, $location, $http, $ionicSideMenuDelegate, Settings, Messages) {
         $scope.items = [
             {
-                title: 'Dashboard',
-                icon: 'ion-ios-pulse',
-                route: '/dashboard',
-                view: 'dashboard'
-            },
-            {
-                title: 'Messages',
-                icon: 'ion-ios-chatboxes-outline',
+                title: 'Incoming',
+                icon: 'ion-log-in',
                 route: '/messages',
                 view: 'messages'
+            },
+            {
+                title: 'Outgoing',
+                icon: 'ion-log-out',
+                route: '/outgoing',
+                view: 'outgoing'
             },
             {
                 title: 'Settings',
@@ -36,6 +36,15 @@ angular.module('starter.controllers', ['ionic.utils'])
         $scope.$on('$locationChangeStart', function (event, next, current) {
             $ionicSideMenuDelegate.toggleLeft(false);
             $ionicSideMenuDelegate.toggleRight(false);
+
+            console.log(next);
+            console.log(current);
+
+            //if (( next.endsWith('/outgoing') && current.endsWith('/messages'))
+            //    || ( next.endsWith('/messages') && current.endsWith('/outgoing') ) ) {
+            if ( next.endsWith('/outgoing') || next.endsWith('/messages') ) {
+                Messages.wipe();
+            }
 
             if ($location.path() !== '/settings' && !$scope.settings.authdata) {
                 $location.path('/settings');
@@ -86,6 +95,8 @@ angular.module('starter.controllers', ['ionic.utils'])
         $scope.info = '';
         $scope.selectedAll = false;
 
+        var isOutgoing = $location.path() == '/outgoing';
+
         //$scope.$watch('Messages.messages', function(newValue, oldValue) {
         //    console.log('watch');
         //    if (newValue.length != oldValue.length) {
@@ -111,7 +122,7 @@ angular.module('starter.controllers', ['ionic.utils'])
             $scope.searchCriteria.refresh = false;
             SearchCriteria.setSearchCriteria($scope.searchCriteria);
             //console.log($scope.searchCriteria);
-            $scope.Messages.fetch($scope.searchCriteria).then(function () {
+            $scope.Messages.fetch($scope.searchCriteria, isOutgoing).then(function () {
                 $scope.searchCriteria.offset = $scope.Messages.count();
                 SearchCriteria.setSearchCriteria($scope.searchCriteria);
                 $scope.info = Messages.count() + ' / ' + Messages.getLastCount();
@@ -119,19 +130,18 @@ angular.module('starter.controllers', ['ionic.utils'])
             });
         };
 
-        $scope.remove = function(message) {
-            var confirmPopup = $ionicPopup.confirm({
-                title: 'Confirm removal',
-                template: 'Are you sure you want to continue?'
+        $scope.doRefresh = function() {
+            $scope.searchCriteria = SearchCriteria.getSearchCriteria();
+            $scope.searchCriteria.until = SearchCriteria.getDate();
+            $scope.searchCriteria.refresh = true;
+            $scope.searchCriteria.last_count = $scope.Messages.getLastCount();
+            SearchCriteria.setSearchCriteria($scope.searchCriteria);
+            $scope.Messages.fetch($scope.searchCriteria, isOutgoing).then(function () {
+                $scope.searchCriteria.offset = $scope.Messages.count();
+                SearchCriteria.setSearchCriteria($scope.searchCriteria);
+                $scope.$broadcast('scroll.refreshComplete');
             });
-            confirmPopup.then(function(res) {
-                if (res) {
-                    $scope.Messages.remove(message);
-                    console.log('removed');
-                } else {
-                    console.log('canceled');
-                }
-            });
+
         };
 
         $scope.bulkAction = function(action, messages) {
@@ -149,7 +159,7 @@ angular.module('starter.controllers', ['ionic.utils'])
             });
             confirmPopup.then(function(res) {
                 if (res) {
-                    $scope.Messages.bulkAction(action, messages)
+                    $scope.Messages.bulkAction(action, messages, isOutgoing)
                         .then(function () {
                             $scope.searchCriteria = SearchCriteria.getSearchCriteria();
                             $scope.searchCriteria.offset = 0;
@@ -180,20 +190,6 @@ angular.module('starter.controllers', ['ionic.utils'])
                     value.isChecked = false;
                 }
             });
-        };
-
-        $scope.doRefresh = function() {
-            $scope.searchCriteria = SearchCriteria.getSearchCriteria();
-            $scope.searchCriteria.until = SearchCriteria.getDate();
-            $scope.searchCriteria.refresh = true;
-            $scope.searchCriteria.last_count = $scope.Messages.getLastCount();
-            SearchCriteria.setSearchCriteria($scope.searchCriteria);
-            $scope.Messages.fetch($scope.searchCriteria).then(function () {
-                $scope.searchCriteria.offset = $scope.Messages.count();
-                SearchCriteria.setSearchCriteria($scope.searchCriteria);
-                $scope.$broadcast('scroll.refreshComplete');
-            });
-
         };
 
         $scope.showBulkActions = function () {

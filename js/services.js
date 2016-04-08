@@ -27,9 +27,10 @@ angular.module('starter.services', [])
                 //return last_count === null || last_count > messages.length;
                 return last_count === null || last_count > messages.length;
             },
-            fetch: function(searchCriteria) {
+            fetch: function(searchCriteria, isOutgoing) {
                 var endpoint = Settings.getEndpoint();
                 endpoint += '/api/log/search/action/get_rows_json/searchCriteria/' + JSON.stringify(searchCriteria);
+                if (isOutgoing) endpoint += '/outgoing/1';
 
                 return $http.get(endpoint).
                     success(function(resp){
@@ -60,6 +61,7 @@ angular.module('starter.services', [])
                 }, params);
 
                 endpoint += '/api/log/search/action/'+ action + '/spam_messages/' + JSON.stringify(params);
+                if (isOutgoing) endpoint += '/outgoing/1';
 
                 return $http.get(endpoint).
                     success(function(resp) {
