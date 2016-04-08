@@ -1,24 +1,24 @@
 SpamExpertsApp
     .config(function ($stateProvider, $urlRouterProvider, GROUPS, USER_ROLES) {
         $stateProvider
-
             .state('login', {
                 url: '/login',
                 templateUrl: 'templates/auth/login.html',
                 controller: 'LoginCtrl'
             })
-
             .state('main', {
                 url: '/',
                 abstract: true,
                 templateUrl: 'templates/common/main.html'
-                //controller: 'CommonCtrl'
             })
-
             .state('main.dash', {
                 url: 'dash',
                 views: {
-                    'view-container': {
+                    'b': {
+                        templateUrl: 'templates/logSearch/view/messages.html',
+                        controller: 'IncomingMessagesCtrl'
+                    },
+                    'main-container': {
                         templateUrl: 'templates/dashboard/dashboard.html',
                         controller: 'DashCtrl'
                     }
@@ -27,59 +27,56 @@ SpamExpertsApp
                     authorizedRoles: [USER_ROLES.admin]
                 }
             })
-
             .state('main.incoming', {
                 url: 'incoming',
-                //cache: false, //required
                 group: GROUPS.incoming,
                 views: {
-                    'view-container': {
+                    'main-container': {
                         templateUrl: 'templates/logSearch/view/messages.html',
-                        controller: 'MessagesCtrl'
+                        controller: 'IncomingMessagesCtrl'
+                    },
+                    'right-side-menu':  {
+                        templateUrl: 'templates/logSearch/menu/menu.html',
+                        controller: 'IncomingSearchCriteriaCtrl'
                     }
-                },
-                rightSideMenu:  {
-                    templateUrl: 'templates/logSearch/menu/menu.html',
-                    controller: 'SearchCriteriaCtrl'
                 },
                 data: {
                     authorizedRoles: [USER_ROLES.admin]
                 }
             })
-
             .state('main.outgoing', {
                 url: 'outgoing',
-                //cache: false, //required
                 group: GROUPS.outgoing,
                 views: {
-                    'view-container': {
+                    'main-container': {
                         templateUrl: 'templates/logSearch/view/messages.html',
-                        controller: 'MessagesCtrl'
+                        controller: 'OutgoingMessagesCtrl'
+                    },
+                    'right-side-menu': {
+                        templateUrl: 'templates/logSearch/menu/menu.html',
+                        controller: 'OutgoingSearchCriteriaCtrl'
                     }
-                },
-                rightSideMenu:  {
-                    templateUrl: 'templates/logSearch/menu/menu.html',
-                    controller: 'SearchCriteriaCtrl'
                 },
                 data: {
                     authorizedRoles: [USER_ROLES.admin]
                 }
             })
-
             .state('main.message-detail', {
-                url: 'message/:messageId/:direction',
-                cache: false, //required
+                url: 'message',
                 views: {
-                    'view-container': {
+                    'main-container': {
                         templateUrl: 'templates/logSearch/view/message-detail.html',
                         controller: 'MessageDetailCtrl'
                     }
                 },
+                params: {
+                    message: {},
+                    previousState: {}
+                },
                 data: {
                     authorizedRoles: [USER_ROLES.admin]
                 }
-            })
-        ;
+            });
+
         $urlRouterProvider.otherwise('dash');
-    })
-;
+    });

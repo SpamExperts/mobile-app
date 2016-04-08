@@ -1,27 +1,41 @@
 SpamExpertsApp
-    .controller('SearchCriteriaCtrl', function($rootScope, $scope, $state, Messages, SearchCriteriaService) {
+    .controller('IncomingSearchCriteriaCtrl', function($scope, $controller, SearchCriteriaService, GROUPS) {
 
-            var init = function (next) {
-                SearchCriteriaService.setDirection(next);
-                $scope.searchCriteria = SearchCriteriaService.getSearchCriteria();
-            };
+        $controller('CommonSearchCriteriaCtrl', {
+            $scope: $scope,
+            criteriaService: new SearchCriteriaService({
+                direction: GROUPS.incoming,
+                searchCriteria: {}
+            })
+        });
+    });
 
-            init($state.current.group);
+SpamExpertsApp
+    .controller('OutgoingSearchCriteriaCtrl', function($scope, $controller, SearchCriteriaService, GROUPS) {
 
-            $scope.$on('$stateChangeSuccess', function (event,next, nextParams, fromState) {
-                init(next.group);
-            });
+        $controller('CommonSearchCriteriaCtrl', {
+            $scope: $scope,
+            criteriaService: new SearchCriteriaService({
+                direction: GROUPS.outgoing,
+                searchCriteria: {}
+            })
+        });
+    });
 
-            $scope.doSearch = function() {
-                SearchCriteriaService.setSearchCriteria($scope.searchCriteria);
-                $rootScope.$broadcast('entriesWipe');
-            };
+SpamExpertsApp
+    .controller('CommonSearchCriteriaCtrl', function($rootScope, $scope, $state, criteriaService) {
 
-            $scope.doReset = function() {
-                SearchCriteriaService.setSearchCriteria(SearchCriteriaService.defaultCriteria);
-                $rootScope.$broadcast('entriesWipe');
-            };
+        $scope.searchCriteria = criteriaService.getSearchCriteria();
 
-        }
-    )
-;
+        $scope.doSearch = function() {
+            criteriaService.setSearchCriteria($scope.searchCriteria);
+            $rootScope.$broadcast('refreshEntries');
+        };
+
+        $scope.doReset = function() {
+            criteriaService.setSearchCriteria(criteriaService.getDefaultCriteria());
+            $scope.searchCriteria = criteriaService.getDefaultCriteria();
+            $rootScope.$broadcast('refreshEntries');
+        };
+
+    });

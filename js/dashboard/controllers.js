@@ -1,6 +1,8 @@
 SpamExpertsApp
 
     .controller('DashCtrl', function($scope, $state, $http, $ionicPopup, $localstorage, AuthService) {
+        console.log('DashCtrl');
+
         $scope.logout = function() {
             AuthService.logout();
             $state.go('login');

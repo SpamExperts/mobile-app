@@ -1,74 +1,80 @@
 SpamExpertsApp
-    .factory('Messages', function($http, $localstorage, GROUPS) {
+    .factory('MessagesService', function(Api, GROUPS) {
 
-        var messages = {};
-        var last_count = {};
-        var direction = '';
+        /**
+         var modelData = {
+            direction: direction,
+            last_count: last_count,
+            messages: [],
+            message: {}
+        };
+         */
+        function MessagesService(modelData) {
+            this.messages = [];
+            this.last_count = 0;
+            this.direction = null;
+            this.messageParts = {};
+            this.selected = 0;
 
-        messages[GROUPS['incoming']] = [];
-        messages[GROUPS['outgoing']] = [];
+            if (modelData) {
+                this.construct(modelData);
+            }
+        }
 
-        last_count[GROUPS['incoming']] = 0;
-        last_count[GROUPS['outgoing']] = 0;
-
-        var message = null;
-
-        var protocol = "http://";
-        var settings = $localstorage.get('settings');
-        var baseEndpoint = protocol + settings.hostname;
-
-        return {
-            getDirection: function (dir) {
-                console.log(dir);
-            },
-            setDirection: function (dir) {
-                console.log(arguments.callee.caller.toString());
-
-                if (!dir) {
-                    direction = '';
-                    console.warn('Entries direction undefined');
-                } else {
-                    direction = dir;
-                }
+        MessagesService.prototype = {
+            construct: function(modelData) {
+                angular.merge(this, modelData);
             },
             getMessages: function () {
-                return messages[direction];
+                return this.messages;
             },
-            toggleSelection: function (toggle) {
-                angular.forEach(messages[direction], function(value, key) {
-                    if (1 || value.status=='quarantined' && value.classification=='Rejected') {
-                        value.isChecked = toggle;
-                    }
+            getMessageParts: function () {
+                return this.messageParts;
+            },
+            isBulkMode: function () {
+                return this.selected > 0;
+            },
+            selectMessage: function (index) {
+                var toggle = !this.messages[index].isChecked;
+                this.messages[index].isChecked = toggle;
+                if (toggle) {
+                    this.selected++;
+                } else {
+                    this.selected--;
+                }
+            },
+            selectAll: function (toggle) {
+                angular.forEach(this.messages, function(value, key) {
+                    value.isChecked = toggle;
                 });
+                this.selected = (toggle ? this.count() : 0);
             },
             wipe: function() {
-                messages[direction] = [];
-                last_count[direction] = 0;
+                this.messages = [];
+                this.last_count = 0;
             },
-            //messages: messages,
             count: function() {
-                return messages[direction].length;
-            },
-            message: function () {
-                return message;
+                return this.messages.length;
             },
             getLastCount: function() {
-                return last_count[direction];
+                return this.last_count;
             },
             fetch: function(searchCriteria) {
-                var endpoint = baseEndpoint;
-                endpoint += '/api/log/search/action/get_rows_json/searchCriteria/' + JSON.stringify(searchCriteria);
-                if (direction == GROUPS['outgoing']) endpoint += '/outgoing/1';
+                var that = this;
 
-                return $http.get(endpoint)
+                return Api.request({
+                        direction: this.direction,
+                        resource: 'logSearch',
+                        action: 'get',
+                        urlParams: JSON.stringify(searchCriteria)
+                    })
                     .success(function(resp) {
-
                         if (resp['new_entries']) {
-                            messages[direction] = resp['new_entries'].concat(messages[direction]);
+                            that.messages = resp['new_entries'].concat(that.messages);
                         } else {
-                            messages[direction] = messages[direction].concat(resp['entries']);
+                            that.messages = that.messages.concat(resp['entries']);
                         }
-                        last_count[direction] = resp.last_count;
+                        that.last_count = resp.last_count;
                     })
                     . error(function(err) {
                         console.log('ERR', err);
@@ -77,27 +83,74 @@ SpamExpertsApp
 
                     });
             },
-            bulkAction: function (action, selection) {
-                var endpoint = baseEndpoint;
+            viewMessage: function (message) {
+
+                if (message) {
+                    this.messageParts = message;
+
+                    var spamMessages = [
+                        (this.direction == GROUPS['outgoing']
+                                ? message['user']
+                                : message['recipient']
+                        ),
+                        message['message_id'],
+                        message['host'],
+                        message['datestamp']
+                    ];
+
+                    var that = this;
+
+                    return Api.request({
+                            direction: this.direction,
+                            resource: 'logSearch',
+                            action: 'view',
+                            urlParams: JSON.stringify([spamMessages.join('|')])
+                        })
+                        .success(function (resp) {
+                            that.messageParts.details = resp.mail;
+                        })
+                        .error(function (err) {
+
+                        });
+                }
+
+                return null;
+            },
+            bulkAction: function (action, entry) {
 
                 //test@example.com|1YiJCV-0003iL-94|server1.test21.simplyspamfree.com|2015-04-15 10:01
-                var params = [];
+                var entries = [];
 
-                angular.forEach(selection, function(value, key) {
-                    this.push(
+                if (entry) {
+                    entries.push(
                         [
-                            value['recipient'],
-                            value['message_id'],
-                            value['host'],
-                            value['datestamp']
+                            entry['recipient'],
+                            entry['message_id'],
+                            entry['host'],
+                            entry['datestamp']
                         ].join('|')
                     );
-                }, params);
+                } else {
+                    angular.forEach(this.messages, function(value, key) {
+                        if (value.isChecked) {
+                            this.push(
+                                [
+                                    value['recipient'],
+                                    value['message_id'],
+                                    value['host'],
+                                    value['datestamp']
+                                ].join('|')
+                            );
+                        }
+                    }, entries);
+                }
 
-                endpoint += '/api/log/search/action/'+ action + '/spam_messages/' + JSON.stringify(params);
-                if (direction == GROUPS['outgoing']) endpoint += '/outgoing/1';
-
-                return $http.get(endpoint)
+                return Api.request({
+                        direction: this.direction,
+                        resource: 'logSearch',
+                        action: action,
+                        urlParams: [action, JSON.stringify(entries)]
+                    })
                     .success(function(resp) {
 
                     })
@@ -108,46 +161,8 @@ SpamExpertsApp
 
                     });
 
-            },
-            get: function(message_id) {
-                var protocol = "http://";
-                var settings = $localstorage.get('settings');
-                var baseEndpoint = protocol + settings.hostname;
-
-                for (var i = 0; i < messages[direction].length; i++) {
-                    if (messages[direction][i].message_id === message_id) {
-                        message = messages[direction][i];
-                    }
-                }
-
-                if (message) {
-
-                    var spamMessages = [
-                        (direction == GROUPS['outgoing']
-                                ? message['user']
-                                : message['recipient']
-                        ),
-                        message['message_id'],
-                        message['host'],
-                        message['datestamp']
-                    ];
-
-                    spamMessages = JSON.stringify([spamMessages.join('|')]);
-
-                    var endpoint = baseEndpoint + '/api/log/search/action/view/spam_messages/' + spamMessages;
-                    if (direction == GROUPS['outgoing']) endpoint += '/outgoing/1';
-
-                    return $http.get(endpoint)
-                        .success(function(resp){
-                            message.details = resp.mail;
-                        })
-                        .error(function(err) {
-                            console.log('ERR', err);
-                        });
-                }
-
-                return null;
             }
         };
-    })
-;
+
+        return MessagesService;
+    });

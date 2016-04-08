@@ -9,19 +9,20 @@
     <link href="css/style.css" rel="stylesheet">
 
     <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ionic/js/ionic.bundle.min.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
+    <!--<script src="cordova.js"></script>-->
 
+    <script src="js/common/utils.js"></script>
 
     <!-- load common -->
     <script src="js/common/init.js"></script>
     <script src="js/common/constants.js"></script>
     <script src="js/common/routes.js"></script>
     <script src="js/common/controllers.js"></script>
-    <script src="js/common/services.js"></script>
     <script src="js/common/directives.js"></script>
+    <script src="js/common/services.js"></script>
 
     <!-- load auth -->
     <script src="js/auth/init.js"></script>
@@ -41,7 +42,7 @@
 
 </head>
 
-<body ng-app="starter" ng-controller="AppCtrl">
+<body ng-app="SpamExpertsApp" ng-controller="AppCtrl">
 <ion-nav-view>
 </ion-nav-view>
 </body>

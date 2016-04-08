@@ -1,5 +1,5 @@
 SpamExpertsApp
-    .controller('AppCtrl', function($scope, $state, $ionicPopup, $location, $ionicSideMenuDelegate, AuthService, AUTH_EVENTS) {
+    .controller('AppCtrl', function($scope, $state, $ionicPopup, $ionicSideMenuDelegate, $ionicActionSheet, AuthService, AUTH_EVENTS, MENU_ITEMS) {
         $scope.username = AuthService.username();
 
         $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
@@ -22,51 +22,69 @@ SpamExpertsApp
             $scope.username = name;
         };
 
-        $scope.menuItems = [
-            {
-                title: 'Dashboard',
-                icon: 'ion-ios-gear-outline',
-                route: '/dash'
-            },
-            {
-                title: 'Incoming',
-                icon: 'ion-log-in',
-                route: '/incoming'
-            },
-            {
-                title: 'Outgoing',
-                icon: 'ion-log-out',
-                route: '/outgoing'
-            }
-        ];
+        $scope.menuItems = MENU_ITEMS;
 
-        $ionicSideMenuDelegate.toggleLeft(false);
-        $ionicSideMenuDelegate.toggleRight(false);
-
-        $scope.$on('$stateChangeStart', function (event,next, nextParams, fromState) {
+        $scope.$on('$stateChangeSuccess', function () {
+            $scope.selectedAll = false;
+            $scope.bulkMode = false;
             $ionicSideMenuDelegate.toggleLeft(false);
             $ionicSideMenuDelegate.toggleRight(false);
         });
 
-        $scope.$on('$stateChangeSuccess', function (event,next, nextParams, fromState) {
-            $scope.rightSideMenu = $state.current.rightSideMenu;
-        });
-
-        $scope.isActive = function(route) {
-            return route === $location.path();
-        };
-
-        $scope.getGroup = function () {
-            return $state.current.group || '';
-        };
-
-        $scope.onDragLeft = function() {
-            $ionicSideMenuDelegate.toggleLeft(false);
-            $ionicSideMenuDelegate.canDragContent(false);
-        };
-        $scope.onDragRight = function() {
+        $scope.canDragRight = function() {
             $ionicSideMenuDelegate.canDragContent(true);
         };
-    })
 
-;
+        $scope.canDragLeft = function () {
+            if (
+                typeof $state.current.views['right-side-menu'] === 'undefined' &&
+                !$ionicSideMenuDelegate.isOpenLeft()
+            ) {
+                $ionicSideMenuDelegate.canDragContent(false);
+                $ionicSideMenuDelegate.toggleRight(false);
+            }
+        };
+
+        $scope.bulkMode = false;
+        $scope.selectedAll = false;
+
+        $scope.selectEntry = function(index) {
+            $scope.bulkManager.service.selectMessage(index);
+            $scope.bulkMode = $scope.bulkManager.service.isBulkMode();
+        };
+        $scope.selectAll = function (toggle) {
+            $scope.selectedAll = toggle;
+            $scope.bulkManager.service.selectAll($scope.selectedAll);
+            $scope.bulkMode = $scope.bulkManager.service.isBulkMode();
+        };
+
+        $scope.showBulkActions = function () {
+            var actionSheet = $ionicActionSheet.show({
+                buttons: $scope.bulkManager.actions,
+                titleText: 'Select Actions',
+                cancelText: 'Cancel',
+                cancel: function() {
+                    actionSheet();
+                },
+                buttonClicked: function(i, action) {
+                    $ionicPopup
+                        .confirm({
+                            title: 'Confirm action',
+                            template: action.confirmText
+                        })
+                        .then(function(res) {
+                            if (res) {
+                                $scope.bulkManager.service
+                                    .bulkAction(action.name)
+                                    .then(function () {
+                                        $state.go($state.current, {}, {reload: true});
+                                        $scope.$broadcast('refreshEntries');
+                                        $scope.bulkMode = false;
+                                    });
+                            }
+                        });
+                    return true;
+                }
+            })
+        };
+    });

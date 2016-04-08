@@ -22,6 +22,12 @@
     font-size : 25px !important;
     border-radius: 50% !important;
     background: transparent;
+    cursor: pointer;
+}
+
+.icon-se > .icon{
+    right: 3px;
+    left: 3px;
 }
 
 .icon-rejected {
@@ -55,6 +61,54 @@
 .icon-se.bulk div {
     background: transparent !important;
 }
+
+/*.alert {*/
+    /*padding: 15px;*/
+    /*margin-bottom: 20px;*/
+    /*border: 1px solid transparent;*/
+    /*border-radius: 4px;*/
+/*}*/
+
+
+.message-queue .button,
+.message-queue .item-content {
+    background: transparent;
+    padding: 0;
+}
+.message-queue .list {
+    background: rgba(0, 0, 0, 0.34);
+
+    padding-top: 2px;
+    padding-bottom: 20px;
+    border-radius: 0 0 5px 5px;
+    margin: 0 1px;
+}
+.alert {
+    padding: 15px;
+    margin: 2px 5px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+.alert-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+
 
 .raw-message {
     max-height: 0px;
