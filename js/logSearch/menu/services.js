@@ -13,8 +13,7 @@ SpamExpertsApp.factory('SearchCriteriaService', ['$localstorage', 'GROUPS', 'OTH
         this.defaultCriteria[GROUPS['incoming']] = {
             since: this.getDate({days: '-1'}),
             until: this.getDate(),
-            searchdomain: '',
-            'only_quarantined': 'quarantined',
+            domain: '',
             offset: 0,
             length: OTHERS.sliceLength
         };
@@ -22,8 +21,7 @@ SpamExpertsApp.factory('SearchCriteriaService', ['$localstorage', 'GROUPS', 'OTH
         this.defaultCriteria[GROUPS['outgoing']] = {
             since: this.getDate({days: '-1'}),
             until: this.getDate(),
-            searchdomain: '',
-            'only_quarantined': 'quarantined',
+            domain: '',
             offset: 0,
             length: OTHERS.sliceLength
         };

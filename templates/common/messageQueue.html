@@ -1,0 +1,34 @@
+<ion-list class="message-queue">
+    <ion-item ng-if="messageQueue['error'].length" class="alert alert-error item-remove-animate item-icon-right"
+              on-swipe = "removeQueueMessage('error');$event.stopPropagation()"
+
+    >
+        <div ng-repeat="error in messageQueue['error'] track by $index">
+            {{error}}
+        </div>
+        <i class="icon ion-close-round icon-accessory" ng-click="removeQueueMessage('error')"></i>
+        <ion-option-button>
+        </ion-option-button>
+    </ion-item>
+    <ion-item ng-if="messageQueue['warning'].length" class="alert alert-warning item-remove-animate item-icon-right"
+              on-swipe = "removeQueueMessage('warning');$event.stopPropagation()"
+
+    >
+        <div ng-repeat="warning in messageQueue['warning'] track by $index">
+            {{warning}}
+        </div>
+        <i class="icon ion-close-round icon-accessory" ng-click="removeQueueMessage('warning')"></i>
+        <ion-option-button>
+        </ion-option-button>
+    </ion-item>
+    <ion-item ng-if="messageQueue['success'].length" class="alert alert-success item-remove-animate item-icon-right"
+              on-swipe = "removeQueueMessage('success');$event.stopPropagation()"
+    >
+        <div ng-repeat="success in messageQueue['success'] track by $index">
+            {{success}}
+        </div>
+        <i class="icon ion-close-round icon-accessory" ng-click="removeQueueMessage('success')"></i>
+        <ion-option-button>
+        </ion-option-button>
+    </ion-item>
+</ion-list>

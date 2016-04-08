@@ -66,7 +66,7 @@ SpamExpertsApp
                         direction: this.direction,
                         resource: 'logSearch',
                         action: 'get',
-                        urlParams: JSON.stringify(searchCriteria)
+                        requestParams: searchCriteria
                     })
                     .success(function(resp) {
                         if (resp['new_entries']) {
@@ -88,23 +88,13 @@ SpamExpertsApp
                 if (message) {
                     this.messageParts = message;
 
-                    var spamMessages = [
-                        (this.direction == GROUPS['outgoing']
-                                ? message['user']
-                                : message['recipient']
-                        ),
-                        message['message_id'],
-                        message['host'],
-                        message['datestamp']
-                    ];
-
                     var that = this;
 
                     return Api.request({
                             direction: this.direction,
                             resource: 'logSearch',
                             action: 'view',
-                            urlParams: JSON.stringify([spamMessages.join('|')])
+                            requestParams: message
                         })
                         .success(function (resp) {
                             that.messageParts.details = resp.mail;
@@ -122,25 +112,11 @@ SpamExpertsApp
                 var entries = [];
 
                 if (entry) {
-                    entries.push(
-                        [
-                            entry['recipient'],
-                            entry['message_id'],
-                            entry['host'],
-                            entry['datestamp']
-                        ].join('|')
-                    );
+                    entries.push(entry);
                 } else {
                     angular.forEach(this.messages, function(value, key) {
                         if (value.isChecked) {
-                            this.push(
-                                [
-                                    value['recipient'],
-                                    value['message_id'],
-                                    value['host'],
-                                    value['datestamp']
-                                ].join('|')
-                            );
+                            this.push(value);
                         }
                     }, entries);
                 }
@@ -149,7 +125,7 @@ SpamExpertsApp
                         direction: this.direction,
                         resource: 'logSearch',
                         action: action,
-                        urlParams: [action, JSON.stringify(entries)]
+                        requestParams: [action, entries]
                     })
                     .success(function(resp) {
 

@@ -1,0 +1,62 @@
+<ion-view view-title="Messages {{info}}">
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-search" menu-toggle="right">
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <ion-list ng-if="messageEntries.length">
+
+            <ion-item class="item-remove-animate item-avatar item-icon-right"
+                      ng-repeat="message in messageEntries"
+                      on-hold="selectEntry($index)"
+                      on-tap="openMessage(message)"
+                      on-swipe-right = "$event.stopPropagation()"
+            >
+
+                <div ng-if="!message.isChecked" on-tap="selectEntry($index);$event.stopPropagation()">
+                    <div class="icon-se icon-accepted">S</div>
+                </div>
+
+                <div ng-if="message.isChecked" on-tap="selectEntry($index);$event.stopPropagation()">
+                    <div class="icon-se icon-unknown">
+                        <i class="icon ion-checkmark"></i>
+                    </div>
+                </div>
+
+                <h2 ng-class="{grayedout: bulkMode}">{{message['decoded_subject_header']}}</h2>
+
+                <!--<i class="icon ion-chevron-right icon-accessory"></i>-->
+
+                <!--<ion-option-button class="button-assertive" ng-click="bulkAction('remove', [message]);$event.stopPropagation()">-->
+                    <!--Remove-->
+                <!--</ion-option-button>-->
+                <!--<ion-option-button class="button-positive" ng-click="bulkAction('release', [message]);$event.stopPropagation()">-->
+                    <!--Release-->
+                <!--</ion-option-button>-->
+
+            </ion-item>
+        </ion-list>
+        <ion-list ng-if="!messageEntries.length">
+            <ion-item class="text-center">
+                No entries
+            </ion-item>
+        </ion-list>
+        <!--immediate-check="false"-->
+        <!--spinner="spiral"-->
+
+        <ion-infinite-scroll
+                ng-if="!noMoreItemsAvailable"
+                on-infinite="loadMoreData()"
+                distance="1%">
+        </ion-infinite-scroll>
+
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="doRefresh()">
+        </ion-refresher>
+
+        <div ng-if="bulkMode" class="se-spacer"></div>
+    </ion-content>
+</ion-view>

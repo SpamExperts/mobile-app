@@ -146,7 +146,7 @@ SpamExpertsApp
                     resource  : null,
                     action    : null,
                     urlParams : null,
-                    bodyParams: null
+                    requestParams: null
                 };
 
                 angular.merge(defaultParams, params);
@@ -163,15 +163,23 @@ SpamExpertsApp
                     request = request[params.action];
                 }
 
+                $http.defaults.transformResponse.push(function (response) {
+                    if (response.body) {
+                        return response.body;
+                    } else {
+                        return response;
+                    }
+                });
+
                 switch (request.method) {
                     case 'GET':
-                        return $http.get(baseEndpoint + request.endpoint.printf(params.urlParams), {params: params.bodyParams});
+                        return $http.get(baseEndpoint + request.endpoint.printf(params.urlParams), {params: params.requestParams, paramSerializer: '$httpParamSerializerJQLike'});
                     case 'PUT':
-                        return $http.put(baseEndpoint + request.endpoint.printf(params.urlParams), params.bodyParams);
+                        return $http.put(baseEndpoint + request.endpoint.printf(params.urlParams), params.requestParams);
                     case 'POST':
-                        return $http.post(baseEndpoint + request.endpoint.printf(params.urlParams), params.bodyParams);
+                        return $http.post(baseEndpoint + request.endpoint.printf(params.urlParams), params.requestParams);
                     case 'DELETE':
-                        return $http.delete(baseEndpoint + request.endpoint.printf(params.urlParams), {params: params.bodyParams});
+                        return $http.delete(baseEndpoint + request.endpoint.printf(params.urlParams), {params: params.requestParams});
                 }
             }
         };

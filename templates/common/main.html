@@ -1,0 +1,41 @@
+<ion-side-menus enable-menu-with-back-views="true">
+
+    <ion-side-menu-content on-drag-left="canDragLeft()" on-drag-right="canDragRight()">
+
+        <ion-nav-bar class="bar-dark">
+            <ion-nav-buttons side="left">
+                <button class="button button-icon icon ion-navicon" menu-toggle="left">
+                </button>
+            </ion-nav-buttons>
+        </ion-nav-bar>
+
+        <div class="bar bar-subheader" style="height:0; padding: 0" ng-if="messageQueue">
+            <div message-queue></div>
+        </div>
+        <ion-nav-view name="main-container"></ion-nav-view>
+    </ion-side-menu-content>
+
+    <ion-side-menu side="left" drag-content="false">
+        <ion-content drag-content="false">
+            <div ng-include="'templates/common/leftmenu.html'"></div>
+        </ion-content>
+    </ion-side-menu>
+
+    <ion-side-menu side="right">
+        <ion-header-bar class="bar-dark">
+            <h1 class="title">Search criteria</h1>
+        </ion-header-bar>
+        <ion-content>
+            <ui-view name="right-side-menu"></ui-view>
+        </ion-content>
+    </ion-side-menu>
+
+    <ion-footer-bar align-title="left" class="bar-assertive" ng-if="bulkMode">
+        <h1 class="title" ng-click="showBulkActions()"><i class="icon ion-grid"></i></h1>
+
+        <div class="buttons">
+            <button class="button" ng-if="!selectedAll" ng-click="selectAll(true)">Select all</button>
+            <button class="button" ng-if="selectedAll" ng-click="selectAll(false)">Deselect all</button>
+        </div>
+    </ion-footer-bar>
+</ion-side-menus>

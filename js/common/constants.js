@@ -67,29 +67,29 @@ SpamExpertsApp
     .constant('ENDPOINTS', {
         auth: {
             method: 'GET',
-            endpoint: '/api/log/search/action/authenticate'
+            endpoint: '/rest/auth/token'
         },
         incoming: {
             logSearch: {
                 get: {
                     method: 'GET',
-                    endpoint: '/api/log/search/action/get_rows_json/searchCriteria/%s'
+                    endpoint: '/rest/log/search/delivery'
                 },
                 release: {
-                    method: 'GET',
-                    endpoint: '/api/log/search/action/%s/spam_messages/%s/'
+                    method: 'PUT',
+                    endpoint: '/rest/log/release/delivery'
                 },
                 releaseandtrain: {
-                    method: 'GET',
-                    endpoint: '/api/log/search/action/%s/spam_messages/%s/'
+                    method: 'PUT',
+                    endpoint: '/restlog/releaseandtrain/delivery'
                 },
                 remove: {
-                    method: 'GET',
-                    endpoint: '/api/log/search/action/%s/spam_messages/%s/'
+                    method: 'DELETE',
+                    endpoint: '/rest/log/remove/delivery'
                 },
                 view: {
                     method: 'GET',
-                    endpoint: '/api/log/search/action/view/spam_messages/%s/'
+                    endpoint: '/rest/log/view/delivery'
                 }
             }
         },
@@ -97,23 +97,23 @@ SpamExpertsApp
             logSearch: {
                 get: {
                     method: 'GET',
-                    endpoint: '/api/log/search/action/get_rows_json/searchCriteria/%s/outgoing/1'
+                    endpoint: '/rest/log/search/submission'
                 },
                 release: {
-                    method: 'GET',
-                    endpoint: '/api/log/search/action/%s/spam_messages/%s/outgoing/1'
+                    method: 'PUT',
+                    endpoint: '/rest/log/release/submission'
                 },
                 releaseandtrain: {
-                    method: 'GET',
-                    endpoint: '/api/log/search/action/%s/spam_messages/%s/outgoing/1'
+                    method: 'PUT',
+                    endpoint: '/restlog/releaseandtrain/submission'
                 },
                 remove: {
-                    method: 'GET',
-                    endpoint: '/api/log/search/action/%s/spam_messages/%s/outgoing/1'
+                    method: 'DELETE',
+                    endpoint: '/rest/log/remove/submission'
                 },
                 view: {
                     method: 'GET',
-                    endpoint: '/api/log/search/action/view/spam_messages/%s/outgoing/1'
+                    endpoint: '/rest/log/view/submission'
                 }
             }
         }
