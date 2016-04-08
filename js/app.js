@@ -47,8 +47,8 @@ angular.module('starter', ['ionic'
             .state('main', {
                 url: '/',
                 abstract: true,
-                templateUrl: 'templates/main.html'
-                //controller: 'CommonCtrl'
+                templateUrl: 'templates/main.html',
+                controller: 'CommonCtrl'
             })
 
             .state('main.dash', {
@@ -91,7 +91,7 @@ angular.module('starter', ['ionic'
             })
 
             .state('main.message-detail', {
-                url: 'messages/:messageId/:direction',
+                url: 'message/:messageId/:direction',
                 views: {
                     'view-container': {
                         templateUrl: 'templates/message-detail.html',
@@ -114,9 +114,7 @@ angular.module('starter', ['ionic'
                     event.preventDefault();
                     $state.go('login');
                 }
-            }
-
-            if ('data' in next && 'authorizedRoles' in next.data) {
+            } else if ('data' in next && 'authorizedRoles' in next.data) {
                 var authorizedRoles = next.data.authorizedRoles;
                 if (!AuthService.isAuthorized(authorizedRoles)) {
                     event.preventDefault();

@@ -6,7 +6,7 @@
 
     <ion-content delegate-handle="listScroll">
         <ion-list>
-            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="message in Messages.messages()" type="item-text-wrap" ng-href="#/messages/{{message.message_id}}{{getRoute()}}"
+            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="message in Messages.messages()" type="item-text-wrap" ng-href="#/message/{{message.message_id}}{{getRoute()}}"
                       on-swipe-right="onSwipeRight()" on-hold="onHold(message)">
 
                 {{$index}}

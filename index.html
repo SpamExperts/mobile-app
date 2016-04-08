@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -19,15 +15,34 @@
     <script src="cordova.js"></script>
 
 
-    <!-- your app's js -->
-    <script src="js/app.js?ver=1.0.0"></script>
-    <script src="js/controllers.js?ver=1.0.0"></script>
-    <script src="js/services.js?ver=1.0.0"></script>
-    <script src="js/constants.js?ver=1.0.0"></script>
-  </head>
+    <!-- load common -->
+    <script src="js/common/init.js"></script>
+    <script src="js/common/constants.js"></script>
+    <script src="js/common/routes.js"></script>
+    <script src="js/common/controllers.js"></script>
+    <script src="js/common/services.js"></script>
+    <script src="js/common/directives.js"></script>
 
-  <body ng-app="starter" ng-controller="AppCtrl">
-    <ion-nav-view></ion-nav-view>
-  </body>
+    <!-- load auth -->
+    <script src="js/auth/init.js"></script>
+    <script src="js/auth/controllers.js"></script>
+    <script src="js/auth/services.js"></script>
 
+    <!-- load dashboard -->
+    <script src="js/dashboard/controllers.js"></script>
+    <script src="js/dashboard/services.js"></script>
+
+    <!-- load logsearch main view scripts -->
+    <script src="js/logSearch/view/controllers.js"></script>
+    <script src="js/logSearch/view/services.js"></script>
+    <!-- load logsearch right side menu scripts -->
+    <script src="js/logSearch/menu/controllers.js"></script>
+    <script src="js/logSearch/menu/services.js"></script>
+
+</head>
+
+<body ng-app="starter" ng-controller="AppCtrl">
+<ion-nav-view>
+</ion-nav-view>
+</body>
 </html>
