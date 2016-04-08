@@ -13,7 +13,7 @@
   left: 0;
   z-index: $z-index-bar;
 
-  @include box-sizing(border-box);
+  box-sizing: border-box;
   padding: $bar-padding-portrait;
 
   width: 100%;
@@ -123,7 +123,6 @@
 
   // Title inside of a bar is centered
   .title {
-    display: block;
     position: absolute;
 
     top: 0;
@@ -160,7 +159,7 @@
     color: inherit;
   }
 
-  .button, button {
+  .button {
     z-index: $z-index-bar-button;
     padding: 0 $button-bar-button-padding;
     min-width: initial;
@@ -402,3 +401,4 @@
 .nav-bar-tabs-top .bar {
   background-image: none;
 }
+

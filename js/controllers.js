@@ -1,6 +1,94 @@
-angular.module('starter.controllers', ['ionic.utils'])
+angular.module('starter')
 
-    .controller('CommonCtrl', function($scope, $location, $http, $ionicSideMenuDelegate, Settings, Messages) {
+    .controller('AppCtrl', function($scope, $state, $ionicPopup, AuthService, AUTH_EVENTS) {
+        $scope.username = AuthService.username();
+
+        $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Unauthorized!',
+                template: 'You are not allowed to access this resource.'
+            });
+        });
+
+        $scope.$on(AUTH_EVENTS.notAuthenticated, function(event) {
+            AuthService.logout();
+            $state.go('login');
+            var alertPopup = $ionicPopup.alert({
+                title: 'Session Lost!',
+                template: 'Sorry, You have to login again.'
+            });
+        });
+
+        $scope.setCurrentUsername = function(name) {
+            $scope.username = name;
+        };
+    })
+
+    .controller('LoginCtrl', function($scope, $state, $ionicPopup, AuthService) {
+        $scope.data = {
+            hostname: window.location.hostname,
+            username: 'nicolae',
+            password: 'qwe123'
+        };
+
+        $scope.login = function(data) {
+            AuthService.login(data.hostname, data.username, data.password)
+                .then(function(response) {
+                    if (!response.data.token) {
+                        var alertPopup = $ionicPopup.alert({
+                            title: 'Login failed!',
+                            template: 'Please check your credentials!'
+                        });
+                    } else {
+                        $state.go('main.dash', {}, {reload: true});
+                        $scope.setCurrentUsername(data.username);
+                    }
+
+            }, function(err) {
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Login failed!',
+                    template: 'Please check your credentials!'
+                });
+            });
+        };
+    })
+
+    .controller('DashCtrl', function($scope, $state, $http, $ionicPopup, $localstorage, AuthService) {
+        $scope.logout = function() {
+            AuthService.logout();
+            $state.go('login');
+        };
+
+        var settings = $localstorage.getObject('settings');
+        var url = 'http://' + settings.hostname + '/api/log/search/action/test';
+
+        console.log(settings);
+        $scope.performValidRequest = function() {
+            $http.get(url).then(
+                function(result) {
+                    $scope.response = result;
+                });
+        };
+
+        $scope.performUnauthorizedRequest = function() {
+            $http.get('http://localhost:8100/notauthorized').then(
+                function(result) {
+                    // No result here..
+                }, function(err) {
+                    $scope.response = err;
+                });
+        };
+
+        $scope.performInvalidRequest = function() {
+            $http.get('http://localhost:8100/notauthenticated').then(
+                function(result) {
+                    // No result here..
+                }, function(err) {
+                    $scope.response = err;
+                });
+        };
+    })
+    .controller('CommonCtrl', function($scope, $location, $http, $ionicSideMenuDelegate) {
         $scope.items = [
             {
                 title: 'Incoming',
@@ -25,32 +113,13 @@ angular.module('starter.controllers', ['ionic.utils'])
         $ionicSideMenuDelegate.toggleLeft(false);
         $ionicSideMenuDelegate.toggleRight(false);
 
-        //console.log('toggleRight');
-        $scope.settings = Settings.getSettings() || {};
-        if ($scope.settings.authdata) {
-            $http.defaults.headers.common['Authorization'] = 'Basic ' + $scope.settings.authdata;
-        } else {
-            $location.path('/settings');
-        }
-
         $scope.$on('$locationChangeStart', function (event, next, current) {
             $ionicSideMenuDelegate.toggleLeft(false);
             $ionicSideMenuDelegate.toggleRight(false);
             //
-            //console.log(next);
-            //console.log(current);
-
-            //if (( next.endsWith('/outgoing') && current.endsWith('/messages'))
-            //    || ( next.endsWith('/messages') && current.endsWith('/outgoing') ) ) {
-            //if ( next.endsWith('/outgoing') || next.endsWith('/messages') ) {
-            //    console.log(next);
-            //    Messages.wipe();
+            //if ($location.path() !== '/settings' && !$scope.settings.authdata) {
+            //    $location.path('/settings');
             //}
-
-            if ($location.path() !== '/settings' && !$scope.settings.authdata) {
-                $location.path('/settings');
-            }
-            //$ionicSideMenuDelegate.toggleLeft(true);
         });
 
         $scope.isActive = function(route) {
@@ -58,7 +127,6 @@ angular.module('starter.controllers', ['ionic.utils'])
         };
 
         $scope.onRoute = function(route) {
-            //console.log($location.path());
             return route === $location.path();
         };
 
@@ -66,48 +134,27 @@ angular.module('starter.controllers', ['ionic.utils'])
             return $location.path();
         };
 
-        //console.log('common');
         $scope.onDragLeft = function() {
-            //console.log('drag left');
-            //if($location.path() !== '/messages' && !$ionicSideMenuDelegate.isOpenLeft()) {
-            //if($location.path() !== '/messages') {
-            //    console.log('prevent drag');
-                $ionicSideMenuDelegate.toggleLeft(false);
-                $ionicSideMenuDelegate.canDragContent(false);
-            //}
+            $ionicSideMenuDelegate.toggleLeft(false);
+            $ionicSideMenuDelegate.canDragContent(false);
         };
         $scope.onDragRight = function() {
             $ionicSideMenuDelegate.canDragContent(true);
         };
     })
 
-    .controller('DashboardCtrl', function($scope, $ionicSideMenuDelegate) {
-        //console.log('dashboard');
-        //$ionicSideMenuDelegate.$getByHandle('rightmenu-handler').canDragContent(false);
-        //$ionicSideMenuDelegate.canDragContent(false);
-    })
-
-    .controller('MessagesCtrl', function($scope, $location, $window, $ionicPopup, $localstorage, $ionicSideMenuDelegate, $ionicScrollDelegate, $ionicActionSheet, Settings, Messages, SearchCriteria) {
-        //$scope.lastCount = null;
-        //$ionicSideMenuDelegate.$getByHandle('rightmenu-handler').canDragContent(true);
-        //$ionicSideMenuDelegate.canDragContent(true);
-
-
-        //console.log(Messages.messages());
-        //console.log(Messages.moreDataCanBeLoaded());
-
-
-
-        //$scope.$watch('Messages.messages', function(newValue, oldValue) {
-        //    console.log('watch');
-        //    if (newValue.length != oldValue.length) {
-        //        console.log('force load');
-        //        $scope.loadMoreData();
-        //    }
-        //});
-        //
-        //console.log($location.path());
-
+    .controller('MessagesCtrl',
+        function($scope,
+                 $location,
+                 $window,
+                 $ionicPopup,
+                 $localstorage,
+                 $ionicSideMenuDelegate,
+                 $ionicScrollDelegate,
+                 $ionicActionSheet,
+                 Messages,
+                 SearchCriteria
+        ) {
 
         $scope.bulkSelect = false;
 
@@ -128,9 +175,6 @@ angular.module('starter.controllers', ['ionic.utils'])
 
         $scope.noMoreItemsAvailable = false;
 
-        //console.log($scope.searchCriteria);
-        //$scope.lastSearchCriteria = {};
-
         $scope.loadMoreData = function() {
             //console.log('loadMoreData');
             $scope.searchCriteria = SearchCriteria.getSearchCriteria();
@@ -145,7 +189,6 @@ angular.module('starter.controllers', ['ionic.utils'])
                 if ($scope.Messages.count() == $scope.Messages.getLastCount()) {
                     $scope.noMoreItemsAvailable = true;
                 }
-
                 $scope.$broadcast('scroll.infiniteScrollComplete');
             });
         };
@@ -159,14 +202,12 @@ angular.module('starter.controllers', ['ionic.utils'])
             $scope.Messages.fetch($scope.searchCriteria).then(function () {
                 $scope.searchCriteria.offset = $scope.Messages.count();
                 SearchCriteria.setSearchCriteria($scope.searchCriteria);
+                $scope.info = $scope.Messages.count() + ' / ' + $scope.Messages.getLastCount();
+
                 $scope.$broadcast('scroll.refreshComplete');
             });
 
         };
-
-        //if ($scope.Messages.moreDataCanBeLoaded) {
-        //    $scope.loadMoreData();
-        //}
 
 
         $scope.bulkAction = function(action, messages) {
@@ -247,10 +288,8 @@ angular.module('starter.controllers', ['ionic.utils'])
 
     })
 
-    .controller('MessageDetailCtrl', function($scope, $stateParams, $ionicPopup, $window, $location, Settings, Messages, SearchCriteria) {
+    .controller('MessageDetailCtrl', function($scope, $stateParams, $ionicPopup, $window, $location, Messages, SearchCriteria) {
         $scope.message = null;
-
-        var endpoint = Settings.getEndpoint();
 
         $scope.showRaw = false;
         $scope.toggleRaw = function() {
@@ -259,7 +298,7 @@ angular.module('starter.controllers', ['ionic.utils'])
 
         Messages.setDirection('/' + $stateParams.direction);
 
-        Messages.get(endpoint, $stateParams.messageId).then(function() {
+        Messages.get($stateParams.messageId).then(function() {
             $scope.message = Messages.message();
         });
 
@@ -331,16 +370,4 @@ angular.module('starter.controllers', ['ionic.utils'])
 
     })
 
-    .controller('SettingsCtrl', function($scope, $location, Settings) {
-        //console.log('settingsctrl');
-        $scope.settings = Settings.getSettings() || {};
-
-        var returnTo = '/incoming';
-
-        $scope.saveSettings = function() {
-            //$localstorage.setObject('settings', $scope.settings);
-            Settings.saveSettings($scope.settings);
-            $scope.settings = Settings.getSettings() || {};
-            $location.path(returnTo);
-        };
-    });
+;

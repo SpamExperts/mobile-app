@@ -1,6 +1,6 @@
 <ion-view view-title="Messages {{info}}">
     <ion-nav-buttons side="right">
-        <button class="button button-icon icon ion-search" menu-toggle="right" ng-if="onRoute('/messages')">
+        <button class="button button-icon icon ion-search" menu-toggle="right" ng-if="onRoute('/incoming') || onRoute('/outgoing')">
         </button>
     </ion-nav-buttons>
 
@@ -9,6 +9,7 @@
             <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="message in Messages.messages()" type="item-text-wrap" ng-href="#/messages/{{message.message_id}}{{getRoute()}}"
                       on-swipe-right="onSwipeRight()" on-hold="onHold(message)">
 
+                {{$index}}
                 <div ng-switch on="message.classification" ng-if="!bulkSelect">
                     <div class="icon-se icon-accepted" ng-switch-when="released">A</div>
                     <div class="icon-se icon-rejected" ng-switch-when="quarantined">R</div>

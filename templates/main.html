@@ -24,8 +24,7 @@
         </ion-content>
     </ion-side-menu>
 
-    // ng-if="onRoute('/incoming') || onRoute('/outgoing')"
-    <ion-side-menu side="right">
+    <ion-side-menu side="right" ng-if="onRoute('/incoming') || onRoute('/outgoing')">
         <ion-header-bar class="bar-dark">
             <h1 class="title">Search criteria</h1>
         </ion-header-bar>

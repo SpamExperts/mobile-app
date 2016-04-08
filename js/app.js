@@ -1,138 +1,129 @@
-angular.module('ionic.utils', [])
-
-    .factory('$localstorage', ['$window', function($window) {
-        return {
-            set: function(key, value) {
-                $window.localStorage[key] = value;
-            },
-            get: function(key, defaultValue) {
-                return $window.localStorage[key] || defaultValue;
-            },
-            setObject: function(key, value) {
-                $window.localStorage[key] = JSON.stringify(value);
-            },
-            getObject: function(key) {
-                return JSON.parse($window.localStorage[key] || '{}');
-            }
-        }
-    }])
-    //.directive('stopEvent', function () {
-    //    return {
-    //        restrict: 'A',
-    //        link: function (scope, element, attr) {
-    //            element.bind('click', function (e) {
-    //                e.stopPropagation();
-    //            });
-    //        }
-    //    };
-    //});
-
-    //.directive('on-nav-view-dynamic', function($compile) {
-    //    return {
-    //        restrict: 'ECA',
-    //        priority: -400,
-    //        link: function(scope, $element, $attr, ctrl) {
-    //            var dynamicName = scope.$eval($attr.name);
-    //            $element.html('<ion-nav-view name="' + dynamicName + '"></ion-nav-view>');
-    //            $compile($element.contents())(scope);
-    //        }
-    //    };
-    //})
-;
-
 // Ionic Starter App
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ionic.utils', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic'
+        //, 'ngMockE2E'
+    ])
 
-    .constant('AUTH_EVENTS', {
-        notAuthenticated: 'auth-not-authenticated',
-        notAuthorized: 'auth-not-authorized'
-    })
+    //.run(function($httpBackend){
+    //  $httpBackend.whenGET('http://localhost:8100/valid')
+    //        .respond({message: 'This is my valid response!'});
+    //  $httpBackend.whenGET('http://localhost:8100/notauthenticated')
+    //        .respond(401, {message: "Not Authenticated"});
+    //  $httpBackend.whenGET('http://localhost:8100/notauthorized')
+    //        .respond(403, {message: "Not Authorized"});
+    //
+    //  $httpBackend.whenGET(/templates\/\w+.*/).passThrough();
+    // })
 
-    .constant('USER_ROLES', {
-        admin: 'admin_role',
-        public: 'public_role'
-    })
 
+    // bower install angular-mocks --save
+    // <script src="lib/angular-mocks/angular-mocks.js"></script>
+    // https://docs.angularjs.org/api/ngMockE2E
     .run(function($ionicPlatform) {
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
-            if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+            if(window.cordova && window.cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
             }
-            if (window.StatusBar) {
-                // org.apache.cordova.statusbar required
-                StatusBar.styleLightContent();
+            if(window.StatusBar) {
+                StatusBar.styleDefault();
             }
         });
     })
 
-    .config(function($stateProvider, $urlRouterProvider) {
-
-        // Ionic uses AngularUI Router which uses the concept of states
-        // Learn more here: https://github.com/angular-ui/ui-router
-        // Set up the various states which the app can be in.
-        // Each state's controller can be found in controllers.js
+    .config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
         $stateProvider
 
-        // setup an abstract state for the tabs directive
+            .state('login', {
+                url: '/login',
+                templateUrl: 'templates/login.html',
+                controller: 'LoginCtrl'
+            })
 
-            .state('app.settings', {
-                    url: '/settings',
-                    views: {
-                        'view-container': {
-                            templateUrl: 'templates/settings.html',
-                            controller: 'SettingsCtrl'
-                        }
+            .state('main', {
+                url: '/',
+                abstract: true,
+                templateUrl: 'templates/main.html'
+                //controller: 'CommonCtrl'
+            })
+
+            .state('main.dash', {
+                url: 'dash',
+                views: {
+                    'view-container': {
+                        templateUrl: 'templates/dashboard.html',
+                        controller: 'DashCtrl'
                     }
+                },
+                data: {
+                    authorizedRoles: [USER_ROLES.admin]
                 }
-                .state('app', {
-                    url: "",
-                    abstract: true,
-                    templateUrl: "templates/main.html",
-                    controller: 'CommonCtrl'
-                })
+            })
 
-                // Each tab has its own nav history stack:
-                .state('app.incoming', {
-                    url: '/incoming',
-                    views: {
-                        'view-container': {
-                            templateUrl: 'templates/messages.html',
-                            controller: 'MessagesCtrl'
-                        }
+            .state('main.incoming', {
+                url: 'incoming',
+                views: {
+                    'view-container': {
+                        templateUrl: 'templates/messages.html',
+                        controller: 'MessagesCtrl'
                     }
-                })
+                },
+                data: {
+                    authorizedRoles: [USER_ROLES.admin]
+                }
+            })
 
-                .state('app.outgoing', {
-                    url: '/outgoing',
-                    views: {
-                        'view-container': {
-                            templateUrl: 'templates/messages.html',
-                            controller: 'MessagesCtrl'
-                        }
+            .state('main.outgoing', {
+                url: 'outgoing',
+                views: {
+                    'view-container': {
+                        templateUrl: 'templates/messages.html',
+                        controller: 'MessagesCtrl'
                     }
-                })
+                },
+                data: {
+                    authorizedRoles: [USER_ROLES.admin]
+                }
+            })
 
-                .state('app.message-detail', {
-                    url: '/messages/:messageId/:direction',
-                    views: {
-                        'view-container': {
-                            templateUrl: 'templates/message-detail.html',
-                            controller: 'MessageDetailCtrl'
-                        }
+            .state('main.message-detail', {
+                url: 'messages/:messageId/:direction',
+                views: {
+                    'view-container': {
+                        templateUrl: 'templates/message-detail.html',
+                        controller: 'MessageDetailCtrl'
                     }
-                })
+                },
+                data: {
+                    authorizedRoles: [USER_ROLES.admin]
+                }
+            })
+        ;
+        $urlRouterProvider.otherwise('dash');
+    })
 
+    .run(function ($rootScope, $state, AuthService, AUTH_EVENTS) {
+        $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) {
 
-            );
+            if (!AuthService.isAuthenticated()) {
+                if (next.name !== 'login') {
+                    event.preventDefault();
+                    $state.go('login');
+                }
+            }
 
-        // if none of the above states are matched, use this as the fallback
-        $urlRouterProvider.otherwise('/settings');
+            if ('data' in next && 'authorizedRoles' in next.data) {
+                var authorizedRoles = next.data.authorizedRoles;
+                if (!AuthService.isAuthorized(authorizedRoles)) {
+                    event.preventDefault();
+                    $state.go($state.current, {}, {reload: true});
+                    $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+                }
+            }
+
+        });
     });
