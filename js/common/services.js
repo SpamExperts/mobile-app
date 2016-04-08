@@ -4,7 +4,6 @@ SpamExpertsApp
         if (typeof window.localStorage['persistent'] === 'undefined') {
             $window.localStorage['persistent'] = '{}';
         }
-        //$window.localStorage['persistent'] = '{}';// to be removed for prod
 
         $window.localStorage['volatile'] = '{}';
 
@@ -93,7 +92,26 @@ SpamExpertsApp
             }
         }
     })
-    .factory('Api', ['$http', '$localstorage', 'Base64', 'ENDPOINTS', function($http, $localstorage, Base64, ENDPOINTS) {
+    .factory('MessageQueue', function ($rootScope) {
+
+        return {
+            set: function (messageQueue) {
+                if (
+                    angular.isArray(messageQueue) ||
+                    (
+                        isEmpty(messageQueue.error) &&
+                        isEmpty(messageQueue.notice) &&
+                        isEmpty(messageQueue.success)
+                    )
+                ) {
+                    messageQueue = null;
+                }
+                $rootScope.messageQueue = messageQueue;
+            }
+        };
+    })
+    .factory('Api', ['$http', '$localstorage', 'MessageQueue','Base64', 'ENDPOINTS',
+        function($http, $localstorage, MessageQueue, Base64, ENDPOINTS) {
 
         var settings = $localstorage.get('settings');
         var token    = $localstorage.get('token');
@@ -165,6 +183,9 @@ SpamExpertsApp
 
                 $http.defaults.transformResponse.push(function (response) {
                     if (response.body) {
+                        if (response.body['messageQueue']) {
+                            MessageQueue.set(response.body['messageQueue']);
+                        }
                         return response.body;
                     } else {
                         return response;

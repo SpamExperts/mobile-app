@@ -10,14 +10,14 @@
         <ion-option-button>
         </ion-option-button>
     </ion-item>
-    <ion-item ng-if="messageQueue['warning'].length" class="alert alert-warning item-remove-animate item-icon-right"
-              on-swipe = "removeQueueMessage('warning');$event.stopPropagation()"
+    <ion-item ng-if="messageQueue['notice'].length" class="alert alert-notice item-remove-animate item-icon-right"
+              on-swipe = "removeQueueMessage('notice');$event.stopPropagation()"
 
     >
-        <div ng-repeat="warning in messageQueue['warning'] track by $index">
-            {{warning}}
+        <div ng-repeat="notice in messageQueue['notice'] track by $index">
+            {{notice}}
         </div>
-        <i class="icon ion-close-round icon-accessory" ng-click="removeQueueMessage('warning')"></i>
+        <i class="icon ion-close-round icon-accessory" ng-click="removeQueueMessage('notice')"></i>
         <ion-option-button>
         </ion-option-button>
     </ion-item>

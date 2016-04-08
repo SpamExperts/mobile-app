@@ -13,7 +13,6 @@ SpamExpertsApp.factory('SearchCriteriaService', ['$localstorage', 'GROUPS', 'OTH
         this.defaultCriteria[GROUPS['incoming']] = {
             since: this.getDate({days: '-1'}),
             until: this.getDate(),
-            domain: '',
             offset: 0,
             length: OTHERS.sliceLength
         };
@@ -21,7 +20,6 @@ SpamExpertsApp.factory('SearchCriteriaService', ['$localstorage', 'GROUPS', 'OTH
         this.defaultCriteria[GROUPS['outgoing']] = {
             since: this.getDate({days: '-1'}),
             until: this.getDate(),
-            domain: '',
             offset: 0,
             length: OTHERS.sliceLength
         };
@@ -38,7 +36,8 @@ SpamExpertsApp.factory('SearchCriteriaService', ['$localstorage', 'GROUPS', 'OTH
             angular.merge(this, modelData);
         },
         getSearchCriteria: function() {
-            return this.searchCriteria[this.direction];
+            var criteria = $localstorage.get('searchCriteria');
+            return criteria[this.direction];
         },
         getDefaultCriteria: function() {
             return this.defaultCriteria[this.direction];

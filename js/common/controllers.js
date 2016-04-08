@@ -1,9 +1,14 @@
 SpamExpertsApp
-    .controller('AppCtrl', function($scope, $state, $ionicPopup, $ionicSideMenuDelegate, $ionicActionSheet, AuthService, AUTH_EVENTS, MENU_ITEMS) {
+    .controller('AppCtrl', function($scope, $state, $ionicPopup, $ionicSideMenuDelegate, $ionicActionSheet, AuthService, MessageQueue, AUTH_EVENTS, MENU_ITEMS) {
         $scope.username = AuthService.username();
 
+        $scope.removeQueueMessage = function(item) {
+            delete $scope.messageQueue[item];
+            MessageQueue.set($scope.messageQueue);
+        };
+
         $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
-            var alertPopup = $ionicPopup.alert({
+            $ionicPopup.alert({
                 title: 'Unauthorized!',
                 template: 'You are not allowed to access this resource.'
             });
@@ -12,7 +17,7 @@ SpamExpertsApp
         $scope.$on(AUTH_EVENTS.notAuthenticated, function(event) {
             AuthService.logout();
             $state.go('login');
-            var alertPopup = $ionicPopup.alert({
+            $ionicPopup.alert({
                 title: 'Session Lost!',
                 template: 'Sorry, You have to login again.'
             });
