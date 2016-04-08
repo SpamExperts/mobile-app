@@ -5,7 +5,7 @@ angular.module('starter.controllers', ['ionic.utils'])
             {
                 title: 'Incoming',
                 icon: 'ion-log-in',
-                route: '/messages',
+                route: '/incoming',
                 view: 'messages'
             },
             {
@@ -36,15 +36,16 @@ angular.module('starter.controllers', ['ionic.utils'])
         $scope.$on('$locationChangeStart', function (event, next, current) {
             $ionicSideMenuDelegate.toggleLeft(false);
             $ionicSideMenuDelegate.toggleRight(false);
-
-            console.log(next);
-            console.log(current);
+            //
+            //console.log(next);
+            //console.log(current);
 
             //if (( next.endsWith('/outgoing') && current.endsWith('/messages'))
             //    || ( next.endsWith('/messages') && current.endsWith('/outgoing') ) ) {
-            if ( next.endsWith('/outgoing') || next.endsWith('/messages') ) {
-                Messages.wipe();
-            }
+            //if ( next.endsWith('/outgoing') || next.endsWith('/messages') ) {
+            //    console.log(next);
+            //    Messages.wipe();
+            //}
 
             if ($location.path() !== '/settings' && !$scope.settings.authdata) {
                 $location.path('/settings');
@@ -59,6 +60,10 @@ angular.module('starter.controllers', ['ionic.utils'])
         $scope.onRoute = function(route) {
             //console.log($location.path());
             return route === $location.path();
+        };
+
+        $scope.getRoute = function () {
+            return $location.path();
         };
 
         //console.log('common');
@@ -87,15 +92,11 @@ angular.module('starter.controllers', ['ionic.utils'])
         //$ionicSideMenuDelegate.$getByHandle('rightmenu-handler').canDragContent(true);
         //$ionicSideMenuDelegate.canDragContent(true);
 
-        $scope.bulkSelect = false;
-        $scope.Messages = Messages;
+
         //console.log(Messages.messages());
         //console.log(Messages.moreDataCanBeLoaded());
 
-        $scope.info = '';
-        $scope.selectedAll = false;
 
-        var isOutgoing = $location.path() == '/outgoing';
 
         //$scope.$watch('Messages.messages', function(newValue, oldValue) {
         //    console.log('watch');
@@ -107,14 +108,28 @@ angular.module('starter.controllers', ['ionic.utils'])
         //
         //console.log($location.path());
 
-        $scope.searchCriteria = SearchCriteria.getSearchCriteria();
-        //console.log($scope.searchCriteria);
-        //$scope.lastSearchCriteria = {};
 
+        $scope.bulkSelect = false;
+
+        $scope.info = '';
+        $scope.selectedAll = false;
+
+        $scope.Messages = Messages;
+        $scope.Messages.setDirection($location.path());
+        $scope.$on('$locationChangeSuccess', function () {
+            $scope.Messages.setDirection($location.path());
+        });
+
+        $scope.searchCriteria = SearchCriteria.getSearchCriteria();
         if (angular.equals({}, $scope.searchCriteria)) {
             $scope.searchCriteria = SearchCriteria.getDefaultSearchCriteria();
             SearchCriteria.setSearchCriteria($scope.searchCriteria);
         }
+
+        $scope.noMoreItemsAvailable = false;
+
+        //console.log($scope.searchCriteria);
+        //$scope.lastSearchCriteria = {};
 
         $scope.loadMoreData = function() {
             //console.log('loadMoreData');
@@ -122,10 +137,15 @@ angular.module('starter.controllers', ['ionic.utils'])
             $scope.searchCriteria.refresh = false;
             SearchCriteria.setSearchCriteria($scope.searchCriteria);
             //console.log($scope.searchCriteria);
-            $scope.Messages.fetch($scope.searchCriteria, isOutgoing).then(function () {
+            $scope.Messages.fetch($scope.searchCriteria).then(function () {
                 $scope.searchCriteria.offset = $scope.Messages.count();
                 SearchCriteria.setSearchCriteria($scope.searchCriteria);
-                $scope.info = Messages.count() + ' / ' + Messages.getLastCount();
+                $scope.info = $scope.Messages.count() + ' / ' + $scope.Messages.getLastCount();
+
+                if ($scope.Messages.count() == $scope.Messages.getLastCount()) {
+                    $scope.noMoreItemsAvailable = true;
+                }
+
                 $scope.$broadcast('scroll.infiniteScrollComplete');
             });
         };
@@ -136,13 +156,18 @@ angular.module('starter.controllers', ['ionic.utils'])
             $scope.searchCriteria.refresh = true;
             $scope.searchCriteria.last_count = $scope.Messages.getLastCount();
             SearchCriteria.setSearchCriteria($scope.searchCriteria);
-            $scope.Messages.fetch($scope.searchCriteria, isOutgoing).then(function () {
+            $scope.Messages.fetch($scope.searchCriteria).then(function () {
                 $scope.searchCriteria.offset = $scope.Messages.count();
                 SearchCriteria.setSearchCriteria($scope.searchCriteria);
                 $scope.$broadcast('scroll.refreshComplete');
             });
 
         };
+
+        //if ($scope.Messages.moreDataCanBeLoaded) {
+        //    $scope.loadMoreData();
+        //}
+
 
         $scope.bulkAction = function(action, messages) {
 
@@ -159,7 +184,7 @@ angular.module('starter.controllers', ['ionic.utils'])
             });
             confirmPopup.then(function(res) {
                 if (res) {
-                    $scope.Messages.bulkAction(action, messages, isOutgoing)
+                    $scope.Messages.bulkAction(action, messages)
                         .then(function () {
                             $scope.searchCriteria = SearchCriteria.getSearchCriteria();
                             $scope.searchCriteria.offset = 0;
@@ -185,11 +210,7 @@ angular.module('starter.controllers', ['ionic.utils'])
 
         $scope.cancelSelection = function() {
             $scope.bulkSelect = false;
-            angular.forEach($scope.Messages.messages(), function(value, key) {
-                if (value.status=='quarantined' && value.classification=='Rejected') {
-                    value.isChecked = false;
-                }
-            });
+            $scope.Messages.toggleSelection(false);
         };
 
         $scope.showBulkActions = function () {
@@ -221,15 +242,62 @@ angular.module('starter.controllers', ['ionic.utils'])
 
         $scope.toggleSelection = function () {
             $scope.selectedAll = !$scope.selectedAll;
-            angular.forEach($scope.Messages.messages(), function(value, key) {
-                if (value.status=='quarantined' && value.classification=='Rejected') {
-                    value.isChecked = $scope.selectedAll;
+            $scope.Messages.toggleSelection($scope.selectedAll);
+        };
+
+    })
+
+    .controller('MessageDetailCtrl', function($scope, $stateParams, $ionicPopup, $window, $location, Settings, Messages, SearchCriteria) {
+        $scope.message = null;
+
+        var endpoint = Settings.getEndpoint();
+
+        $scope.showRaw = false;
+        $scope.toggleRaw = function() {
+            $scope.showRaw = !$scope.showRaw;
+        };
+
+        Messages.setDirection('/' + $stateParams.direction);
+
+        Messages.get(endpoint, $stateParams.messageId).then(function() {
+            $scope.message = Messages.message();
+        });
+
+        $scope.bulkAction = function(action, messages) {
+
+            var dialogText = '';
+            switch (action) {
+                case 'remove': dialogText = 'Are you sure you want to remove the selected messages?';break;
+                case 'release': dialogText = 'Are you sure you want to release the selected messages?';break;
+                case 'releaseandtrain': dialogText = 'Are you sure you want to release and train the selected messages?';break;
+                default : dialogText =  'Are you sure you want to continue?';
+            }
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Confirm action',
+                template: dialogText
+            });
+            confirmPopup.then(function(res) {
+                if (res) {
+                    Messages.bulkAction(action, messages)
+                        .then(function () {
+                            var searchCriteria = SearchCriteria.getSearchCriteria();
+                            searchCriteria.offset = 0;
+                            searchCriteria.refresh = false;
+                            SearchCriteria.setSearchCriteria(searchCriteria);
+                            //console.log($scope.searchCriteria);
+                            Messages.wipe();
+                            $location.path($stateParams.direction);
+                            $window.location.reload();
+
+                        });
+                    console.log(action);
+                } else {
+                    console.log('canceled');
                 }
             });
         };
 
     })
-
     .controller('SearchCriteriaCtrl', function($scope, $window, Messages, SearchCriteria) {
 
         $scope.searchCriteria = SearchCriteria.getSearchCriteria();
@@ -263,62 +331,16 @@ angular.module('starter.controllers', ['ionic.utils'])
 
     })
 
-    .controller('MessageDetailCtrl', function($scope, $stateParams, $ionicPopup, $window, $location, Settings, Messages, SearchCriteria) {
-        $scope.message = null;
-
-        var endpoint = Settings.getEndpoint();
-        Messages.get(endpoint, $stateParams.messageId).then(function() {
-            $scope.message = Messages.message();
-        });
-
-        $scope.showRaw = false;
-        $scope.toggleRaw = function() {
-            $scope.showRaw = !$scope.showRaw;
-        };
-
-        $scope.bulkAction = function(action, messages) {
-
-            var dialogText = '';
-            switch (action) {
-                case 'remove': dialogText = 'Are you sure you want to remove the selected messages?';break;
-                case 'release': dialogText = 'Are you sure you want to release the selected messages?';break;
-                case 'releaseandtrain': dialogText = 'Are you sure you want to release and train the selected messages?';break;
-                default : dialogText =  'Are you sure you want to continue?';
-            }
-            var confirmPopup = $ionicPopup.confirm({
-                title: 'Confirm action',
-                template: dialogText
-            });
-            confirmPopup.then(function(res) {
-                if (res) {
-                    Messages.bulkAction(action, messages)
-                        .then(function () {
-                            var searchCriteria = SearchCriteria.getSearchCriteria();
-                            searchCriteria.offset = 0;
-                            searchCriteria.refresh = false;
-                            SearchCriteria.setSearchCriteria(searchCriteria);
-                            //console.log($scope.searchCriteria);
-                            Messages.wipe();
-                            $location.path('/messages');
-                            $window.location.reload();
-
-                        });
-                    console.log(action);
-                } else {
-                    console.log('canceled');
-                }
-            });
-        };
-
-    })
-
     .controller('SettingsCtrl', function($scope, $location, Settings) {
         //console.log('settingsctrl');
         $scope.settings = Settings.getSettings() || {};
+
+        var returnTo = '/incoming';
+
         $scope.saveSettings = function() {
             //$localstorage.setObject('settings', $scope.settings);
             Settings.saveSettings($scope.settings);
             $scope.settings = Settings.getSettings() || {};
-            $location.path('/messages');
+            $location.path(returnTo);
         };
     });

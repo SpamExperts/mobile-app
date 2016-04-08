@@ -6,12 +6,12 @@
 
     <ion-content delegate-handle="listScroll">
         <ion-list>
-            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="message in Messages.messages()" type="item-text-wrap" ng-href="#/messages/{{message.message_id}}"
+            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="message in Messages.messages()" type="item-text-wrap" ng-href="#/messages/{{message.message_id}}{{getRoute()}}"
                       on-swipe-right="onSwipeRight()" on-hold="onHold(message)">
 
                 <div ng-switch on="message.classification" ng-if="!bulkSelect">
-                    <div class="icon-se icon-accepted" ng-switch-when="Accepted">A</div>
-                    <div class="icon-se icon-rejected" ng-switch-when="Rejected">R</div>
+                    <div class="icon-se icon-accepted" ng-switch-when="released">A</div>
+                    <div class="icon-se icon-rejected" ng-switch-when="quarantined">R</div>
                     <div class="icon-se icon-unknown"  ng-switch-default>U</div>
                 </div>
                 <div ng-if="bulkSelect" >
@@ -35,10 +35,11 @@
 
             </ion-item>
         </ion-list>
+        <!--immediate-check="false"-->
+        <!--spinner="spiral"-->
 
         <ion-infinite-scroll
-                ng-if="Messages.moreDataCanBeLoaded()"
-                spinner="ionSpinner"
+                ng-if="!noMoreItemsAvailable"
                 on-infinite="loadMoreData()"
                 distance="1%">
         </ion-infinite-scroll>

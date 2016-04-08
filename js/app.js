@@ -49,78 +49,90 @@ angular.module('ionic.utils', [])
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'ionic.utils', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleLightContent();
-    }
-  });
-})
-
-.config(function($stateProvider, $urlRouterProvider) {
-
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
-  $stateProvider
-
-  // setup an abstract state for the tabs directive
-  .state('app', {
-      url: "",
-      abstract: true,
-      templateUrl: "templates/main.html",
-      controller: 'CommonCtrl'
-  })
-
-  // Each tab has its own nav history stack:
-
-  .state('app.outgoing', {
-    url: '/outgoing',
-    views: {
-      'view-container': {
-        templateUrl: 'templates/messages.html',
-        controller: 'MessagesCtrl'
-      }
-    }
-  })
-
-  .state('app.messages', {
-      url: '/messages',
-      views: {
-        'view-container': {
-          templateUrl: 'templates/messages.html',
-          controller: 'MessagesCtrl'
-        }
-      }
-    })
-    .state('app.message-detail', {
-      url: '/messages/:messageId',
-      views: {
-        'view-container': {
-          templateUrl: 'templates/message-detail.html',
-          controller: 'MessageDetailCtrl'
-        }
-      }
+    .constant('AUTH_EVENTS', {
+        notAuthenticated: 'auth-not-authenticated',
+        notAuthorized: 'auth-not-authorized'
     })
 
-  .state('app.settings', {
-    url: '/settings',
-    views: {
-      'view-container': {
-        templateUrl: 'templates/settings.html',
-        controller: 'SettingsCtrl'
-      }
-    }
-  });
+    .constant('USER_ROLES', {
+        admin: 'admin_role',
+        public: 'public_role'
+    })
 
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/messages');
+    .run(function($ionicPlatform) {
+        $ionicPlatform.ready(function() {
+            // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+            // for form inputs)
+            if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+                cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+            }
+            if (window.StatusBar) {
+                // org.apache.cordova.statusbar required
+                StatusBar.styleLightContent();
+            }
+        });
+    })
 
-});
+    .config(function($stateProvider, $urlRouterProvider) {
+
+        // Ionic uses AngularUI Router which uses the concept of states
+        // Learn more here: https://github.com/angular-ui/ui-router
+        // Set up the various states which the app can be in.
+        // Each state's controller can be found in controllers.js
+        $stateProvider
+
+        // setup an abstract state for the tabs directive
+
+            .state('app.settings', {
+                    url: '/settings',
+                    views: {
+                        'view-container': {
+                            templateUrl: 'templates/settings.html',
+                            controller: 'SettingsCtrl'
+                        }
+                    }
+                }
+                .state('app', {
+                    url: "",
+                    abstract: true,
+                    templateUrl: "templates/main.html",
+                    controller: 'CommonCtrl'
+                })
+
+                // Each tab has its own nav history stack:
+                .state('app.incoming', {
+                    url: '/incoming',
+                    views: {
+                        'view-container': {
+                            templateUrl: 'templates/messages.html',
+                            controller: 'MessagesCtrl'
+                        }
+                    }
+                })
+
+                .state('app.outgoing', {
+                    url: '/outgoing',
+                    views: {
+                        'view-container': {
+                            templateUrl: 'templates/messages.html',
+                            controller: 'MessagesCtrl'
+                        }
+                    }
+                })
+
+                .state('app.message-detail', {
+                    url: '/messages/:messageId/:direction',
+                    views: {
+                        'view-container': {
+                            templateUrl: 'templates/message-detail.html',
+                            controller: 'MessageDetailCtrl'
+                        }
+                    }
+                })
+
+
+            );
+
+        // if none of the above states are matched, use this as the fallback
+        $urlRouterProvider.otherwise('/settings');
+    });
