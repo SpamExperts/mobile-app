@@ -1,0 +1,36 @@
+<ion-side-menus enable-menu-with-back-views="true">
+
+    <ion-side-menu-content on-drag-right="onDragRight()"
+            on-drag-left="onDragLeft()">
+        <ion-nav-bar class="bar-dark nav-title-slide-ios7">
+            <!--<ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> Back</ion-nav-back-button>-->
+            <ion-nav-back-button class="button-icon ion-arrow-left-c">
+            </ion-nav-back-button>
+            <ion-nav-buttons side="left">
+                <button class="button button-icon icon ion-navicon" menu-toggle="left">
+                </button>
+            </ion-nav-buttons>
+        </ion-nav-bar>
+
+        <ion-nav-view name="view-container" animation="slide-left-right"></ion-nav-view>
+    </ion-side-menu-content>
+
+    <ion-side-menu side="left" drag-content="false">
+        <!--<header class="bar bar-header bar-dark">-->
+            <!--<h1 class="title">Main menu</h1>-->
+        <!--</header>-->
+        <ion-content drag-content="false">
+            <div ng-include="'templates/leftmenu.html'"></div>
+        </ion-content>
+    </ion-side-menu>
+
+    <ion-side-menu side="right" ng-if="onRoute('/messages')">
+        <ion-header-bar class="bar-dark">
+            <h1 class="title">Search criteria</h1>
+        </ion-header-bar>
+        <ion-content ng-controller="SearchCriteriaCtrl">
+            <div ng-include="'templates/rightmenu.html'"></div>
+        </ion-content>
+    </ion-side-menu>
+
+</ion-side-menus>

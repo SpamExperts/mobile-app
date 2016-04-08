@@ -1,0 +1,9 @@
+<ion-list ng-controller="CommonCtrl">
+    <ion-item class="item-se-logo">
+    <img src="img/logo.gif" style="width: 60%">
+    </ion-item>
+    <ion-item class="item-icon-left" ng-repeat="item in items"
+              ng-class="{active:isActive(item.route)}" href="#{{item.route}}">
+        <i class="icon {{item.icon}}"></i>{{item.title}}
+    </ion-item>
+</ion-list>

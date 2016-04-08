@@ -1,0 +1,37 @@
+<!--<div>-->
+    <!--{{Messages.count()}} / {{Messages.getLastCount()}}-->
+<!--</div>-->
+<div class="list">
+    <label class="item item-input item-floating-label">
+        <span class="input-label">From date</span>
+        <input type="text" placeholder="From date" ng-model="searchCriteria.since">
+    </label>
+    <label class="item item-input item-floating-label">
+        <span class="input-label">To date</span>
+        <input type="text" placeholder="To date" ng-model="searchCriteria.until">
+    </label>
+
+    <label class="item item-input item-floating-label">
+        <span class="input-label">Recipient</span>
+        <input type="text" placeholder="Recipient" ng-model="searchCriteria.recipient">
+    </label>
+    <label class="item item-input item-floating-label">
+        <span class="input-label">Domain</span>
+        <input type="text" placeholder="Domain" ng-model="searchCriteria.searchdomain">
+    </label>
+
+    <label class="item item-input item-floating-label">
+        <span class="input-label">Sender</span>
+        <input type="text" placeholder="Sender" ng-model="searchCriteria.sender">
+    </label>
+    <ion-toggle ng-model="searchCriteria.only_quarantined" toggle-class="toggle-calm" ng-true-value="'quarantined'" ng-false-value="''">
+        Only quarantined
+    </ion-toggle>
+    <button class="button button-full button-positive icon-left ion-search" ng-click="doSearch()">
+        Search
+    </button>
+    <button class="button button-full button-energized icon-left ion-refresh" ng-click="doReset()">
+        Reset
+    </button>
+
+</div>

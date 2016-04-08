@@ -1,0 +1,76 @@
+<ion-view view-title="Messages {{info}}">
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-search" menu-toggle="right" ng-if="onRoute('/messages')">
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content delegate-handle="listScroll">
+        <ion-list>
+            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="message in Messages.messages()" type="item-text-wrap" ng-href="#/messages/{{message.message_id}}"
+                      on-swipe-right="onSwipeRight()" on-hold="onHold(message)">
+
+                <div ng-switch on="message.classification" ng-if="!bulkSelect">
+                    <div class="icon-se icon-accepted" ng-switch-when="Accepted">A</div>
+                    <div class="icon-se icon-rejected" ng-switch-when="Rejected">R</div>
+                    <div class="icon-se icon-unknown"  ng-switch-default>U</div>
+                </div>
+                <div ng-if="bulkSelect" >
+                    <ion-checkbox ng-model="message.isChecked" class="icon-se bulk" ng-if="message.status == 'quarantined'"></ion-checkbox>
+                    <ion-checkbox class="icon-se bulk" ng-disabled="true" ng-if="message.status != 'quarantined'"></ion-checkbox>
+                </div>
+
+                <h2 ng-class="{grayedout: bulkSelect && message.classification != 'Rejected'}">{{message.decoded_subject_header}}</h2>
+                <p ng-class="{grayedout: bulkSelect && message.classification != 'Rejected'}">{{message.classification_details}} - {{message.status}}</p>
+
+                <i class="icon ion-chevron-right icon-accessory"></i>
+
+                <div ng-if="message.status == 'quarantined'">
+                    <ion-option-button class="button-assertive" ng-click="bulkAction('remove', [message])">
+                        Remove
+                    </ion-option-button>
+                    <ion-option-button class="button-positive" ng-click="bulkAction('release', [message])">
+                        Release
+                    </ion-option-button>
+                </div>
+
+            </ion-item>
+        </ion-list>
+
+        <ion-infinite-scroll
+                ng-if="Messages.moreDataCanBeLoaded()"
+                spinner="ionSpinner"
+                on-infinite="loadMoreData()"
+                distance="1%">
+        </ion-infinite-scroll>
+
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="doRefresh()">
+        </ion-refresher>
+
+        <div ng-if="bulkSelect" class="se-spacer"></div>
+
+    </ion-content>
+    <ion-footer-bar align-title="left" class="bar-assertive" ng-if="bulkSelect">
+        <div class="buttons" ng-click="cancelSelection()">
+            <button class="button">Cancel selection</button>
+        </div>
+        <h1 class="title" ng-click="showBulkActions()"><i class="icon ion-grid"></i></h1>
+
+        <div class="buttons" ng-click="toggleSelection()">
+            <button class="button" ng-if="!selectedAll">Select all</button>
+            <button class="button" ng-if="selectedAll">Deselect all</button>
+        </div>
+    </ion-footer-bar>
+
+</ion-view>
+
+
+<!--<ion-side-menu side="right">-->
+<!--<ion-header-bar class="bar-assertive">-->
+<!--<h1 class="title">Search criteria</h1>-->
+<!--</ion-header-bar>-->
+<!--<ion-content ng-controller="MessagesCtrl">-->
+<!--<div ng-include="'templates/rightmenu.html'"></div>-->
+<!--</ion-content>-->
+<!--</ion-side-menu>-->

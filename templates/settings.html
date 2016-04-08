@@ -1,0 +1,21 @@
+<ion-view view-title="Settings">
+    <ion-content>
+        <div class="list">
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Hostname</span>
+                <input type="text" placeholder="Hostname" ng-model="settings.hostname">
+            </label>
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Username</span>
+                <input type="text" placeholder="Username" ng-model="settings.username">
+            </label>
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Password</span>
+                <input type="password" placeholder="Password" ng-model="settings.password">
+            </label>
+            <button class="button button-full button-positive icon-left" ng-click="saveSettings()">
+                Apply
+            </button>
+        </div>
+    </ion-content>
+</ion-view>

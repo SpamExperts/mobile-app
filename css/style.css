@@ -1,0 +1,114 @@
+/* Empty. Add your own CSS if you like */
+
+.item-avatar *[class^='icon-']:first-child
+{
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 36px;
+    max-width: 40px;
+    max-height: 40px;
+    width: 100%;
+    border-radius: 4px;
+}
+
+.icon-se {
+    width: 40px;
+    height: 40px;
+    line-height: 39px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 500;
+    font-size : 25px !important;
+    border-radius: 50% !important;
+    background: transparent;
+}
+
+.icon-rejected {
+    background-color:red;
+    border:1px red solid;
+    color: white !important;
+}
+
+.icon-accepted {
+    background-color:green;
+    border:1px green solid;
+    color: white !important;
+}
+
+.icon-unknown {
+    border:1px gray solid;
+    background-color:gray;
+    color: white !important;
+}
+
+.icon-se.bulk {
+    border: none !important;
+    border-radius: 0;
+    width: 40px;
+    height: 40px;
+    line-height: 39px;
+    text-align: center;
+    vertical-align: middle;
+    font-size : 25px !important;
+}
+.icon-se.bulk div {
+    background: transparent !important;
+}
+
+.raw-message {
+    max-height: 0px;
+}
+.se-spacer {
+    height: 32px;
+}
+
+.grayedout {
+    font-style: italic;
+    color: #626262;
+}
+
+input:disabled + .checkbox-icon:before {
+    border-color: silver !important;
+    background-color: silver !important;
+}
+input:disabled:checked + .checkbox-icon:before {
+    background-color: silver !important;
+}
+
+
+
+.bar.bar-dark{
+    background-color: #39B0DA;
+    border-top: 1px solid #287d9a;
+    border-bottom: 1px solid #1c596e;
+}
+.menu.menu-left {
+    background-color: #39B0DA;
+}
+
+
+.menu.menu-left .item-complex.item-icon-left a,
+.menu.menu-left .item-complex.item-icon-left {
+    background-color: #25718B;
+    border-bottom: 1px solid #1c596e;
+    border-top: 1px solid #287d9a;
+    color:#eeeeee;
+}
+
+
+.menu.menu-left .item-complex.item-icon-left a i{
+    color: #39B0DA;
+}
+
+.menu.menu-left .item-complex.item-icon-left a {
+    color: #39B0DA;
+}
+.menu.menu-left .item-complex.item-icon-left.active a i,
+.menu.menu-left .item-complex.item-icon-left.active a {
+    color: #f2f2f2;
+}
+
+.item-se-logo {
+    background-color: #ffffff;
+}
