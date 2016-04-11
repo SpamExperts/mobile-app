@@ -1,24 +1,20 @@
 <ion-view view-title="Dashboard">
-  <!--<ion-nav-buttons side="right">-->
-  <!--<button class="button icon-left ion-log-out button-stable" ng-click="logout()">Logout</button>-->
-  <!--</ion-nav-buttons>-->
-
   <ion-content class="padding">
     <div class="row"><div class="col text-center">
       <h3 class="title">Welcome {{username}}!</h3>
       This could be your Dashboard.
       <br><br><br>
-      <button class="button button-full button-positive" ng-click="performValidRequest()">
+      <button class="button button-full button-positive" on-tap="performValidRequest()">
         Make Valid Request
       </button>
-      <button class="button button-full button-energized" ng-click="performUnauthorizedRequest()">
+      <button class="button button-full button-energized" on-tap="performUnauthorizedRequest()">
         Make Request for unauthorized resource
       </button>
-      <button class="button button-full button-assertive" ng-click="performInvalidRequest()">
+      <button class="button button-full button-assertive" on-tap="performInvalidRequest()">
         Make Request without valid token
       </button>
 
-      <button class="button icon-left ion-log-out button-stable" ng-click="logout()">Logout</button>
+      <button class="button icon-left ion-log-out button-stable" on-tap="logout()">Logout</button>
 
       <br><br>
       {{response}}

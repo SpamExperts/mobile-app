@@ -6,8 +6,8 @@ SpamExpertsApp
         var isAuthenticated = false;
 
         var defaultSettings = {
-            hostname: window.location.hostname,
-            username: 'nicolae',
+            hostname: '',
+            username: '',
             password: '',
             remember: 'disabled',
             role: USER_ROLES.public

@@ -20,20 +20,17 @@ SpamExpertsApp
         {
             title: 'Dashboard',
             icon: 'ion-ios-gear-outline',
-            state: 'main.dash',
-            route: '/dash'
+            state: 'main.dash'
         },
         {
             title: 'Incoming',
             icon: 'ion-log-in',
-            state: 'main.incoming',
-            route: '/incoming'
+            state: 'main.incoming'
         },
         {
             title: 'Outgoing',
             icon: 'ion-log-out',
-            state: 'main.outgoing',
-            route: '/outgoing'
+            state: 'main.outgoing'
         }
     ])
 

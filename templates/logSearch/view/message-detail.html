@@ -26,7 +26,7 @@
           </table>
           </div>
 
-          <div class="item tabs tabs-secondary tabs-icon-left" ng-click="toggleRaw()">
+          <div class="item tabs tabs-secondary tabs-icon-left" on-tap="toggleRaw()">
               <a class="tab-item" href="#">
                   <i class="icon ion-android-mail"></i>
                   <span ng-if="!showRaw">
@@ -48,7 +48,7 @@
 
 
           <div class="item tabs tabs-secondary tabs-icon-left">
-              <a class="tab-item" href="#" ng-repeat="action in bulkActions" ng-click="confirmAction(action, message)">
+              <a class="tab-item" href="#" ng-repeat="action in bulkActions" on-tap="confirmAction(action, message)">
                   <i class="icon {{action.icon}}"></i>
                   {{action.text}}
               </a>

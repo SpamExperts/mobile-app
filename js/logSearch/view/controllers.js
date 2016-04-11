@@ -45,9 +45,14 @@ SpamExpertsApp
                 actions: BULK_ACTIONS.logSearch
             };
 
-            $scope.info = '';
+            $scope.info = {
+                count: 0,
+                lastCount: 0
+            };
 
             $scope.noMoreItemsAvailable = false;
+
+            $scope.loadingEntries = false;
 
             $scope.$on('refreshEntries', function () {
                 messagesService.wipe();
@@ -56,7 +61,7 @@ SpamExpertsApp
             });
 
             $scope.doRefresh = function() {
-                if (typeof criteriaService === 'undefined') return;
+                $scope.loadingEntries = true;
 
                 var criteria = criteriaService.getSearchCriteria();
 
@@ -68,14 +73,16 @@ SpamExpertsApp
                     .then(function () {
                         $scope.messageEntries = messagesService.getMessages();
 
-                        $scope.info = messagesService.count() + ' / ' + messagesService.getLastCount();
+                        $scope.info.count = messagesService.count();
+                        $scope.info.lastCount = messagesService.getLastCount();
 
+                        $scope.loadingEntries = false;
                         $scope.$broadcast('scroll.refreshComplete');
                     });
             };
 
             $scope.loadMoreData = function() {
-                if (typeof criteriaService === 'undefined') return;
+                $scope.loadingEntries = true;
 
                 var criteria = criteriaService.getSearchCriteria();
 
@@ -88,12 +95,14 @@ SpamExpertsApp
                         var lastCount = messagesService.getLastCount();
                         $scope.messageEntries = messagesService.getMessages();
 
-                        $scope.info = count + ' / ' + lastCount;
+                        $scope.info.count = count;
+                        $scope.info.lastCount = lastCount;
 
                         if (count == lastCount) {
                             $scope.noMoreItemsAvailable = true;
                         }
 
+                        $scope.loadingEntries = false;
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                     });
             };
@@ -111,6 +120,11 @@ SpamExpertsApp
         })
 
     .controller('MessageDetailCtrl', function($rootScope, $scope, $state, $timeout, $ionicPopup, MessagesService, BULK_ACTIONS) {
+
+        if (isEmpty($state.params.message)) {
+            $state.go('main.dash', {}, {reload: true});
+            return;
+        }
 
         var messageService = new MessagesService({
             direction: $state.params.previousState.group,
@@ -150,5 +164,4 @@ SpamExpertsApp
                 });
         };
 
-    })
-;
+    });

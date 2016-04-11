@@ -1,5 +1,5 @@
 SpamExpertsApp
-    .factory('MessagesService', function(Api, GROUPS) {
+    .factory('MessagesService', function(Api) {
 
         /**
          var modelData = {
@@ -74,7 +74,7 @@ SpamExpertsApp
                         } else {
                             that.messages = that.messages.concat(resp['entries']);
                         }
-                        that.last_count = resp.last_count;
+                        that.last_count = resp.last_count || 0;
                     })
                     . error(function(err) {
                         console.log('ERR', err);
@@ -107,8 +107,6 @@ SpamExpertsApp
                 return null;
             },
             bulkAction: function (action, entry) {
-
-                //test@example.com|1YiJCV-0003iL-94|server1.test21.simplyspamfree.com|2015-04-15 10:01
                 var entries = [];
 
                 if (entry) {

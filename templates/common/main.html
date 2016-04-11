@@ -31,11 +31,11 @@
     </ion-side-menu>
 
     <ion-footer-bar align-title="left" class="bar-assertive" ng-if="bulkMode">
-        <h1 class="title" ng-click="showBulkActions()"><i class="icon ion-grid"></i></h1>
+        <h1 class="title" on-tap="showBulkActions()"><i class="icon ion-grid"></i></h1>
 
         <div class="buttons">
-            <button class="button" ng-if="!selectedAll" ng-click="selectAll(true)">Select all</button>
-            <button class="button" ng-if="selectedAll" ng-click="selectAll(false)">Deselect all</button>
+            <button class="button" ng-if="!selectedAll" on-tap="selectAll(true)">Select all</button>
+            <button class="button" ng-if="selectedAll" on-tap="selectAll(false)">Deselect all</button>
         </div>
     </ion-footer-bar>
 </ion-side-menus>
