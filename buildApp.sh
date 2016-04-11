@@ -35,6 +35,6 @@ else
     ionic platform add android
     ionic build android
     cd ..
-    mv spamexperts_mobile_app/platforms/android/build/outputs/apk/*.apk spamexperts_mobile_app.apk
+    mv spamexperts_mobile_app/platforms/android/build/outputs/apk/*.apk ./spamexperts_mobile_app.apk
     rm -rf spamexperts_mobile_app build.sh
 fi
