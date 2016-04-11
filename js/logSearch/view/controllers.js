@@ -1,43 +1,47 @@
 SpamExpertsApp
-    .controller('IncomingMessagesCtrl', function($scope, $controller, MessagesService, SearchCriteriaService, GROUPS) {
-        console.log('IncomingMessagesCtrl');
+    .controller('IncomingMessagesCtrl', ['$scope', '$controller', 'MessagesService', 'SearchCriteriaService', 'GROUPS',
+        function($scope, $controller, MessagesService, SearchCriteriaService, GROUPS) {
+            console.log('IncomingMessagesCtrl');
 
-        $controller('CommonMessagesCtrl', {
-            $scope: $scope,
-            messagesService: new MessagesService({
-                direction: GROUPS.incoming,
-                last_count: 0,
-                messages: []
-            }),
-            criteriaService: new SearchCriteriaService({
-                direction: GROUPS.incoming,
-                searchCriteria: {}
-            })
-        });
+            $controller('CommonMessagesCtrl', {
+                $scope: $scope,
+                messagesService: new MessagesService({
+                    direction: GROUPS.incoming,
+                    last_count: 0,
+                    messages: []
+                }),
+                criteriaService: new SearchCriteriaService({
+                    direction: GROUPS.incoming,
+                    searchCriteria: {}
+                })
+            });
 
-    });
-
-SpamExpertsApp
-    .controller('OutgoingMessagesCtrl', function($scope, $controller, MessagesService, SearchCriteriaService, GROUPS) {
-        console.log('OutgoingMessagesCtrl');
-
-        $controller('CommonMessagesCtrl', {
-            $scope: $scope,
-            messagesService: new MessagesService({
-                direction: GROUPS.outgoing,
-                last_count: 0,
-                messages: []
-            }),
-            criteriaService: new SearchCriteriaService({
-                direction: GROUPS.outgoing,
-                searchCriteria: {}
-            })
-        });
-
-    });
+        }
+    ]);
 
 SpamExpertsApp
-    .controller('CommonMessagesCtrl',
+    .controller('OutgoingMessagesCtrl', ['$scope', '$controller', 'MessagesService', 'SearchCriteriaService', 'GROUPS',
+        function($scope, $controller, MessagesService, SearchCriteriaService, GROUPS) {
+            console.log('OutgoingMessagesCtrl');
+
+            $controller('CommonMessagesCtrl', {
+                $scope: $scope,
+                messagesService: new MessagesService({
+                    direction: GROUPS.outgoing,
+                    last_count: 0,
+                    messages: []
+                }),
+                criteriaService: new SearchCriteriaService({
+                    direction: GROUPS.outgoing,
+                    searchCriteria: {}
+                })
+            });
+
+        }
+    ]);
+
+SpamExpertsApp
+    .controller('CommonMessagesCtrl', ['$rootScope', '$scope', '$state', 'messagesService', 'criteriaService', 'BULK_ACTIONS',
         function($rootScope, $scope, $state, messagesService, criteriaService, BULK_ACTIONS) {
 
             $rootScope.bulkManager = {
@@ -117,51 +121,54 @@ SpamExpertsApp
                 });
             };
 
-        })
-
-    .controller('MessageDetailCtrl', function($rootScope, $scope, $state, $timeout, $ionicPopup, MessagesService, BULK_ACTIONS) {
-
-        if (isEmpty($state.params.message)) {
-            $state.go('main.dash', {}, {reload: true});
-            return;
         }
+    ])
 
-        var messageService = new MessagesService({
-            direction: $state.params.previousState.group,
-            messageParts: {}
-        });
+    .controller('MessageDetailCtrl', ['$rootScope', '$scope', '$state', '$timeout', '$ionicPopup', 'MessagesService', 'BULK_ACTIONS',
+        function($rootScope, $scope, $state, $timeout, $ionicPopup, MessagesService, BULK_ACTIONS) {
 
-        $scope.message = {};
-        $scope.bulkActions = BULK_ACTIONS.logSearch;
+            if (isEmpty($state.params.message)) {
+                $state.go('main.dash', {}, {reload: true});
+                return;
+            }
 
-        $scope.showRaw = false;
+            var messageService = new MessagesService({
+                direction: $state.params.previousState.group,
+                messageParts: {}
+            });
 
-        $scope.toggleRaw = function() {
-            $scope.showRaw = !$scope.showRaw;
-        };
+            $scope.message = {};
+            $scope.bulkActions = BULK_ACTIONS.logSearch;
 
-        messageService.viewMessage($state.params.message).then(function() {
-            $scope.message = messageService.getMessageParts();
-        });
+            $scope.showRaw = false;
 
-        $scope.confirmAction = function (action) {
-            $ionicPopup
-                .confirm({
-                    title: 'Confirm action',
-                    template: action.confirmText
-                })
-                .then(function(res) {
-                    if (res) {
-                        $scope.bulkManager.service
-                            .bulkAction(action.name, $scope.message)
-                            .then(function () {
-                                $state.go($state.params.previousState.state, {}, {reload: true});
-                                $timeout(function() {
-                                    $rootScope.$broadcast('refreshEntries');
+            $scope.toggleRaw = function() {
+                $scope.showRaw = !$scope.showRaw;
+            };
+
+            messageService.viewMessage($state.params.message).then(function() {
+                $scope.message = messageService.getMessageParts();
+            });
+
+            $scope.confirmAction = function (action) {
+                $ionicPopup
+                    .confirm({
+                        title: 'Confirm action',
+                        template: action.confirmText
+                    })
+                    .then(function(res) {
+                        if (res) {
+                            $scope.bulkManager.service
+                                .bulkAction(action.name, $scope.message)
+                                .then(function () {
+                                    $state.go($state.params.previousState.state, {}, {reload: true});
+                                    $timeout(function() {
+                                        $rootScope.$broadcast('refreshEntries');
+                                    });
                                 });
-                            });
-                    }
-                });
-        };
+                        }
+                    });
+            };
 
-    });
+        }
+    ]);
