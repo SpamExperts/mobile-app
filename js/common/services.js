@@ -161,8 +161,14 @@ SpamExpertsApp
                 },
                 setAuth: setAuth,
                 setToken: setToken,
-                request: function (params) {
-                    var baseEndpoint = this.protocol + settings.hostname;
+                request: function (params, hostname) {
+                    var host = settings.hostname || hostname;
+
+                    if (isEmpty(host)) {
+                        MessageQueue.set({'error': ['Hostname is empty']});
+                        return;
+                    }
+                    var baseEndpoint = this.protocol + host;
 
                     var defaultParams = {
                         direction : null,

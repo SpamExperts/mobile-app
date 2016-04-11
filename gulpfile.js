@@ -34,8 +34,9 @@ var
 
 gulp.task('clean', function() {
     del([
-        'styles.css',
-        'scripts.js'
+        'compiled/css/styles.css',
+        'compiled/js/scripts.js',
+        'compiled/html/templates.js'
     ], {force: true});
 });
 
@@ -57,8 +58,7 @@ gulp.task('allJs', function() {
         .on('error', gutil.log);
 });
 
-//gulp.task('build', ['clean', 'allCss', 'allJs']);
-gulp.task('build', ['allCss', 'allJs']);
+gulp.task('build', ['clean', 'allCss', 'allJs']);
 
 gulp.task('dev', function() {
     minify  = false;

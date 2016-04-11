@@ -55,7 +55,7 @@ SpamExpertsApp
                     Api.setAuth(username, password);
                 }
 
-                return Api.request({resource: 'auth'})
+                return Api.request({resource: 'auth'}, hostname)
                     .success(function(response) {
                         if (response['token']) {
 
