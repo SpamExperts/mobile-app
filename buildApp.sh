@@ -16,7 +16,7 @@ else
     ionic start spamexperts_mobile_app blank
 
     cd spamexperts_mobile_app
-    git clone https://nicolaeSE:Loiciemeh1850@github.com/SpamExperts/mobile-app.git
+    git clone https://github.com/SpamExperts/mobile-app.git
 
     mcp www/lib/ionic/js/ionic.bundle.min.js mobile-app/lib/ionic/js
     mcp www/lib/ionic/css/ionic.min.css mobile-app/lib/ionic/css
