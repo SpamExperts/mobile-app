@@ -5,7 +5,7 @@
   "main": "gulpfile.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SpamExperts/mobile-app.git"
+    "url": "https://github.com/SpamExperts/mobile-app.git"
   },
   "bugs": {
     "url": "https://github.com/SpamExperts/mobile-app/issues"

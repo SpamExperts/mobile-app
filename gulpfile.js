@@ -34,9 +34,9 @@ var
 
 gulp.task('clean', function() {
     del([
-        'compiled/css/styles.css',
-        'compiled/js/scripts.js',
-        'compiled/html/templates.js'
+        'minified/css/styles.css',
+        'minified/js/scripts.js',
+        'minified/templates/templates.js'
     ], {force: true});
 });
 
@@ -45,7 +45,7 @@ gulp.task('allCss', function() {
     return gulp.src(buildSources.allCss)
         .pipe(concat('styles.css'))
         .pipe(gulpif(minify, minifyCSS()))
-        .pipe(gulp.dest('compiled/css'))
+        .pipe(gulp.dest('minified/css'))
         .on('error', gutil.log);
 });
 
@@ -54,7 +54,7 @@ gulp.task('allJs', function() {
     return gulp.src(buildSources.allJs)
         .pipe(gulpif(minify, uglify()))
         .pipe(concat('scripts.js'))
-        .pipe(gulp.dest('compiled/js'))
+        .pipe(gulp.dest('minified/js'))
         .on('error', gutil.log);
 });
 
@@ -69,7 +69,7 @@ gulp.task('templates', function () {
         .pipe(templateCache('templates.js', {
             module: 'SpamExpertsApp'
         }))
-        .pipe(gulp.dest('compiled/html'))
+        .pipe(gulp.dest('minified/templates'))
         .on('error', gutil.log);
 });
 
