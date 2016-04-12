@@ -1,40 +1,64 @@
 #!/usr/bin/env bash
 
+set -e
+
 function mcp()
 {
     if [[ -z "$1" || -z "$2" ]]; then
-        echo "Usage: mycp SOURCE... DIRECTORY"
+        echo "Usage: mcp SOURCE... DIRECTORY"
         return 1;
     fi
     mkdir -p "$2"
     cp -r "$1" "$2"
 }
 
+
+if [ -z "$1" ]; then
+    echo "Please specify android or ios";
+    exit 1
+elif [ "$1" = "ios" ]; then
+    PLATFORM='ios'
+    EXTENSION="ipa"
+elif [ "$1" = "android" ]; then
+    PLATFORM='android'
+    EXTENSION="apk"
+fi
+
 if ! type "ionic" > /dev/null; then
 echo "You need to install ionic.\n Try using: npm install -g cordova ionic \n http://ionicframework.com/getting-started/"
 else
-    ionic start spamexperts_mobile_app blank
+
+    while true; do echo n; done | ionic start spamexperts_mobile_app blank
 
     cd spamexperts_mobile_app
-    git clone https://nicolaeSE:Loiciemeh1850@github.com/SpamExperts/mobile-app.git
+    git clone https://github.com/SpamExperts/mobile-app.git
 
-    mcp www/lib/ionic/js/ionic.bundle.min.js mobile-app/lib/ionic/js
-    mcp www/lib/ionic/css/ionic.min.css mobile-app/lib/ionic/css
-    mcp www/lib/ionic/fonts mobile-app/lib/ionic/
+    mv mobile-app/config.xml .
+    mv mobile-app/resources .
 
-    rm -rf www
-    mv mobile-app www
+    mcp www/lib/ionic/js/ionic.bundle.min.js ./lib/ionic/js
+    mcp www/lib/ionic/css/ionic.min.css ./lib/ionic/css
+    mcp www/lib/ionic/fonts ./lib/ionic/
 
-    cd www
+    rm -rf www/*
+    mv lib www/
+
+    cd mobile-app
     npm install
     gulp
-    cd ..
+    rm -rf js css templates
+    cd -
 
-    rm -rf www/js www/css www/templates
+    mcp mobile-app/index.html www
+    mcp mobile-app/compiled www
+    mcp mobile-app/img www
 
-    ionic platform add android
-    ionic build android
+    rm -rf mobile-app
+
+    ionic platform add $PLATFORM
+    OUTPUT="$(ionic build $PLATFORM | tail -n 1)"
+
+    mv $OUTPUT ../spamexperts_app.$EXTENSION
     cd ..
-    mv spamexperts_mobile_app/platforms/android/build/outputs/apk/*.apk ./spamexperts_mobile_app.apk
-    rm -rf spamexperts_mobile_app build.sh
+    rm -rf spamexperts_mobile_app
 fi
