@@ -1,4 +1,4 @@
-SpamExpertsApp
+angular.module('SpamExpertsApp')
     .controller('IncomingMessagesCtrl', ['$scope', '$controller', 'MessagesService', 'SearchCriteriaService', 'GROUPS',
         function($scope, $controller, MessagesService, SearchCriteriaService, GROUPS) {
             console.log('IncomingMessagesCtrl');
@@ -19,7 +19,7 @@ SpamExpertsApp
         }
     ]);
 
-SpamExpertsApp
+angular.module('SpamExpertsApp')
     .controller('OutgoingMessagesCtrl', ['$scope', '$controller', 'MessagesService', 'SearchCriteriaService', 'GROUPS',
         function($scope, $controller, MessagesService, SearchCriteriaService, GROUPS) {
             console.log('OutgoingMessagesCtrl');
@@ -40,7 +40,7 @@ SpamExpertsApp
         }
     ]);
 
-SpamExpertsApp
+angular.module('SpamExpertsApp')
     .controller('CommonMessagesCtrl', ['$rootScope', '$scope', '$state', 'messagesService', 'criteriaService', 'BULK_ACTIONS',
         function($rootScope, $scope, $state, messagesService, criteriaService, BULK_ACTIONS) {
 

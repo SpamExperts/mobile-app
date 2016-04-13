@@ -1,4 +1,4 @@
-SpamExpertsApp
+angular.module('SpamExpertsApp')
     .run(['$rootScope', '$state', 'AuthService', 'AUTH_EVENTS',
         function ($rootScope, $state, AuthService, AUTH_EVENTS) {
 

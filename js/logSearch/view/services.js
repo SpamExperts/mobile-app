@@ -1,4 +1,4 @@
-SpamExpertsApp
+angular.module('SpamExpertsApp')
     .factory('MessagesService', ['Api',
         function(Api) {
 

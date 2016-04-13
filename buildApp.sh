@@ -41,6 +41,8 @@ else
     mv mobile-app/resources .
 
     # keep the important lib files
+    wget https://code.angularjs.org/1.4.3/angular-sanitize.min.js.map -P ./lib/ionic/js
+    mcp www/lib/ionic/js/angular-sanitize.min.js.map
     mcp www/lib/ionic/js/ionic.bundle.min.js ./lib/ionic/js
     mcp www/lib/ionic/css/ionic.min.css ./lib/ionic/css
     mcp www/lib/ionic/fonts ./lib/ionic/
@@ -60,10 +62,10 @@ else
     mcp mobile-app/index.html www
 
     # add img folder
-    mcp mobile-app/img www
+    mv mobile-app/img www
 
     # add the minified scripts
-    mcp mobile-app/minified/* www
+    mv mobile-app/minified/* www
 
     # remove unused folder
     rm -rf mobile-app

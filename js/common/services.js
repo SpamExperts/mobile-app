@@ -1,4 +1,4 @@
-SpamExpertsApp
+angular.module('SpamExpertsApp')
     .factory('$localstorage', ['$window',
         function($window) {
 

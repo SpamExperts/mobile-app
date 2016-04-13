@@ -1,4 +1,4 @@
-SpamExpertsApp
+angular.module('SpamExpertsApp')
     .constant('AUTH_EVENTS', {
         notAuthenticated: 'auth-not-authenticated',
         notAuthorized: 'auth-not-authorized'

@@ -1,4 +1,4 @@
-SpamExpertsApp
+angular.module('SpamExpertsApp')
     .controller('LoginCtrl', ['$scope', '$state', '$ionicPopup', 'AuthService',
         function($scope, $state, $ionicPopup, AuthService) {
 

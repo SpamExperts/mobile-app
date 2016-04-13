@@ -1,4 +1,4 @@
-SpamExpertsApp
+angular.module('SpamExpertsApp')
     .directive('messageQueue', function () {
             return {
                 replace: true,

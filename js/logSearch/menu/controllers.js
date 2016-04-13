@@ -1,4 +1,4 @@
-SpamExpertsApp
+angular.module('SpamExpertsApp')
     .controller('IncomingSearchCriteriaCtrl', ['$scope', '$controller', 'SearchCriteriaService', 'GROUPS',
         function($scope, $controller, SearchCriteriaService, GROUPS) {
 
@@ -12,7 +12,7 @@ SpamExpertsApp
         }
     ]);
 
-SpamExpertsApp
+angular.module('SpamExpertsApp')
     .controller('OutgoingSearchCriteriaCtrl', ['$scope', '$controller', 'SearchCriteriaService', 'GROUPS',
         function($scope, $controller, SearchCriteriaService, GROUPS) {
 
@@ -26,7 +26,7 @@ SpamExpertsApp
         }
     ]);
 
-SpamExpertsApp
+angular.module('SpamExpertsApp')
     .controller('CommonSearchCriteriaCtrl', ['$rootScope', '$scope', '$state', 'criteriaService',
         function($rootScope, $scope, $state, criteriaService) {
 

@@ -1,4 +1,4 @@
-SpamExpertsApp
+angular.module('SpamExpertsApp')
     .service('AuthService', ['$http', '$localstorage', 'Api', 'USER_ROLES',
         function($http, $localstorage, Api, USER_ROLES) {
 

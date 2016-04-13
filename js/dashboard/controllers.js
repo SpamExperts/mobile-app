@@ -1,4 +1,4 @@
-SpamExpertsApp
+angular.module('SpamExpertsApp')
     .controller('DashCtrl', ['$scope', '$state', '$http', '$ionicPopup', '$localstorage', 'AuthService',
         function($scope, $state, $http, $ionicPopup, $localstorage, AuthService) {
             console.log('DashCtrl');

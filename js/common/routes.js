@@ -1,4 +1,4 @@
-SpamExpertsApp
+angular.module('SpamExpertsApp')
     .config(['$stateProvider', '$urlRouterProvider', 'GROUPS', 'USER_ROLES',
         function ($stateProvider, $urlRouterProvider, GROUPS, USER_ROLES) {
             $stateProvider

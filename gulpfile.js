@@ -67,7 +67,8 @@ gulp.task('dev', function() {
 gulp.task('templates', function () {
     return gulp.src('templates/**/*.html')
         .pipe(templateCache('templates.js', {
-            module: 'SpamExpertsApp'
+            module: 'SpamExpertsApp',
+            root: 'templates'
         }))
         .pipe(gulp.dest('minified/templates'))
         .on('error', gutil.log);

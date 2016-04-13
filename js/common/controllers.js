@@ -1,4 +1,4 @@
-SpamExpertsApp
+angular.module('SpamExpertsApp')
     .controller('AppCtrl', ['$scope', '$state', '$ionicPopup', '$ionicSideMenuDelegate', '$ionicActionSheet', 'AuthService', 'MessageQueue', 'AUTH_EVENTS', 'MENU_ITEMS',
         function($scope, $state, $ionicPopup, $ionicSideMenuDelegate, $ionicActionSheet, AuthService, MessageQueue, AUTH_EVENTS, MENU_ITEMS) {
             $scope.username = AuthService.username();

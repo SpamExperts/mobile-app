@@ -1,7 +1,5 @@
 'use strict';
-var SpamExpertsApp = angular.module('SpamExpertsApp', ['ionic']);
-
-SpamExpertsApp
+angular.module('SpamExpertsApp', ['ionic'])
     .run(['$ionicPlatform',
         function($ionicPlatform) {
             $ionicPlatform.ready(function() {
