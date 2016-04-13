@@ -64,7 +64,7 @@ else
     mv mobile-app/img www
 
     # add the minified scripts
-    mv mobile-app/minified/* www
+    mv mobile-app/minified www
 
     # remove unused folder
     rm -rf mobile-app
