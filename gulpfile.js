@@ -77,3 +77,9 @@ gulp.task('templates', function () {
 
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', ['build', 'templates']);
+
+gulp.task('watch', ['dev', 'default'], function() {
+    gulp.watch(buildSources.allCss, ['allCss']);
+    gulp.watch(buildSources.allJs, ['allJs']);
+    gulp.watch('templates/**/*.html', ['templates']);
+});

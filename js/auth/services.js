@@ -55,7 +55,7 @@ angular.module('SpamExpertsApp')
                     Api.setAuth(username, password);
                 }
 
-                return Api.request({resource: 'auth'}, hostname)
+                return Api.request({resource: 'auth', hostname: hostname})
                     .success(function(response) {
                         if (response['token']) {
 

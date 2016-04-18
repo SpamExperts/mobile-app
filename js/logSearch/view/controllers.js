@@ -41,13 +41,8 @@ angular.module('SpamExpertsApp')
     ]);
 
 angular.module('SpamExpertsApp')
-    .controller('CommonMessagesCtrl', ['$rootScope', '$scope', '$state', 'messagesService', 'criteriaService', 'BULK_ACTIONS',
-        function($rootScope, $scope, $state, messagesService, criteriaService, BULK_ACTIONS) {
-
-            $rootScope.bulkManager = {
-                service: messagesService,
-                actions: BULK_ACTIONS.logSearch
-            };
+    .controller('CommonMessagesCtrl', ['$scope', '$state', '$ionicPopup', '$ionicActionSheet', 'messagesService', 'criteriaService', 'BULK_ACTIONS',
+        function($scope, $state, $ionicPopup, $ionicActionSheet, messagesService, criteriaService, BULK_ACTIONS) {
 
             $scope.info = {
                 count: 0,
@@ -121,6 +116,49 @@ angular.module('SpamExpertsApp')
                 });
             };
 
+            $scope.bulkMode = false;
+            $scope.selectedAll = false;
+
+            $scope.selectEntry = function(index) {
+                messagesService.selectMessage(index);
+                $scope.bulkMode = messagesService.isBulkMode();
+            };
+            $scope.selectAll = function (toggle) {
+                $scope.selectedAll = toggle;
+                messagesService.selectAll($scope.selectedAll);
+                $scope.bulkMode = messagesService.isBulkMode();
+            };
+
+            $scope.showBulkActions = function () {
+                var actionSheet = $ionicActionSheet.show({
+                    buttons: BULK_ACTIONS.logSearch,
+                    titleText: 'Select Actions',
+                    cancelText: 'Cancel',
+                    cancel: function() {
+                        actionSheet();
+                    },
+                    buttonClicked: function(i, action) {
+                        $ionicPopup
+                            .confirm({
+                                title: 'Confirm action',
+                                template: action.confirmText
+                            })
+                            .then(function(res) {
+                                if (res) {
+                                    messagesService.service
+                                        .bulkAction(action.name)
+                                        .then(function () {
+                                            $state.go($state.current, {}, {reload: true});
+                                            $scope.$broadcast('refreshEntries');
+                                            $scope.bulkMode = false;
+                                        });
+                                }
+                            });
+                        return true;
+                    }
+                })
+            };
+
         }
     ])
 
@@ -158,7 +196,7 @@ angular.module('SpamExpertsApp')
                     })
                     .then(function(res) {
                         if (res) {
-                            $scope.bulkManager.service
+                            messageService
                                 .bulkAction(action.name, $scope.message)
                                 .then(function () {
                                     $state.go($state.params.previousState.state, {}, {reload: true});

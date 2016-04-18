@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .controller('AppCtrl', ['$scope', '$state', '$ionicPopup', '$ionicSideMenuDelegate', '$ionicActionSheet', 'AuthService', 'MessageQueue', 'AUTH_EVENTS', 'MENU_ITEMS',
-        function($scope, $state, $ionicPopup, $ionicSideMenuDelegate, $ionicActionSheet, AuthService, MessageQueue, AUTH_EVENTS, MENU_ITEMS) {
+    .controller('AppCtrl', ['$scope', '$state', '$ionicPopup', '$ionicSideMenuDelegate', 'AuthService', 'MessageQueue', 'AUTH_EVENTS', 'MENU_ITEMS',
+        function($scope, $state, $ionicPopup, $ionicSideMenuDelegate, AuthService, MessageQueue, AUTH_EVENTS, MENU_ITEMS) {
             $scope.username = AuthService.username();
 
             $scope.removeQueueMessage = function(item) {
@@ -51,47 +51,5 @@ angular.module('SpamExpertsApp')
                 }
             };
 
-            $scope.bulkMode = false;
-            $scope.selectedAll = false;
-
-            $scope.selectEntry = function(index) {
-                $scope.bulkManager.service.selectMessage(index);
-                $scope.bulkMode = $scope.bulkManager.service.isBulkMode();
-            };
-            $scope.selectAll = function (toggle) {
-                $scope.selectedAll = toggle;
-                $scope.bulkManager.service.selectAll($scope.selectedAll);
-                $scope.bulkMode = $scope.bulkManager.service.isBulkMode();
-            };
-
-            $scope.showBulkActions = function () {
-                var actionSheet = $ionicActionSheet.show({
-                    buttons: $scope.bulkManager.actions,
-                    titleText: 'Select Actions',
-                    cancelText: 'Cancel',
-                    cancel: function() {
-                        actionSheet();
-                    },
-                    buttonClicked: function(i, action) {
-                        $ionicPopup
-                            .confirm({
-                                title: 'Confirm action',
-                                template: action.confirmText
-                            })
-                            .then(function(res) {
-                                if (res) {
-                                    $scope.bulkManager.service
-                                        .bulkAction(action.name)
-                                        .then(function () {
-                                            $state.go($state.current, {}, {reload: true});
-                                            $scope.$broadcast('refreshEntries');
-                                            $scope.bulkMode = false;
-                                        });
-                                }
-                            });
-                        return true;
-                    }
-                })
-            };
         }
     ]);

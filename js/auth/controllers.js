@@ -2,9 +2,7 @@ angular.module('SpamExpertsApp')
     .controller('LoginCtrl', ['$scope', '$state', '$ionicPopup', 'AuthService',
         function($scope, $state, $ionicPopup, AuthService) {
 
-            $scope.$on('$stateChangeSuccess', function (event,next, nextParams, fromState) {
-                $scope.data = AuthService.getUserCredentials();
-            });
+            $scope.data = AuthService.getUserCredentials();
 
             $scope.login = function(data) {
 

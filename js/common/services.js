@@ -2,56 +2,121 @@ angular.module('SpamExpertsApp')
     .factory('$localstorage', ['$window',
         function($window) {
 
-            if (typeof window.localStorage['persistent'] === 'undefined') {
-                $window.localStorage['persistent'] = '{}';
-            }
+            cleanup();
 
-            $window.localStorage['volatile'] = '{}';
-
-            return {
-                get: function(key, defaultValue, isVolatile) {
-
-                    if (!defaultValue) defaultValue = {};
-
-                    var persistent = JSON.parse(window.localStorage['persistent']);
-                    var volatile   = JSON.parse(window.localStorage['volatile']);
-
-                    if (
-                        angular.isDefined(persistent[key]) &&
-                        !angular.equals({}, persistent[key])
-                    ) {
-                        return persistent[key];
-                    } else {
-                        if (
-                            angular.isDefined(volatile[key]) &&
-                            !angular.equals({}, volatile[key])
-                        ) {
-                            return volatile[key];
-                        } else {
-                            this.set(key, defaultValue, isVolatile);
-                            return defaultValue;
+            function cleanup() {
+                if (!isEmpty($window.localStorage['volatile'])) {
+                    var volatile = $window.localStorage['volatile'].split(',');
+                    for (var item in $window.localStorage) {
+                        for (var j in volatile) {
+                            if (
+                                !isEmpty(volatile[j]) &&
+                                item.indexOf(volatile[j]) === 0
+                            ) {
+                                $window.localStorage.removeItem(item);
+                            }
                         }
                     }
-                },
-                set: function(key, value, isVolatile) {
+                }
+                $window.localStorage['volatile'] = '';
+            }
 
-                    var persistent = JSON.parse(window.localStorage['persistent']);
-                    var volatile   = JSON.parse(window.localStorage['volatile']);
+            function unpack(original, store) {
+                var unpacked = {};
 
-                    if (isVolatile) {
-                        volatile[key]   = value;
-                        delete persistent[key];
-                    } else {
-                        persistent[key] = value;
-                        delete volatile[key];
+                function unpackObject(obj, key) {
+
+                    for (var i in obj) {
+                        var ind = key ? key + '.' + i : i;
+                        if (typeof obj[i] === 'object') {
+                            unpackObject(obj[i], ind);
+                        } else {
+                            if (typeof store !== 'undefined') {
+                                store[ind] = obj[i];
+                            } else {
+                                unpacked[ind] = obj[i];
+                            }
+                        }
                     }
-                    $window.localStorage['persistent'] = JSON.stringify(persistent);
-                    $window.localStorage['volatile']   = JSON.stringify(volatile);
-                },
-                cleanup: function () {
-                    $window.localStorage['volatile'] = '{}';
+                }
+
+                unpackObject(original);
+
+                if (typeof store !== 'undefined') {
+                    return unpacked;
                 }
             }
+
+            function pack(unpacked, keyStarter) {
+
+                function packObject(obj, path, value) {
+                    if (
+                        typeof path !== 'string' &&
+                        typeof obj[path[0]] === 'undefined'
+                    ) {
+                        obj[path[0]] = {};
+                    }
+
+                    if (typeof path == 'string') {
+                        return packObject(obj, path.split('.'), value);
+                    }
+                    else if (path.length == 1 && value !== undefined) {
+                        return obj[path[0]] = value;
+                    }
+                    else if (path.length == 0) {
+                        return obj;
+                    }
+                    else {
+                        return packObject(obj[path[0]], path.slice(1), value);
+                    }
+                }
+
+                var original = {};
+
+                if (!keyStarter.split('.').length) {
+                    keyStarter += '.';
+                }
+
+                for (var i in unpacked) {
+                    if (i.indexOf(keyStarter) === 0) {
+                        var key = i.replace(keyStarter, '');
+                        packObject(original, key, unpacked[i]);
+                    }
+
+                }
+                return original[''];
+            }
+
+            return {
+                get: function (key, defaultValue, isVolatile) {
+                    if (isEmpty(defaultValue)) defaultValue = {};
+
+                    var unpack = pack($window.localStorage, key);
+
+                    if (isEmpty(unpack) && !isEmpty(defaultValue)) {
+                        this.set(key, defaultValue, isVolatile);
+                        return defaultValue;
+                    } else {
+                        return unpack;
+                    }
+                },
+
+                set: function (key, value, isVolatile) {
+                    if (!isEmpty(value)) {
+                        var object = {};
+                        if (isVolatile) {
+                            var volatile = $window.localStorage['volatile'].split(',');
+                            if (-1 === volatile.indexOf(key)) {
+                                volatile.push(key);
+                                $window.localStorage['volatile'] = volatile.join(',')
+                            }
+                        }
+                        object[key] = value;
+                        unpack(object, $window.localStorage);
+                    }
+                },
+                cleanup: cleanup
+            };
         }
     ])
     .factory('Base64', function () {
@@ -118,9 +183,9 @@ angular.module('SpamExpertsApp')
     .factory('Api', ['$http', '$localstorage', 'MessageQueue','Base64', 'ENDPOINTS',
         function($http, $localstorage, MessageQueue, Base64, ENDPOINTS) {
 
-            var settings = $localstorage.get('settings');
-            var token    = $localstorage.get('token');
-            var usingToken= false;
+            var token      = $localstorage.get('token');
+            var usingToken = false;
+
 
             if (!angular.equals({}, token)) {
                 setToken(token);
@@ -133,23 +198,31 @@ angular.module('SpamExpertsApp')
                     typeof password !== 'undefined'
                 ) {
                     authorization = Base64.encode(username + ':' + password);
-                    $http.defaults.headers.common['X-Auth-Token'] = undefined;
                 }
 
                 $http.defaults.headers.common['Authorization'] = 'Basic ' + authorization;
             }
 
             function setToken(token) {
-                if (!token) {
-                    token = undefined;
-                    $http.defaults.headers.common['Authorization'] = 'Basic ';
-                    usingToken = false;
-                } else {
-                    usingToken = true;
-                }
-
-                $http.defaults.headers.common['X-Auth-Token'] = token;
+                usingToken = !!token;
+                $http.defaults.headers.common['Authorization'] = 'Bearer ' + token;
             }
+
+
+            $http.defaults.transformResponse.push(function (response) {
+                if (response.body) {
+                    if (response.body['messageQueue']) {
+                        MessageQueue.set(response.body['messageQueue']);
+                    }
+                    if (response['token']) {
+                        response.body.token = response['token'];
+                        $http.defaults.headers.common['Authorization'] = 'Bearer ' + response['token'];
+                    }
+                    return response.body;
+                } else {
+                    return response;
+                }
+            });
 
             return {
                 protocol: 'http://',
@@ -162,12 +235,19 @@ angular.module('SpamExpertsApp')
                 setAuth: setAuth,
                 setToken: setToken,
                 request: function (params, hostname) {
-                    var host = settings.hostname || hostname;
+                    var host;
+
+                    if (!isEmpty(params['hostname'])) {
+                        host =  params['hostname'];
+                    } else {
+                        host = $localstorage.get('settings.hostname');
+                    }
 
                     if (isEmpty(host)) {
                         MessageQueue.set({'error': ['Hostname is empty']});
                         return;
                     }
+
                     var baseEndpoint = this.protocol + host;
 
                     var defaultParams = {
@@ -191,17 +271,6 @@ angular.module('SpamExpertsApp')
                     if (params.action) {
                         request = request[params.action];
                     }
-
-                    $http.defaults.transformResponse.push(function (response) {
-                        if (response.body) {
-                            if (response.body['messageQueue']) {
-                                MessageQueue.set(response.body['messageQueue']);
-                            }
-                            return response.body;
-                        } else {
-                            return response;
-                        }
-                    });
 
                     switch (request.method) {
                         case 'GET':

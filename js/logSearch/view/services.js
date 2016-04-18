@@ -72,7 +72,7 @@ angular.module('SpamExpertsApp')
                         .success(function(resp) {
                             if (resp['new_entries']) {
                                 that.messages = resp['new_entries'].concat(that.messages);
-                            } else {
+                            } else if (resp['entries'])  {
                                 that.messages = that.messages.concat(resp['entries']);
                             }
                             that.last_count = resp.last_count || 0;
