@@ -17,15 +17,7 @@
                       on-swipe-right = "$event.stopPropagation()"
             >
 
-                <div ng-if="!message.isChecked" on-tap="selectEntry($index);$event.stopPropagation()">
-                    <div class="icon-se icon-accepted">S</div>
-                </div>
-
-                <div ng-if="message.isChecked" on-tap="selectEntry($index);$event.stopPropagation()">
-                    <div class="icon-se icon-unknown">
-                        <i class="icon ion-checkmark"></i>
-                    </div>
-                </div>
+                <div se-checkbox></div>
 
                 <h2 ng-class="{grayedout: message.isChecked}">{{message['decoded_subject_header']}}</h2>
 
@@ -50,7 +42,8 @@
 
         <div ng-if="bulkMode" class="se-spacer"></div>
     </ion-content>
-    <ion-footer-bar align-title="left" class="bar-assertive" ng-if="bulkMode">
+    <ion-footer-bar class="bar-assertive" ng-if="bulkMode">
+
         <h1 class="title" on-tap="showBulkActions()"><i class="icon ion-grid"></i></h1>
 
         <div class="buttons">
