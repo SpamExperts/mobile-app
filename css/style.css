@@ -18,6 +18,27 @@
     left: 3px;
 }
 
+.item-person {
+    padding: 5px;
+}
+
+.item-person h2,
+.item-person p {
+    padding-left: 10px;
+}
+
+.item-person .icon-se {
+    width: 50px;
+    height: 50px;
+}
+.item-person .icon {
+    position: relative;
+    top: 4px;
+    left: 0px;
+    right: 0px;
+    font-size: 33px;
+}
+
 .icon-rejected {
     background-color:red;
     border:1px red solid;
@@ -99,11 +120,33 @@
 
 
 .raw-message {
-    max-height: 0px;
+    max-height: 0;
 }
+
 .se-spacer {
     height: 32px;
+    line-height: 32px;
+    padding: 5px;
 }
+
+.se-spacer-2x {
+    height: 64px;
+    line-height: 64px;
+    padding: 5px;
+}
+
+.se-spacer-3x {
+    height: 96px;
+    line-height: 96px;
+    padding: 5px;
+}
+
+
+.se-background-color {
+    background: #39B0DA;
+    color: #ffffff;
+}
+
 
 .grayedout {
     font-style: italic;
@@ -126,29 +169,53 @@ input:disabled:checked + .checkbox-icon:before {
     border-bottom: 1px solid #1c596e;
 }
 .menu.menu-left {
-    background-color: #39B0DA;
+    background-color: #25718B;
 }
 
-
-.menu.menu-left .item-complex.item-icon-left a,
-.menu.menu-left .item-complex.item-icon-left {
-    background-color: #25718B;
+.menu.menu-left .item{
     border-bottom: 1px solid #1c596e;
     border-top: 1px solid #287d9a;
-    color:#eeeeee;
 }
 
-
-.menu.menu-left .item-complex.item-icon-left a i{
+.menu.menu-left .item .item-content {
+    background-color: #25718B;
     color: #39B0DA;
 }
 
-.menu.menu-left .item-complex.item-icon-left a {
-    color: #39B0DA;
+.menu.menu-left .item-divider {
+    padding-bottom: 0;
+    padding-top: 0;
 }
-.menu.menu-left .item-complex.item-icon-left.active a i,
-.menu.menu-left .item-complex.item-icon-left.active a {
+
+.menu.menu-left .item-divider .item-content {
+    background-color: #39B0DA;
+    color: #ffffff;
+}
+
+.menu.menu-left .item.active .item-content{
     color: #f2f2f2;
+}
+
+.user-info {
+    background: #eeeeee;
+    border-bottom: 2px #c2c2c2;
+}
+
+.menu.menu-left .item .page-icon {
+    font-size: 30px;
+    left: 20px;
+}
+
+.menu.menu-left .item .icon-indicator {
+    visibility: hidden;
+}
+
+.menu.menu-left .item.active .icon-indicator {
+    visibility: visible;
+    left: initial;
+    right: -11px;
+    color: white;
+    font-size: 24px;
 }
 
 .item-se-logo {
@@ -169,7 +236,7 @@ input:disabled:checked + .checkbox-icon:before {
     border-radius: 4px;
 }
 
- /*flipper*/
+/*flipper*/
 .flip-container {
     width: 40px;
     height: 40px;

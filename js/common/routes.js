@@ -15,21 +15,17 @@ angular.module('SpamExpertsApp')
                 .state('main.dash', {
                     url: 'dash',
                     views: {
-                        'b': {
-                            templateUrl: 'templates/logSearch/view/messages.html',
-                            controller: 'IncomingMessagesCtrl'
-                        },
                         'main-container': {
                             templateUrl: 'templates/dashboard/dashboard.html',
                             controller: 'DashCtrl'
                         }
                     },
                     data: {
-                        authorizedRoles: [USER_ROLES.admin]
+                        authorizedRoles: [USER_ROLES.admin, USER_ROLES.domain, USER_ROLES.email]
                     }
                 })
-                .state('main.incoming', {
-                    url: 'incoming',
+                .state('main.incomingLogSearch', {
+                    url: 'incoming/log/search',
                     group: GROUPS.incoming,
                     views: {
                         'main-container': {
@@ -42,11 +38,11 @@ angular.module('SpamExpertsApp')
                         }
                     },
                     data: {
-                        authorizedRoles: [USER_ROLES.admin]
+                        authorizedRoles: [USER_ROLES.admin, USER_ROLES.domain, USER_ROLES.email]
                     }
                 })
-                .state('main.outgoing', {
-                    url: 'outgoing',
+                .state('main.outgoingLogSearch', {
+                    url: 'outgoing/log/search',
                     group: GROUPS.outgoing,
                     views: {
                         'main-container': {
@@ -75,7 +71,7 @@ angular.module('SpamExpertsApp')
                         previousState: {}
                     },
                     data: {
-                        authorizedRoles: [USER_ROLES.admin]
+                        authorizedRoles: [USER_ROLES.admin, USER_ROLES.domain, USER_ROLES.email]
                     }
                 });
 

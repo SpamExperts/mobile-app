@@ -5,9 +5,9 @@ angular.module('SpamExpertsApp')
     })
 
     .constant('USER_ROLES', {
-        admin:  'admin_role',
-        domain: 'domain_role',
-        email:  'email_role',
+        admin:  'Super-Admin',
+        domain: 'Domain User',
+        email:  'Email User',
         public: 'public_role'
     })
 
@@ -18,19 +18,31 @@ angular.module('SpamExpertsApp')
 
     .constant('MENU_ITEMS', [
         {
-            title: 'Dashboard',
-            icon: 'ion-ios-gear-outline',
+            name: 'Dashboard',
+            icon: 'ion-ios-home',
             state: 'main.dash'
         },
         {
-            title: 'Incoming',
+            name: 'Incoming',
             icon: 'ion-log-in',
-            state: 'main.incoming'
+            items: [
+                {
+                    name: 'Quarantine',
+                    icon: 'ion-email',
+                    state: 'main.incomingLogSearch'
+                }
+            ]
         },
         {
-            title: 'Outgoing',
+            name: 'Outgoing',
             icon: 'ion-log-out',
-            state: 'main.outgoing'
+            items: [
+                {
+                    name: 'Quarantine',
+                    icon: 'ion-email',
+                    state: 'main.outgoingLogSearch'
+                }
+            ]
         }
     ])
 
@@ -44,19 +56,19 @@ angular.module('SpamExpertsApp')
                 name: 'release',
                 text: 'Release',
                 confirmText: 'Are you sure you want to release the selected messages?',
-                icon: 'ion-trash-a'
+                icon: 'ion-share'
             },
             {
                 name: 'remove',
                 text: 'Remove',
                 confirmText: 'Are you sure you want to remove the selected messages?',
-                icon: 'ion-ios-checkmark-outline'
+                icon: 'ion-minus-circled'
             },
             {
                 name: 'releaseandtrain',
                 text: 'Release and train',
                 confirmText: 'Are you sure you want to release and train the selected messages?',
-                icon: 'ion-share'
+                icon: 'ion-funnel'
             }
         ]
     })
@@ -87,6 +99,10 @@ angular.module('SpamExpertsApp')
                 view: {
                     method: 'GET',
                     endpoint: '/rest/log/view/delivery'
+                },
+                purge: {
+                    method: 'DELETE',
+                    endpoint: 'log/quarantined/delivery'
                 }
             }
         },
@@ -111,6 +127,10 @@ angular.module('SpamExpertsApp')
                 view: {
                     method: 'GET',
                     endpoint: '/rest/log/view/submission'
+                },
+                purge: {
+                    method: 'DELETE',
+                    endpoint: 'log/quarantined/submission'
                 }
             }
         }

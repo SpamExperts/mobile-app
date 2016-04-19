@@ -26,6 +26,9 @@ angular.module('SpamExpertsApp')
                 construct: function(modelData) {
                     angular.merge(this, modelData);
                 },
+                getDirection: function () {
+                    return this.direction;
+                },
                 getMessages: function () {
                     return this.messages;
                 },

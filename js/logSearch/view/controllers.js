@@ -159,6 +159,25 @@ angular.module('SpamExpertsApp')
                 })
             };
 
+            $scope.purgeQuarantine = function () {
+                $ionicPopup
+                    .confirm({
+                        title: 'Confirm action',
+                        template: 'Are you sure you want to purge the entire %s quarantine?'.printf(messagesService.getDirection())
+                    })
+                    .then(function(res) {
+                        if (res) {
+                            messagesService.service
+                                .bulkAction('purge')
+                                .then(function () {
+                                    $state.go($state.current, {}, {reload: true});
+                                    $scope.$broadcast('refreshEntries');
+                                    $scope.bulkMode = false;
+                                });
+                        }
+                    });
+            }
+
         }
     ])
 

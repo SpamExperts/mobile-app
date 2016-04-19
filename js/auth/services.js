@@ -2,7 +2,7 @@ angular.module('SpamExpertsApp')
     .service('AuthService', ['$http', '$localstorage', 'Api', 'USER_ROLES',
         function($http, $localstorage, Api, USER_ROLES) {
 
-            var username = '';
+            var authenticatedUsername = '';
             var authenticatedUserRole = '';
             var isAuthenticated = false;
 
@@ -25,6 +25,7 @@ angular.module('SpamExpertsApp')
                 isAuthenticated = true;
 
                 if (username) {
+                    authenticatedUsername = username;
                     authenticatedUserRole = USER_ROLES[role]
                 } else {
                     authenticatedUserRole = USER_ROLES.public
@@ -32,7 +33,7 @@ angular.module('SpamExpertsApp')
             }
 
             function destroyUserCredentials() {
-                username = '';
+                authenticatedUsername = '';
                 isAuthenticated = false;
 
                 var settings = $localstorage.get('settings');
@@ -107,7 +108,7 @@ angular.module('SpamExpertsApp')
                 logout: logout,
                 isAuthorized: isAuthorized,
                 isAuthenticated: function() {return isAuthenticated;},
-                username: function() {return username;},
+                username: function() {return authenticatedUsername;},
                 role: function() {return authenticatedUserRole;},
                 getUserCredentials: function() {
                     return $localstorage.get('settings', defaultSettings);

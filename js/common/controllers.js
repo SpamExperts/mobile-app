@@ -2,6 +2,7 @@ angular.module('SpamExpertsApp')
     .controller('AppCtrl', ['$scope', '$state', '$ionicPopup', '$ionicSideMenuDelegate', 'AuthService', 'MessageQueue', 'AUTH_EVENTS', 'MENU_ITEMS',
         function($scope, $state, $ionicPopup, $ionicSideMenuDelegate, AuthService, MessageQueue, AUTH_EVENTS, MENU_ITEMS) {
             $scope.username = AuthService.username();
+            $scope.role = AuthService.role();
 
             $scope.removeQueueMessage = function(item) {
                 delete $scope.messageQueue[item];
@@ -31,8 +32,6 @@ angular.module('SpamExpertsApp')
             $scope.menuItems = MENU_ITEMS;
 
             $scope.$on('$stateChangeSuccess', function () {
-                $scope.selectedAll = false;
-                $scope.bulkMode = false;
                 $ionicSideMenuDelegate.toggleLeft(false);
                 $ionicSideMenuDelegate.toggleRight(false);
             });

@@ -1,9 +1,32 @@
 <ion-list>
-    <ion-item class="item-se-logo">
-    <img src="img/logo.gif" style="width: 60%">
+
+    <ion-item class="item item-person">
+        <div class="row">
+        <div class="col-20">
+            <div class="icon-se icon-unknown">
+                <i class="icon ion-person"></i>
+            </div>
+        </div>
+        <div class="col-80">
+            <h2>{{username}}</h2>
+            <p>{{role}}</p>
+        </div>
+        </div>
     </ion-item>
-    <ion-item class="item-icon-left" ng-repeat="item in menuItems"
-              ui-sref-active="active" ui-sref="{{item.state}}">
-        <i class="icon {{item.icon}}"></i>{{item.title}}
-    </ion-item>
+    <div class="se-spacer-2x"></div>
+    <div ng-repeat="item in menuItems">
+        <ion-item class="item-divider item-icon-left" ng-if="item.state" ui-sref-active="active" ui-sref="{{item.state}}">
+            <i class="icon {{item.icon}}"></i>{{item.name}}
+        </ion-item>
+        <ion-item class="item-divider item-icon-left" ng-if="!item.state" href="">
+            <i class="icon {{item.icon}}"></i>{{item.name}}
+        </ion-item>
+
+        <ion-item class="item-icon-left submenu" ng-repeat="page in item.items" ui-sref-active="active" ui-sref="{{page.state}}">
+            <i class="icon {{page.icon}} page-icon"></i>{{page.name}}<i class="icon icon-indicator ion-arrow-left-b"></i>
+        </ion-item>
+    </div>
+    <div class="se-spacer-2x se-background-color">
+        ©2016 Spampanel
+    </div>
 </ion-list>
