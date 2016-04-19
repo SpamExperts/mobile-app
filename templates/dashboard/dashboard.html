@@ -1,23 +1,27 @@
 <ion-view view-title="Dashboard">
-  <ion-content class="padding">
-    <div class="row"><div class="col text-center">
-      <h3 class="title">Welcome {{username}}!</h3>
-      This could be your Dashboard.
-      <br><br><br>
-      <button class="button button-full button-positive" on-tap="performValidRequest()">
-        Make Valid Request
-      </button>
-      <button class="button button-full button-energized" on-tap="performUnauthorizedRequest()">
-        Make Request for unauthorized resource
-      </button>
-      <button class="button button-full button-assertive" on-tap="performInvalidRequest()">
-        Make Request without valid token
-      </button>
+    <ion-content>
+        <h3 class="title text-center">Welcome {{username}}!</h3>
 
-      <button class="button icon-left ion-log-out button-stable" on-tap="logout()">Logout</button>
+        <div  ng-repeat="item in menuItems">
+            <div class="card" ng-if="!item.noDash">
+                <div class="item item-divider">
+                    <div class="row">
+                        <div class="col-20">
+                            <div class="icon-se icon-unknown">
+                                <i class="icon {{item.icon}}"></i>
+                            </div>
+                        </div>
+                        <div class="col-80">
+                            <h2>{{item.name}}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="item item-text-wrap" ng-repeat="page in item.items" ui-sref="{{page.state}}">
+                    <i class="icon {{page.icon}}"></i>
+                    {{page.name}}
+                </div>
+            </div>
+        </div>
 
-      <br><br>
-      {{response}}
-    </div></div>
-  </ion-content>
+    </ion-content>
 </ion-view>

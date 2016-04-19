@@ -20,7 +20,8 @@ angular.module('SpamExpertsApp')
         {
             name: 'Dashboard',
             icon: 'ion-ios-home',
-            state: 'main.dash'
+            state: 'main.dash',
+            noDash: true
         },
         {
             name: 'Incoming',
@@ -59,16 +60,28 @@ angular.module('SpamExpertsApp')
                 icon: 'ion-share'
             },
             {
-                name: 'remove',
-                text: 'Remove',
-                confirmText: 'Are you sure you want to remove the selected messages?',
-                icon: 'ion-minus-circled'
+                name: 'releaseandwhitelist',
+                text: 'Release and whitelist',
+                confirmText: 'Are you sure you want to release the selected messages and whitelist their recipients?',
+                icon: 'ion-ios-list-outline'
             },
             {
                 name: 'releaseandtrain',
                 text: 'Release and train',
                 confirmText: 'Are you sure you want to release and train the selected messages?',
                 icon: 'ion-funnel'
+            },
+            {
+                name: 'remove',
+                text: 'Remove',
+                confirmText: 'Are you sure you want to remove the selected messages?',
+                icon: 'ion-minus-circled'
+            },
+            {
+                name: 'removeandblacklist',
+                text: 'Remove and blacklist',
+                confirmText: 'Are you sure you want to remove the selected messages and blacklist their recipients?',
+                icon: 'ion-ios-list'
             }
         ]
     })
@@ -88,6 +101,10 @@ angular.module('SpamExpertsApp')
                     method: 'PUT',
                     endpoint: '/rest/log/release/delivery'
                 },
+                releaseandwhitelist: {
+                    method: 'PUT',
+                    endpoint: '/rest/log/releaseandwhitelist/delivery'
+                },
                 releaseandtrain: {
                     method: 'PUT',
                     endpoint: '/restlog/releaseandtrain/delivery'
@@ -95,6 +112,10 @@ angular.module('SpamExpertsApp')
                 remove: {
                     method: 'DELETE',
                     endpoint: '/rest/log/remove/delivery'
+                },
+                removeandblacklist: {
+                    method: 'DELETE',
+                    endpoint: '/rest/log/removeandblacklist/delivery'
                 },
                 view: {
                     method: 'GET',
@@ -116,6 +137,10 @@ angular.module('SpamExpertsApp')
                     method: 'PUT',
                     endpoint: '/rest/log/release/submission'
                 },
+                releaseandwhitelist: {
+                    method: 'PUT',
+                    endpoint: '/rest/log/releaseandwhitelist/submission'
+                },
                 releaseandtrain: {
                     method: 'PUT',
                     endpoint: '/restlog/releaseandtrain/submission'
@@ -123,6 +148,10 @@ angular.module('SpamExpertsApp')
                 remove: {
                     method: 'DELETE',
                     endpoint: '/rest/log/remove/submission'
+                },
+                removeandblacklist: {
+                    method: 'DELETE',
+                    endpoint: '/rest/log/removeandblacklist/submission'
                 },
                 view: {
                     method: 'GET',

@@ -16,8 +16,7 @@ angular.module('SpamExpertsApp')
                     url: 'dash',
                     views: {
                         'main-container': {
-                            templateUrl: 'templates/dashboard/dashboard.html',
-                            controller: 'DashCtrl'
+                            templateUrl: 'templates/dashboard/dashboard.html'
                         }
                     },
                     data: {

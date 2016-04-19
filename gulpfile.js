@@ -23,8 +23,6 @@ var
             'js/auth/init.js',
             'js/auth/services.js',
             'js/auth/controllers.js',
-            'js/dashboard/services.js',
-            'js/dashboard/controllers.js',
             'js/logSearch/menu/services.js',
             'js/logSearch/menu/controllers.js',
             'js/logSearch/view/services.js',
