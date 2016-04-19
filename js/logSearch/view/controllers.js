@@ -121,6 +121,7 @@ angular.module('SpamExpertsApp')
 
             $scope.selectEntry = function(index) {
                 messagesService.selectMessage(index);
+                $scope.selectedAll = messagesService.allSelected();
                 $scope.bulkMode = messagesService.isBulkMode();
             };
             $scope.selectAll = function (toggle) {
@@ -145,7 +146,7 @@ angular.module('SpamExpertsApp')
                             })
                             .then(function(res) {
                                 if (res) {
-                                    messagesService.service
+                                    messagesService
                                         .bulkAction(action.name)
                                         .then(function () {
                                             $state.go($state.current, {}, {reload: true});
@@ -167,7 +168,7 @@ angular.module('SpamExpertsApp')
                     })
                     .then(function(res) {
                         if (res) {
-                            messagesService.service
+                            messagesService
                                 .bulkAction('purge')
                                 .then(function () {
                                     $state.go($state.current, {}, {reload: true});
@@ -181,8 +182,8 @@ angular.module('SpamExpertsApp')
         }
     ])
 
-    .controller('MessageDetailCtrl', ['$rootScope', '$scope', '$state', '$timeout', '$ionicPopup', 'MessagesService', 'BULK_ACTIONS',
-        function($rootScope, $scope, $state, $timeout, $ionicPopup, MessagesService, BULK_ACTIONS) {
+    .controller('MessageDetailCtrl', ['$rootScope', '$scope', '$state', '$timeout', '$ionicActionSheet', '$ionicPopup', 'MessagesService', 'BULK_ACTIONS',
+        function($rootScope, $scope, $state, $timeout, $ionicActionSheet, $ionicPopup, MessagesService, BULK_ACTIONS) {
 
             if (isEmpty($state.params.message)) {
                 $state.go('main.dash', {}, {reload: true});
@@ -207,24 +208,35 @@ angular.module('SpamExpertsApp')
                 $scope.message = messageService.getMessageParts();
             });
 
-            $scope.confirmAction = function (action) {
-                $ionicPopup
-                    .confirm({
-                        title: 'Confirm action',
-                        template: action.confirmText
-                    })
-                    .then(function(res) {
-                        if (res) {
-                            messageService
-                                .bulkAction(action.name, $scope.message)
-                                .then(function () {
-                                    $state.go($state.params.previousState.state, {}, {reload: true});
-                                    $timeout(function() {
-                                        $rootScope.$broadcast('refreshEntries');
-                                    });
-                                });
-                        }
-                    });
+            $scope.showBulkActions = function () {
+                var actionSheet = $ionicActionSheet.show({
+                    buttons: BULK_ACTIONS.logSearch,
+                    titleText: 'Select Actions',
+                    cancelText: 'Cancel',
+                    cancel: function() {
+                        actionSheet();
+                    },
+                    buttonClicked: function(i, action) {
+                        $ionicPopup
+                            .confirm({
+                                title: 'Confirm action',
+                                template: action.confirmText
+                            })
+                            .then(function(res) {
+                                if (res) {
+                                    messageService
+                                        .bulkAction(action.name)
+                                        .then(function () {
+                                            $state.go($state.params.previousState.state, {}, {reload: true});
+                                            $timeout(function() {
+                                                $rootScope.$broadcast('refreshEntries');
+                                            });
+                                        });
+                                }
+                            });
+                        return true;
+                    }
+                })
             };
 
         }

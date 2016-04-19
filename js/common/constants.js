@@ -107,7 +107,7 @@ angular.module('SpamExpertsApp')
                 },
                 releaseandtrain: {
                     method: 'PUT',
-                    endpoint: '/restlog/releaseandtrain/delivery'
+                    endpoint: '/rest/log/releaseandtrain/delivery'
                 },
                 remove: {
                     method: 'DELETE',
@@ -123,7 +123,7 @@ angular.module('SpamExpertsApp')
                 },
                 purge: {
                     method: 'DELETE',
-                    endpoint: 'log/quarantined/delivery'
+                    endpoint: '/rest/log/quarantined/delivery'
                 }
             }
         },
@@ -143,7 +143,7 @@ angular.module('SpamExpertsApp')
                 },
                 releaseandtrain: {
                     method: 'PUT',
-                    endpoint: '/restlog/releaseandtrain/submission'
+                    endpoint: '/rest/log/releaseandtrain/submission'
                 },
                 remove: {
                     method: 'DELETE',
@@ -159,7 +159,7 @@ angular.module('SpamExpertsApp')
                 },
                 purge: {
                     method: 'DELETE',
-                    endpoint: 'log/quarantined/submission'
+                    endpoint: '/rest/log/quarantined/submission'
                 }
             }
         }

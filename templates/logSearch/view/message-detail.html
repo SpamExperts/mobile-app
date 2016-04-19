@@ -45,15 +45,9 @@
           <div class="item item-body" ng-show="!showRaw">
                   {{message.details['msgBody']}}
           </div>
-
-
-          <div class="item tabs tabs-secondary tabs-icon-left">
-              <a class="tab-item" href="#" ng-repeat="action in bulkActions" on-tap="confirmAction(action, message)">
-                  <i class="icon {{action.icon}}"></i>
-                  {{action.text}}
-              </a>
-          </div>
-
       </div>
   </ion-content>
+    <ion-footer-bar class="bar-assertive">
+        <div class="title" on-tap="showBulkActions()"><i class="icon ion-grid"></i></div>
+    </ion-footer-bar>
 </ion-view>

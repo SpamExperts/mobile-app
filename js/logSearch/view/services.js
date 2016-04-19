@@ -47,6 +47,9 @@ angular.module('SpamExpertsApp')
                         this.selected--;
                     }
                 },
+                allSelected: function () {
+                    return this.selected == this.messages.length
+                },
                 selectAll: function (toggle) {
                     angular.forEach(this.messages, function(value, key) {
                         value.isChecked = toggle;
@@ -127,7 +130,7 @@ angular.module('SpamExpertsApp')
                             direction: this.direction,
                             resource: 'logSearch',
                             action: action,
-                            requestParams: [action, entries]
+                            requestParams: entries
                         })
                         .success(function(resp) {
 
