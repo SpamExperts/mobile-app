@@ -170,10 +170,12 @@ angular.module('SpamExpertsApp')
                         if (res) {
                             messagesService
                                 .bulkAction('purge')
-                                .then(function () {
-                                    $state.go($state.current, {}, {reload: true});
-                                    $scope.$broadcast('refreshEntries');
-                                    $scope.bulkMode = false;
+                                .then(function(choice) {
+                                    if (choice) {
+                                        $state.go($state.current, {}, {reload: true});
+                                        $scope.$broadcast('refreshEntries');
+                                        $scope.bulkMode = false;
+                                    }
                                 });
                         }
                     });

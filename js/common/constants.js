@@ -25,7 +25,7 @@ angular.module('SpamExpertsApp')
         },
         {
             name: 'Incoming',
-            icon: 'ion-log-in',
+            icon: 'ion-ios-cloud-download',
             items: [
                 {
                     name: 'Quarantine',
@@ -36,7 +36,7 @@ angular.module('SpamExpertsApp')
         },
         {
             name: 'Outgoing',
-            icon: 'ion-log-out',
+            icon: 'ion-ios-cloud-upload',
             items: [
                 {
                     name: 'Quarantine',

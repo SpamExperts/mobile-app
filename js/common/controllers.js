@@ -25,6 +25,20 @@ angular.module('SpamExpertsApp')
                 });
             });
 
+            $scope.logout = function() {
+                $ionicPopup
+                    .confirm({
+                        title: 'Confirm action',
+                        template: 'Are you sure you want to log out?'
+                    })
+                    .then(function(choice) {
+                        if (choice) {
+                            AuthService.logout();
+                            $state.go('login');
+                        }
+                    });
+            };
+
             $scope.setCurrentUsername = function(name) {
                 $scope.username = name;
             };

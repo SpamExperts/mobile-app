@@ -2,16 +2,17 @@
 
     <ion-item class="item item-person">
         <div class="row">
-        <div class="col-20">
-            <div class="icon-se icon-unknown">
-                <i class="icon ion-person"></i>
+            <div class="col-20">
+                <div class="icon-se icon-unknown">
+                    <i class="icon ion-person"></i>
+                </div>
+            </div>
+            <div class="col-80">
+                <h2>{{username}}</h2>
+                <p>{{role}}</p>
             </div>
         </div>
-        <div class="col-80">
-            <h2>{{username}}</h2>
-            <p>{{role}}</p>
-        </div>
-        </div>
+        <button class="button icon-right ion-log-out button-stable button-full" on-tap="logout()">Logout</button>
     </ion-item>
     <div class="se-spacer-2x"></div>
     <div ng-repeat="item in menuItems">
@@ -27,6 +28,6 @@
         </ion-item>
     </div>
     <div class="se-spacer-2x se-background-color">
-        ©2016 Spampanel
+        ©2016 Spamexperts
     </div>
 </ion-list>
