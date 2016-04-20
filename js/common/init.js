@@ -13,4 +13,7 @@ angular.module('SpamExpertsApp', ['ionic'])
                 }
             });
         }
-    ]);
+    ])
+    .config(function ($httpProvider) {
+        $httpProvider.interceptors.push('ApiInterceptor');
+    });

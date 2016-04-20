@@ -8,8 +8,9 @@ angular.module('SpamExpertsApp')
 
                 AuthService.login(data.hostname, data.username, data.password, data.remember)
                     .then(function(response) {
+                        console.log(response);
                         if (!response.data.token) {
-                            var alertPopup = $ionicPopup.alert({
+                            $ionicPopup.alert({
                                 title: 'Login failed!',
                                 template: 'Please check your credentials!'
                             });
@@ -19,7 +20,7 @@ angular.module('SpamExpertsApp')
                         }
 
                     }, function(err) {
-                        var alertPopup = $ionicPopup.alert({
+                        $ionicPopup.alert({
                             title: 'Login failed!',
                             template: 'Please check your credentials!'
                         });

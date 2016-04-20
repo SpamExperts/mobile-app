@@ -183,58 +183,23 @@ angular.module('SpamExpertsApp')
     .factory('Api', ['$http', '$localstorage', 'MessageQueue','Base64', 'ENDPOINTS',
         function($http, $localstorage, MessageQueue, Base64, ENDPOINTS) {
 
-            var token      = $localstorage.get('token');
-            var usingToken = false;
-
-
-            if (!angular.equals({}, token)) {
-                setToken(token);
-            }
-
-            function setAuth(username, password) {
-                var authorization = '';
-
-                if (typeof username !== 'undefined' &&
-                    typeof password !== 'undefined'
-                ) {
-                    authorization = Base64.encode(username + ':' + password);
-                }
-
-                $http.defaults.headers.common['Authorization'] = 'Basic ' + authorization;
-            }
-
-            function setToken(token) {
-                usingToken = !!token;
-                $http.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-            }
-
-
-            $http.defaults.transformResponse.push(function (response) {
-                if (response.body) {
-                    if (response.body['messageQueue']) {
-                        MessageQueue.set(response.body['messageQueue']);
-                    }
-                    if (response['token']) {
-                        response.body.token = response['token'];
-                        $http.defaults.headers.common['Authorization'] = 'Bearer ' + response['token'];
-                    }
-                    return response.body;
-                } else {
-                    return response;
-                }
-            });
-
             return {
                 protocol: 'http://',
                 useHttps: function() {
                     this.protocol = "https://";
                 },
                 isUsingToken: function () {
-                    return usingToken;
+                    var currentHeader = $http.defaults.headers.common['Authorization'];
+                    return currentHeader == 'Bearer ' + $localstorage.get('token');
                 },
-                setAuth: setAuth,
-                setToken: setToken,
-                request: function (params, hostname) {
+                setAuth: function (username, password) {
+                    var authorization = Base64.encode(username + ':' + password);
+                    $http.defaults.headers.common['Authorization'] = 'Basic ' + authorization;
+                },
+                clearAuth: function () {
+                    $http.defaults.headers.common['Authorization'] = 'Basic ';
+                },
+                request: function (params) {
                     var host;
 
                     if (!isEmpty(params['hostname'])) {
@@ -274,14 +239,92 @@ angular.module('SpamExpertsApp')
 
                     switch (request.method) {
                         case 'GET':
-                            return $http.get(baseEndpoint + request.endpoint.printf(params.urlParams), {params: params.requestParams, paramSerializer: '$httpParamSerializerJQLike'});
+                            return $http.get(
+                                baseEndpoint + request.endpoint.printf(params.urlParams),
+                                {
+                                    params: params.requestParams,
+                                    paramSerializer: '$httpParamSerializerJQLike',
+                                    responseKey: !isEmpty(params.responseKey) ? params.responseKey : ''
+                                }
+                            );
+
                         case 'PUT':
-                            return $http.put(baseEndpoint + request.endpoint.printf(params.urlParams), params.requestParams);
+                            return $http.put(
+                                baseEndpoint + request.endpoint.printf(params.urlParams),
+                                params.requestParams,
+                                {
+                                    responseKey: !isEmpty(params.responseKey) ? params.responseKey : ''
+                                }
+                            );
+
                         case 'POST':
-                            return $http.post(baseEndpoint + request.endpoint.printf(params.urlParams), params.requestParams);
+                            return $http.post(
+                                baseEndpoint + request.endpoint.printf(params.urlParams),
+                                params.requestParams,
+                                {
+                                    responseKey: !isEmpty(params.responseKey) ? params.responseKey : ''
+                                }
+                            );
+
                         case 'DELETE':
-                            return $http.delete(baseEndpoint + request.endpoint.printf(params.urlParams), {params: params.requestParams});
+                            return $http.delete(
+                                baseEndpoint + request.endpoint.printf(params.urlParams),
+                                {
+                                    params: params.requestParams,
+                                    responseKey: !isEmpty(params.responseKey) ? params.responseKey : ''
+                                }
+                            );
                     }
+                }
+            };
+        }
+    ])
+    .factory('ApiInterceptor', ['$q', '$rootScope', '$localstorage', 'MessageQueue', 'AUTH_EVENTS',
+        function ($q, $rootScope, $localstorage, MessageQueue, AUTH_EVENTS) {
+            return {
+                request: function(config) {
+                    var token = $localstorage.get('token', '');
+                    if (
+                        !isEmpty(token) ||
+                        (
+                            !isEmpty(config.headers['Authorization']) &&
+                            config.headers['Authorization'].indexOf('Basic') == -1
+                        )
+                    ) {
+                        config.headers['Authorization'] = 'Bearer ' + $localstorage.get('token');
+                    }
+                    return config || $q.when(config);
+                },
+                response: function (response) {
+                    if (
+                        !isEmpty(response.config.params) ||
+                        response.config.hasOwnProperty('responseKey')
+                    ) {
+
+                        var data = response.data;
+                        var key = !isEmpty(response.config.responseKey) ? response.config.responseKey : 'body';
+
+                        if (!isEmpty(data[key]['messageQueue'])) {
+                            MessageQueue.set(data[key]['messageQueue']);
+                        }
+
+                        if (!isEmpty(data['token'])) {
+                            if ($localstorage.get('settings.remember') == 'enabled') {
+                                $localstorage.set('token', data['token']);
+                            }
+                            data[key].token = data['token'];
+                        }
+
+                        response.data = data[key];
+                    }
+                    return response;
+                },
+                responseError: function (response) {
+                    $rootScope.$broadcast({
+                        401: AUTH_EVENTS.notAuthenticated,
+                        403: AUTH_EVENTS.notAuthorized
+                    }[response.status], response);
+                    return $q.reject(response);
                 }
             };
         }

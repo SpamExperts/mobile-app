@@ -17,7 +17,7 @@ angular.module('SpamExpertsApp')
             var settings = $localstorage.get('settings', defaultSettings);
             var token = $localstorage.get('token');
 
-            if (settings.remember == 'enabled' && !angular.equals({}, token)) {
+            if (settings.remember == 'enabled' && !isEmpty(token)) {
                 useCredentials(settings.username, settings.role);
             }
 
@@ -39,7 +39,7 @@ angular.module('SpamExpertsApp')
                 var settings = $localstorage.get('settings');
 
                 if (settings.remember == 'disabled') {
-                    Api.setToken();
+                    Api.clearAuth();
                     $localstorage.set('settings', defaultSettings);
                 }
                 $localstorage.cleanup();
@@ -56,13 +56,8 @@ angular.module('SpamExpertsApp')
                     Api.setAuth(username, password);
                 }
 
-                return Api.request({resource: 'auth', hostname: hostname})
+                return Api.request({resource: 'auth', hostname: hostname, responseKey: 'userData'})
                     .success(function(response) {
-                        if (response['token']) {
-
-                            Api.setToken(response['token']);
-
-                            var role = 'admin'; // need to fix
                             if (remember == 'enabled') {
                                 password = new Array(password.length + 1).join('*');
                             } else {
@@ -72,23 +67,15 @@ angular.module('SpamExpertsApp')
                             $localstorage.set('settings', {
                                 hostname: hostname,
                                 username: username,
-                                role: role,
+                                role: response.role,
                                 password: password,
                                 remember: remember
                             });
 
-                            if (remember == 'enabled') {
-                                $localstorage.set('token', response['token']);
-                            } else {
-                                $localstorage.set('token', {});
-                            }
-
-                            useCredentials(username, role);
-                        }
+                            useCredentials(username, response.role);
                     })
                     .error(function (error) {
-                        Api.setAuth();
-                        Api.setToken();
+                        Api.clearAuth();
                     });
             };
 
@@ -112,19 +99,6 @@ angular.module('SpamExpertsApp')
                 role: function() {return authenticatedUserRole;},
                 getUserCredentials: function() {
                     return $localstorage.get('settings', defaultSettings);
-                }
-            };
-        }
-    ])
-    .factory('AuthInterceptor', ['$rootScope', '$q', 'AUTH_EVENTS',
-        function ($rootScope, $q, AUTH_EVENTS) {
-            return {
-                responseError: function (response) {
-                    $rootScope.$broadcast({
-                        401: AUTH_EVENTS.notAuthenticated,
-                        403: AUTH_EVENTS.notAuthorized
-                    }[response.status], response);
-                    return $q.reject(response);
                 }
             };
         }

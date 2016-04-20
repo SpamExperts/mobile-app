@@ -1,8 +1,6 @@
 angular.module('SpamExpertsApp')
     .controller('IncomingMessagesCtrl', ['$scope', '$controller', 'MessagesService', 'SearchCriteriaService', 'GROUPS',
         function($scope, $controller, MessagesService, SearchCriteriaService, GROUPS) {
-            console.log('IncomingMessagesCtrl');
-
             $controller('CommonMessagesCtrl', {
                 $scope: $scope,
                 messagesService: new MessagesService({
@@ -22,8 +20,6 @@ angular.module('SpamExpertsApp')
 angular.module('SpamExpertsApp')
     .controller('OutgoingMessagesCtrl', ['$scope', '$controller', 'MessagesService', 'SearchCriteriaService', 'GROUPS',
         function($scope, $controller, MessagesService, SearchCriteriaService, GROUPS) {
-            console.log('OutgoingMessagesCtrl');
-
             $controller('CommonMessagesCtrl', {
                 $scope: $scope,
                 messagesService: new MessagesService({
