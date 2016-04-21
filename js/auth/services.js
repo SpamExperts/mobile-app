@@ -47,8 +47,7 @@ angular.module('SpamExpertsApp')
 
             var login = function(hostname, username, password, remember) {
 
-                if (
-                    !Api.isUsingToken() ||
+                if (isEmpty(token) ||
                     settings.hostname != hostname ||
                     settings.username != username ||
                     settings.password != password
@@ -58,7 +57,9 @@ angular.module('SpamExpertsApp')
 
                 return Api.request({resource: 'auth', hostname: hostname, responseKey: 'userData'})
                     .success(function(response) {
-                            if (remember == 'enabled') {
+                        Api.clearAuth();
+
+                        if (remember == 'enabled') {
                                 password = new Array(password.length + 1).join('*');
                             } else {
                                 password = '';
@@ -66,13 +67,13 @@ angular.module('SpamExpertsApp')
 
                             $localstorage.set('settings', {
                                 hostname: hostname,
-                                username: username,
-                                role: response.role,
+                                username: response.username || '',
+                                role    : response.role || '',
                                 password: password,
                                 remember: remember
                             });
 
-                            useCredentials(username, response.role);
+                        useCredentials(response.username, response.role);
                     })
                     .error(function (error) {
                         Api.clearAuth();

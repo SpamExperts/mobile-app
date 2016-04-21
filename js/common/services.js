@@ -104,13 +104,18 @@ angular.module('SpamExpertsApp')
                 set: function (key, value, isVolatile) {
                     if (!isEmpty(value)) {
                         var object = {};
-                        if (isVolatile) {
-                            var volatile = $window.localStorage['volatile'].split(',');
-                            if (-1 === volatile.indexOf(key)) {
+
+                        var volatile = $window.localStorage['volatile'].split(',');
+                        var p = volatile.indexOf(key);
+
+                        if (isVolatile === true && p == -1) {
                                 volatile.push(key);
-                                $window.localStorage['volatile'] = volatile.join(',')
-                            }
+                        } else if(-1 < p) {
+                            volatile.splice(p, 1);
                         }
+
+                        $window.localStorage['volatile'] = volatile.join(',');
+
                         object[key] = value;
                         unpack(object, $window.localStorage);
                     }
@@ -193,11 +198,12 @@ angular.module('SpamExpertsApp')
                     return currentHeader == 'Bearer ' + $localstorage.get('token');
                 },
                 setAuth: function (username, password) {
+                    console.log(username + ' : ' +password);
                     var authorization = Base64.encode(username + ':' + password);
                     $http.defaults.headers.common['Authorization'] = 'Basic ' + authorization;
                 },
                 clearAuth: function () {
-                    $http.defaults.headers.common['Authorization'] = 'Basic ';
+                    $http.defaults.headers.common['Authorization'] = 'Bearer ';
                 },
                 request: function (params) {
                     var host;
@@ -283,15 +289,17 @@ angular.module('SpamExpertsApp')
         function ($q, $rootScope, $localstorage, MessageQueue, AUTH_EVENTS) {
             return {
                 request: function(config) {
-                    var token = $localstorage.get('token', '');
                     if (
-                        !isEmpty(token) ||
-                        (
-                            !isEmpty(config.headers['Authorization']) &&
-                            config.headers['Authorization'].indexOf('Basic') == -1
-                        )
+                        config.hasOwnProperty('params') ||
+                        config.hasOwnProperty('responseKey')
                     ) {
-                        config.headers['Authorization'] = 'Bearer ' + $localstorage.get('token');
+
+                        var authHeader = config.headers['Authorization'];
+
+                        if (isEmpty(authHeader) || authHeader.indexOf('Basic') == -1) {
+                            var token = $localstorage.get('token', '');
+                            config.headers['Authorization'] = 'Bearer ' + $localstorage.get('token');
+                        }
                     }
                     return config || $q.when(config);
                 },
@@ -309,9 +317,9 @@ angular.module('SpamExpertsApp')
                         }
 
                         if (!isEmpty(data['token'])) {
-                            if ($localstorage.get('settings.remember') == 'enabled') {
-                                $localstorage.set('token', data['token']);
-                            }
+                            $localstorage.set('token', data['token'],
+                                ($localstorage.get('settings.remember') != 'enabled')
+                            );
                             data[key].token = data['token'];
                         }
 
