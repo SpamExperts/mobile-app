@@ -2,7 +2,9 @@ angular.module('SpamExpertsApp')
     .run(['$rootScope', '$state', 'AuthService', 'AUTH_EVENTS',
         function ($rootScope, $state, AuthService, AUTH_EVENTS) {
 
-            $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) {
+            $rootScope.$on('$stateChangeStart', function (event,next) {
+                $rootScope.username = AuthService.getUsername();
+                $rootScope.role = AuthService.getRole();
 
                 if (!AuthService.isAuthenticated()) {
                     if (next.name !== 'login') {
@@ -18,6 +20,23 @@ angular.module('SpamExpertsApp')
                     }
                 }
 
-            })
+            });
+
+            $rootScope.$on(AUTH_EVENTS.notAuthorized, function() {
+                $ionicPopup.alert({
+                    title: 'Unauthorized!',
+                    template: 'You are not allowed to access this resource.'
+                });
+            });
+
+            $rootScope.$on(AUTH_EVENTS.notAuthenticated, function() {
+                AuthService.logout();
+                $state.go('login');
+                $ionicPopup.alert({
+                    title: 'Session Lost!',
+                    template: 'Sorry, You have to login again.'
+                });
+            });
+
         }
     ]);

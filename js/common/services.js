@@ -105,13 +105,18 @@ angular.module('SpamExpertsApp')
                     if (!isEmpty(value)) {
                         var object = {};
 
-                        var volatile = $window.localStorage['volatile'].split(',');
+                        var volatile = $window.localStorage['volatile'];
+                        if (isEmpty(volatile)) {
+                            volatile = [];
+                        } else {
+                            volatile = volatile.split(',');
+                        }
                         var p = volatile.indexOf(key);
 
                         if (isVolatile === true && p == -1) {
-                                volatile.push(key);
+                            volatile.push(key);
                         } else if(-1 < p) {
-                            volatile.splice(p, 1);
+                            volatile = volatile.splice(p, 1);
                         }
 
                         $window.localStorage['volatile'] = volatile.join(',');
@@ -193,12 +198,7 @@ angular.module('SpamExpertsApp')
                 useHttps: function() {
                     this.protocol = "https://";
                 },
-                isUsingToken: function () {
-                    var currentHeader = $http.defaults.headers.common['Authorization'];
-                    return currentHeader == 'Bearer ' + $localstorage.get('token');
-                },
                 setAuth: function (username, password) {
-                    console.log(username + ' : ' +password);
                     var authorization = Base64.encode(username + ':' + password);
                     $http.defaults.headers.common['Authorization'] = 'Basic ' + authorization;
                 },
@@ -312,8 +312,8 @@ angular.module('SpamExpertsApp')
                         var data = response.data;
                         var key = !isEmpty(response.config.responseKey) ? response.config.responseKey : 'body';
 
-                        if (!isEmpty(data[key]['messageQueue'])) {
-                            MessageQueue.set(data[key]['messageQueue']);
+                        if (!isEmpty(data['body']['messageQueue'])) {
+                            MessageQueue.set(data['body']['messageQueue']);
                         }
 
                         if (!isEmpty(data['token'])) {

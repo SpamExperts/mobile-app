@@ -2,11 +2,8 @@ angular.module('SpamExpertsApp')
     .factory('SearchCriteriaService', ['$localstorage', 'GROUPS', 'OTHERS',
         function ($localstorage, GROUPS, OTHERS) {
 
-            /**
-             var modelData = {
-        direction: direction,
-    }
-             */
+            /** @var modelData = {direction: direction} */
+
             function SearchCriteriaService(modelData) {
 
                 this.direction = null;
@@ -27,7 +24,7 @@ angular.module('SpamExpertsApp')
                 };
                 this.searchCriteria =  $localstorage.get('searchCriteria', this.defaultCriteria, true);
 
-                if (modelData) {
+                if (!isEmpty(modelData)) {
                     this.construct(modelData);
                 }
 
@@ -65,11 +62,11 @@ angular.module('SpamExpertsApp')
                     if (angular.isDefined(extra)) {
                         currentDate = getDate(
                             new Date(
-                                currentDate.year  + (angular.isDefined(extra['years'])  ? parseInt(extra['years'])  : 0),
-                                currentDate.month + (angular.isDefined(extra['month'])  ? parseInt(extra['month'])  : 0),
-                                currentDate.days  + (angular.isDefined(extra['days'])   ? parseInt(extra['days'])   : 0),
-                                currentDate.hours + (angular.isDefined(extra['hours'])  ? parseInt(extra['hours'])  : 0),
-                                currentDate.min   + (angular.isDefined(extra['minutes'])? parseInt(extra['minutes']): 0)
+                                currentDate.year  + (!isEmpty(extra['years'])  ? parseInt(extra['years'])  : 0),
+                                currentDate.month + (!isEmpty(extra['month'])  ? parseInt(extra['month'])  : 0),
+                                currentDate.days  + (!isEmpty(extra['days'])   ? parseInt(extra['days'])   : 0),
+                                currentDate.hours + (!isEmpty(extra['hours'])  ? parseInt(extra['hours'])  : 0),
+                                currentDate.min   + (!isEmpty(extra['minutes'])? parseInt(extra['minutes']): 0)
                             )
                         );
                     }

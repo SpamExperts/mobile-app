@@ -2,14 +2,7 @@ angular.module('SpamExpertsApp')
     .factory('MessagesService', ['Api',
         function(Api) {
 
-            /**
-             var modelData = {
-            direction: direction,
-            last_count: last_count,
-            messages: [],
-            message: {}
-        };
-             */
+            /** @var modelData = {direction: direction, last_count: last_count, messages: [], message: {}}; */
             function MessagesService(modelData) {
                 this.messages = [];
                 this.last_count = 0;
@@ -17,7 +10,7 @@ angular.module('SpamExpertsApp')
                 this.messageParts = {};
                 this.selected = 0;
 
-                if (modelData) {
+                if (!isEmpty(modelData)) {
                     this.construct(modelData);
                 }
             }
@@ -36,7 +29,7 @@ angular.module('SpamExpertsApp')
                     return this.messageParts;
                 },
                 isBulkMode: function () {
-                    return this.selected > 0;
+                    return 0 < this.selected;
                 },
                 selectMessage: function (index) {
                     var toggle = !this.messages[index].isChecked;
@@ -76,18 +69,14 @@ angular.module('SpamExpertsApp')
                             requestParams: searchCriteria
                         })
                         .success(function(resp) {
-                            if (resp['new_entries']) {
+                            if (!isEmpty(resp['newest_entries'])) {
+                                that.messages = resp['newest_entries'];
+                            } else if (!isEmpty(resp['new_entries'])) {
                                 that.messages = resp['new_entries'].concat(that.messages);
-                            } else if (resp['entries'])  {
+                            } else if (!isEmpty(resp['entries']))  {
                                 that.messages = that.messages.concat(resp['entries']);
                             }
                             that.last_count = resp.last_count || 0;
-                        })
-                        . error(function(err) {
-                            console.log('ERR', err);
-                        })
-                        .finally(function() {
-
                         });
                 },
                 viewMessage: function (message) {
@@ -103,11 +92,8 @@ angular.module('SpamExpertsApp')
                                 action: 'view',
                                 requestParams: message
                             })
-                            .success(function (resp) {
-                                that.messageParts.details = resp.mail;
-                            })
-                            .error(function (err) {
-
+                            .success(function (response) {
+                                that.messageParts.details = response['mail'];
                             });
                     }
 
@@ -116,7 +102,7 @@ angular.module('SpamExpertsApp')
                 bulkAction: function (action, entry) {
                     var entries = [];
 
-                    if (entry) {
+                    if (!isEmpty(entry)) {
                         entries.push(entry);
                     } else {
                         angular.forEach(this.messages, function(value, key) {
@@ -131,17 +117,7 @@ angular.module('SpamExpertsApp')
                             resource: 'logSearch',
                             action: action,
                             requestParams: entries
-                        })
-                        .success(function(resp) {
-
-                        })
-                        .error(function(err) {
-                            console.log('ERR', err);
-                        })
-                        .finally(function() {
-
                         });
-
                 }
             };
 
