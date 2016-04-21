@@ -8,22 +8,6 @@ angular.module('SpamExpertsApp')
 
                 this.direction = null;
 
-                this.defaultCriteria = {};
-                this.defaultCriteria[GROUPS['incoming']] = {
-                    since: this.getDate({days: '-1'}),
-                    until: this.getDate(),
-                    offset: 0,
-                    length: OTHERS.sliceLength
-                };
-
-                this.defaultCriteria[GROUPS['outgoing']] = {
-                    since: this.getDate({days: '-1'}),
-                    until: this.getDate(),
-                    offset: 0,
-                    length: OTHERS.sliceLength
-                };
-                this.searchCriteria =  $localstorage.get('searchCriteria', this.defaultCriteria, true);
-
                 if (!isEmpty(modelData)) {
                     this.construct(modelData);
                 }
@@ -35,15 +19,18 @@ angular.module('SpamExpertsApp')
                     angular.merge(this, modelData);
                 },
                 getSearchCriteria: function() {
-                    var criteria = $localstorage.get('searchCriteria');
-                    return criteria[this.direction];
+                    return $localstorage.get('searchCriteria.' + this.direction, this.getDefaultCriteria(), true);
                 },
                 getDefaultCriteria: function() {
-                    return this.defaultCriteria[this.direction];
+                    return {
+                        since: this.getDate({days: '-1'}),
+                        until: this.getDate(),
+                        offset: 0,
+                        length: OTHERS.sliceLength
+                    };
                 },
                 setSearchCriteria: function(criteria) {
-                    this.searchCriteria[this.direction] = criteria;
-                    $localstorage.set('searchCriteria', this.searchCriteria, true);
+                    $localstorage.set('searchCriteria.' + this.direction, criteria, true);
                 },
                 getDate: function(extra) {
 

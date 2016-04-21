@@ -37,10 +37,8 @@ angular.module('SpamExpertsApp')
     ]);
 
 angular.module('SpamExpertsApp')
-    .controller('CommonMessagesCtrl', ['$scope', '$state', '$ionicPopup', '$ionicActionSheet', 'messagesService', 'criteriaService',
-        function($scope, $state, $ionicPopup, $ionicActionSheet, messagesService, criteriaService) {
-
-            var availableActions = messagesService.getAvailableActions();
+    .controller('CommonMessagesCtrl', ['$scope', '$state', '$timeout', 'messagesService', 'criteriaService', 'actionManager',
+        function($scope, $state, $timeout, messagesService, criteriaService, actionManager) {
 
             $scope.info = {
                 count: 0,
@@ -128,62 +126,32 @@ angular.module('SpamExpertsApp')
                 $scope.bulkMode = messagesService.isBulkMode();
             };
 
-            $scope.showBulkActions = function () {
-                var actionSheet = $ionicActionSheet.show({
-                    buttons: availableActions,
-                    titleText: 'Select Actions',
-                    cancelText: 'Cancel',
-                    cancel: function() {
-                        actionSheet();
-                    },
-                    buttonClicked: function(i, action) {
-                        $ionicPopup
-                            .confirm({
-                                title: 'Confirm action',
-                                template: action.confirmText
-                            })
-                            .then(function(res) {
-                                if (res) {
-                                    messagesService
-                                        .bulkAction(action.name)
-                                        .then(function () {
-                                            $state.go($state.current, {}, {reload: true});
-                                            $scope.$broadcast('refreshEntries');
-                                            $scope.bulkMode = false;
-                                        });
-                                }
-                            });
-                        return true;
-                    }
-                })
-            };
+            var availableActions = actionManager.getActions('actionSheet');
 
-            $scope.purgeQuarantine = function () {
-                $ionicPopup
-                    .confirm({
-                        title: 'Confirm action',
-                        template: 'Are you sure you want to purge the entire %s quarantine?'.printf(messagesService.getDirection())
-                    })
-                    .then(function(res) {
-                        if (res) {
-                            messagesService
-                                .bulkAction('purge')
-                                .then(function(choice) {
-                                    if (choice) {
-                                        $state.go($state.current, {}, {reload: true});
-                                        $scope.$broadcast('refreshEntries');
-                                        $scope.bulkMode = false;
-                                    }
+            $scope.barActions = actionManager.getActions('bar');
+
+            $scope.processAction = function (action) {
+                actionManager.processAction(
+                    (isEmpty(action) ? availableActions : action),
+                    function (action) {
+                        messagesService
+                            .bulkAction(action.name)
+                            .then(function () {
+                                $state.go($state.current, {}, {reload: true});
+                                $timeout(function() {
+                                    $scope.$broadcast('refreshEntries');
                                 });
-                        }
-                    });
-            }
+                                $scope.bulkMode = false;
+                            });
+                    }
+                );
+            };
 
         }
     ])
 
-    .controller('MessageDetailCtrl', ['$rootScope', '$scope', '$state', '$timeout', '$ionicActionSheet', '$ionicPopup', 'MessagesService', 'BULK_ACTIONS',
-        function($rootScope, $scope, $state, $timeout, $ionicActionSheet, $ionicPopup, MessagesService, BULK_ACTIONS) {
+    .controller('MessageDetailCtrl', ['$rootScope', '$scope', '$state', '$timeout', '$ionicPopup', 'MessagesService', 'actionManager',
+        function($rootScope, $scope, $state, $timeout, $ionicPopup, MessagesService, actionManager) {
 
             if (isEmpty($state.params.message)) {
                 $state.go('main.dash', {}, {reload: true});
@@ -196,7 +164,6 @@ angular.module('SpamExpertsApp')
             });
 
             $scope.message = {};
-            $scope.bulkActions = BULK_ACTIONS.logSearch;
 
             $scope.showRaw = false;
 
@@ -208,35 +175,22 @@ angular.module('SpamExpertsApp')
                 $scope.message = messageService.getMessageParts();
             });
 
-            $scope.showBulkActions = function () {
-                var actionSheet = $ionicActionSheet.show({
-                    buttons: BULK_ACTIONS.logSearch,
-                    titleText: 'Select Actions',
-                    cancelText: 'Cancel',
-                    cancel: function() {
-                        actionSheet();
-                    },
-                    buttonClicked: function(i, action) {
-                        $ionicPopup
-                            .confirm({
-                                title: 'Confirm action',
-                                template: action.confirmText
-                            })
-                            .then(function(res) {
-                                if (res) {
-                                    messageService
-                                        .bulkAction(action.name)
-                                        .then(function () {
-                                            $state.go($state.params.previousState.state, {}, {reload: true});
-                                            $timeout(function() {
-                                                $rootScope.$broadcast('refreshEntries');
-                                            });
-                                        });
-                                }
+            var availableActions = actionManager.getActions('actionSheet');
+
+            $scope.processAction = function () {
+                actionManager.processAction(
+                    availableActions,
+                    function (action) {
+                        messageService
+                            .bulkAction(action.name)
+                            .then(function () {
+                                $state.go($state.params.previousState.state, {}, {reload: true});
+                                $timeout(function() {
+                                    $rootScope.$broadcast('refreshEntries');
+                                });
                             });
-                        return true;
                     }
-                })
+                );
             };
 
         }

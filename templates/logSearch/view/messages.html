@@ -42,14 +42,16 @@
 
         <div ng-if="bulkMode" class="se-spacer"></div>
     </ion-content>
+
     <ion-footer-bar class="bar-assertive" ng-if="bulkMode">
         <div class="buttons">
-            <button class="button" on-tap="purgeQuarantine()">
-                <i class="icon ion-trash-a"></i> Empty quarantine
+            <button class="button" ng-repeat="action in barActions" on-tap="processAction(action)">
+                <i class="icon {{action.icon}}"></i>
+                {{action.text}}
             </button>
         </div>
 
-        <div class="title" on-tap="showBulkActions()"><i class="icon ion-grid"></i></div>
+        <div class="title" on-tap="processAction()"><i class="icon ion-grid"></i></div>
 
         <div class="buttons">
             <button class="button" ng-if="!selectedAll" on-tap="selectAll(true)">

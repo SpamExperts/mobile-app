@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .factory('MessagesService', ['Api', 'AuthService', 'USER_ROLES', 'BULK_ACTIONS',
-        function(Api, AuthService, USER_ROLES, BULK_ACTIONS) {
+    .factory('MessagesService', ['Api',
+        function(Api) {
 
             /** @var modelData = {direction: direction, last_count: last_count, messages: [], message: {}}; */
             function MessagesService(modelData) {
@@ -118,26 +118,73 @@ angular.module('SpamExpertsApp')
                             action: action,
                             requestParams: entries
                         });
-                },
-                getAvailableActions: function () {
-
-                    var availableActions = [];
-                    var userRole = AuthService.getRole();
-
-                    angular.forEach(BULK_ACTIONS.logSearch, function (action) {
-                        if (
-                            typeof action.condition == 'function' &&
-                            !action.condition({'role': userRole}, {USER_ROLES: USER_ROLES})
-                        ) {
-                            return;
-                        }
-                        this.push(action);
-
-                    }, availableActions);
-                    return availableActions;
                 }
             };
 
             return MessagesService;
+        }
+    ])
+    .factory('actionManager', ['$ionicActionSheet', '$ionicPopup', 'AuthService', 'USER_ROLES', 'BULK_ACTIONS',
+        function ($ionicActionSheet, $ionicPopup, AuthService, USER_ROLES, BULK_ACTIONS) {
+
+            function getActions(type) {
+                var availableActions = [];
+                var userRole = AuthService.getRole();
+
+                angular.forEach(BULK_ACTIONS.logSearch[type], function (action) {
+                    if (
+                        typeof action.condition == 'function' &&
+                        !action.condition({role: userRole}, {USER_ROLES: USER_ROLES})
+                    ) {
+                        return;
+                    }
+                    this.push(action);
+
+                }, availableActions);
+                return availableActions;
+            }
+
+            function confirm (action, callback) {
+                $ionicPopup
+                    .confirm({
+                        title: 'Confirm action',
+                        template: action.confirmText.replace(/\%s/g, '<br>')
+                    })
+                    .then(function(choice) {
+                        if (choice &&  typeof callback == 'function') {
+                            callback(action);
+                        }
+                    });
+            }
+
+            var actions = {
+                actionSheet: getActions('actionSheet'),
+                bar: getActions('bar')
+            };
+
+            return {
+                getActions: function(type) {
+                    return actions[type];
+                },
+                processAction: function (actions, callback) {
+                    if (actions instanceof Array) {
+                        var actionSheet = $ionicActionSheet.show({
+                            buttons: actions,
+                            titleText: 'Select Actions',
+                            cancelText: 'Cancel',
+                            cancel: function() {
+                                actionSheet();
+                            },
+                            buttonClicked: function(i, action) {
+                                confirm(action, callback);
+                                return true;
+                            }
+                        });
+                    } else {
+                        confirm(actions, callback);
+                    }
+                }
+
+            };
         }
     ]);

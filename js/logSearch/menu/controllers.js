@@ -27,20 +27,25 @@ angular.module('SpamExpertsApp')
     ]);
 
 angular.module('SpamExpertsApp')
-    .controller('CommonSearchCriteriaCtrl', ['$rootScope', '$scope', '$state', 'criteriaService',
-        function($rootScope, $scope, $state, criteriaService) {
+    .controller('CommonSearchCriteriaCtrl', ['$rootScope', '$scope', '$state', '$timeout', 'criteriaService',
+        function($rootScope, $scope, $state, $timeout, criteriaService) {
 
             $scope.searchCriteria = criteriaService.getSearchCriteria();
 
             $scope.doSearch = function() {
                 criteriaService.setSearchCriteria($scope.searchCriteria);
-                $rootScope.$broadcast('refreshEntries');
+                $timeout(function() {
+                    $rootScope.$broadcast('refreshEntries');
+                });
             };
 
             $scope.doReset = function() {
-                criteriaService.setSearchCriteria(criteriaService.getDefaultCriteria());
-                $scope.searchCriteria = criteriaService.getDefaultCriteria();
-                $rootScope.$broadcast('refreshEntries');
+                var defaultCriteria = criteriaService.getDefaultCriteria();
+                criteriaService.setSearchCriteria(defaultCriteria);
+                $scope.searchCriteria = defaultCriteria;
+                $timeout(function() {
+                    $rootScope.$broadcast('refreshEntries');
+                });
             };
 
         }
