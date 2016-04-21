@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .run(['$rootScope', '$state', 'AuthService', 'AUTH_EVENTS',
-        function ($rootScope, $state, AuthService, AUTH_EVENTS) {
+    .run(['$rootScope', '$state', '$ionicPopup', 'AuthService', 'AUTH_EVENTS',
+        function ($rootScope, $state, $ionicPopup, AuthService, AUTH_EVENTS) {
 
             $rootScope.$on('$stateChangeStart', function (event,next) {
                 $rootScope.username = AuthService.getUsername();

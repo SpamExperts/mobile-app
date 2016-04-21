@@ -63,7 +63,13 @@ angular.module('SpamExpertsApp')
                 name: 'releaseandwhitelist',
                 text: 'Release and whitelist',
                 confirmText: 'Are you sure you want to release the selected messages and whitelist their recipients?',
-                icon: 'ion-ios-list-outline'
+                icon: 'ion-ios-list-outline',
+                condition: function(params, constant) {
+                    return -1 < [
+                        constant['USER_ROLES'].domain,
+                        constant['USER_ROLES'].email
+                    ].indexOf(params['role']);
+                }
             },
             {
                 name: 'releaseandtrain',
@@ -81,7 +87,13 @@ angular.module('SpamExpertsApp')
                 name: 'removeandblacklist',
                 text: 'Remove and blacklist',
                 confirmText: 'Are you sure you want to remove the selected messages and blacklist their recipients?',
-                icon: 'ion-ios-list'
+                icon: 'ion-ios-list',
+                condition: function(params, constant) {
+                    return -1 < [
+                        constant['USER_ROLES'].domain,
+                        constant['USER_ROLES'].email
+                    ].indexOf(params['role']);
+                }
             }
         ]
     })

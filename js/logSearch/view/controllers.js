@@ -37,8 +37,10 @@ angular.module('SpamExpertsApp')
     ]);
 
 angular.module('SpamExpertsApp')
-    .controller('CommonMessagesCtrl', ['$scope', '$state', '$ionicPopup', '$ionicActionSheet', 'messagesService', 'criteriaService', 'BULK_ACTIONS',
-        function($scope, $state, $ionicPopup, $ionicActionSheet, messagesService, criteriaService, BULK_ACTIONS) {
+    .controller('CommonMessagesCtrl', ['$scope', '$state', '$ionicPopup', '$ionicActionSheet', 'messagesService', 'criteriaService',
+        function($scope, $state, $ionicPopup, $ionicActionSheet, messagesService, criteriaService) {
+
+            var availableActions = messagesService.getAvailableActions();
 
             $scope.info = {
                 count: 0,
@@ -128,7 +130,7 @@ angular.module('SpamExpertsApp')
 
             $scope.showBulkActions = function () {
                 var actionSheet = $ionicActionSheet.show({
-                    buttons: BULK_ACTIONS.logSearch,
+                    buttons: availableActions,
                     titleText: 'Select Actions',
                     cancelText: 'Cancel',
                     cancel: function() {

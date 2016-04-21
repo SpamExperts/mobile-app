@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .factory('MessagesService', ['Api',
-        function(Api) {
+    .factory('MessagesService', ['Api', 'AuthService', 'USER_ROLES', 'BULK_ACTIONS',
+        function(Api, AuthService, USER_ROLES, BULK_ACTIONS) {
 
             /** @var modelData = {direction: direction, last_count: last_count, messages: [], message: {}}; */
             function MessagesService(modelData) {
@@ -105,9 +105,9 @@ angular.module('SpamExpertsApp')
                     if (!isEmpty(entry)) {
                         entries.push(entry);
                     } else {
-                        angular.forEach(this.messages, function(value, key) {
-                            if (value.isChecked) {
-                                this.push(value);
+                        angular.forEach(this.messages, function(message) {
+                            if (message.isChecked) {
+                                this.push(message);
                             }
                         }, entries);
                     }
@@ -118,6 +118,23 @@ angular.module('SpamExpertsApp')
                             action: action,
                             requestParams: entries
                         });
+                },
+                getAvailableActions: function () {
+
+                    var availableActions = [];
+                    var userRole = AuthService.getRole();
+
+                    angular.forEach(BULK_ACTIONS.logSearch, function (action) {
+                        if (
+                            typeof action.condition == 'function' &&
+                            !action.condition({'role': userRole}, {USER_ROLES: USER_ROLES})
+                        ) {
+                            return;
+                        }
+                        this.push(action);
+
+                    }, availableActions);
+                    return availableActions;
                 }
             };
 
