@@ -1,53 +1,52 @@
 <ion-view view-title="{{message['decoded_subject_header']}}">
-  <ion-content class="padding" ng-class="{'has-subheader': messageQueue}">
+    <ion-content class="padding">
 
-      <div class="row responsive-sm" ng-if="!message.details">
-          <div class="col col-offset-50">
-              <ion-spinner></ion-spinner>
-          </div>
-      </div>
+        <div class="list card">
 
-      <div class="list card" ng-if="message.details">
+            <div class="item item-avatar">
+                <div class="icon-se icon-accepted">S</div>
 
-          <div class="item item-avatar">
-              <div ng-switch on="message.classification">
-                  <div class="icon-se icon-accepted" ng-switch-when="Accepted">A</div>
-                  <div class="icon-se icon-rejected" ng-switch-when="Rejected">R</div>
-                  <div class="icon-se icon-unknown"  ng-switch-default>U</div>
-              </div>
-              <h2>{{message['decoded_subject_header']}}</h2>
-              <p>{{message['datestamp']}}</p>
-              <p>{{message['classification_details']}} - {{message.status}}</p>
-              <p>{{message.details['meta_data'].size}}</p>
+                <h2>{{message['decoded_subject_header']}}</h2>
+                <p>{{message['datestamp']}}</p>
+                <p>{{message['classification_details']}} - {{message.status}}</p>
+                <p>{{message.details['meta_data'].size}}</p>
 
-              <table border="0">
-              <tr><td style="padding: 0px 5px;">From:</td><td>{{message['sender']}}</td></tr>
-              <tr><td style="padding: 0px 5px;">To:</td><td>{{message['recipient']}}</td></tr>
-          </table>
-          </div>
+                <table border="0">
+                    <tr><td style="padding: 0px 5px;">From:</td><td>{{message['sender']}}</td></tr>
+                    <tr><td style="padding: 0px 5px;">To:</td><td>{{message['recipient']}}</td></tr>
+                </table>
+            </div>
 
-          <div class="item tabs tabs-secondary tabs-icon-left" on-tap="toggleRaw()">
-              <a class="tab-item" href="#">
-                  <i class="icon ion-android-mail"></i>
+            <div class="item tabs tabs-secondary tabs-icon-left" on-tap="toggleRaw()" ng-if="message.details">
+                <a class="tab-item" href="#">
+                    <i class="icon ion-android-mail"></i>
                   <span ng-if="!showRaw">
                       Show raw message
                   </span>
                   <span ng-if="showRaw">
                       Hide raw message
                   </span>
-              </a>
-          </div>
+                </a>
+            </div>
 
-          <div class="item item-body" ng-show="showRaw">
-              <pre>{{message.details['eml']}}</pre>
-          </div>
+            <div class="item item-body" ng-if="message.details && showRaw">
+                <pre>{{message.details['eml']}}</pre>
+            </div>
 
-          <div class="item item-body" ng-show="!showRaw">
-                  {{message.details['msgBody']}}
-          </div>
-      </div>
-  </ion-content>
+            <div class="item item-body" ng-if="message.details && !showRaw">
+                {{message.details['msgBody']}}
+            </div>
+
+
+            <div class="item item-body text-center" ng-if="!message.details">
+                <ion-spinner></ion-spinner>
+            </div>
+        </div>
+    </ion-content>
     <ion-footer-bar class="bar-assertive">
+        <div class="buttons">
+            <button class="button" on-tap="back()"><i class="icon ion-reply"></i> Back</button>
+        </div>
         <div class="title" on-tap="processAction()"><i class="icon ion-grid"></i></div>
     </ion-footer-bar>
 </ion-view>

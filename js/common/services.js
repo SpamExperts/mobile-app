@@ -170,10 +170,20 @@ angular.module('SpamExpertsApp')
             }
         }
     )
-    .factory('MessageQueue', ['$rootScope',
-        function ($rootScope) {
-            return function (messageQueue) {
-                $rootScope.messageQueue = messageQueue;
+    .factory('MessageQueue', ['$rootScope', '$timeout',
+        function ($rootScope, $timeout) {
+            return {
+                remove: function (item) {
+                    if (isEmpty(item)) {
+                        $rootScope.messageQueue = [];
+                    } else {
+                        $rootScope.messageQueue[item] = [];
+                    }
+                },
+                set: function (messageQueue) {
+                    $rootScope.messageQueue = angular.merge({}, $rootScope.messageQueue, messageQueue);
+                    $timeout(this.remove, 10000);
+                }
             };
         }
     ])
@@ -329,7 +339,7 @@ angular.module('SpamExpertsApp')
                         var key = !isEmpty(response.config.responseKey) ? response.config.responseKey : 'body';
 
                         if (data['body'].hasOwnProperty('messageQueue')) {
-                            MessageQueue(data['body']['messageQueue']);
+                            MessageQueue.set(data['body']['messageQueue']);
                         }
 
                         if (!isEmpty(data['token'])) {
@@ -345,7 +355,7 @@ angular.module('SpamExpertsApp')
                 },
                 responseError: function (response) {
                     if (response.status == 500) {
-                        MessageQueue({error: ['An error occurred while trying to perform a server request']});
+                        MessageQueue.set({error: ['An error occurred while trying to perform a server request']});
                     } else {
                         $rootScope.$broadcast({
                             401: AUTH_EVENTS.notAuthenticated,

@@ -23,10 +23,7 @@ angular.module('SpamExpertsApp')
                 }
             };
 
-            $scope.removeQueueMessage = function(item) {
-                delete $scope.messageQueue[item];
-                MessageQueue($scope.messageQueue);
-            };
+            $scope.removeQueueMessage = MessageQueue.remove;
 
             $scope.logout = function() {
                 $ionicPopup

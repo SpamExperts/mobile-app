@@ -37,8 +37,8 @@ angular.module('SpamExpertsApp')
     ]);
 
 angular.module('SpamExpertsApp')
-    .controller('CommonMessagesCtrl', ['$scope', '$state', '$timeout', 'messagesService', 'criteriaService', 'actionManager',
-        function($scope, $state, $timeout, messagesService, criteriaService, actionManager) {
+    .controller('CommonMessagesCtrl', ['$scope', '$state', '$timeout', '$ionicScrollDelegate', 'messagesService', 'criteriaService', 'actionManager',
+        function($scope, $state, $timeout, $ionicScrollDelegate, messagesService, criteriaService, actionManager) {
 
             $scope.info = {
                 count: 0,
@@ -53,6 +53,7 @@ angular.module('SpamExpertsApp')
                 messagesService.wipe();
                 $scope.messageEntries = messagesService.getMessages();
                 $scope.noMoreItemsAvailable = false;
+                $ionicScrollDelegate.resize();
             });
 
             $scope.doRefresh = function() {
@@ -109,7 +110,7 @@ angular.module('SpamExpertsApp')
                         group: $state.current.group,
                         state: $state.current.name
                     }
-                });
+                }, {reload: true});
             };
 
             $scope.bulkMode = false;
@@ -150,8 +151,8 @@ angular.module('SpamExpertsApp')
         }
     ])
 
-    .controller('MessageDetailCtrl', ['$rootScope', '$scope', '$state', '$timeout', '$ionicPopup', 'MessagesService', 'actionManager',
-        function($rootScope, $scope, $state, $timeout, $ionicPopup, MessagesService, actionManager) {
+    .controller('MessageDetailCtrl', ['$rootScope', '$scope', '$state', '$timeout', 'MessageQueue', 'MessagesService', 'actionManager',
+        function($rootScope, $scope, $state, $timeout, MessageQueue, MessagesService, actionManager) {
 
             var message = angular.copy($state.params.message);
             if (isEmpty(message)) {
@@ -170,6 +171,10 @@ angular.module('SpamExpertsApp')
 
             $scope.toggleRaw = function() {
                 $scope.showRaw = !$scope.showRaw;
+            };
+
+            $scope.back = function () {
+                $state.go($state.params.previousState.state);
             };
 
             messageService.viewMessage(message).then(function() {
