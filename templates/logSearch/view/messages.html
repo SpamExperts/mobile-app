@@ -49,16 +49,18 @@
                 <i class="icon {{action.icon}}"></i>
                 {{action.text}}
             </button>
+            <button ng-if="!barActions.length" class="button button-clear">&nbsp;</button>
         </div>
 
         <div class="title" on-tap="processAction()"><i class="icon ion-grid"></i></div>
 
         <div class="buttons">
-            <button class="button" ng-if="!selectedAll" on-tap="selectAll(true)">
+            <button class="button">Selected: {{selectedCount}}/{{info.count}}</button>
+            <button class="button" ng-if="info.count != selectedCount" on-tap="selectAll(true)">
                 <i class="icon ion-ios-checkmark-outline"></i>
                 Select all
             </button>
-            <button class="button" ng-if="selectedAll" on-tap="selectAll(false)">
+            <button class="button button-clear" ng-if="info.count == selectedCount" on-tap="selectAll(false)">
                 <i class="ion-ios-circle-outline"></i>
                 Deselect all
             </button>

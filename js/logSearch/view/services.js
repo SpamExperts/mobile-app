@@ -40,8 +40,8 @@ angular.module('SpamExpertsApp')
                         this.selected--;
                     }
                 },
-                allSelected: function () {
-                    return this.selected == this.messages.length
+                countSelected: function () {
+                    return this.selected;
                 },
                 selectAll: function (toggle) {
                     angular.forEach(this.messages, function(value) {

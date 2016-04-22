@@ -113,21 +113,21 @@ angular.module('SpamExpertsApp')
             };
 
             $scope.bulkMode = false;
-            $scope.selectedAll = false;
+            $scope.selectedCount = messagesService.countSelected();
 
             $scope.selectEntry = function(index) {
                 messagesService.selectMessage(index);
-                $scope.selectedAll = messagesService.allSelected();
+                $scope.selectedCount = messagesService.countSelected();
                 $scope.bulkMode = messagesService.isBulkMode();
             };
+
             $scope.selectAll = function (toggle) {
-                $scope.selectedAll = toggle;
-                messagesService.selectAll($scope.selectedAll);
+                messagesService.selectAll(toggle);
+                $scope.selectedCount = messagesService.countSelected();
                 $scope.bulkMode = messagesService.isBulkMode();
             };
 
             var availableActions = actionManager.getActions('actionSheet');
-
             $scope.barActions = actionManager.getActions('bar');
 
             $scope.processAction = function (action) {
