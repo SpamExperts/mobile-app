@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .controller('AppCtrl', ['$scope', '$state', '$ionicPopup', '$ionicSideMenuDelegate', '$window', 'AuthService', 'MessageQueue', 'MENU_ITEMS',
-        function($scope, $state, $ionicPopup, $ionicSideMenuDelegate, $window, AuthService, MessageQueue, MENU_ITEMS) {
+    .controller('AppCtrl', ['$scope', '$state', '$ionicPopup', '$ionicSideMenuDelegate', 'AuthService', 'MessageQueue', 'MENU_ITEMS',
+        function($scope, $state, $ionicPopup, $ionicSideMenuDelegate, AuthService, MessageQueue, MENU_ITEMS) {
 
             $scope.menuItems = MENU_ITEMS;
 
@@ -37,12 +37,9 @@ angular.module('SpamExpertsApp')
                     .then(function(choice) {
                         if (choice) {
                             AuthService.logout();
-                            $state.go('login');
-                            $window.location.reload();
+                            $state.go('login', {}, {reload: true});
                         }
                     });
             };
-
-
         }
     ]);

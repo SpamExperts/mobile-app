@@ -44,7 +44,7 @@ angular.module('SpamExpertsApp')
                     return this.selected == this.messages.length
                 },
                 selectAll: function (toggle) {
-                    angular.forEach(this.messages, function(value, key) {
+                    angular.forEach(this.messages, function(value) {
                         value.isChecked = toggle;
                     });
                     this.selected = (toggle ? this.count() : 0);
@@ -150,7 +150,7 @@ angular.module('SpamExpertsApp')
                     return actions[type];
                 },
                 processAction: function (actions, callback) {
-                    if (actions instanceof Array) {
+                    if (angular.isArray(actions)) {
                         var actionSheet = $ionicActionSheet.show({
                             buttons: actions,
                             titleText: 'Select Actions',
