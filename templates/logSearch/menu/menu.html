@@ -1,32 +1,12 @@
 <div class="list">
-    <label class="item item-input item-floating-label">
-        <span class="input-label">From date</span>
-        <input type="text" placeholder="From date" ng-model="searchCriteria.since">
-    </label>
-    <label class="item item-input item-floating-label">
-        <span class="input-label">To date</span>
-        <input type="text" placeholder="To date" ng-model="searchCriteria.until">
+    <label class="item item-input item-floating-label" ng-repeat="field in criteriaFields">
+        <span class="input-label">{{field.label}}</span>
+        <input type="{{field.type}}" placeholder="{{field.label}}" ng-model="searchCriteria[field.model]">
     </label>
 
-    <label class="item item-input item-floating-label">
-        <span class="input-label">Sender</span>
-        <input type="text" placeholder="Sender" ng-model="searchCriteria.sender">
-    </label>
-
-    <label class="item item-input item-floating-label">
-        <span class="input-label">Recipient</span>
-        <input type="text" placeholder="Recipient" ng-model="searchCriteria.recipient">
-    </label>
-    <label class="item item-input item-floating-label">
-        <span class="input-label">Domain</span>
-        <input type="text" placeholder="Domain" ng-model="searchCriteria.domain">
-    </label>
-
-    <button class="button button-full button-positive icon-left ion-search" on-tap="doSearch()">
-        Search
+    <button class="{{action.cssClass}}" on-tap="{{action.action}}" ng-repeat="action in criteriaActions">
+        {{action.label}}
     </button>
-    <button class="button button-full button-energized icon-left ion-refresh" on-tap="doReset()">
-        Reset
-    </button>
+
 
 </div>

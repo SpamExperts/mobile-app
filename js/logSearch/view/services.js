@@ -124,25 +124,8 @@ angular.module('SpamExpertsApp')
             return MessagesService;
         }
     ])
-    .factory('actionManager', ['$ionicActionSheet', '$ionicPopup', 'AuthService', 'USER_ROLES', 'BULK_ACTIONS',
-        function ($ionicActionSheet, $ionicPopup, AuthService, USER_ROLES, BULK_ACTIONS) {
-
-            function getActions(type) {
-                var availableActions = [];
-                var userRole = AuthService.getRole();
-
-                angular.forEach(BULK_ACTIONS.logSearch[type], function (action) {
-                    if (
-                        typeof action.condition == 'function' &&
-                        !action.condition({role: userRole}, {USER_ROLES: USER_ROLES})
-                    ) {
-                        return;
-                    }
-                    this.push(action);
-
-                }, availableActions);
-                return availableActions;
-            }
+    .factory('actionManager', ['$ionicActionSheet', '$ionicPopup', 'filterPermissions', 'BULK_ACTIONS',
+        function ($ionicActionSheet, $ionicPopup, filterPermissions, BULK_ACTIONS) {
 
             function confirm (action, callback) {
                 $ionicPopup
@@ -158,8 +141,8 @@ angular.module('SpamExpertsApp')
             }
 
             var actions = {
-                actionSheet: getActions('actionSheet'),
-                bar: getActions('bar')
+                actionSheet: filterPermissions(BULK_ACTIONS.logSearch['actionSheet'], {}, {}),
+                bar: filterPermissions(BULK_ACTIONS.logSearch['bar'], {}, {})
             };
 
             return {

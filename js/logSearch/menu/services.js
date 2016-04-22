@@ -18,6 +18,9 @@ angular.module('SpamExpertsApp')
                 construct: function(modelData) {
                     angular.merge(this, modelData);
                 },
+                getDirection: function () {
+                    return this.direction;
+                },
                 getDefaultCriteria: function() {
                     return {
                         since: this.getDate({days: '-1'}),
@@ -74,5 +77,38 @@ angular.module('SpamExpertsApp')
 
             return SearchCriteriaService;
 
+        }
+    ])
+    .factory('CriteriaManager', ['filterPermissions', 'SEARCH_CRITERIA',
+        function (filterPermissions, SEARCH_CRITERIA) {
+
+
+            function CriteriaManager(modelData) {
+                this.direction = null;
+
+                if (!isEmpty(modelData)) {
+                    this.construct(modelData);
+                }
+            }
+
+            var actions = {};
+
+            CriteriaManager.prototype = {
+                construct: function (modelData) {
+                    angular.merge(this, modelData);
+                    actions = {
+                        fields:  filterPermissions(SEARCH_CRITERIA.logSearch['fields'], {direction: this.direction}, {}),
+                        actions: filterPermissions(SEARCH_CRITERIA.logSearch['actions'], {direction: this.direction}, {})
+                    };
+                },
+                getFields: function () {
+                    return actions['fields'];
+                },
+                getActions: function () {
+                    return actions['actions'];
+                }
+            };
+
+            return CriteriaManager;
         }
     ]);

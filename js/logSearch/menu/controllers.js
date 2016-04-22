@@ -27,8 +27,13 @@ angular.module('SpamExpertsApp')
     ]);
 
 angular.module('SpamExpertsApp')
-    .controller('CommonSearchCriteriaCtrl', ['$rootScope', '$scope', '$state', '$timeout', 'criteriaService',
-        function($rootScope, $scope, $state, $timeout, criteriaService) {
+    .controller('CommonSearchCriteriaCtrl', ['$rootScope', '$scope', '$state', '$timeout', 'criteriaService', 'CriteriaManager',
+        function($rootScope, $scope, $state, $timeout, criteriaService, CriteriaManager) {
+
+            var criteriaManager = new CriteriaManager({direction: criteriaService.getDirection()});
+
+            $scope.criteriaFields  = criteriaManager.getFields();
+            $scope.criteriaActions = criteriaManager.getActions();
 
             $scope.searchCriteria = criteriaService.getSearchCriteria();
 

@@ -54,7 +54,7 @@ angular.module('SpamExpertsApp')
                         }
                     },
                     data: {
-                        authorizedRoles: [USER_ROLES.admin]
+                        authorizedRoles: [USER_ROLES.admin, USER_ROLES.domain, USER_ROLES.email]
                     }
                 })
                 .state('main.message-detail', {

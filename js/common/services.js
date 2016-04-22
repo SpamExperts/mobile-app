@@ -172,10 +172,43 @@ angular.module('SpamExpertsApp')
     )
     .factory('MessageQueue', ['$rootScope',
         function ($rootScope) {
-
             return function (messageQueue) {
                 $rootScope.messageQueue = messageQueue;
             };
+        }
+    ])
+    .factory('filterPermissions', ['AuthService', 'USER_ROLES', 'GROUPS',
+        function (AuthService, USER_ROLES, GROUPS) {
+            return function (collection, params, constants) {
+                params = angular.merge(
+                    params,
+                    {
+                        role: AuthService.getRole()
+                    }
+                );
+
+                constants = angular.merge(
+                    constants,
+                    {
+                        USER_ROLES: USER_ROLES,
+                        GROUPS: GROUPS
+                    }
+                );
+
+                var allowed = [];
+                angular.forEach(collection, function (entry) {
+                    if (
+                        typeof entry.condition == 'function' &&
+                        !entry.condition(params, constants)
+                    ) {
+                        return;
+                    }
+                    this.push(entry);
+
+                }, allowed);
+
+                return allowed;
+            }
         }
     ])
     .factory('Api', ['$http', '$localstorage', 'MessageQueue','Base64', 'ENDPOINTS',

@@ -51,6 +51,68 @@ angular.module('SpamExpertsApp')
         sliceLength: 10
     })
 
+    .constant('SEARCH_CRITERIA', {
+        logSearch: {
+            fields: [
+                {
+                    label: 'From date',
+                    type: 'text',
+                    model: 'since'
+                },
+                {
+                    label: 'To date',
+                    type: 'text',
+                    model: 'until'
+                },
+                {
+                    label: 'Sender',
+                    type: 'text',
+                    model: 'sender',
+                    condition: function(params, constant) {
+                        return -1 < [
+                                constant['USER_ROLES'].admin,
+                                constant['USER_ROLES'].domain
+                            ].indexOf(params['role'])
+                            || params['direction'] == constant['GROUPS'].incoming;
+                    }
+                },
+                {
+                    label: 'Recipient',
+                    type: 'text',
+                    model: 'recipient',
+                    condition: function(params, constant) {
+                        return -1 < [
+                                constant['USER_ROLES'].admin,
+                                constant['USER_ROLES'].domain
+                            ].indexOf(params['role'])
+                            || params['direction'] == constant['GROUPS'].outgoing;
+                    }
+                },
+                {
+                    label: 'Domain',
+                    type: 'text',
+                    model: 'domain',
+                    condition: function(params, constant) {
+                        return -1 < [
+                                constant['USER_ROLES'].admin
+                            ].indexOf(params['role']);
+                    }
+                }
+            ],
+            actions: [
+                {
+                    label: 'Search',
+                    cssClass: 'button button-full button-positive icon-left ion-search',
+                    action: 'doSearch()'
+                },
+                {
+                    label: 'Search',
+                    cssClass: 'button button-full button-energized icon-left ion-refresh',
+                    action: 'doReset()'
+                }
+            ]
+        }
+    })
     .constant('BULK_ACTIONS', {
         logSearch: {
             actionSheet: [
