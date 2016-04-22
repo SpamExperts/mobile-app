@@ -1,4 +1,4 @@
-<ion-list class="message-queue">
+<ion-list class="message-queue" ng-if="messageQueue['success'].length || messageQueue['notice'].length || messageQueue['error'].length">
     <ion-item ng-if="messageQueue['error'].length" class="alert alert-error item-remove-animate item-icon-right"
               on-swipe = "removeQueueMessage('error');$event.stopPropagation()"
 

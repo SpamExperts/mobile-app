@@ -9,6 +9,11 @@
     </label>
 
     <label class="item item-input item-floating-label">
+        <span class="input-label">Sender</span>
+        <input type="text" placeholder="Sender" ng-model="searchCriteria.sender">
+    </label>
+
+    <label class="item item-input item-floating-label">
         <span class="input-label">Recipient</span>
         <input type="text" placeholder="Recipient" ng-model="searchCriteria.recipient">
     </label>
@@ -17,10 +22,6 @@
         <input type="text" placeholder="Domain" ng-model="searchCriteria.domain">
     </label>
 
-    <label class="item item-input item-floating-label">
-        <span class="input-label">Sender</span>
-        <input type="text" placeholder="Sender" ng-model="searchCriteria.sender">
-    </label>
     <button class="button button-full button-positive icon-left ion-search" on-tap="doSearch()">
         Search
     </button>

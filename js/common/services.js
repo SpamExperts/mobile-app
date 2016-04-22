@@ -173,20 +173,8 @@ angular.module('SpamExpertsApp')
     .factory('MessageQueue', ['$rootScope',
         function ($rootScope) {
 
-            return {
-                set: function (messageQueue) {
-                    if (
-                        angular.isArray(messageQueue) ||
-                        (
-                            isEmpty(messageQueue.error) &&
-                            isEmpty(messageQueue.notice) &&
-                            isEmpty(messageQueue.success)
-                        )
-                    ) {
-                        messageQueue = null;
-                    }
-                    $rootScope.messageQueue = messageQueue;
-                }
+            return function (messageQueue) {
+                $rootScope.messageQueue = messageQueue;
             };
         }
     ])
@@ -212,11 +200,6 @@ angular.module('SpamExpertsApp')
                         host =  params['hostname'];
                     } else {
                         host = $localstorage.get('settings.hostname');
-                    }
-
-                    if (isEmpty(host)) {
-                        MessageQueue.set({'error': ['Hostname is empty']});
-                        return;
                     }
 
                     var baseEndpoint = this.protocol + host;
@@ -312,8 +295,8 @@ angular.module('SpamExpertsApp')
                         var data = response.data;
                         var key = !isEmpty(response.config.responseKey) ? response.config.responseKey : 'body';
 
-                        if (!isEmpty(data['body']['messageQueue'])) {
-                            MessageQueue.set(data['body']['messageQueue']);
+                        if (data['body'].hasOwnProperty('messageQueue')) {
+                            MessageQueue(data['body']['messageQueue']);
                         }
 
                         if (!isEmpty(data['token'])) {
@@ -328,10 +311,14 @@ angular.module('SpamExpertsApp')
                     return response;
                 },
                 responseError: function (response) {
-                    $rootScope.$broadcast({
-                        401: AUTH_EVENTS.notAuthenticated,
-                        403: AUTH_EVENTS.notAuthorized
-                    }[response.status], response);
+                    if (response.status == 500) {
+                        MessageQueue({error: ['An error occurred while trying to perform a server request']});
+                    } else {
+                        $rootScope.$broadcast({
+                            401: AUTH_EVENTS.notAuthenticated,
+                            403: AUTH_EVENTS.notAuthorized
+                        }[response.status], response);
+                    }
                     return $q.reject(response);
                 }
             };

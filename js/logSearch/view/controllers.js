@@ -153,7 +153,8 @@ angular.module('SpamExpertsApp')
     .controller('MessageDetailCtrl', ['$rootScope', '$scope', '$state', '$timeout', '$ionicPopup', 'MessagesService', 'actionManager',
         function($rootScope, $scope, $state, $timeout, $ionicPopup, MessagesService, actionManager) {
 
-            if (isEmpty($state.params.message)) {
+            var message = angular.copy($state.params.message);
+            if (isEmpty(message)) {
                 $state.go('main.dash', {}, {reload: true});
                 return;
             }
@@ -163,7 +164,7 @@ angular.module('SpamExpertsApp')
                 messageParts: {}
             });
 
-            $scope.message = {};
+            $scope.message = message;
 
             $scope.showRaw = false;
 
@@ -171,7 +172,7 @@ angular.module('SpamExpertsApp')
                 $scope.showRaw = !$scope.showRaw;
             };
 
-            messageService.viewMessage($state.params.message).then(function() {
+            messageService.viewMessage(message).then(function() {
                 $scope.message = messageService.getMessageParts();
             });
 
@@ -182,7 +183,7 @@ angular.module('SpamExpertsApp')
                     availableActions,
                     function (action) {
                         messageService
-                            .bulkAction(action.name)
+                            .bulkAction(action.name, message)
                             .then(function () {
                                 $state.go($state.params.previousState.state, {}, {reload: true});
                                 $timeout(function() {

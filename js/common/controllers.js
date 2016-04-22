@@ -25,7 +25,7 @@ angular.module('SpamExpertsApp')
 
             $scope.removeQueueMessage = function(item) {
                 delete $scope.messageQueue[item];
-                MessageQueue.set($scope.messageQueue);
+                MessageQueue($scope.messageQueue);
             };
 
             $scope.logout = function() {

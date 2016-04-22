@@ -18,16 +18,20 @@ angular.module('SpamExpertsApp')
                 construct: function(modelData) {
                     angular.merge(this, modelData);
                 },
-                getSearchCriteria: function() {
-                    return $localstorage.get('searchCriteria.' + this.direction, this.getDefaultCriteria(), true);
-                },
                 getDefaultCriteria: function() {
                     return {
                         since: this.getDate({days: '-1'}),
                         until: this.getDate(),
                         offset: 0,
-                        length: OTHERS.sliceLength
+                        length: OTHERS.sliceLength,
+                        refresh: false,
+                        sender: '',
+                        recipient: '',
+                        domain: ''
                     };
+                },
+                getSearchCriteria: function() {
+                    return $localstorage.get('searchCriteria.' + this.direction, this.getDefaultCriteria(), true);
                 },
                 setSearchCriteria: function(criteria) {
                     $localstorage.set('searchCriteria.' + this.direction, criteria, true);
@@ -38,7 +42,7 @@ angular.module('SpamExpertsApp')
                         return {
                             hours : date.getHours(),
                             min   : date.getMinutes(),
-                            days   : date.getDate(),
+                            days  : date.getDate(),
                             month : date.getMonth(),
                             year  : date.getFullYear()
                         };
