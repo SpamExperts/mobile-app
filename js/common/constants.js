@@ -106,7 +106,7 @@ angular.module('SpamExpertsApp')
                     action: 'doSearch()'
                 },
                 {
-                    label: 'Search',
+                    label: 'Reset',
                     cssClass: 'button button-full button-energized icon-left ion-refresh',
                     action: 'doReset()'
                 }

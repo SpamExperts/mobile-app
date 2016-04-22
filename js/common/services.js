@@ -180,14 +180,14 @@ angular.module('SpamExpertsApp')
     .factory('filterPermissions', ['AuthService', 'USER_ROLES', 'GROUPS',
         function (AuthService, USER_ROLES, GROUPS) {
             return function (collection, params, constants) {
-                params = angular.merge(
+                angular.merge(
                     params,
                     {
                         role: AuthService.getRole()
                     }
                 );
 
-                constants = angular.merge(
+                angular.merge(
                     constants,
                     {
                         USER_ROLES: USER_ROLES,
