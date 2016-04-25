@@ -65,13 +65,14 @@ else
     ionic platform add $PLATFORM
 
     # set config and resources
-    mv www/img/splash.png resources/$PLATFORM
+    cp www/img/spamexperts_logo.png resources/$PLATFORM/splash.png
+    cp www/img/spamexperts_logo.png resources/$PLATFORM/icon.png
 
     # build resources
     ionic resources
 
     # remove useless icon
-    rm resources/$PLATFORM/splash.png
+    rm www/img/spamexperts_logo.png
 
     # add own config
     mv www/config.xml .
