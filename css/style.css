@@ -92,6 +92,11 @@
     border-radius: 0 0 5px 5px;
     margin: 0 1px;
 }
+
+.message-queue .list .alert {
+    width: 99.5% !important;
+}
+
 .alert {
     padding: 15px;
     margin: 2px 5px;

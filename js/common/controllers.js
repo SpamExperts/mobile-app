@@ -3,6 +3,7 @@ angular.module('SpamExpertsApp')
         function($scope, $state, $ionicPopup, $ionicSideMenuDelegate, AuthService, MessageQueue, MENU_ITEMS) {
 
             $scope.menuItems = MENU_ITEMS;
+            $scope.removeQueueMessage = MessageQueue.remove;
 
             $scope.$on('$stateChangeSuccess', function () {
                 $ionicSideMenuDelegate.toggleLeft(false);
@@ -22,8 +23,6 @@ angular.module('SpamExpertsApp')
                     $ionicSideMenuDelegate.toggleRight(false);
                 }
             };
-
-            $scope.removeQueueMessage = MessageQueue.remove;
 
             $scope.logout = function() {
                 $ionicPopup

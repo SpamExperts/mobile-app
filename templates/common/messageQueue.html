@@ -1,34 +1,30 @@
-<ion-list class="message-queue" ng-if="messageQueue['success'].length || messageQueue['notice'].length || messageQueue['error'].length">
-    <ion-item ng-if="messageQueue['error'].length" class="alert alert-error item-remove-animate item-icon-right"
-              on-swipe = "removeQueueMessage('error');$event.stopPropagation()"
+<div class="message-queue" ng-if="messageQueue['success'].length || messageQueue['notice'].length || messageQueue['error'].length">
+    <div class="list">
+        <ion-slide-box show-pager="false" ng-if="messageQueue['error'].length">
+            <ion-slide  class="alert alert-error item-icon-right" on-swipe="removeQueueMessage('error');$event.stopPropagation()">
+                <div ng-repeat="error in messageQueue['error'] track by $index">
+                    {{error}}
+                </div>
+                <i class="icon ion-close-round icon-accessory" on-tap="removeQueueMessage('error')"></i>
+            </ion-slide>
+        </ion-slide-box>
 
-    >
-        <div ng-repeat="error in messageQueue['error'] track by $index">
-            {{error}}
-        </div>
-        <i class="icon ion-close-round icon-accessory" on-tap="removeQueueMessage('error')"></i>
-        <ion-option-button>
-        </ion-option-button>
-    </ion-item>
-    <ion-item ng-if="messageQueue['notice'].length" class="alert alert-notice item-remove-animate item-icon-right"
-              on-swipe = "removeQueueMessage('notice');$event.stopPropagation()"
+        <ion-slide-box show-pager="false" ng-if="messageQueue['notice'].length">
+            <ion-slide  class="alert alert-notice item-icon-right" on-swipe="removeQueueMessage('notice');$event.stopPropagation()">
+                <div ng-repeat="notice in messageQueue['notice'] track by $index">
+                    {{notice}}
+                </div>
+                <i class="icon ion-close-round icon-accessory" on-tap="removeQueueMessage('notice')"></i>
+            </ion-slide>
+        </ion-slide-box>
 
-    >
-        <div ng-repeat="notice in messageQueue['notice'] track by $index">
-            {{notice}}
-        </div>
-        <i class="icon ion-close-round icon-accessory" on-tap="removeQueueMessage('notice')"></i>
-        <ion-option-button>
-        </ion-option-button>
-    </ion-item>
-    <ion-item ng-if="messageQueue['success'].length" class="alert alert-success item-remove-animate item-icon-right"
-              on-swipe = "removeQueueMessage('success');$event.stopPropagation()"
-    >
-        <div ng-repeat="success in messageQueue['success'] track by $index">
-            {{success}}
-        </div>
-        <i class="icon ion-close-round icon-accessory" on-tap="removeQueueMessage('success')"></i>
-        <ion-option-button>
-        </ion-option-button>
-    </ion-item>
-</ion-list>
+        <ion-slide-box show-pager="false" ng-if="messageQueue['success'].length">
+            <ion-slide  class="alert alert-success item-icon-right" on-swipe="removeQueueMessage('success');$event.stopPropagation()">
+                <div ng-repeat="success in messageQueue['success'] track by $index">
+                    {{success}}
+                </div>
+                <i class="icon ion-close-round icon-accessory" on-tap="removeQueueMessage('success')"></i>
+            </ion-slide>
+        </ion-slide-box>
+    </div>
+</div>

@@ -29,16 +29,8 @@
             </ion-item>
         </ion-list>
 
-        <ion-infinite-scroll
-                ng-if="!noMoreItemsAvailable"
-                on-infinite="loadMoreData()"
-                distance="1%">
-        </ion-infinite-scroll>
-
-        <ion-refresher
-                pulling-text="Pull to refresh..."
-                on-refresh="doRefresh()">
-        </ion-refresher>
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
+        <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMoreData()" distance="1%"></ion-infinite-scroll>
 
         <div ng-if="bulkMode" class="se-spacer"></div>
     </ion-content>
@@ -60,7 +52,7 @@
                 <i class="icon ion-ios-checkmark-outline"></i>
                 Select all
             </button>
-            <button class="button button-clear" ng-if="info.count == selectedCount" on-tap="selectAll(false)">
+            <button class="button" ng-if="info.count == selectedCount" on-tap="selectAll(false)">
                 <i class="ion-ios-circle-outline"></i>
                 Deselect all
             </button>
