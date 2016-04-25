@@ -182,7 +182,7 @@ angular.module('SpamExpertsApp')
                 },
                 set: function (messageQueue) {
                     $rootScope.messageQueue = angular.merge({}, $rootScope.messageQueue, messageQueue);
-                    //$timeout(this.remove, 10000);
+                    $timeout(this.remove, 10000);
                 }
             };
         }

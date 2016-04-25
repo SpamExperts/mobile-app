@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .controller('LoginCtrl', ['$scope', '$state', '$ionicPopup', 'AuthService',
-        function($scope, $state, $ionicPopup, AuthService) {
+    .controller('LoginCtrl', ['$scope', '$state', '$ionicPopup', 'AuthService', 'MessageQueue',
+        function($scope, $state, $ionicPopup, AuthService, MessageQueue) {
 
             $scope.$on('$stateChangeSuccess', function () {
                 $scope.data = AuthService.getUserCredentials();
@@ -16,6 +16,7 @@ angular.module('SpamExpertsApp')
                                 template: 'Please check your credentials!'
                             });
                         } else {
+                            MessageQueue.remove();
                             $state.go('main.dash', {}, {reload: true});
                         }
 
