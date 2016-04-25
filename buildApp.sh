@@ -3,16 +3,6 @@
 # break on first error
 set -e
 
-function mcp()
-{
-    if [[ -z "$1" || -z "$2" ]]; then
-        echo "Usage: mcp SOURCE... DIRECTORY"
-        return 1;
-    fi
-    mkdir -p "$2"
-    cp -r "$1" "$2"
-}
-
 # bash buildApp.sh <android|ios>
 if [ -z "$1" ]; then
     echo "Please specify android or ios";
@@ -33,23 +23,22 @@ else
     while true; do echo n; done | ionic start spamexperts_mobile_app blank
 
     cd spamexperts_mobile_app
-    # get the app
-    git clone https://github.com/SpamExperts/mobile-app.git
-
-    # set config and resources
-    mv mobile-app/config.xml .
-    mv mobile-app/resources .
-
-    # keep the important lib files
-    wget https://code.angularjs.org/1.4.3/angular-sanitize.min.js.map -P ./lib/ionic/js
-    mcp www/lib/ionic/js/ionic.bundle.min.js ./lib/ionic/js
-    mcp www/lib/ionic/css/ionic.min.css ./lib/ionic/css
-    mcp www/lib/ionic/fonts ./lib/ionic/
 
     # clear the blank assets
     rm -rf www/*
-    # place back the lib
-    mv lib www/
+
+    # add dependencies
+    wget http://code.ionicframework.com/1.2.4/js/ionic.bundle.min.js -P www/lib/ionic/js/
+
+    wget http://code.ionicframework.com/1.2.4/css/ionic.min.css -P www/lib/ionic/css/
+
+    wget http://code.ionicframework.com/1.2.4/fonts/ionicons.eot  -P www/lib/ionic/fonts/
+    wget http://code.ionicframework.com/1.2.4/fonts/ionicons.svg  -P www/lib/ionic/fonts/
+    wget http://code.ionicframework.com/1.2.4/fonts/ionicons.ttf  -P www/lib/ionic/fonts/
+    wget http://code.ionicframework.com/1.2.4/fonts/ionicons.woff -P www/lib/ionic/fonts/
+
+    # get the app
+    git clone https://github.com/SpamExperts/mobile-app.git
 
     # build app assets
     cd mobile-app
@@ -58,19 +47,34 @@ else
     cd -
 
     # add index.html
-    mcp mobile-app/index.html www
+    mv mobile-app/index.html www/
 
     # add img folder
-    mv mobile-app/img www
+    mv mobile-app/img www/
 
     # add the minified scripts
-    mv mobile-app/minified www
+    mv mobile-app/minified www/
+
+    # keep our config
+    mv mobile-app/config.xml www/
 
     # remove unused folder
     rm -rf mobile-app
 
     # add platform
     ionic platform add $PLATFORM
+
+    # set config and resources
+    mv www/img/splash.png resources/$PLATFORM
+
+    # build resources
+    ionic resources
+
+    # remove useless icon
+    rm resources/$PLATFORM/splash.png
+
+    # add own config
+    mv www/config.xml .
 
     # build for platform
     OUTPUT="$(ionic build $PLATFORM | tail -n 1)"
