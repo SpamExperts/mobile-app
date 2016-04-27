@@ -3,23 +3,22 @@ angular.module('SpamExpertsApp')
         function ($rootScope, $state, $ionicPopup, AuthService, AUTH_EVENTS) {
 
             $rootScope.$on('$stateChangeStart', function (event, next) {
-                $rootScope.username = AuthService.getUsername();
-                $rootScope.role = AuthService.getRole();
+                if (next.name !== 'login') {
+                    $rootScope.username = AuthService.getUsername();
+                    $rootScope.role = AuthService.getRole();
 
-                if (!AuthService.isAuthenticated()) {
-                    if (next.name !== 'login') {
+                    if (!AuthService.isAuthenticated()) {
                         event.preventDefault();
                         $state.go('login');
-                    }
-                } else if ('data' in next && 'authorizedRoles' in next.data) {
-                    var authorizedRoles = next.data.authorizedRoles;
-                    if (!AuthService.isAuthorized(authorizedRoles)) {
-                        event.preventDefault();
-                        $state.go($state.current, {}, {reload: true});
-                        $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+                    } else if ('data' in next && 'authorizedRoles' in next.data) {
+                        var authorizedRoles = next.data.authorizedRoles;
+                        if (!AuthService.isAuthorized(authorizedRoles)) {
+                            event.preventDefault();
+                            $state.go($state.current, {}, {reload: true});
+                            $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+                        }
                     }
                 }
-
             });
 
             $rootScope.$on(AUTH_EVENTS.notAuthorized, function() {
