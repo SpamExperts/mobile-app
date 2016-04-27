@@ -342,3 +342,14 @@ input:disabled:checked + .checkbox-icon:before {
 }
 .platform-android .action-sheet-has-icons .button {
     padding-left: 56px; }
+
+.loading {
+    background: #39B0DA!important;
+}
+
+.se-loading .spinner svg {
+    width: 48px;
+    height: 48px;
+    stroke: #fff;
+    fill: #fff;
+}

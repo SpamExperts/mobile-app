@@ -221,8 +221,8 @@ angular.module('SpamExpertsApp')
             }
         }
     ])
-    .factory('Api', ['$http', '$localstorage', 'MessageQueue','Base64', 'ENDPOINTS',
-        function($http, $localstorage, MessageQueue, Base64, ENDPOINTS) {
+    .factory('Api', ['$http', '$q', '$localstorage', 'MessageQueue','Base64', 'ENDPOINTS',
+        function($http, $q, $localstorage, MessageQueue, Base64, ENDPOINTS) {
 
             return {
                 protocol: 'http://',
@@ -276,7 +276,9 @@ angular.module('SpamExpertsApp')
                                 {
                                     params: params.requestParams,
                                     paramSerializer: '$httpParamSerializerJQLike',
-                                    responseKey: !isEmpty(params.responseKey) ? params.responseKey : ''
+                                    responseKey: !isEmpty(params.responseKey) ? params.responseKey : '',
+                                    loading: request.loading === true,
+                                    cancelLoading: request.cancelLoading
                                 }
                             );
 
@@ -285,7 +287,9 @@ angular.module('SpamExpertsApp')
                                 baseEndpoint + request.endpoint.printf(params.urlParams),
                                 params.requestParams,
                                 {
-                                    responseKey: !isEmpty(params.responseKey) ? params.responseKey : ''
+                                    responseKey: !isEmpty(params.responseKey) ? params.responseKey : '',
+                                    loading: request.loading === true,
+                                    cancelLoading: request.cancelLoading
                                 }
                             );
 
@@ -294,7 +298,9 @@ angular.module('SpamExpertsApp')
                                 baseEndpoint + request.endpoint.printf(params.urlParams),
                                 params.requestParams,
                                 {
-                                    responseKey: !isEmpty(params.responseKey) ? params.responseKey : ''
+                                    responseKey: !isEmpty(params.responseKey) ? params.responseKey : '',
+                                    loading: request.loading === true,
+                                    cancelLoading: request.cancelLoading
                                 }
                             );
 
@@ -303,7 +309,9 @@ angular.module('SpamExpertsApp')
                                 baseEndpoint + request.endpoint.printf(params.urlParams),
                                 {
                                     params: params.requestParams,
-                                    responseKey: !isEmpty(params.responseKey) ? params.responseKey : ''
+                                    responseKey: !isEmpty(params.responseKey) ? params.responseKey : '',
+                                    loading: request.loading === true,
+                                    cancelLoading: request.cancelLoading
                                 }
                             );
                     }
@@ -311,10 +319,47 @@ angular.module('SpamExpertsApp')
             };
         }
     ])
-    .factory('ApiInterceptor', ['$q', '$rootScope', '$localstorage', 'MessageQueue', 'AUTH_EVENTS',
-        function ($q, $rootScope, $localstorage, MessageQueue, AUTH_EVENTS) {
+    .factory('BusyService', ['$ionicLoading',
+        function($ionicLoading) {
+            return {
+                show: function($scope) {
+                    $ionicLoading.show({
+                        templateUrl: 'templates/common/loading.html',
+                        scope: $scope,
+                        animation: 'fade-in',
+                        showBackdrop: true,
+                        showDelay: 300
+                    });
+                },
+
+                hide: function() {
+                    $ionicLoading.hide();
+                }
+            };
+        }
+    ])
+    .factory('ApiInterceptor', ['$q', '$rootScope', '$injector', '$timeout', '$localstorage', 'MessageQueue', 'AUTH_EVENTS',
+        function ($q, $rootScope, $injector, $timeout, $localstorage, MessageQueue, AUTH_EVENTS) {
             return {
                 request: function(config) {
+
+                    if (config.loading === true) {
+                        var canceller = $q.defer();
+                        var scope = $rootScope.$new(true);
+
+                        config.timeout = canceller.promise;
+
+                        scope.cancelLoading = false;
+
+                        $timeout(function () {
+                            scope.cancelLoading = config.cancelLoading === true;
+                        }, 5000);
+
+                        scope.stopRequest = function () { canceller.resolve(); };
+
+                        $injector.get('BusyService').show(scope);
+                    }
+
                     if (
                         config.hasOwnProperty('params') ||
                         config.hasOwnProperty('responseKey')
@@ -351,9 +396,15 @@ angular.module('SpamExpertsApp')
 
                         response.data = data[key];
                     }
+                    if (response.config.loading === true) {
+                        $injector.get('BusyService').hide();
+                    }
+
                     return response;
                 },
                 responseError: function (response) {
+                    $injector.get('BusyService').hide();
+
                     if (response.status == 500) {
                         MessageQueue.set({error: ['An error occurred while trying to perform a server request']});
                     } else {

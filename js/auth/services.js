@@ -52,6 +52,8 @@ angular.module('SpamExpertsApp')
                     return $localstorage.get('settings', defaultSettings);
                 },
                 login: function(hostname, username, password, remember) {
+                    var settings = $localstorage.get('settings', defaultSettings);
+                    var token = $localstorage.get('token');
 
                     if (isEmpty(token) ||
                         settings.hostname != hostname ||

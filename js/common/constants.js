@@ -194,41 +194,51 @@ angular.module('SpamExpertsApp')
     .constant('ENDPOINTS', {
         auth: {
             method: 'GET',
-            endpoint: '/rest/auth/token'
+            endpoint: '/rest/auth/token',
+            loading: true,
+            cancelLoading: true
         },
         incoming: {
             logSearch: {
                 get: {
                     method: 'GET',
-                    endpoint: '/rest/log/search/delivery'
+                    endpoint: '/rest/log/search/delivery',
+                    loading: false
                 },
                 release: {
                     method: 'PUT',
-                    endpoint: '/rest/log/release/delivery'
+                    endpoint: '/rest/log/release/delivery',
+                    loading: true
                 },
                 releaseandwhitelist: {
                     method: 'PUT',
-                    endpoint: '/rest/log/releaseandwhitelist/delivery'
+                    endpoint: '/rest/log/releaseandwhitelist/delivery',
+                    loading: true
                 },
                 releaseandtrain: {
                     method: 'PUT',
-                    endpoint: '/rest/log/releaseandtrain/delivery'
+                    endpoint: '/rest/log/releaseandtrain/delivery',
+                    loading: true
                 },
                 remove: {
                     method: 'DELETE',
-                    endpoint: '/rest/log/remove/delivery'
+                    endpoint: '/rest/log/remove/delivery',
+                    loading: true
                 },
                 removeandblacklist: {
                     method: 'DELETE',
-                    endpoint: '/rest/log/removeandblacklist/delivery'
+                    endpoint: '/rest/log/removeandblacklist/delivery',
+                    loading: true
                 },
                 view: {
                     method: 'GET',
-                    endpoint: '/rest/log/view/delivery'
+                    endpoint: '/rest/log/view/delivery',
+                    loading: false
                 },
                 purge: {
                     method: 'DELETE',
-                    endpoint: '/rest/log/quarantined/delivery'
+                    endpoint: '/rest/log/quarantined/delivery',
+                    loading: true
                 }
             }
         },
@@ -236,35 +246,43 @@ angular.module('SpamExpertsApp')
             logSearch: {
                 get: {
                     method: 'GET',
-                    endpoint: '/rest/log/search/submission'
+                    endpoint: '/rest/log/search/submission',
+                    loading: false
                 },
                 release: {
                     method: 'PUT',
-                    endpoint: '/rest/log/release/submission'
+                    endpoint: '/rest/log/release/submission',
+                    loading: true
                 },
                 releaseandwhitelist: {
                     method: 'PUT',
-                    endpoint: '/rest/log/releaseandwhitelist/submission'
+                    endpoint: '/rest/log/releaseandwhitelist/submission',
+                    loading: true
                 },
                 releaseandtrain: {
                     method: 'PUT',
-                    endpoint: '/rest/log/releaseandtrain/submission'
+                    endpoint: '/rest/log/releaseandtrain/submission',
+                    loading: true
                 },
                 remove: {
                     method: 'DELETE',
-                    endpoint: '/rest/log/remove/submission'
+                    endpoint: '/rest/log/remove/submission',
+                    loading: true
                 },
                 removeandblacklist: {
                     method: 'DELETE',
-                    endpoint: '/rest/log/removeandblacklist/submission'
+                    endpoint: '/rest/log/removeandblacklist/submission',
+                    loading: true
                 },
                 view: {
                     method: 'GET',
-                    endpoint: '/rest/log/view/submission'
+                    endpoint: '/rest/log/view/submission',
+                    loading: false
                 },
                 purge: {
                     method: 'DELETE',
-                    endpoint: '/rest/log/quarantined/submission'
+                    endpoint: '/rest/log/quarantined/submission',
+                    loading: true
                 }
             }
         }
