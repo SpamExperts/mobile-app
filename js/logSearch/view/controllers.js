@@ -53,6 +53,7 @@ angular.module('SpamExpertsApp')
                 messagesService.wipe();
                 $scope.messageEntries = messagesService.getMessages();
                 $scope.noMoreItemsAvailable = false;
+                $scope.bulkMode = false;
                 $ionicScrollDelegate.resize();
             });
 
