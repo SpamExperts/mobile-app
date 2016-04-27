@@ -35,7 +35,7 @@
         <div ng-if="bulkMode" class="se-spacer"></div>
     </ion-content>
 
-    <ion-footer-bar class="bar-assertive" ng-if="bulkMode">
+    <ion-footer-bar class="bar-assertive" ng-if="bulkMode" align-title="center">
         <div class="buttons">
             <button class="button" ng-repeat="action in barActions" on-tap="processAction(action)">
                 <i class="icon {{action.icon}}"></i>
@@ -47,14 +47,13 @@
         <div class="title" on-tap="processAction()"><i class="icon ion-grid"></i></div>
 
         <div class="buttons">
-            <button class="button">Selected: {{selectedCount}}/{{info.count}}</button>
             <button class="button" ng-if="info.count != selectedCount" on-tap="selectAll(true)">
                 <i class="icon ion-ios-checkmark-outline"></i>
-                Select all
+                Selected {{selectedCount}}/{{info.count}}
             </button>
             <button class="button" ng-if="info.count == selectedCount" on-tap="selectAll(false)">
-                <i class="ion-ios-circle-outline"></i>
-                Deselect all
+                <i class="icon ion-ios-circle-outline"></i>
+                Deselect {{selectedCount}}/{{info.count}}
             </button>
         </div>
     </ion-footer-bar>
