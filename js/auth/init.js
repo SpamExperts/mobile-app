@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .run(['$rootScope', '$state', '$ionicPopup', 'AuthService', 'AUTH_EVENTS',
-        function ($rootScope, $state, $ionicPopup, AuthService, AUTH_EVENTS) {
+    .run(['$rootScope', '$state', '$ionicHistory', '$ionicPopup', 'AuthService', 'AUTH_EVENTS',
+        function ($rootScope, $state, $ionicHistory, $ionicPopup, AuthService, AUTH_EVENTS) {
 
             $rootScope.$on('$stateChangeStart', function (event, next) {
                 if (next.name !== 'login') {
@@ -19,6 +19,21 @@ angular.module('SpamExpertsApp')
                         }
                     }
                 }
+            });
+
+            $rootScope.$on('$logout', function () {
+                $ionicPopup
+                    .confirm({
+                        title: 'Confirm action',
+                        template: 'Are you sure you want to log out?'
+                    })
+                    .then(function(choice) {
+                        if (choice) {
+                            AuthService.logout();
+                            $ionicHistory.clearHistory();
+                            $state.go('login', {}, {reload: true});
+                        }
+                    });
             });
 
             $rootScope.$on(AUTH_EVENTS.notAuthorized, function() {

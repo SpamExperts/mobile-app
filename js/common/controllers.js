@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .controller('AppCtrl', ['$scope', '$state', '$ionicHistory', '$ionicPopup', '$ionicSideMenuDelegate', 'AuthService', 'MessageQueue', 'MENU_ITEMS',
-        function($scope, $state, $ionicHistory, $ionicPopup, $ionicSideMenuDelegate, AuthService, MessageQueue, MENU_ITEMS) {
+    .controller('AppCtrl', ['$rootScope', '$scope', '$state', '$ionicSideMenuDelegate', 'AuthService', 'MessageQueue', 'MENU_ITEMS',
+        function($rootScope, $scope, $state, $ionicSideMenuDelegate, AuthService, MessageQueue, MENU_ITEMS) {
 
             $scope.menuItems = MENU_ITEMS;
             $scope.removeQueueMessage = MessageQueue.remove;
@@ -25,19 +25,7 @@ angular.module('SpamExpertsApp')
             };
 
             $scope.logout = function() {
-                $ionicPopup
-                    .confirm({
-                        title: 'Confirm action',
-                        template: 'Are you sure you want to log out?'
-                    })
-                    .then(function(choice) {
-                        if (choice) {
-                            AuthService.logout();
-                            $ionicHistory.clearCache().then(function() {
-                                $state.go('login', {}, {reload: true});
-                            });
-                        }
-                    });
+                $rootScope.$broadcast('$logout')
             };
         }
     ]);
