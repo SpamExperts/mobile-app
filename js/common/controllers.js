@@ -34,6 +34,7 @@ angular.module('SpamExpertsApp')
                         if (choice) {
                             AuthService.logout();
                             $state.go('login', {}, {reload: true});
+                            window.location.reload();
                         }
                     });
             };
