@@ -64,15 +64,21 @@ else
     # add platform
     ionic platform add $PLATFORM
 
+
+    # clear default resources
+    rm -rf resources/*
+
     # set config and resources
-    cp www/img/spamexperts_logo.png resources/$PLATFORM/splash.png
-    cp www/img/spamexperts_logo.png resources/$PLATFORM/icon.png
+    cp www/img/spamexperts_logo.png resources/splash.png
+    cp www/img/spamexperts_logo.png resources/icon.png
 
     # build resources
     ionic resources
 
     # remove useless icon
     rm www/img/spamexperts_logo.png
+    rm resources/splash.png
+    rm resources/icon.png
 
     # add own config
     mv www/config.xml .

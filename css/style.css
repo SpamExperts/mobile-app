@@ -344,7 +344,7 @@ input:disabled:checked + .checkbox-icon:before {
     padding-left: 56px; }
 
 .loading {
-    background: #39B0DA!important;
+    background: rgba(57,176,218,0.7)!important;
 }
 
 .se-loading .spinner svg {
