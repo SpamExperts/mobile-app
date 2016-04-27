@@ -30,8 +30,11 @@ angular.module('SpamExpertsApp')
                     .then(function(choice) {
                         if (choice) {
                             AuthService.logout();
-                            $ionicHistory.clearHistory();
                             $state.go('login', {}, {reload: true});
+                            $ionicHistory.clearHistory();
+                            $ionicHistory.clearCache().then(function() {
+                                window.location.reload();
+                            });
                         }
                     });
             });
