@@ -340,30 +340,35 @@ angular.module('SpamExpertsApp')
     ])
     .factory('ApiInterceptor', ['$q', '$rootScope', '$injector', '$timeout', '$localstorage', 'MessageQueue', 'AUTH_EVENTS',
         function ($q, $rootScope, $injector, $timeout, $localstorage, MessageQueue, AUTH_EVENTS) {
+
             return {
                 request: function(config) {
-
-                    if (config.loading === true) {
-                        var canceller = $q.defer();
-                        var scope = $rootScope.$new(true);
-
-                        config.timeout = canceller.promise;
-
-                        scope.cancelLoading = false;
-
-                        $timeout(function () {
-                            scope.cancelLoading = config.cancelLoading === true;
-                        }, 5000);
-
-                        scope.stopRequest = function () { canceller.resolve(); };
-
-                        $injector.get('BusyService').show(scope);
-                    }
 
                     if (
                         config.hasOwnProperty('params') ||
                         config.hasOwnProperty('responseKey')
                     ) {
+
+                        if ($rootScope.pendingXHR) {
+                            $rootScope.pendingXHR.resolve();
+                        }
+
+                        $rootScope.pendingXHR = $q.defer();
+                        config.timeout = $rootScope.pendingXHR.promise;
+
+                        if (config.loading === true) {
+                            var scope = $rootScope.$new(true);
+
+                            scope.cancelLoading = false;
+
+                            $timeout(function () {
+                                scope.cancelLoading = config.cancelLoading === true;
+                            }, 5000);
+
+                            scope.stopRequest = function () { $rootScope.pendingXHR.resolve(); };
+
+                            $injector.get('BusyService').show(scope);
+                        }
 
                         var authHeader = config.headers['Authorization'];
 
@@ -395,6 +400,7 @@ angular.module('SpamExpertsApp')
                         }
 
                         response.data = data[key];
+                        $rootScope.canceller = false;
                     }
                     if (response.config.loading === true) {
                         $injector.get('BusyService').hide();
@@ -413,6 +419,7 @@ angular.module('SpamExpertsApp')
                             403: AUTH_EVENTS.notAuthorized
                         }[response.status], response);
                     }
+                    $rootScope.canceller = false;
                     return $q.reject(response);
                 }
             };
