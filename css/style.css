@@ -220,12 +220,6 @@
     color: white !important;
 }
 
-.icon-accepted {
-    background-color:green;
-    border:1px green solid;
-    color: white !important;
-}
-
 .icon-unknown {
     border:1px gray solid;
     background-color:gray;
