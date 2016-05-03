@@ -1,101 +1,89 @@
-/* Empty. Add your own CSS if you like */
+/* Customizing popup */
+.popup-container .popup {
+    width: 90%;
+    max-width: 400px;
+    border-radius: 5px;
+    background-color: rgba(255,255,255,.95);
 
-.icon-se {
-    width: 40px;
-    height: 40px;
-    line-height: 39px;
-    text-align: center;
-    vertical-align: middle;
-    font-weight: 500;
-    font-size : 25px !important;
-    border-radius: 50% !important;
-    background: transparent;
-    cursor: pointer;
 }
 
-.icon-se > .icon{
-    right: 3px;
-    left: 3px;
+/* Customize loading */
+
+.loading {
+    background: rgba(57,176,218,0.7)!important;
 }
 
-.item-person {
-    padding: 5px;
+.se-loading .spinner svg {
+    width: 48px;
+    height: 48px;
+    stroke: #fff;
+    fill: #fff;
 }
 
-.item-person h2,
-.item-person p {
-    padding-left: 10px;
+/* Customize bar */
+.bar.bar-calm {
+    background-color: #39B0DA;
+    border-top: 1px solid #287d9a;
+    border-bottom: 1px solid #1c596e;
 }
 
-.item-person .icon-se {
-    width: 50px;
-    height: 50px;
-}
-.item-person .icon {
-    position: relative;
-    top: 4px;
-    left: 0px;
-    right: 0px;
-    font-size: 33px;
+
+/* Customizing actionsheet */
+
+.platform-android .action-sheet-backdrop.active {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
-.icon-rejected {
-    background-color:red;
-    border:1px red solid;
-    color: white !important;
+.platform-android .action-sheet {
+    align-content: center;
+    margin:auto;
+    max-width: 96vw;
+    border-radius: 5px;
+    /*margin: 0;*/
+    margin-bottom: 10px;
 }
 
-.icon-accepted {
-    background-color:green;
-    border:1px green solid;
-    color: white !important;
+.platform-android .action-sheet .action-sheet-title, .platform-android .action-sheet .button {
+    text-align: left;
+    /*border-color: #e2e2e2;*/
+    font-size: 16px;
+    color: inherit;
 }
 
-.icon-unknown {
-    border:1px gray solid;
-    background-color:gray;
-    color: white !important;
+.platform-android .action-sheet .action-sheet-title {
+    font-size: 14px;
+    padding: 16px;
+    color: #666;
 }
 
-.icon-se.bulk {
-    border: none !important;
+.platform-android .action-sheet .button {
+    border-color: #e2e2e2;
+    padding-left: 16px;
+    color: #104e89;
+}
+
+.platform-android .action-sheet .button.destructive {
+    color: #ff0000;
+}
+
+.platform-android .action-sheet .button.active, .platform-android .action-sheet .button.activated {
+    background: #e8e8e8;
+}
+
+.platform-android .action-sheet-group {
+    /*margin: 0;*/
     border-radius: 0;
-    width: 40px;
-    height: 40px;
-    line-height: 39px;
-    text-align: center;
-    vertical-align: middle;
-    font-size : 25px !important;
-}
-.icon-se.bulk div {
-    background: transparent !important;
+    background-color: #fafafa;
 }
 
-/*.alert {*/
-    /*padding: 15px;*/
-    /*margin-bottom: 20px;*/
-    /*border: 1px solid transparent;*/
-    /*border-radius: 4px;*/
-/*}*/
-
-
-.message-queue .button,
-.message-queue .item-content {
-    background: transparent;
-    padding: 0;
+.platform-android .action-sheet-cancel {
+    display: none;
 }
-.message-queue .list {
-    background: rgba(0, 0, 0, 0.34);
-
-    padding-top: 2px;
-    padding-bottom: 20px;
-    border-radius: 0 0 5px 5px;
-    margin: 0 1px;
+.platform-android .action-sheet-has-icons .button {
+    padding-left: 56px;
 }
 
-.message-queue .list .alert {
-    width: 99.5% !important;
-}
+/* Alerts */
 
 .alert {
     padding: 15px;
@@ -122,57 +110,26 @@
     border-color: #d6e9c6;
 }
 
+/* Message queue */
+.message-queue .button,
+.message-queue .item-content {
+    background: transparent;
+    padding: 0;
+}
+.message-queue .list {
+    background: rgba(0, 0, 0, 0.34);
 
-
-.raw-message {
-    max-height: 0;
+    padding-top: 2px;
+    padding-bottom: 20px;
+    border-radius: 0 0 5px 5px;
+    margin: 0 1px;
 }
 
-.se-spacer {
-    height: 32px;
-    line-height: 32px;
-    padding: 5px;
+.message-queue .list .alert {
+    width: 99.5% !important;
 }
 
-.se-spacer-2x {
-    height: 64px;
-    line-height: 64px;
-    padding: 5px;
-}
-
-.se-spacer-3x {
-    height: 96px;
-    line-height: 96px;
-    padding: 5px;
-}
-
-
-.se-background-color {
-    background: #39B0DA;
-    color: #ffffff;
-}
-
-
-.grayedout {
-    font-style: italic;
-    color: #626262;
-}
-
-input:disabled + .checkbox-icon:before {
-    border-color: silver !important;
-    background-color: silver !important;
-}
-input:disabled:checked + .checkbox-icon:before {
-    background-color: silver !important;
-}
-
-
-
-.bar.bar-dark{
-    background-color: #39B0DA;
-    border-top: 1px solid #287d9a;
-    border-bottom: 1px solid #1c596e;
-}
+/* Menu left */
 .menu.menu-left {
     background-color: #25718B;
 }
@@ -201,11 +158,6 @@ input:disabled:checked + .checkbox-icon:before {
     color: #f2f2f2;
 }
 
-.user-info {
-    background: #eeeeee;
-    border-bottom: 2px #c2c2c2;
-}
-
 .menu.menu-left .item .page-icon {
     font-size: 30px;
     left: 20px;
@@ -223,29 +175,76 @@ input:disabled:checked + .checkbox-icon:before {
     font-size: 24px;
 }
 
-.item-se-logo {
-    background-color: #ffffff;
+/* Icons */
+.icon-se {
+    width: 50px;
+    height: 50px;
+    line-height: 49px;
+    text-align: center;
+    vertical-align: middle;
+    font-size : 35px !important;
+    border-radius: 50% !important;
+    background: transparent;
+    cursor: pointer;
 }
 
+.icon-se > .icon{
+    right: 3px;
+    left: 3px;
+}
 
-.item-avatar *[class^='icon-']:first-child,
-.flip-container
-{
+.item-person {
+    padding: 5px;
+}
+
+.item-person h2,
+.item-person p {
+    padding-left: 10px;
+}
+
+.item-person .icon-se {
+    width: 50px;
+    height: 50px;
+}
+.item-person .icon {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    font-size: 33px;
+}
+
+.icon-rejected {
+    background-color: #ef473a;
+    border:1px #e42112 solid;
+    color: white !important;
+}
+
+.icon-accepted {
+    background-color:green;
+    border:1px green solid;
+    color: white !important;
+}
+
+.icon-unknown {
+    border:1px gray solid;
+    background-color:gray;
+    color: white !important;
+}
+
+.item-avatar *[class^='icon-']:first-child {
     position: absolute;
     top: 5px;
     left: 5px;
-    font-size: 36px;
-    max-width: 40px;
-    max-height: 40px;
-    width: 100%;
-    border-radius: 4px;
 }
 
-/*flipper*/
+/* Flipper */
 .flip-container {
-    width: 40px;
-    height: 40px;
-
+    position: absolute;
+    top: 10px;
+    left: 5px;
+    width: 50px;
+    height: 50px;
     display: inline-block;
 }
 
@@ -300,56 +299,32 @@ input:disabled:checked + .checkbox-icon:before {
     background: #f8f8f8;
 }
 
-.popup-container .popup {
-    width: 90%;
-    border-radius: 5px;
+/* Utility */
+
+.se-background-color {
+    background: #39B0DA;
+    color: #ffffff;
 }
 
-.platform-android .action-sheet-backdrop.active {
-    background-color: rgba(0, 0, 0, 0.1); }
-.platform-android .action-sheet {
-    align-content: center;
-    margin:auto;
-    max-width: 96vw;
-    border-radius: 5px;
-    /*margin: 0;*/
-    margin-bottom: 10px;}
-.platform-android .action-sheet .action-sheet-title, .platform-android .action-sheet .button {
-    text-align: left;
-    /*border-color: #e2e2e2;*/
-    font-size: 16px;
-    color: inherit;}
-.platform-android .action-sheet .action-sheet-title {
-    font-size: 14px;
-    padding: 16px;
-    color: #666; }
-.platform-android .action-sheet .button {
-    border-color: #e2e2e2;
-    padding-left: 16px;
-    color: #104e89;
-}
-.platform-android .action-sheet .button.destructive {
-    color: red;
-}
-.platform-android .action-sheet .button.active, .platform-android .action-sheet .button.activated {
-    background: #e8e8e8; }
-.platform-android .action-sheet-group {
-    /*margin: 0;*/
-    border-radius: 0;
-    background-color: #fafafa; }
-.platform-android .action-sheet-cancel {
-    display: none;
-}
-.platform-android .action-sheet-has-icons .button {
-    padding-left: 56px; }
-
-.loading {
-    background: rgba(57,176,218,0.7)!important;
+.grayedout {
+    font-style: italic;
+    color: #626262;
 }
 
-.se-loading .spinner svg {
-    width: 48px;
-    height: 48px;
-    stroke: #fff;
-    fill: #fff;
+.se-spacer {
+    height: 32px;
+    line-height: 32px;
+    padding: 5px;
+}
+
+.se-spacer-2x {
+    height: 64px;
+    line-height: 64px;
+    padding: 5px;
+}
+
+.se-spacer-3x {
+    height: 96px;
+    line-height: 96px;
+    padding: 5px;
 }

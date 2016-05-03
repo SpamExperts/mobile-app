@@ -4,7 +4,7 @@
         <div class="list card">
 
             <div class="item item-avatar">
-                <div class="icon-se icon-accepted">S</div>
+                <div class="icon-se icon-rejected">S</div>
 
                 <h2>{{message['decoded_subject_header']}}</h2>
                 <p>{{message['datestamp']}}</p>
@@ -48,5 +48,8 @@
             <button class="button" on-tap="back()"><i class="icon ion-reply"></i> Back</button>
         </div>
         <div class="title" on-tap="processAction()"><i class="icon ion-grid"></i></div>
+        <div class="buttons">
+            <button class="button button-clear">&nbsp;</button>
+        </div>
     </ion-footer-bar>
 </ion-view>
