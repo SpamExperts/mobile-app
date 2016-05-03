@@ -59,6 +59,7 @@ angular.module('SpamExpertsApp')
                 })
                 .state('main.message-detail', {
                     url: 'message',
+                    cache: false,
                     views: {
                         'main-container': {
                             templateUrl: 'templates/logSearch/view/message-detail.html',

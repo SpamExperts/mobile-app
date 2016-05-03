@@ -14,8 +14,9 @@ angular.module('SpamExpertsApp', ['ionic'])
             });
         }
     ])
-    .config(['$httpProvider',
-        function ($httpProvider) {
+    .config(['$httpProvider', '$ionicConfigProvider',
+        function ($httpProvider, $ionicConfigProvider) {
             $httpProvider.interceptors.push('ApiInterceptor');
+            $ionicConfigProvider.views.forwardCache(true);
         }
     ]);
