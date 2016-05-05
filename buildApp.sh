@@ -19,6 +19,8 @@ if ! type "ionic" > /dev/null; then
 echo "You need to install ionic.\n Try using: npm install -g cordova ionic \n http://ionicframework.com/getting-started/"
 else
 
+    rm -rf spamexperts_mobile_app
+
     # create blank app
     while true; do echo n; done | ionic start spamexperts_mobile_app blank
 
@@ -57,6 +59,7 @@ else
 
     # keep our config
     mv mobile-app/config.xml www/
+    mv mobile-app/ionic.project www/
 
     # remove unused folder
     rm -rf mobile-app
@@ -82,6 +85,7 @@ else
 
     # add own config
     mv www/config.xml .
+    mv www/ionic.project .
 
     # build for platform
     OUTPUT="$(ionic build $PLATFORM | tail -n 1)"

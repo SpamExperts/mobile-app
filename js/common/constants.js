@@ -1,4 +1,5 @@
 angular.module('SpamExpertsApp')
+    .constant('DEV_PROXY', 'DEV_PROXY_FALSE')
     .constant('AUTH_EVENTS', {
         notAuthenticated: 'auth-not-authenticated',
         notAuthorized: 'auth-not-authorized'

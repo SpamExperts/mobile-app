@@ -221,8 +221,8 @@ angular.module('SpamExpertsApp')
             }
         }
     ])
-    .factory('Api', ['$http', '$q', '$localstorage', 'MessageQueue','Base64', 'ENDPOINTS',
-        function($http, $q, $localstorage, MessageQueue, Base64, ENDPOINTS) {
+    .factory('Api', ['$http', '$q', '$localstorage', 'MessageQueue','Base64', 'ENDPOINTS', 'DEV_PROXY',
+        function($http, $q, $localstorage, MessageQueue, Base64, ENDPOINTS, DEV_PROXY) {
 
             return {
                 protocol: 'http://',
@@ -237,15 +237,20 @@ angular.module('SpamExpertsApp')
                     $http.defaults.headers.common['Authorization'] = 'Bearer ';
                 },
                 request: function (params) {
-                    var host;
+                    var baseEndpoint = '';
 
-                    if (!isEmpty(params['hostname'])) {
-                        host =  params['hostname'];
-                    } else {
-                        host = $localstorage.get('settings.hostname');
+                    if (DEV_PROXY == 'DEV_PROXY_FALSE') {
+                        var host;
+
+                        if (!isEmpty(params['hostname'])) {
+                            host =  params['hostname'];
+                        } else {
+                            host = $localstorage.get('settings.hostname');
+                        }
+
+                        baseEndpoint = this.protocol + host;
                     }
 
-                    var baseEndpoint = this.protocol + host;
 
                     var defaultParams = {
                         direction : null,

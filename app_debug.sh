@@ -15,9 +15,17 @@ elif [ "$1" = "android" ]; then
     EXTENSION="apk"
 fi
 
+if [ -z "$2" ]; then
+    echo "Please specify a hostname";
+    exit 1
+fi
+
+
 if ! type "ionic" > /dev/null; then
 echo "You need to install ionic.\n Try using: npm install -g cordova ionic \n http://ionicframework.com/getting-started/"
 else
+
+    rm -rf spamexperts_mobile_app
 
     # create blank app
     while true; do echo n; done | ionic start spamexperts_mobile_app blank
@@ -44,7 +52,7 @@ else
     mv mobile-app/* www/
 
     cd www
-    bash build_assets.sh
+    bash build_assets.sh $2
     cd -
 
     # remove unused folder
@@ -52,6 +60,9 @@ else
 
     # add own config
     mv www/config.xml .
+    mv www/ionic.project .
+
+    sed -i 's/"proxies": \[\]/\"proxies\"\: \[\{"path": "\/rest","proxyUrl": "http:\/\/'$2'\/rest"\}\]/g' ionic.project
 
     # add platform
     ionic platform add $PLATFORM

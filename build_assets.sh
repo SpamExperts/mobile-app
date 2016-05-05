@@ -4,11 +4,7 @@
 set -e
 current="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-if [ -z "$1" ]; then
-    appContainer=$current/../..
-else
-    appContainer="$1";
-fi
+appContainer=$current/../..
 
 if [ ! -d $appContainer/.se_app_assets ]; then
     mkdir $appContainer/.se_app_assets
@@ -23,6 +19,11 @@ cp $current/package.json $appContainer/.se_app_assets/
 
 cd $appContainer/.se_app_assets
 sudo npm install
+
+if [ ! -z "$1" ]; then
+    gulp add-proxy
+fi
+
 gulp
 
 rm -rf $current/minified

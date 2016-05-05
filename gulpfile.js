@@ -7,7 +7,10 @@ var
     minifyCSS    = require('gulp-minify-css'),
     templateCache= require('gulp-angular-templatecache'),
     gulpif       = require('gulp-if'),
+    replace      = require('gulp-replace'),
+
     minify       = true,
+
     buildSources = {
         allCss:  [
             'css/style.css'
@@ -60,6 +63,28 @@ gulp.task('build', ['clean', 'allCss', 'allJs']);
 
 gulp.task('dev', function() {
     minify  = false;
+});
+
+gulp.task('add-proxy', function() {
+    return gulp.src('js/common/constants.js')
+        .pipe(
+            replace(
+                "\.constant\('DEV_PROXY', 'DEV_PROXY_FALSE'\)",
+                ".constant('DEV_PROXY', 'DEV_PROXY_TRUE')"
+            )
+        )
+        .pipe(gulp.dest('js/common/'));
+});
+
+gulp.task('remove-proxy', function() {
+    return gulp.src('js/common/constants.js')
+        .pipe(
+            replace(
+                "\.constant\('DEV_PROXY', 'DEV_PROXY_TRUE'\)",
+                ".constant('DEV_PROXY', 'DEV_PROXY_FALSE')"
+            )
+        )
+        .pipe(gulp.dest('js/common/'));
 });
 
 gulp.task('templates', function () {
