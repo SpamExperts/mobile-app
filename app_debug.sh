@@ -62,7 +62,11 @@ else
     mv www/config.xml .
     mv www/ionic.project .
 
-    sed -i 's/"proxies": \[\]/\"proxies\"\: \[\{"path": "\/rest","proxyUrl": "http:\/\/'$2'\/rest"\}\]/g' ionic.project
+    if [ "$PLATFORM" = "ios" ]; then
+        sed -i '' 's/"proxies": \[\]/\"proxies\"\: \[\{"path": "\/rest","proxyUrl": "http:\/\/'$2'\/rest"\}\]/g' ionic.project
+    else
+        sed -i 's/"proxies": \[\]/\"proxies\"\: \[\{"path": "\/rest","proxyUrl": "http:\/\/'$2'\/rest"\}\]/g' ionic.project
+    fi
 
     # add platform
     ionic platform add $PLATFORM
