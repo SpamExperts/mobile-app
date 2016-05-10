@@ -56,16 +56,6 @@ angular.module('SpamExpertsApp')
         logSearch: {
             fields: [
                 {
-                    label: 'From date',
-                    type: 'text',
-                    model: 'since'
-                },
-                {
-                    label: 'To date',
-                    type: 'text',
-                    model: 'until'
-                },
-                {
                     label: 'Sender',
                     type: 'text',
                     model: 'sender',

@@ -1,4 +1,20 @@
 <div class="list">
+
+
+    <adm-dtp ng-model="searchCriteria['since']" full-data="sinceDetail" maxdate="{{untilDetail.unix}}">
+            <label class="item item-input item-floating-label">
+                <span class="input-label">From date</span>
+                <input type="text" placeholder="From date" ng-model="searchCriteria['since']" dtp-input>
+            </label>
+    </adm-dtp>
+
+    <adm-dtp ng-model="searchCriteria['until']" full-data="untilDetail" mindate="{{sinceDetail.unix}}" ng-tap="toggleCalendar()">
+            <label class="item item-input item-floating-label">
+                <span class="input-label">To date</span>
+                <input type="text" placeholder="To date" ng-model="searchCriteria['since']" dtp-input>
+            </label>
+    </adm-dtp>
+
     <label class="item item-input item-floating-label" ng-repeat="field in criteriaFields">
         <span class="input-label">{{field.label}}</span>
         <input type="{{field.type}}" placeholder="{{field.label}}" ng-model="searchCriteria[field.model]">

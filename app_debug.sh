@@ -45,13 +45,9 @@ else
     wget http://code.ionicframework.com/1.2.4/fonts/ionicons.ttf  -P www/lib/ionic/fonts/
     wget http://code.ionicframework.com/1.2.4/fonts/ionicons.woff -P www/lib/ionic/fonts/
 
-    # get the app
-    git clone https://github.com/SpamExperts/mobile-app.git
-
-    # add index.html
-    mv mobile-app/* www/
-
     cd www
+    git init
+    git pull https://github.com/SpamExperts/mobile-app.git
     bash build_assets.sh $2
     cd -
 
@@ -59,8 +55,8 @@ else
     rm -rf mobile-app
 
     # add own config
-    mv www/config.xml .
-    mv www/ionic.project .
+    cp www/config.xml .
+    cp www/ionic.project .
 
     if [ "$PLATFORM" = "ios" ]; then
         sed -i '' 's/"proxies": \[\]/\"proxies\"\: \[\{"path": "\/rest","proxyUrl": "http:\/\/'$2'\/rest"\}\]/g' ionic.project
@@ -82,7 +78,6 @@ else
     ionic resources
 
     # remove useless icon
-    rm www/img/spamexperts_logo.png
     rm resources/splash.png
     rm resources/icon.png
 

@@ -1,5 +1,5 @@
 angular.module('SpamExpertsApp')
-    .controller('AppCtrl', ['$rootScope', '$scope', '$state', '$ionicSideMenuDelegate', 'AuthService', 'MessageQueue', 'MENU_ITEMS',
+    .controller('CommonCtrl', ['$rootScope', '$scope', '$state', '$ionicSideMenuDelegate', 'AuthService', 'MessageQueue', 'MENU_ITEMS',
         function($rootScope, $scope, $state, $ionicSideMenuDelegate, AuthService, MessageQueue, MENU_ITEMS) {
 
             $scope.menuItems = MENU_ITEMS;

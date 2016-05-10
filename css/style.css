@@ -322,3 +322,7 @@
     line-height: 96px;
     padding: 5px;
 }
+
+.ADMdtp-calendar-container {
+    left: -6px !important;
+}
