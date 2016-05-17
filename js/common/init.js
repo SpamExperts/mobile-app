@@ -1,5 +1,5 @@
 'use strict';
-angular.module('SpamExpertsApp', ['ionic', 'ADM-dateTimePicker'])
+angular.module('SpamExpertsApp', ['ionic', "ion-datetime-picker"])
     .run(['$ionicPlatform',
         function($ionicPlatform) {
             $ionicPlatform.ready(function() {
@@ -19,12 +19,4 @@ angular.module('SpamExpertsApp', ['ionic', 'ADM-dateTimePicker'])
             $httpProvider.interceptors.push('ApiInterceptor');
             $ionicConfigProvider.views.forwardCache(true);
         }
-    ])
-    .config(['ADMdtpProvider', function(ADMdtp) {
-        ADMdtp.setOptions({
-            calType: 'gregorian',
-            format: 'YYYY-MM-DD hh:mm',
-            multiple: false
-        });
-    }
     ]);

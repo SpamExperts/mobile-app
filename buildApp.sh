@@ -39,6 +39,9 @@ else
     wget http://code.ionicframework.com/1.2.4/fonts/ionicons.ttf  -P www/lib/ionic/fonts/
     wget http://code.ionicframework.com/1.2.4/fonts/ionicons.woff -P www/lib/ionic/fonts/
 
+    wget https://raw.githubusercontent.com/katemihalikova/ion-datetime-picker/master/release/ion-datetime-picker.min.css -P www/lib/ion-datetime-picker
+    wget https://raw.githubusercontent.com/katemihalikova/ion-datetime-picker/master/release/ion-datetime-picker.min.js -P www/lib/ion-datetime-picker
+
     # get the app
     git clone https://github.com/SpamExperts/mobile-app.git
 

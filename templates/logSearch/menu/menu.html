@@ -1,19 +1,14 @@
 <div class="list">
 
+    <label class="item item-input item-floating-label" ion-datetime-picker ng-model="searchCriteria['since']">
+        <span class="input-label has-input">From date</span>
+        <div>{{searchCriteria['since']| date: 'yyyy-MM-dd HH:mm'}}</div>
+    </label>
 
-    <adm-dtp ng-model="searchCriteria['since']" full-data="sinceDetail" maxdate="{{untilDetail.unix}}">
-            <label class="item item-input item-floating-label">
-                <span class="input-label">From date</span>
-                <input type="text" placeholder="From date" ng-model="searchCriteria['since']" dtp-input>
-            </label>
-    </adm-dtp>
-
-    <adm-dtp ng-model="searchCriteria['until']" full-data="untilDetail" mindate="{{sinceDetail.unix}}" ng-tap="toggleCalendar()">
-            <label class="item item-input item-floating-label">
-                <span class="input-label">To date</span>
-                <input type="text" placeholder="To date" ng-model="searchCriteria['since']" dtp-input>
-            </label>
-    </adm-dtp>
+    <label class="item item-input item-floating-label" ion-datetime-picker ng-model="searchCriteria['until']">
+        <span class="input-label has-input">To date</span>
+        <div>{{searchCriteria['until']| date: 'yyyy-MM-dd HH:mm'}}</div>
+    </label>
 
     <label class="item item-input item-floating-label" ng-repeat="field in criteriaFields">
         <span class="input-label">{{field.label}}</span>

@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .factory('SearchCriteriaService', ['$localstorage', 'GROUPS', 'OTHERS',
-        function ($localstorage, GROUPS, OTHERS) {
+    .factory('SearchCriteriaService', ['$filter', '$localstorage', 'GROUPS', 'OTHERS',
+        function ($filter, $localstorage, GROUPS, OTHERS) {
 
             /** @var modelData = {direction: direction} */
 
@@ -14,6 +14,13 @@ angular.module('SpamExpertsApp')
 
             }
 
+            function filterDates(criteria) {
+                var newCriteria = angular.merge({}, criteria);
+                newCriteria.since = $filter('date')(newCriteria.since, 'yyyy-MM-dd HH:mm');
+                newCriteria.until = $filter('date')(newCriteria.until, 'yyyy-MM-dd HH:mm');
+                return newCriteria;
+            }
+
             SearchCriteriaService.prototype = {
                 construct: function(modelData) {
                     angular.merge(this, modelData);
@@ -22,9 +29,12 @@ angular.module('SpamExpertsApp')
                     return this.direction;
                 },
                 getDefaultCriteria: function() {
+                    var yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+
                     return {
-                        since: this.getDate({days: '-1'}),
-                        until: this.getDate(),
+                        since: yesterday,
+                        until: new Date(),
                         offset: 0,
                         length: OTHERS.sliceLength,
                         refresh: false,
@@ -33,45 +43,24 @@ angular.module('SpamExpertsApp')
                         domain: ''
                     };
                 },
-                getSearchCriteria: function() {
-                    return $localstorage.get('searchCriteria.' + this.direction, this.getDefaultCriteria(), true);
+                getCurrentDate: function (apiDate) {
+                    var now = new Date();
+                    if (apiDate) {
+                        now = $filter('date')(now, 'yyyy-MM-dd HH:mm');
+                    }
+                    return now;
+                },
+                getSearchCriteria: function(apiDates) {
+                    var criteria = this.getDefaultCriteria();
+                    var currentCriteria = $localstorage.get('searchCriteria.' + this.direction, filterDates(criteria), true);
+                    if (!apiDates) {
+                        currentCriteria.since = new Date(currentCriteria.since);
+                        currentCriteria.until = new Date(currentCriteria.until);
+                    }
+                    return currentCriteria;
                 },
                 setSearchCriteria: function(criteria) {
-                    $localstorage.set('searchCriteria.' + this.direction, criteria, true);
-                },
-                getDate: function(extra) {
-
-                    function getDate(date) {
-                        return {
-                            hours : date.getHours(),
-                            min   : date.getMinutes(),
-                            days  : date.getDate(),
-                            month : date.getMonth(),
-                            year  : date.getFullYear()
-                        };
-                    }
-
-                    var currentDate = getDate(new Date());
-
-                    if (angular.isDefined(extra)) {
-                        currentDate = getDate(
-                            new Date(
-                                currentDate.year  + (!isEmpty(extra['years'])  ? parseInt(extra['years'])  : 0),
-                                currentDate.month + (!isEmpty(extra['month'])  ? parseInt(extra['month'])  : 0),
-                                currentDate.days  + (!isEmpty(extra['days'])   ? parseInt(extra['days'])   : 0),
-                                currentDate.hours + (!isEmpty(extra['hours'])  ? parseInt(extra['hours'])  : 0),
-                                currentDate.min   + (!isEmpty(extra['minutes'])? parseInt(extra['minutes']): 0)
-                            )
-                        );
-                    }
-
-                    return '%s-%s-%s %s:%s'.printf([
-                        currentDate.year,
-                        ('0' + (currentDate.month + 1)).slice(-2),
-                        ('0' + currentDate.days).slice(-2),
-                        ('0' + currentDate.hours).slice(-2),
-                        ('0' + currentDate.min).slice(-2)
-                    ]);
+                    $localstorage.set('searchCriteria.' + this.direction, filterDates(criteria), true);
                 }
             };
 

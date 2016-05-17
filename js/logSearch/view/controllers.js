@@ -61,9 +61,9 @@ angular.module('SpamExpertsApp')
             $scope.doRefresh = function() {
                 $scope.loadingEntries = true;
 
-                var criteria = criteriaService.getSearchCriteria();
+                var criteria = criteriaService.getSearchCriteria(true);
 
-                criteria.until = criteriaService.getDate();
+                criteria.until = criteriaService.getCurrentDate(true);
                 criteria.refresh = true;
                 criteria.last_count = messagesService.getLastCount();
 
@@ -82,7 +82,7 @@ angular.module('SpamExpertsApp')
             $scope.loadMoreData = function() {
                 $scope.loadingEntries = true;
 
-                var criteria = criteriaService.getSearchCriteria();
+                var criteria = criteriaService.getSearchCriteria(true);
 
                 criteria.refresh = false;
                 criteria.offset = messagesService.count();
