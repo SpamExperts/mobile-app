@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .controller('CommonCtrl', ['$rootScope', '$scope', '$state', '$ionicSideMenuDelegate', 'AuthService', 'MessageQueue', 'MENU_ITEMS',
-        function($rootScope, $scope, $state, $ionicSideMenuDelegate, AuthService, MessageQueue, MENU_ITEMS) {
+    .controller('CommonCtrl', ['$rootScope', '$scope', '$state', '$ionicPopup', '$ionicSideMenuDelegate', 'AuthService', 'MessageQueue', 'MENU_ITEMS', 'API_EVENTS',
+        function($rootScope, $scope, $state, $ionicPopup, $ionicSideMenuDelegate, AuthService, MessageQueue, MENU_ITEMS, API_EVENTS) {
 
             $scope.menuItems = MENU_ITEMS;
             $scope.removeQueueMessage = MessageQueue.remove;
@@ -27,5 +27,13 @@ angular.module('SpamExpertsApp')
             $scope.logout = function() {
                 $rootScope.$broadcast('$logout')
             };
+
+            $rootScope.$on(API_EVENTS.notFound, function() {
+                $ionicPopup.alert({
+                    title: 'Not found!',
+                    template: 'The resource you are trying to access might have been moved or is unavailable at the moment'
+                });
+            });
+
         }
     ]);

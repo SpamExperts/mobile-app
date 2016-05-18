@@ -1,8 +1,9 @@
 angular.module('SpamExpertsApp')
-    .constant('DEV_PROXY', 'DEV_PROXY_FALSE')
-    .constant('AUTH_EVENTS', {
-        notAuthenticated: 'auth-not-authenticated',
-        notAuthorized: 'auth-not-authorized'
+    .constant('DEV_PROXY', 'DEV_PROXY_TRUE')
+    .constant('API_EVENTS', {
+        notAuthenticated: 'not-authenticated',
+        notAuthorized: 'not-authorized',
+        notFound: 'not-found'
     })
 
     .constant('USER_ROLES', {
@@ -49,7 +50,8 @@ angular.module('SpamExpertsApp')
     ])
 
     .constant('OTHERS', {
-        sliceLength: 10
+        sliceLength: 10,
+        apiTimeout: 2
     })
 
     .constant('SEARCH_CRITERIA', {

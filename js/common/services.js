@@ -343,8 +343,10 @@ angular.module('SpamExpertsApp')
             };
         }
     ])
-    .factory('ApiInterceptor', ['$q', '$rootScope', '$injector', '$timeout', '$localstorage', 'MessageQueue', 'AUTH_EVENTS',
-        function ($q, $rootScope, $injector, $timeout, $localstorage, MessageQueue, AUTH_EVENTS) {
+    .factory('ApiInterceptor', ['$q', '$rootScope', '$injector', '$timeout', '$localstorage', 'MessageQueue', 'API_EVENTS', 'OTHERS',
+        function ($q, $rootScope, $injector, $timeout, $localstorage, MessageQueue, API_EVENTS, OTHERS) {
+            var pendingXHR;
+            var requestTimer;
 
             return {
                 request: function(config) {
@@ -353,26 +355,37 @@ angular.module('SpamExpertsApp')
                         config.hasOwnProperty('params') ||
                         config.hasOwnProperty('responseKey')
                     ) {
+                        var BusyService = $injector.get('BusyService');
 
-                        if ($rootScope.pendingXHR) {
-                            $rootScope.pendingXHR.resolve();
+                        BusyService.hide();
+
+                        if (pendingXHR) {
+                            pendingXHR.resolve();
                         }
 
-                        $rootScope.pendingXHR = $q.defer();
-                        config.timeout = $rootScope.pendingXHR.promise;
+                        pendingXHR = $q.defer();
+                        config.timeout = pendingXHR.promise;
+
+                        var scope = $rootScope.$new(true);
+
+                        scope.cancelLoading = false;
+
+                        scope.stopRequest = function () {
+                            pendingXHR.resolve();
+                            BusyService.hide();
+                        };
 
                         if (config.loading === true) {
-                            var scope = $rootScope.$new(true);
+                            requestTimer = $timeout(function () {
+                                scope.cancelLoading = (config.cancelLoading === true);
+                            }, OTHERS.apiTimeout * 1000);
+                            BusyService.show(scope);
+                        } else {
+                            requestTimer = $timeout(function () {
+                                scope.cancelLoading = true;
+                                BusyService.show(scope);
+                            }, OTHERS.apiTimeout * 1000);
 
-                            scope.cancelLoading = false;
-
-                            $timeout(function () {
-                                scope.cancelLoading = config.cancelLoading === true;
-                            }, 5000);
-
-                            scope.stopRequest = function () { $rootScope.pendingXHR.resolve(); };
-
-                            $injector.get('BusyService').show(scope);
                         }
 
                         var authHeader = config.headers['Authorization'];
@@ -389,6 +402,7 @@ angular.module('SpamExpertsApp')
                         !isEmpty(response.config.params) ||
                         response.config.hasOwnProperty('responseKey')
                     ) {
+                        $injector.get('BusyService').hide();
 
                         var data = response.data;
                         var key = !isEmpty(response.config.responseKey) ? response.config.responseKey : 'body';
@@ -404,11 +418,12 @@ angular.module('SpamExpertsApp')
                             data[key].token = data['token'];
                         }
 
+                        if (requestTimer) {
+                            $timeout.cancel(requestTimer);
+                        }
+
                         response.data = data[key];
                         $rootScope.canceller = false;
-                    }
-                    if (response.config.loading === true) {
-                        $injector.get('BusyService').hide();
                     }
 
                     return response;
@@ -416,12 +431,17 @@ angular.module('SpamExpertsApp')
                 responseError: function (response) {
                     $injector.get('BusyService').hide();
 
+                    if (requestTimer) {
+                        $timeout.cancel(requestTimer);
+                    }
+
                     if (response.status == 500) {
                         MessageQueue.set({error: ['An error occurred while trying to perform a server request']});
                     } else {
                         $rootScope.$broadcast({
-                            401: AUTH_EVENTS.notAuthenticated,
-                            403: AUTH_EVENTS.notAuthorized
+                            401: API_EVENTS.notAuthenticated,
+                            403: API_EVENTS.notAuthorized,
+                            404: API_EVENTS.notFound
                         }[response.status], response);
                     }
                     $rootScope.canceller = false;

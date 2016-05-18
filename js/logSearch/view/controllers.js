@@ -59,6 +59,12 @@ angular.module('SpamExpertsApp')
             });
 
             $scope.doRefresh = function() {
+
+                if ($scope.loadingEntries === true) {
+                    $ionicScrollDelegate.resize();
+                    return;
+                }
+
                 $scope.loadingEntries = true;
 
                 var criteria = criteriaService.getSearchCriteria(true);
@@ -76,7 +82,13 @@ angular.module('SpamExpertsApp')
 
                         $scope.loadingEntries = false;
                         $scope.$broadcast('scroll.refreshComplete');
+                    })
+                    .catch(function () {
+                        $scope.noMoreItemsAvailable = true;
+                        $scope.loadingEntries = false;
+                        $scope.$broadcast('scroll.refreshComplete');
                     });
+
             };
 
             $scope.loadMoreData = function() {
@@ -100,6 +112,11 @@ angular.module('SpamExpertsApp')
                             $scope.noMoreItemsAvailable = true;
                         }
 
+                        $scope.loadingEntries = false;
+                        $scope.$broadcast('scroll.infiniteScrollComplete');
+                    })
+                    .catch(function () {
+                        $scope.noMoreItemsAvailable = true;
                         $scope.loadingEntries = false;
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                     });
