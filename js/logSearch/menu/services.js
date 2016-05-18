@@ -16,8 +16,8 @@ angular.module('SpamExpertsApp')
 
             function filterDates(criteria) {
                 var newCriteria = angular.merge({}, criteria);
-                newCriteria.since = $filter('date')(newCriteria.since, 'yyyy-MM-dd HH:mm');
-                newCriteria.until = $filter('date')(newCriteria.until, 'yyyy-MM-dd HH:mm');
+                newCriteria.since = $filter('date')(newCriteria.since, OTHERS.dateFormat);
+                newCriteria.until = $filter('date')(newCriteria.until, OTHERS.dateFormat);
                 return newCriteria;
             }
 
@@ -31,10 +31,16 @@ angular.module('SpamExpertsApp')
                 getDefaultCriteria: function() {
                     var yesterday = new Date();
                     yesterday.setDate(yesterday.getDate() - 1);
+                    yesterday.setHours(0);
+                    yesterday.setMinutes(0);
+
+                    var today = new Date();
+                    today.setHours(0);
+                    today.setMinutes(0);
 
                     return {
                         since: yesterday,
-                        until: new Date(),
+                        until: today,
                         offset: 0,
                         length: OTHERS.sliceLength,
                         refresh: false,
@@ -46,7 +52,7 @@ angular.module('SpamExpertsApp')
                 getCurrentDate: function (apiDate) {
                     var now = new Date();
                     if (apiDate) {
-                        now = $filter('date')(now, 'yyyy-MM-dd HH:mm');
+                        now = $filter('date')(now, OTHERS.dateFormat);
                     }
                     return now;
                 },
@@ -58,6 +64,9 @@ angular.module('SpamExpertsApp')
                         currentCriteria.until = new Date(currentCriteria.until);
                     }
                     return currentCriteria;
+                },
+                getDateFormat: function () {
+                    return OTHERS.dateFormat;
                 },
                 setSearchCriteria: function(criteria) {
                     $localstorage.set('searchCriteria.' + this.direction, filterDates(criteria), true);

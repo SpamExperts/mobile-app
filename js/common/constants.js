@@ -51,7 +51,8 @@ angular.module('SpamExpertsApp')
 
     .constant('OTHERS', {
         sliceLength: 10,
-        apiTimeout: 2
+        apiTimeout: 10,
+        dateFormat: 'yyyy-MM-dd HH:mm'
     })
 
     .constant('SEARCH_CRITERIA', {
