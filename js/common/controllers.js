@@ -1,20 +1,23 @@
 angular.module('SpamExpertsApp')
-    .controller('CommonCtrl', ['$rootScope', '$scope', '$state', '$ionicPopup', '$ionicSideMenuDelegate', 'AuthService', 'MessageQueue', 'MENU_ITEMS', 'API_EVENTS',
-        function($rootScope, $scope, $state, $ionicPopup, $ionicSideMenuDelegate, AuthService, MessageQueue, MENU_ITEMS, API_EVENTS) {
+    .controller('CommonCtrl', ['$rootScope', '$state', '$ionicPopup', '$ionicSideMenuDelegate', 'MessageQueue', 'MENU_ITEMS', 'API_EVENTS',
+        function($rootScope, $state, $ionicPopup, $ionicSideMenuDelegate, MessageQueue, MENU_ITEMS, API_EVENTS) {
 
-            $scope.menuItems = MENU_ITEMS;
-            $scope.removeQueueMessage = MessageQueue.remove;
+            $rootScope.menuItems = MENU_ITEMS;
+            $rootScope.removeQueueMessage = MessageQueue.remove;
 
-            $scope.$on('$stateChangeSuccess', function () {
+            $rootScope.$on('$stateChangeSuccess', function () {
                 $ionicSideMenuDelegate.toggleLeft(false);
                 $ionicSideMenuDelegate.toggleRight(false);
+                if ($rootScope.stopRequest && $rootScope.stopRequest instanceof Function) {
+                    $rootScope.stopRequest();
+                }
             });
 
-            $scope.canDragRight = function() {
+            $rootScope.canDragRight = function() {
                 $ionicSideMenuDelegate.canDragContent(true);
             };
 
-            $scope.canDragLeft = function () {
+            $rootScope.canDragLeft = function () {
                 if (
                     isEmpty($state.current.views['right-side-menu']) &&
                     !$ionicSideMenuDelegate.isOpenLeft()
@@ -24,7 +27,7 @@ angular.module('SpamExpertsApp')
                 }
             };
 
-            $scope.logout = function() {
+            $rootScope.logout = function() {
                 $rootScope.$broadcast('$logout')
             };
 

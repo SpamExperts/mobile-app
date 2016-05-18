@@ -23,11 +23,11 @@
         </ion-list>
         <ion-list ng-if="!loadingEntries && !messageEntries.length">
             <ion-item class="text-center">
-                No entries
+                No entries. Pull to refresh...
             </ion-item>
         </ion-list>
 
-        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
+        <ion-refresher pulling-text="Release me" on-refresh="doRefresh()"></ion-refresher>
         <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMoreData()" distance="1%"></ion-infinite-scroll>
 
         <div ng-if="bulkMode" class="se-spacer"></div>

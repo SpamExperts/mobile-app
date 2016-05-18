@@ -34,13 +34,9 @@ angular.module('SpamExpertsApp')
                     yesterday.setHours(0);
                     yesterday.setMinutes(0);
 
-                    var today = new Date();
-                    today.setHours(0);
-                    today.setMinutes(0);
-
                     return {
                         since: yesterday,
-                        until: today,
+                        until: new Date(),
                         offset: 0,
                         length: OTHERS.sliceLength,
                         refresh: false,

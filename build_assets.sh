@@ -20,11 +20,11 @@ cp $current/package.json $appContainer/.se_app_assets/
 cd $appContainer/.se_app_assets
 sudo npm install
 
+gulp
+
 if [ ! -z "$1" ]; then
     gulp add-proxy
 fi
-
-gulp
 
 rm -rf $current/minified
 mv minified $current/

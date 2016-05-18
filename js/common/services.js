@@ -324,13 +324,16 @@ angular.module('SpamExpertsApp')
                         pendingXHR = $q.defer();
                         config.timeout = pendingXHR.promise;
 
-                        var scope = $rootScope.$new(true);
+                        var scope = $rootScope.$new();
 
                         scope.cancelLoading = false;
 
-                        scope.stopRequest = function () {
+                        $rootScope.stopRequest = function () {
                             pendingXHR.resolve();
                             BusyService.hide();
+                            if (requestTimer) {
+                                $timeout.cancel(requestTimer);
+                            }
                         };
 
                         if (config.loading === true) {
