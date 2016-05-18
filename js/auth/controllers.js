@@ -19,12 +19,6 @@ angular.module('SpamExpertsApp')
                             MessageQueue.remove();
                             $state.go('main.dash', {}, {reload: true});
                         }
-
-                    }, function(err) {
-                        $ionicPopup.alert({
-                            title: 'Login failed!',
-                            template: 'Please check your credentials!'
-                        });
                     });
             };
         }

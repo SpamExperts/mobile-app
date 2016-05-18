@@ -1,8 +1,11 @@
 angular.module('SpamExpertsApp')
-    .constant('DEV_PROXY', 'DEV_PROXY_TRUE')
+
+    .constant('DEV_PROXY', 'DEV_PROXY_FALSE')
+
     .constant('API_EVENTS', {
         notAuthenticated: 'not-authenticated',
         notAuthorized: 'not-authorized',
+        serverError: 'server-error',
         notFound: 'not-found'
     })
 

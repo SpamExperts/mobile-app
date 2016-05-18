@@ -129,47 +129,6 @@ angular.module('SpamExpertsApp')
             };
         }
     ])
-    .factory('Base64', function () {
-
-            var keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-            return {
-                encode: function (input) {
-                    var output = "";
-                    var chr1, chr2, chr3 = "";
-                    var enc1, enc2, enc3, enc4 = "";
-                    var i = 0;
-
-                    do {
-                        chr1 = input.charCodeAt(i++);
-                        chr2 = input.charCodeAt(i++);
-                        chr3 = input.charCodeAt(i++);
-
-                        enc1 = chr1 >> 2;
-                        enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-                        enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-                        enc4 = chr3 & 63;
-
-                        if (isNaN(chr2)) {
-                            enc3 = enc4 = 64;
-                        } else if (isNaN(chr3)) {
-                            enc4 = 64;
-                        }
-
-                        output = output +
-                            keyStr.charAt(enc1) +
-                            keyStr.charAt(enc2) +
-                            keyStr.charAt(enc3) +
-                            keyStr.charAt(enc4);
-                        chr1 = chr2 = chr3 = "";
-                        enc1 = enc2 = enc3 = enc4 = "";
-                    } while (i < input.length);
-
-                    return output;
-                }
-            }
-        }
-    )
     .factory('MessageQueue', ['$rootScope', '$timeout',
         function ($rootScope, $timeout) {
             return {
@@ -221,8 +180,8 @@ angular.module('SpamExpertsApp')
             }
         }
     ])
-    .factory('Api', ['$http', '$q', '$localstorage', 'MessageQueue','Base64', 'ENDPOINTS', 'DEV_PROXY',
-        function($http, $q, $localstorage, MessageQueue, Base64, ENDPOINTS, DEV_PROXY) {
+    .factory('Api', ['$http', '$q', '$localstorage', 'MessageQueue', 'ENDPOINTS', 'DEV_PROXY',
+        function($http, $q, $localstorage, MessageQueue, ENDPOINTS, DEV_PROXY) {
 
             return {
                 protocol: 'http://',
@@ -230,8 +189,7 @@ angular.module('SpamExpertsApp')
                     this.protocol = "https://";
                 },
                 setAuth: function (username, password) {
-                    var authorization = Base64.encode(username + ':' + password);
-                    $http.defaults.headers.common['Authorization'] = 'Basic ' + authorization;
+                    $http.defaults.headers.common['Authorization'] = 'Basic ' + btoa(username + ':' + password);
                 },
                 clearAuth: function () {
                     $http.defaults.headers.common['Authorization'] = 'Bearer ';
@@ -423,7 +381,6 @@ angular.module('SpamExpertsApp')
                         }
 
                         response.data = data[key];
-                        $rootScope.canceller = false;
                     }
 
                     return response;
@@ -435,16 +392,13 @@ angular.module('SpamExpertsApp')
                         $timeout.cancel(requestTimer);
                     }
 
-                    if (response.status == 500) {
-                        MessageQueue.set({error: ['An error occurred while trying to perform a server request']});
-                    } else {
-                        $rootScope.$broadcast({
-                            401: API_EVENTS.notAuthenticated,
-                            403: API_EVENTS.notAuthorized,
-                            404: API_EVENTS.notFound
-                        }[response.status], response);
-                    }
-                    $rootScope.canceller = false;
+                    $rootScope.$broadcast({
+                        401: API_EVENTS.notAuthenticated,
+                        403: API_EVENTS.notAuthorized,
+                        404: API_EVENTS.notFound,
+                        500: API_EVENTS.serverError
+                    }[response.status], response);
+
                     return $q.reject(response);
                 }
             };
