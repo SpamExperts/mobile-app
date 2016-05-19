@@ -102,7 +102,6 @@ angular.module('SpamExpertsApp')
                 },
 
                 set: function (key, value, isVolatile) {
-                    if (!isEmpty(value)) {
                         var object = {};
 
                         var volatile = $window.localStorage['volatile'];
@@ -123,7 +122,6 @@ angular.module('SpamExpertsApp')
 
                         object[key] = value;
                         unpack(object, $window.localStorage);
-                    }
                 },
                 cleanup: cleanup
             };

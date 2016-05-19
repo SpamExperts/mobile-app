@@ -10,20 +10,34 @@ angular.module('SpamExpertsApp')
                 AuthService.toggleRemember(remember);
             };
 
+            $scope.credentialChanged = function () {
+                AuthService.invalidateToken();
+            };
+
             $scope.login = function(data) {
 
-                AuthService.login(data.hostname, data.username, data.password, data.remember)
-                    .then(function(response) {
-                        if (!response.data.token) {
-                            $ionicPopup.alert({
-                                title: 'Login failed!',
-                                template: 'Please check your credentials!'
-                            });
-                        } else {
-                            MessageQueue.remove();
-                            $state.go('main.dash', {}, {reload: true});
-                        }
-                    });
+                var failedPopup = {
+                    title: 'Login failed!',
+                    template: 'Please check your credentials!'
+                };
+
+                if (
+                    isEmpty(data.hostname) ||
+                    isEmpty(data.username) ||
+                    isEmpty(data.password)
+                ) {
+                    $ionicPopup.alert(failedPopup);
+                } else {
+                    AuthService.login(data.hostname, data.username, data.password, data.remember)
+                        .then(function(response) {
+                            if (!response.data.token) {
+                                $ionicPopup.alert(failedPopup);
+                            } else {
+                                MessageQueue.remove();
+                                $state.go('main.dash', {}, {reload: true});
+                            }
+                        });
+                }
             };
         }
     ]);
