@@ -20,7 +20,7 @@ cp $current/package.json $appContainer/.se_app_assets/
 cd $appContainer/.se_app_assets
 sudo npm install
 
-gulp
+gulp dev default
 
 if [ ! -z "$1" ]; then
     gulp add-proxy

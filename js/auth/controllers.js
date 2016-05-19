@@ -6,6 +6,10 @@ angular.module('SpamExpertsApp')
                 $scope.data = AuthService.getUserCredentials();
             });
 
+            $scope.toggleRemember = function(remember) {
+                AuthService.toggleRemember(remember);
+            };
+
             $scope.login = function(data) {
 
                 AuthService.login(data.hostname, data.username, data.password, data.remember)

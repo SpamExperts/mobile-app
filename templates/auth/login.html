@@ -10,7 +10,7 @@
             <label class="item item-input">
                 <input type="password" placeholder="Password" ng-model="data.password">
             </label>
-            <ion-toggle ng-model="data.remember" toggle-class="toggle-calm" ng-true-value="'enabled'" ng-false-value="'disabled'">
+            <ion-toggle ng-model="data.remember" toggle-class="toggle-calm" ng-true-value="'enabled'" ng-false-value="'disabled'" ng-change="toggleRemember(data.remember)">
                 Remember me
             </ion-toggle>
         </div>

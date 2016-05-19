@@ -69,8 +69,8 @@ gulp.task('add-proxy', function() {
     return gulp.src('minified/js/scripts.js')
         .pipe(
             replace(
-                '\.constant\("DEV_PROXY","DEV_PROXY_FALSE"\)',
-                '.constant("DEV_PROXY","DEV_PROXY_TRUE")'
+                "\.constant\('DEV_PROXY', 'DEV_PROXY_FALSE'\)",
+                '.constant("DEV_PROXY", "DEV_PROXY_TRUE")'
             )
         )
         .pipe(gulp.dest('minified/js'));
@@ -80,8 +80,8 @@ gulp.task('remove-proxy', function() {
     return gulp.src('minified/js/scripts.js')
         .pipe(
             replace(
-                '\.constant\("DEV_PROXY","DEV_PROXY_TRUE"\)',
-                '.constant("DEV_PROXY","DEV_PROXY_FALSE")'
+                '\.constant\("DEV_PROXY", "DEV_PROXY_TRUE"\)',
+                '.constant("DEV_PROXY", "DEV_PROXY_FALSE")'
             )
         )
         .pipe(gulp.dest('minified/js'));
