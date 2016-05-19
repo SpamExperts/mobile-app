@@ -130,8 +130,7 @@ angular.module('SpamExpertsApp')
                     ,
                     condition: function(params, constant) {
                         return -1 < [
-                                constant['USER_ROLES'].domain,
-                                constant['USER_ROLES'].email
+                                constant['USER_ROLES'].domain
                             ].indexOf(params['role']);
                     }
                 },
@@ -161,8 +160,7 @@ angular.module('SpamExpertsApp')
                         'Are you sure you wish to blacklist these senders ?',
                     condition: function(params, constant) {
                         return -1 < [
-                                constant['USER_ROLES'].domain,
-                                constant['USER_ROLES'].email
+                                constant['USER_ROLES'].domain
                             ].indexOf(params['role']);
                     }
                 }
