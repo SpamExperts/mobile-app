@@ -1,5 +1,5 @@
 'use strict';
-angular.module('SpamExpertsApp', ['ionic', "ion-datetime-picker"])
+angular.module('SpamExpertsApp', ['ionic', 'ion-datetime-picker'])
     .run(['$ionicPlatform',
         function($ionicPlatform) {
             $ionicPlatform.ready(function() {
@@ -19,4 +19,7 @@ angular.module('SpamExpertsApp', ['ionic', "ion-datetime-picker"])
             $httpProvider.interceptors.push('ApiInterceptor');
             $ionicConfigProvider.views.forwardCache(true);
         }
-    ]);
+    ])
+    .filter('trust', ['$sce', function($sce) {
+        return $sce.trustAsHtml;
+    }]);

@@ -2,27 +2,21 @@
     <div class="list">
         <ion-slide-box show-pager="false" ng-if="messageQueue['error'].length">
             <ion-slide  class="alert alert-error item-icon-right" on-swipe="removeQueueMessage('error');$event.stopPropagation()">
-                <div ng-repeat="error in messageQueue['error'] track by $index">
-                    {{error}}
-                </div>
+                <div ng-repeat="error in messageQueue['error'] track by $index" ng-bind-html="error|trust"></div>
                 <i class="icon ion-close-round icon-accessory" on-tap="removeQueueMessage('error')"></i>
             </ion-slide>
         </ion-slide-box>
 
         <ion-slide-box show-pager="false" ng-if="messageQueue['notice'].length">
             <ion-slide  class="alert alert-notice item-icon-right" on-swipe="removeQueueMessage('notice');$event.stopPropagation()">
-                <div ng-repeat="notice in messageQueue['notice'] track by $index">
-                    {{notice}}
-                </div>
+                <div ng-repeat="notice in messageQueue['notice'] track by $index" ng-bind-html="notice|trust"></div>
                 <i class="icon ion-close-round icon-accessory" on-tap="removeQueueMessage('notice')"></i>
             </ion-slide>
         </ion-slide-box>
 
         <ion-slide-box show-pager="false" ng-if="messageQueue['success'].length">
             <ion-slide  class="alert alert-success item-icon-right" on-swipe="removeQueueMessage('success');$event.stopPropagation()">
-                <div ng-repeat="success in messageQueue['success'] track by $index">
-                    {{success}}
-                </div>
+                <div ng-repeat="success in messageQueue['success'] track by $index" ng-bind-html="notice|trust"></div>
                 <i class="icon ion-close-round icon-accessory" on-tap="removeQueueMessage('success')"></i>
             </ion-slide>
         </ion-slide-box>
