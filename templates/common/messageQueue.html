@@ -16,7 +16,7 @@
 
         <ion-slide-box show-pager="false" ng-if="messageQueue['success'].length">
             <ion-slide  class="alert alert-success item-icon-right" on-swipe="removeQueueMessage('success');$event.stopPropagation()">
-                <div ng-repeat="success in messageQueue['success'] track by $index" ng-bind-html="notice|trust"></div>
+                <div ng-repeat="success in messageQueue['success'] track by $index" ng-bind-html="success|trust"></div>
                 <i class="icon ion-close-round icon-accessory" on-tap="removeQueueMessage('success')"></i>
             </ion-slide>
         </ion-slide-box>

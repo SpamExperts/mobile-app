@@ -1,8 +1,8 @@
 angular.module('SpamExpertsApp')
-    .controller('CommonCtrl', ['$rootScope', '$state', '$ionicPopup', '$ionicSideMenuDelegate', 'MessageQueue', 'MENU_ITEMS', 'API_EVENTS',
-        function($rootScope, $state, $ionicPopup, $ionicSideMenuDelegate, MessageQueue, MENU_ITEMS, API_EVENTS) {
+    .controller('CommonCtrl', ['$rootScope', '$state', '$ionicPopup', '$ionicSideMenuDelegate', 'MessageQueue', 'ROUTES', 'GROUPS', 'USER_ROLES', 'API_EVENTS',
+        function($rootScope, $state, $ionicPopup, $ionicSideMenuDelegate, MessageQueue, ROUTES, GROUPS, USER_ROLES, API_EVENTS) {
 
-            $rootScope.menuItems = MENU_ITEMS;
+            $rootScope.menuItems = ROUTES({GROUPS: GROUPS, USER_ROLES: USER_ROLES});
             $rootScope.removeQueueMessage = MessageQueue.remove;
 
             $rootScope.$on('$stateChangeSuccess', function () {

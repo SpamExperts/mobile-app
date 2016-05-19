@@ -21,36 +21,116 @@ angular.module('SpamExpertsApp')
         outgoing: 'outgoing'
     })
 
-    .constant('MENU_ITEMS', [
-        {
-            name: 'Dashboard',
-            icon: 'ion-ios-home',
-            state: 'main.dash',
-            noDash: true
-        },
-        {
-            name: 'Incoming',
-            icon: 'ion-ios-cloud-download',
-            items: [
-                {
-                    name: 'Quarantine',
-                    icon: 'ion-email',
-                    state: 'main.incomingLogSearch'
+    .constant('ROUTES', function(constant) {
+        return [
+            {
+                url: '/login',
+                templateUrl: 'templates/auth/login.html',
+                controller: 'LoginCtrl',
+                data: {
+                    state: 'login',
+                    noDash: true,
+                    noSide: true
                 }
-            ]
-        },
-        {
-            name: 'Outgoing',
-            icon: 'ion-ios-cloud-upload',
-            items: [
-                {
-                    name: 'Quarantine',
-                    icon: 'ion-email',
-                    state: 'main.outgoingLogSearch'
+            },
+            {
+                url: '/',
+                abstract: true,
+                templateUrl: 'templates/common/main.html',
+                data: {
+                    state: 'main',
+                    noDash: true,
+                    noSide: true
                 }
-            ]
-        }
-    ])
+            },
+            {
+                url: 'dash',
+                views: {
+                    'main-container': {
+                        templateUrl: 'templates/dashboard/dashboard.html'
+                    }
+                },
+                data: {
+                    state: 'main.dash',
+                    name: 'Dashboard',
+                    icon: 'ion-ios-home',
+                    noDash: true,
+                    authorizedRoles: [constant.USER_ROLES.admin, constant.USER_ROLES.domain, constant.USER_ROLES.email]
+                }
+            },
+            {
+
+                name: 'Incoming',
+                icon: 'ion-ios-cloud-download',
+                items: [
+                    {
+                        url: 'incoming/log/search',
+                        views: {
+                            'main-container': {
+                                templateUrl: 'templates/logSearch/view/messages.html',
+                                controller: 'IncomingMessagesCtrl'
+                            },
+                            'right-side-menu':  {
+                                templateUrl: 'templates/logSearch/menu/menu.html',
+                                controller: 'IncomingSearchCriteriaCtrl'
+                            }
+                        },
+                        data: {
+                            state: 'main.incomingLogSearch',
+                            group: constant.GROUPS.incoming,
+                            name: 'Quarantine',
+                            icon: 'ion-email',
+                            authorizedRoles: [constant.USER_ROLES.admin, constant.USER_ROLES.domain, constant.USER_ROLES.email]
+                        }
+                    }
+                ]
+            },
+            {
+                name: 'Outgoing',
+                icon: 'ion-ios-cloud-upload',
+                items: [
+                    {
+                        url: 'outgoing/log/search',
+                        views: {
+                            'main-container': {
+                                templateUrl: 'templates/logSearch/view/messages.html',
+                                controller: 'OutgoingMessagesCtrl'
+                            },
+                            'right-side-menu': {
+                                templateUrl: 'templates/logSearch/menu/menu.html',
+                                controller: 'OutgoingSearchCriteriaCtrl'
+                            }
+                        },
+                        data: {
+                            state: 'main.outgoingLogSearch',
+                            group: constant.GROUPS.outgoing,
+                            name: 'Quarantine',
+                            icon: 'ion-email',
+                            authorizedRoles: [constant.USER_ROLES.admin, constant.USER_ROLES.domain,  constant.USER_ROLES.email]
+                        }
+                    }
+                ]
+            },
+            {
+                url: 'message',
+                cache: false,
+                views: {
+                    'main-container': {
+                        templateUrl: 'templates/logSearch/view/message-detail.html',
+                        controller: 'MessageDetailCtrl'
+                    }
+                },
+                params: {message: {}, previousState: {}},
+                data: {
+                    state: 'main.message-detail',
+                    noDash: true,
+                    noSide: true,
+                    authorizedRoles: [constant.USER_ROLES.admin, constant.USER_ROLES.domain, constant.USER_ROLES.email]
+                }
+            }
+        ]
+    })
+
 
     .constant('OTHERS', {
         sliceLength: 10,

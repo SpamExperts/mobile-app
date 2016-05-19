@@ -126,8 +126,8 @@ angular.module('SpamExpertsApp')
                 $state.go('main.message-detail', {
                     message: message,
                     previousState: {
-                        group: $state.current.group,
-                        state: $state.current.name
+                        group: $state.current.data.group,
+                        state: $state.current.data.name
                     }
                 }, {reload: true});
             };
@@ -178,6 +178,8 @@ angular.module('SpamExpertsApp')
                 $state.go('main.dash', {}, {reload: true});
                 return;
             }
+
+            console.log($state.params);
 
             var messageService = new MessagesService({
                 direction: $state.params.previousState.group,

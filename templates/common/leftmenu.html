@@ -14,16 +14,31 @@
     </ion-item>
     <div class="se-spacer-2x"></div>
     <div ng-repeat="item in menuItems">
-        <ion-item class="item-divider item-icon-left" ng-if="item.state" ui-sref-active="active" ui-sref="{{item.state}}">
-            <i class="icon {{item.icon}}"></i>{{item.name}}
-        </ion-item>
-        <ion-item class="item-divider item-icon-left" ng-if="!item.state" href="">
-            <i class="icon {{item.icon}}"></i>{{item.name}}
-        </ion-item>
+        <div  ng-if="!item.data.noSide">
 
-        <ion-item class="item-icon-left submenu" ng-repeat="page in item.items" ui-sref-active="active" ui-sref="{{page.state}}">
-            <i class="icon {{page.icon}} page-icon"></i>{{page.name}}<i class="icon icon-indicator ion-arrow-left-b"></i>
-        </ion-item>
+            <div ng-if="!item.items.length">
+                <ion-item class="item-divider item-icon-left" ng-if="item.data.state" ui-sref-active="active" ui-sref="{{item.data.state}}">
+                    <i class="icon {{item.data.icon}}"></i>{{item.data.name}}
+                </ion-item>
+                <ion-item class="item-divider item-icon-left" ng-if="!item.data.state" href="">
+                    <i class="icon {{item.data.icon}}"></i>{{item.data.name}}
+                </ion-item>
+            </div>
+
+            <div ng-if="item.items.length">
+                <ion-item class="item-divider item-icon-left" ng-if="item.state" ui-sref-active="active" ui-sref="{{item.state}}">
+                    <i class="icon {{item.icon}}"></i>{{item.name}}
+                </ion-item>
+                <ion-item class="item-divider item-icon-left" ng-if="!item.state" href="">
+                    <i class="icon {{item.icon}}"></i>{{item.name}}
+                </ion-item>
+
+                <ion-item class="item-icon-left submenu" ng-repeat="page in item.items" ui-sref-active="active" ui-sref="{{page.data.state}}">
+                    <i class="icon {{page.data.icon}} page-icon"></i>{{page.data.name}}<i class="icon icon-indicator ion-arrow-left-b"></i>
+                </ion-item>
+            </div>
+
+        </div>
     </div>
     <div class="se-spacer-2x se-background-color">
         ©2016 Spamexperts

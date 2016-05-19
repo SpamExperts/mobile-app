@@ -3,7 +3,7 @@
         <h3 class="title text-center">Welcome {{username}}!</h3>
 
         <div  ng-repeat="item in menuItems">
-            <div class="card" ng-if="!item.noDash">
+            <div class="card" ng-if="!item.data.noDash">
                 <div class="item item-divider">
                     <div class="row">
                         <div class="col-20">
@@ -12,13 +12,13 @@
                             </div>
                         </div>
                         <div class="col-80">
-                            <h2>{{item.name}}</h2>
+                            <h2>{{item.data.name}}</h2>
                         </div>
                     </div>
                 </div>
-                <div class="item item-text-wrap" ng-repeat="page in item.items" ui-sref="{{page.state}}">
-                    <i class="icon {{page.icon}}"></i>
-                    {{page.name}}
+                <div class="item item-text-wrap" ng-repeat="page in item.items" ui-sref="{{page.data.state}}">
+                    <i class="icon {{page.data.icon}}"></i>
+                    {{page.data.name}}
                 </div>
             </div>
         </div>
