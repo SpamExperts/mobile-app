@@ -106,7 +106,7 @@ angular.module('SpamExpertsApp')
                             group: constant.GROUPS.outgoing,
                             name: 'Quarantine',
                             icon: 'ion-email',
-                            authorizedRoles: [constant.USER_ROLES.admin, constant.USER_ROLES.domain,  constant.USER_ROLES.email]
+                            authorizedRoles: [constant.USER_ROLES.admin, constant.USER_ROLES.domain]
                         }
                     }
                 ]
