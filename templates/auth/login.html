@@ -2,13 +2,13 @@
     <ion-content class="padding">
         <div class="list list-inset">
             <label class="item item-input">
-                <input type="text" placeholder="Hostname" ng-model="data.hostname" ng-change="credentialChanged()">
+                <input type="text" placeholder="Hostname" ng-model="data.hostname">
             </label>
             <label class="item item-input">
-                <input type="text" placeholder="Username" ng-model="data.username" ng-change="credentialChanged()">
+                <input type="text" placeholder="Username" ng-model="data.username">
             </label>
             <label class="item item-input">
-                <input type="password" placeholder="Password" ng-model="data.password" ng-change="credentialChanged()">
+                <input type="password" placeholder="Password" ng-model="data.password">
             </label>
             <ion-toggle ng-model="data.remember" toggle-class="toggle-calm" ng-true-value="'enabled'" ng-false-value="'disabled'" ng-change="toggleRemember(data.remember)">
                 Remember me

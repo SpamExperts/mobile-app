@@ -10,10 +10,6 @@ angular.module('SpamExpertsApp')
                 AuthService.toggleRemember(remember);
             };
 
-            $scope.credentialChanged = function () {
-                AuthService.invalidateToken();
-            };
-
             $scope.login = function(data) {
 
                 var failedPopup = {
@@ -32,6 +28,7 @@ angular.module('SpamExpertsApp')
                         .then(function(response) {
                             if (!response.data.token) {
                                 $ionicPopup.alert(failedPopup);
+                                $scope.data.password = '';
                             } else {
                                 MessageQueue.remove();
                                 $state.go('main.dash', {}, {reload: true});
