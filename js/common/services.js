@@ -187,7 +187,8 @@ angular.module('SpamExpertsApp')
                     this.protocol = "https://";
                 },
                 setAuth: function (username, password) {
-                    $http.defaults.headers.common['Authorization'] = 'Basic ' + btoa(username + ':' + password);
+                    var authorization = btoa(unescape(encodeURIComponent(username + ':' + password)));
+                    $http.defaults.headers.common['Authorization'] = 'Basic ' + authorization;
                 },
                 clearAuth: function () {
                     $http.defaults.headers.common['Authorization'] = 'Bearer ';
