@@ -127,7 +127,7 @@ angular.module('SpamExpertsApp')
                     message: message,
                     previousState: {
                         group: $state.current.data.group,
-                        state: $state.current.data.name
+                        state: $state.current.data.state
                     }
                 }, {reload: true});
             };
