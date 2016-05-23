@@ -9,18 +9,13 @@
 
     <ion-content>
         <ion-list ng-if="messageEntries.length">
-            <ion-item class="item-avatar-left"
-                      ng-repeat="message in messageEntries track by $index"
-                      on-hold="selectEntry($index)"
-                      on-tap="openMessage(message)"
-                      on-swipe-right = "$event.stopPropagation()"
-            >
+            <ion-item class="item-avatar-left" ng-repeat="message in messageEntries track by $index" on-hold="selectEntry($index)" on-tap="openMessage(message)">
                 <div se-checkbox></div>
                 <h2 ng-class="{grayedout: message.isChecked}">{{message['decoded_subject_header']}}</h2>
                 <p>{{message['classification']}} - {{message['classification_details']}}</p>
-
             </ion-item>
         </ion-list>
+
         <ion-list ng-if="!loadingEntries && !messageEntries.length">
             <ion-item class="text-center">
                 No entries. Pull to refresh...
