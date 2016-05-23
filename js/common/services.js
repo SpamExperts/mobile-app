@@ -178,8 +178,64 @@ angular.module('SpamExpertsApp')
             }
         }
     ])
-    .factory('Api', ['$http', '$q', '$localstorage', 'MessageQueue', 'ENDPOINTS', 'DEV_PROXY',
-        function($http, $q, $localstorage, MessageQueue, ENDPOINTS, DEV_PROXY) {
+    .factory('NetworkService', ['$rootScope', '$cordovaNetwork', '$ionicLoading',
+        function($rootScope, $cordovaNetwork, $ionicLoading) {
+            return {
+                isOnline: function () {
+                    var status;
+                    try {
+                        status = $cordovaNetwork.isOnline()
+                    } catch (e) {
+                        status = navigator.onLine;
+                    }
+                    return status;
+                },
+                getNetwork: function () {
+                    var network;
+
+                    try {
+                        var networkStates = {};
+                        networkStates[Connection.UNKNOWN]  = 'Internet';
+                        networkStates[Connection.WIFI]     = 'WiFi';
+                        networkStates[Connection.CELL_2G]  = 'cell 2G';
+                        networkStates[Connection.CELL_3G]  = 'cell 3G';
+                        networkStates[Connection.CELL_4G]  = 'cell 4G';
+                        networkStates[Connection.CELL]     = 'internet cell';
+                        network = networkStates[$cordovaNetwork.getNetwork()];
+                    } catch (e) {
+                        network = 'Internet';
+                    }
+
+                    return network;
+                },
+                showOffline: function() {
+                    var NetworkService = this;
+                    var $scope = $rootScope.$new();
+
+                    $scope.connectionType = this.getNetwork();
+
+                    $scope.recheckConnection = function () {
+                        if (NetworkService.isOnline()) {
+                            NetworkService.showOnline();
+                        }
+                    };
+
+                    $ionicLoading.show({
+                        templateUrl: 'templates/common/offlineIndicator.html',
+                        scope: $scope,
+                        animation: 'fade-in',
+                        showBackdrop: true,
+                        showDelay: 300
+                    });
+                },
+                showOnline: function() {
+                    $ionicLoading.hide();
+                }
+            };
+        }
+    ])
+    .factory('Api', ['$http', '$q', '$localstorage', 'MessageQueue', 'ENDPOINTS', 'DEV_PROXY', 'NetworkService',
+        function($http, $q, $localstorage, MessageQueue, ENDPOINTS, DEV_PROXY, NetworkService) {
 
             return {
                 protocol: 'http://',
@@ -196,6 +252,18 @@ angular.module('SpamExpertsApp')
                 request: function (params) {
                     var baseEndpoint = '';
 
+                    if (!NetworkService.isOnline()) {
+                        NetworkService.showOffline();
+
+                        var deferred = $q.defer();
+                        deferred.resolve([]);
+
+                        var promise = deferred.promise;
+                        promise.success= function(){};
+                        promise.error= function(){};
+                        return promise;
+                    }
+
                     if (DEV_PROXY == 'DEV_PROXY_FALSE') {
                         var host;
 
@@ -207,7 +275,6 @@ angular.module('SpamExpertsApp')
 
                         baseEndpoint = this.protocol + host;
                     }
-
 
                     var defaultParams = {
                         direction : null,
@@ -293,7 +360,6 @@ angular.module('SpamExpertsApp')
                         showDelay: 300
                     });
                 },
-
                 hide: function() {
                     $ionicLoading.hide();
                 }

@@ -41,6 +41,7 @@ else
 
     wget https://raw.githubusercontent.com/katemihalikova/ion-datetime-picker/master/release/ion-datetime-picker.min.css -P www/lib/ion-datetime-picker
     wget https://raw.githubusercontent.com/katemihalikova/ion-datetime-picker/master/release/ion-datetime-picker.min.js -P www/lib/ion-datetime-picker
+    wget https://raw.githubusercontent.com/driftyco/ng-cordova/master/dist/ng-cordova.min.js -P lib/ngCordova/
 
     # get the app
     git clone https://github.com/SpamExperts/mobile-app.git
@@ -70,6 +71,7 @@ else
     # add platform
     ionic platform add $PLATFORM
 
+    cordova plugin add cordova-plugin-network-information
 
     # clear default resources
     rm -rf resources/*
