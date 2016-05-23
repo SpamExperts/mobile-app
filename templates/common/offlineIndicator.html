@@ -1,5 +1,11 @@
 <div class="se-loading">
-    It seems that your {{connectionType}} connection is currently offline...<br>
-    Once your connection is back on, please retry to perform the same action
-    <button class="button button-calm button-full" on-tap="recheckConnection()">Recheck</button>
+    <ion-spinner ng-if="checkingConnection"></ion-spinner>
+    <div  ng-if="checkingConnection">
+        Checking network availability...
+    </div>
+    <div  ng-if="!checkingConnection">
+        It seems that your {{connectionType}} connection is currently offline...<br>
+        Once your connection is back on, please retry to perform the same action
+        <button class="button button-calm button-full" on-tap="recheckConnection()">Recheck</button>
+    </div>
 </div>

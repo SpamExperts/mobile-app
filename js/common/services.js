@@ -178,8 +178,8 @@ angular.module('SpamExpertsApp')
             }
         }
     ])
-    .factory('NetworkService', ['$rootScope', '$cordovaNetwork', '$ionicLoading',
-        function($rootScope, $cordovaNetwork, $ionicLoading) {
+    .factory('NetworkService', ['$rootScope', '$cordovaNetwork', '$ionicLoading', '$q', '$timeout',
+        function($rootScope, $cordovaNetwork, $ionicLoading, $q, $timeout) {
             return {
                 isOnline: function () {
                     var status;
@@ -210,14 +210,20 @@ angular.module('SpamExpertsApp')
                 },
                 showOffline: function() {
                     var NetworkService = this;
-                    var $scope = $rootScope.$new();
+                    var $scope = $rootScope.$new(true);
 
                     $scope.connectionType = this.getNetwork();
+                    $scope.checkingConnection = false;
 
                     $scope.recheckConnection = function () {
-                        if (NetworkService.isOnline()) {
-                            NetworkService.showOnline();
-                        }
+                        $scope.checkingConnection = true;
+
+                        $timeout(function () {
+                            if (NetworkService.isOnline()) {
+                                NetworkService.showOnline();
+                            }
+                            $scope.checkingConnection = false;
+                        }, 700);
                     };
 
                     $ionicLoading.show({
@@ -227,6 +233,15 @@ angular.module('SpamExpertsApp')
                         showBackdrop: true,
                         showDelay: 300
                     });
+
+                    var deferred = $q.defer();
+                    var promise = deferred.promise;
+
+                    deferred.reject();
+                    promise.success = function(fn) {promise.then(fn); return promise;};
+                    promise.error = function(fn) {promise.then(null, fn); return promise;};
+
+                    return promise;
                 },
                 showOnline: function() {
                     $ionicLoading.hide();
@@ -234,8 +249,8 @@ angular.module('SpamExpertsApp')
             };
         }
     ])
-    .factory('Api', ['$http', '$q', '$localstorage', 'MessageQueue', 'ENDPOINTS', 'DEV_PROXY', 'NetworkService',
-        function($http, $q, $localstorage, MessageQueue, ENDPOINTS, DEV_PROXY, NetworkService) {
+    .factory('Api', ['$http', '$localstorage', 'MessageQueue', 'ENDPOINTS', 'DEV_PROXY', 'NetworkService',
+        function($http, $localstorage, MessageQueue, ENDPOINTS, DEV_PROXY, NetworkService) {
 
             return {
                 protocol: 'http://',
@@ -253,15 +268,7 @@ angular.module('SpamExpertsApp')
                     var baseEndpoint = '';
 
                     if (!NetworkService.isOnline()) {
-                        NetworkService.showOffline();
-
-                        var deferred = $q.defer();
-                        deferred.resolve([]);
-
-                        var promise = deferred.promise;
-                        promise.success= function(){};
-                        promise.error= function(){};
-                        return promise;
+                        return NetworkService.showOffline();
                     }
 
                     if (DEV_PROXY == 'DEV_PROXY_FALSE') {
