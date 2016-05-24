@@ -9,9 +9,9 @@
 
     <ion-content>
         <ion-list ng-if="messageEntries.length">
-            <ion-item class="item-avatar-left" ng-repeat="message in messageEntries track by $index" on-hold="selectEntry($index)" on-tap="openMessage(message)">
+            <ion-item class="item-avatar-left" ng-repeat="message in messageEntries track by $index" on-hold="selectEntry($index)" on-tap="openMessage(message)" ng-class="{grayedout: message.isChecked}">
                 <div se-checkbox></div>
-                <h2 ng-class="{grayedout: message.isChecked}">{{message['decoded_subject_header']}}</h2>
+                <h2>{{message['decoded_subject_header']}}</h2>
                 <p>{{message['classification']}} - {{message['classification_details']}}</p>
             </ion-item>
         </ion-list>

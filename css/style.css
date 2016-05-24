@@ -301,8 +301,7 @@
 }
 
 .grayedout {
-    font-style: italic;
-    color: #626262;
+    background: #eeeeee;
 }
 
 .se-spacer {
