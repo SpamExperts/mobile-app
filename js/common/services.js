@@ -195,12 +195,12 @@ angular.module('SpamExpertsApp')
 
                     try {
                         var networkStates = {};
-                        networkStates[Connection.UNKNOWN]  = 'Internet';
+                        networkStates[Connection.CELL]     = 'internet cell';
                         networkStates[Connection.WIFI]     = 'WiFi';
+                        networkStates[Connection.UNKNOWN]  = 'Internet';
                         networkStates[Connection.CELL_2G]  = 'cell 2G';
                         networkStates[Connection.CELL_3G]  = 'cell 3G';
                         networkStates[Connection.CELL_4G]  = 'cell 4G';
-                        networkStates[Connection.CELL]     = 'internet cell';
                         network = networkStates[$cordovaNetwork.getNetwork()];
                     } catch (e) {
                         network = 'Internet';
@@ -468,6 +468,7 @@ angular.module('SpamExpertsApp')
                     }
 
                     $rootScope.$broadcast({
+                          0: API_EVENTS.notFound,
                         401: API_EVENTS.notAuthenticated,
                         403: API_EVENTS.notAuthorized,
                         404: API_EVENTS.notFound,
