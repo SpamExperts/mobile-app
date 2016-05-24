@@ -54,6 +54,9 @@ angular.module('SpamExpertsApp')
                 toggleRemember: function(remember) {
                     $localstorage.set('settings.remember', remember, false);
                 },
+                clearPassword: function() {
+                    $localstorage.set('settings.password', '', false);
+                },
                 login: function(hostname, username, password, remember) {
                     var settings = $localstorage.get('settings', defaultSettings);
                     var token = $localstorage.get('token');

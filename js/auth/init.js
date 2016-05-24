@@ -24,7 +24,7 @@ angular.module('SpamExpertsApp')
             $rootScope.$on('$logout', function () {
                 $ionicPopup
                     .confirm({
-                        title: 'Confirm action',
+                        title: 'Confirm logout',
                         template: 'Are you sure you want to log out?'
                     })
                     .then(function(choice) {
@@ -48,10 +48,11 @@ angular.module('SpamExpertsApp')
 
             $rootScope.$on(API_EVENTS.notAuthenticated, function() {
                 AuthService.logout();
+                AuthService.clearPassword();
                 $state.go('login');
                 $ionicPopup.alert({
-                    title: 'Session Lost!',
-                    template: 'Sorry, You have to login again.'
+                    title: 'Authentication expired',
+                    template: 'Sorry, you have to login again.'
                 });
             });
 

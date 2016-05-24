@@ -377,6 +377,7 @@ angular.module('SpamExpertsApp')
         function ($q, $rootScope, $injector, $timeout, $localstorage, MessageQueue, API_EVENTS, OTHERS) {
             var pendingXHR;
             var requestTimer;
+            var manualStop;
 
             return {
                 request: function(config) {
@@ -386,6 +387,7 @@ angular.module('SpamExpertsApp')
                         config.hasOwnProperty('responseKey')
                     ) {
                         var BusyService = $injector.get('BusyService');
+                        manualStop = false;
 
                         BusyService.hide();
 
@@ -401,6 +403,7 @@ angular.module('SpamExpertsApp')
                         scope.cancelLoading = false;
 
                         $rootScope.stopRequest = function () {
+                            manualStop = true;
                             pendingXHR.resolve();
                             BusyService.hide();
                             if (requestTimer) {
@@ -467,13 +470,17 @@ angular.module('SpamExpertsApp')
                         $timeout.cancel(requestTimer);
                     }
 
-                    $rootScope.$broadcast({
+                    var status = {
                           0: API_EVENTS.notFound,
                         401: API_EVENTS.notAuthenticated,
                         403: API_EVENTS.notAuthorized,
                         404: API_EVENTS.notFound,
                         500: API_EVENTS.serverError
-                    }[response.status], response);
+                    };
+
+                    if (!manualStop) {
+                        $rootScope.$broadcast(status[response.status], response);
+                    }
 
                     return $q.reject(response);
                 }
