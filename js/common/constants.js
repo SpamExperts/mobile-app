@@ -352,6 +352,9 @@ angular.module('SpamExpertsApp')
                     'Are you sure you want to do this?',
                     condition: domainAndEmailAndIncoming
                 }
-            ]
+            ],
+            tapAction: [{
+                condition: adminOrIncoming
+            }]
         }
     });

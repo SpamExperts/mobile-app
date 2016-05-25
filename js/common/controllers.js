@@ -37,6 +37,8 @@ angular.module('SpamExpertsApp')
                 if ($rootScope.stopRequest && $rootScope.stopRequest instanceof Function) {
                     $rootScope.stopRequest();
                 }
+
+                MessageQueue.remove();
             });
 
             $rootScope.canDragRight = function() {

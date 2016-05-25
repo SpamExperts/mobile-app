@@ -129,6 +129,7 @@ angular.module('SpamExpertsApp')
     ])
     .factory('MessageQueue', ['$rootScope', '$timeout',
         function ($rootScope, $timeout) {
+            var queueTimer;
             return {
                 remove: function (item) {
                     if (isEmpty(item)) {
@@ -139,7 +140,10 @@ angular.module('SpamExpertsApp')
                 },
                 set: function (messageQueue) {
                     $rootScope.messageQueue = angular.merge({}, $rootScope.messageQueue, messageQueue);
-                    $timeout(this.remove, 10000);
+                    if (queueTimer) {
+                        $timeout.cancel(queueTimer);
+                    }
+                    queueTimer = $timeout(this.remove, 10000);
                 }
             };
         }
@@ -155,7 +159,7 @@ angular.module('SpamExpertsApp')
                     params,
                     {
                         role: AuthService.getRole(),
-                        direction: $state.current.data.group
+                        direction: (params['direction'] ? params['direction'] : $state.current.data.group)
                     }
                 );
 

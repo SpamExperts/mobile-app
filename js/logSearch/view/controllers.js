@@ -122,23 +122,38 @@ angular.module('SpamExpertsApp')
                     });
             };
 
-            $scope.openMessage = function(message) {
-                $state.go('main.message-detail', {
-                    message: message,
-                    previousState: {
-                        group: $state.current.data.group,
-                        state: $state.current.data.state
-                    }
-                }, {reload: true});
-            };
+            var actionManager = new ActionManager();
+
+            var barActions = actionManager.getActions('bar');
+            var availableActions = actionManager.getActions('actionSheet');
+            var tapAction = actionManager.getActions('tapAction');
 
             $scope.bulkMode = false;
             $scope.selectedCount = messagesService.countSelected();
+            $scope.barActions = barActions;
+
+            $scope.openMessage = function(message) {
+                if (!isEmpty(tapAction)) {
+                    $state.go('main.message-detail', {
+                        message: message,
+                        previousState: {
+                            group: $state.current.data.group,
+                            state: $state.current.data.state
+                        }
+                    }, {reload: true});
+                } else {
+                    actionManager.noViewAction();
+                }
+            };
 
             $scope.selectEntry = function(index) {
-                messagesService.selectMessage(index);
-                $scope.selectedCount = messagesService.countSelected();
-                $scope.bulkMode = messagesService.isBulkMode();
+                if (!isEmpty(barActions) || !isEmpty(availableActions)) {
+                    messagesService.selectMessage(index);
+                    $scope.selectedCount = messagesService.countSelected();
+                    $scope.bulkMode = messagesService.isBulkMode();
+                } else {
+                    actionManager.noAvailableAction();
+                }
             };
 
             $scope.selectAll = function (toggle) {
@@ -146,11 +161,6 @@ angular.module('SpamExpertsApp')
                 $scope.selectedCount = messagesService.countSelected();
                 $scope.bulkMode = messagesService.isBulkMode();
             };
-
-            var actionManager = new ActionManager();
-
-            var availableActions = actionManager.getActions('actionSheet');
-            $scope.barActions = actionManager.getActions('bar');
 
             $scope.processAction = function (action) {
                 actionManager.processAction(
@@ -202,8 +212,10 @@ angular.module('SpamExpertsApp')
                 $scope.message = messageService.getMessageParts();
             });
 
-            var actionManager = new ActionManager();
+            var actionManager = new ActionManager($state.params.previousState.group);
             var availableActions = actionManager.getActions('actionSheet');
+
+            $scope.hasActions = !isEmpty(availableActions);
 
             $scope.processAction = function () {
                 actionManager.processAction(

@@ -124,8 +124,8 @@ angular.module('SpamExpertsApp')
             return MessagesService;
         }
     ])
-    .factory('ActionManager', ['$ionicActionSheet', '$ionicPopup', 'filterPermissions', 'BULK_ACTIONS',
-        function ($ionicActionSheet, $ionicPopup, filterPermissions, BULK_ACTIONS) {
+    .factory('ActionManager', ['$ionicActionSheet', '$ionicPopup', 'MessageQueue','filterPermissions', 'BULK_ACTIONS',
+        function ($ionicActionSheet, $ionicPopup, MessageQueue, filterPermissions, BULK_ACTIONS) {
 
             function confirm (action, callback) {
                 $ionicPopup
@@ -140,10 +140,11 @@ angular.module('SpamExpertsApp')
                     });
             }
 
-            return function () {
+            return function (direction) {
                 var actions = {
-                    actionSheet: filterPermissions(BULK_ACTIONS.logSearch['actionSheet']),
-                    bar: filterPermissions(BULK_ACTIONS.logSearch['bar'])
+                    actionSheet: filterPermissions(BULK_ACTIONS.logSearch['actionSheet'], {direction: direction}),
+                    bar: filterPermissions(BULK_ACTIONS.logSearch['bar'], {direction: direction}),
+                    tapAction: filterPermissions(BULK_ACTIONS.logSearch['tapAction'], {direction: direction})
                 };
 
                 this.getActions = function(type) {
@@ -167,7 +168,16 @@ angular.module('SpamExpertsApp')
                     } else {
                         confirm(actions, callback);
                     }
-                }
+                };
+
+                this.noAvailableAction = function () {
+                    MessageQueue.set({info: ['No bulk actions are available']});
+                };
+
+                this.noViewAction = function () {
+                    MessageQueue.set({info: ['You are not allowed to view this message']});
+                };
+
             };
 
         }

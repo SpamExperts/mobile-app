@@ -1,4 +1,4 @@
-<div class="message-queue" ng-if="messageQueue['success'].length || messageQueue['notice'].length || messageQueue['error'].length">
+<div class="message-queue" ng-if="messageQueue['success'].length || messageQueue['notice'].length || messageQueue['error'].length || messageQueue['info'].length">
     <div class="list">
         <ion-slide-box show-pager="false" ng-if="messageQueue['error'].length">
             <ion-slide  class="alert alert-error item-icon-right" on-swipe="removeQueueMessage('error');$event.stopPropagation()">
@@ -20,5 +20,13 @@
                 <i class="icon ion-close-round icon-accessory" on-tap="removeQueueMessage('success')"></i>
             </ion-slide>
         </ion-slide-box>
+
+        <ion-slide-box show-pager="false" ng-if="messageQueue['info'].length">
+            <ion-slide  class="alert alert-info item-icon-right" on-swipe="removeQueueMessage('info');$event.stopPropagation()">
+                <div ng-repeat="info in messageQueue['info'] track by $index" ng-bind-html="info|trust"></div>
+                <i class="icon ion-close-round icon-accessory" on-tap="removeQueueMessage('info')"></i>
+            </ion-slide>
+        </ion-slide-box>
+
     </div>
 </div>

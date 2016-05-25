@@ -47,7 +47,7 @@
         <div class="buttons">
             <button class="button" on-tap="back()"><i class="icon ion-reply"></i> Back</button>
         </div>
-        <div class="title" on-tap="processAction()"><i class="icon ion-grid"></i></div>
+        <div class="title" on-tap="processAction()" ng-if="hasActions"><i class="icon ion-grid"></i></div>
         <div class="buttons">
             <button class="button button-clear">&nbsp;</button>
         </div>

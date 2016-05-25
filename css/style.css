@@ -110,6 +110,12 @@
     border-color: #d6e9c6;
 }
 
+.alert-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+
 /* Message queue */
 .message-queue .button,
 .message-queue .item-content {
