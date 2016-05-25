@@ -76,33 +76,15 @@ angular.module('SpamExpertsApp')
     .factory('CriteriaManager', ['filterPermissions', 'SEARCH_CRITERIA',
         function (filterPermissions, SEARCH_CRITERIA) {
 
+            return function () {
+                var criteriaForm = {
+                    fields: filterPermissions(SEARCH_CRITERIA.logSearch['fields']),
+                    actions: filterPermissions(SEARCH_CRITERIA.logSearch['actions'])
+                };
 
-            function CriteriaManager(modelData) {
-                this.direction = null;
-
-                if (!isEmpty(modelData)) {
-                    this.construct(modelData);
-                }
-            }
-
-            var actions = {};
-
-            CriteriaManager.prototype = {
-                construct: function (modelData) {
-                    angular.merge(this, modelData);
-                    actions = {
-                        fields:  filterPermissions(SEARCH_CRITERIA.logSearch['fields'], {direction: this.direction}, {}),
-                        actions: filterPermissions(SEARCH_CRITERIA.logSearch['actions'], {direction: this.direction}, {})
-                    };
-                },
-                getFields: function () {
-                    return actions['fields'];
-                },
-                getActions: function () {
-                    return actions['actions'];
+                this.criteriaForm = function (type) {
+                    return criteriaForm[type];
                 }
             };
-
-            return CriteriaManager;
         }
     ]);

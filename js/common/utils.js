@@ -41,3 +41,25 @@ function isEmpty(obj) {
 
     return true;
 }
+
+function adminOrIncoming(params, constant) {
+    return -1 < [
+            constant['USER_ROLES'].admin
+        ].indexOf(params['role']) ||
+        constant['GROUPS'].incoming ==  params['direction'];
+}
+
+function domainAndIncoming(params, constant) {
+    return -1 < [
+            constant['USER_ROLES'].domain
+        ].indexOf(params['role']) &&
+        constant['GROUPS'].incoming == params['direction'];
+}
+
+function domainAndEmailAndIncoming(params, constant) {
+    return -1 < [
+            constant['USER_ROLES'].domain,
+            constant['USER_ROLES'].email
+        ].indexOf(params['role']) &&
+        constant['GROUPS'].incoming == params['direction'];
+}

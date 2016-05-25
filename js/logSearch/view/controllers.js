@@ -37,8 +37,8 @@ angular.module('SpamExpertsApp')
     ]);
 
 angular.module('SpamExpertsApp')
-    .controller('CommonMessagesCtrl', ['$scope', '$state', '$timeout', '$ionicScrollDelegate', 'messagesService', 'criteriaService', 'actionManager',
-        function($scope, $state, $timeout, $ionicScrollDelegate, messagesService, criteriaService, actionManager) {
+    .controller('CommonMessagesCtrl', ['$scope', '$state', '$timeout', '$ionicScrollDelegate', 'messagesService', 'criteriaService', 'ActionManager',
+        function($scope, $state, $timeout, $ionicScrollDelegate, messagesService, criteriaService, ActionManager) {
 
             $scope.info = {
                 count: 0,
@@ -147,6 +147,8 @@ angular.module('SpamExpertsApp')
                 $scope.bulkMode = messagesService.isBulkMode();
             };
 
+            var actionManager = new ActionManager();
+
             var availableActions = actionManager.getActions('actionSheet');
             $scope.barActions = actionManager.getActions('bar');
 
@@ -170,16 +172,14 @@ angular.module('SpamExpertsApp')
         }
     ])
 
-    .controller('MessageDetailCtrl', ['$rootScope', '$scope', '$state', '$timeout', 'MessageQueue', 'MessagesService', 'actionManager',
-        function($rootScope, $scope, $state, $timeout, MessageQueue, MessagesService, actionManager) {
+    .controller('MessageDetailCtrl', ['$rootScope', '$scope', '$state', '$timeout', 'MessageQueue', 'MessagesService', 'ActionManager',
+        function($rootScope, $scope, $state, $timeout, MessageQueue, MessagesService, ActionManager) {
 
             var message = angular.copy($state.params.message);
             if (isEmpty(message)) {
                 $state.go('main.dash', {}, {reload: true});
                 return;
             }
-
-            console.log($state.params);
 
             var messageService = new MessagesService({
                 direction: $state.params.previousState.group,
@@ -202,6 +202,7 @@ angular.module('SpamExpertsApp')
                 $scope.message = messageService.getMessageParts();
             });
 
+            var actionManager = new ActionManager();
             var availableActions = actionManager.getActions('actionSheet');
 
             $scope.processAction = function () {

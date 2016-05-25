@@ -124,7 +124,7 @@ angular.module('SpamExpertsApp')
             return MessagesService;
         }
     ])
-    .factory('actionManager', ['$ionicActionSheet', '$ionicPopup', 'filterPermissions', 'BULK_ACTIONS',
+    .factory('ActionManager', ['$ionicActionSheet', '$ionicPopup', 'filterPermissions', 'BULK_ACTIONS',
         function ($ionicActionSheet, $ionicPopup, filterPermissions, BULK_ACTIONS) {
 
             function confirm (action, callback) {
@@ -140,16 +140,17 @@ angular.module('SpamExpertsApp')
                     });
             }
 
-            var actions = {
-                actionSheet: filterPermissions(BULK_ACTIONS.logSearch['actionSheet'], {}, {}),
-                bar: filterPermissions(BULK_ACTIONS.logSearch['bar'], {}, {})
-            };
+            return function () {
+                var actions = {
+                    actionSheet: filterPermissions(BULK_ACTIONS.logSearch['actionSheet']),
+                    bar: filterPermissions(BULK_ACTIONS.logSearch['bar'])
+                };
 
-            return {
-                getActions: function(type) {
+                this.getActions = function(type) {
                     return actions[type];
-                },
-                processAction: function (actions, callback) {
+                };
+
+                this.processAction = function (actions, callback) {
                     if (angular.isArray(actions)) {
                         var actionSheet = $ionicActionSheet.show({
                             buttons: actions,
@@ -167,7 +168,7 @@ angular.module('SpamExpertsApp')
                         confirm(actions, callback);
                     }
                 }
-
             };
+
         }
     ]);

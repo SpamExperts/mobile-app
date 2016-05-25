@@ -144,13 +144,18 @@ angular.module('SpamExpertsApp')
             };
         }
     ])
-    .factory('filterPermissions', ['AuthService', 'USER_ROLES', 'GROUPS',
-        function (AuthService, USER_ROLES, GROUPS) {
+    .factory('filterPermissions', ['$state', 'AuthService', 'USER_ROLES', 'GROUPS',
+        function ($state, AuthService, USER_ROLES, GROUPS) {
             return function (collection, params, constants) {
+
+                if (isEmpty(params)) { params = {}; }
+                if (isEmpty(constants)) { constants = {};}
+
                 angular.merge(
                     params,
                     {
-                        role: AuthService.getRole()
+                        role: AuthService.getRole(),
+                        direction: $state.current.data.group
                     }
                 );
 
@@ -472,6 +477,7 @@ angular.module('SpamExpertsApp')
 
                     var status = {
                           0: API_EVENTS.notFound,
+                        302: API_EVENTS.notFound,
                         401: API_EVENTS.notAuthenticated,
                         403: API_EVENTS.notAuthorized,
                         404: API_EVENTS.notFound,
