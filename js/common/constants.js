@@ -24,6 +24,7 @@ angular.module('SpamExpertsApp')
         notAuthenticated: 'not-authenticated',
         notAuthorized: 'not-authorized',
         serverError: 'server-error',
+        serviceUnavailable: 'server-unavailable',
         notFound: 'not-found'
     })
 

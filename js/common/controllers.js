@@ -69,7 +69,14 @@ angular.module('SpamExpertsApp')
             $rootScope.$on(API_EVENTS.serverError, function() {
                 $ionicPopup.alert({
                     title: 'Server error',
-                    template: 'Oops! Something went wrong!%s Help us improve your experience by sending an error report'.printf('<br>')
+                    template: 'Oops! Something went wrong!%s Please try again later!'
+                });
+            });
+
+            $rootScope.$on(API_EVENTS.serviceUnavailable, function() {
+                $ionicPopup.alert({
+                    title: 'Service unavailable',
+                    template: 'Oops! Something went wrong! Please try again later!'
                 });
             });
 

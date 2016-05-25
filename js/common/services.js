@@ -485,7 +485,8 @@ angular.module('SpamExpertsApp')
                         401: API_EVENTS.notAuthenticated,
                         403: API_EVENTS.notAuthorized,
                         404: API_EVENTS.notFound,
-                        500: API_EVENTS.serverError
+                        500: API_EVENTS.serverError,
+                        503: API_EVENTS.serviceUnavailable
                     };
 
                     if (!manualStop) {
