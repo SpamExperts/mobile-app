@@ -388,7 +388,7 @@ angular.module('SpamExpertsApp')
             var requestTimer;
             var manualStop;
 
-            return {
+            var interceptor = {
                 request: function(config) {
 
                     if (
@@ -449,6 +449,11 @@ angular.module('SpamExpertsApp')
                     ) {
                         $injector.get('BusyService').hide();
 
+                        if (!angular.isObject(response.data)) {
+                            response.status = 302;
+                            return interceptor.responseError(response);
+                        }
+
                         var data = response.data;
                         var key = !isEmpty(response.config.responseKey) ? response.config.responseKey : 'body';
 
@@ -473,28 +478,34 @@ angular.module('SpamExpertsApp')
                     return response;
                 },
                 responseError: function (response) {
-                    $injector.get('BusyService').hide();
+                    if (
+                        !isEmpty(response.config.params) ||
+                        response.config.hasOwnProperty('responseKey')
+                    ) {
+                        $injector.get('BusyService').hide();
 
-                    if (requestTimer) {
-                        $timeout.cancel(requestTimer);
+                        if (requestTimer) {
+                            $timeout.cancel(requestTimer);
+                        }
+
+                        var status = {
+                            '-1': API_EVENTS.notFound,
+                            302: API_EVENTS.notFound,
+                            401: API_EVENTS.notAuthenticated,
+                            403: API_EVENTS.notAuthorized,
+                            404: API_EVENTS.notFound,
+                            500: API_EVENTS.serverError,
+                            503: API_EVENTS.serviceUnavailable
+                        };
+
+                        if (!manualStop) {
+                            $rootScope.$broadcast(status[response.status], response);
+                        }
                     }
-
-                    var status = {
-                          0: API_EVENTS.notFound,
-                        302: API_EVENTS.notFound,
-                        401: API_EVENTS.notAuthenticated,
-                        403: API_EVENTS.notAuthorized,
-                        404: API_EVENTS.notFound,
-                        500: API_EVENTS.serverError,
-                        503: API_EVENTS.serviceUnavailable
-                    };
-
-                    if (!manualStop) {
-                        $rootScope.$broadcast(status[response.status], response);
-                    }
-
                     return $q.reject(response);
                 }
             };
+
+            return interceptor;
         }
     ]);
