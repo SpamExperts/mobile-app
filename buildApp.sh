@@ -29,20 +29,6 @@ else
     # clear the blank assets
     rm -rf www/*
 
-    # add dependencies
-    wget http://code.ionicframework.com/1.2.4/js/ionic.bundle.min.js -P www/lib/ionic/js/
-
-    wget http://code.ionicframework.com/1.2.4/css/ionic.min.css -P www/lib/ionic/css/
-
-    wget http://code.ionicframework.com/1.2.4/fonts/ionicons.eot  -P www/lib/ionic/fonts/
-    wget http://code.ionicframework.com/1.2.4/fonts/ionicons.svg  -P www/lib/ionic/fonts/
-    wget http://code.ionicframework.com/1.2.4/fonts/ionicons.ttf  -P www/lib/ionic/fonts/
-    wget http://code.ionicframework.com/1.2.4/fonts/ionicons.woff -P www/lib/ionic/fonts/
-
-    wget https://raw.githubusercontent.com/katemihalikova/ion-datetime-picker/master/release/ion-datetime-picker.min.css -P www/lib/ion-datetime-picker
-    wget https://raw.githubusercontent.com/katemihalikova/ion-datetime-picker/master/release/ion-datetime-picker.min.js -P www/lib/ion-datetime-picker
-    wget https://raw.githubusercontent.com/driftyco/ng-cordova/master/dist/ng-cordova.min.js -P www/lib/ngCordova/
-
     # get the app
     git clone https://github.com/SpamExperts/mobile-app.git
 
@@ -50,6 +36,11 @@ else
     cd mobile-app
     npm install
     gulp
+
+    bower install
+    find lib -type f ! -name '*.min.css' ! -name '*.min.js' ! -name '*.ttf' ! -name '*.woff' ! -name '*.svg' ! -name '*.eot'| xargs rm -rf
+    find lib -type d -empty -delete
+
     cd -
 
     # add index.html
