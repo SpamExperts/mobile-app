@@ -37,6 +37,7 @@ else
     npm install
     gulp
 
+    # add dependencies
     bower install
     find lib -type f ! -name '*.min.css' ! -name '*.min.js' ! -name '*.ttf' ! -name '*.woff' ! -name '*.svg' ! -name '*.eot'| xargs rm -rf
     find lib -type d -empty -delete
@@ -48,6 +49,9 @@ else
 
     # add img folder
     mv mobile-app/img www/
+
+    # add the dependencies
+    mv mobile-app/lib www/
 
     # add the minified scripts
     mv mobile-app/minified www/
