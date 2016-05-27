@@ -38,7 +38,9 @@ angular.module('SpamExpertsApp')
                     $rootScope.stopRequest();
                 }
 
-                MessageQueue.remove();
+                if (!$state.params.keepMessageQueue) {
+                    MessageQueue.remove();
+                }
             });
 
             $rootScope.canDragRight = function() {
@@ -69,7 +71,7 @@ angular.module('SpamExpertsApp')
             $rootScope.$on(API_EVENTS.serverError, function() {
                 $ionicPopup.alert({
                     title: 'Server error',
-                    template: 'Oops! Something went wrong!%s Please try again later!'
+                    template: 'Oops! Something went wrong! Please try again later!'
                 });
             });
 

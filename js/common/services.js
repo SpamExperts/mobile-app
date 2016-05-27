@@ -133,13 +133,20 @@ angular.module('SpamExpertsApp')
             return {
                 remove: function (item) {
                     if (isEmpty(item)) {
-                        $rootScope.messageQueue = [];
+                        $rootScope.messageQueue = {};
                     } else {
                         $rootScope.messageQueue[item] = [];
                     }
                 },
                 set: function (messageQueue) {
-                    $rootScope.messageQueue = angular.merge({}, $rootScope.messageQueue, messageQueue);
+                    if (isEmpty(messageQueue)) return;
+                    if (isEmpty($rootScope.messageQueue)) $rootScope.messageQueue = {error:[], notice: [], success: [], info: []};
+
+                    $rootScope.messageQueue['info']    = unique($rootScope.messageQueue['info'].concat(messageQueue.info || []));
+                    $rootScope.messageQueue['error']   = unique($rootScope.messageQueue['error'].concat(messageQueue.error || []));
+                    $rootScope.messageQueue['notice']  = unique($rootScope.messageQueue['notice'].concat(messageQueue.notice || []));
+                    $rootScope.messageQueue['success'] = unique($rootScope.messageQueue['success'].concat(messageQueue.success || []));
+
                     if (queueTimer) {
                         $timeout.cancel(queueTimer);
                     }

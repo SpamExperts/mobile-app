@@ -42,6 +42,16 @@ function isEmpty(obj) {
     return true;
 }
 
+function unique(array) {
+    var arr = [];
+    for (var i = 0; i < array.length; i++) {
+        if (-1 == arr.indexOf(array[i])) {
+            arr.push(array[i]);
+        }
+    }
+    return arr;
+}
+
 function adminOrIncoming(params, constant) {
     return -1 < [
             constant['USER_ROLES'].admin

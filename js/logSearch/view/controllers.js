@@ -169,7 +169,6 @@ angular.module('SpamExpertsApp')
                         messagesService
                             .bulkAction(action.name)
                             .then(function () {
-                                $state.go($state.current, {}, {reload: true});
                                 $timeout(function() {
                                     $scope.$broadcast('refreshEntries');
                                 });
@@ -224,7 +223,7 @@ angular.module('SpamExpertsApp')
                         messageService
                             .bulkAction(action.name, message)
                             .then(function () {
-                                $state.go($state.params.previousState.state, {}, {reload: true});
+                                $state.go($state.params.previousState.state, {keepMessageQueue: true}, {reload: true});
                                 $timeout(function() {
                                     $rootScope.$broadcast('refreshEntries');
                                 });

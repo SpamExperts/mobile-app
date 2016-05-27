@@ -117,22 +117,25 @@
 }
 
 /* Message queue */
-.message-queue .button,
-.message-queue .item-content {
-    background: transparent;
-    padding: 0;
+.message-queue {
+    width:100%;
 }
+
 .message-queue .list {
     background: rgba(0, 0, 0, 0.34);
-
-    padding-top: 2px;
-    padding-bottom: 20px;
+    width:100%;
     border-radius: 0 0 5px 5px;
-    margin: 0 1px;
+    margin: 0;
+    padding-bottom: 10px;
 }
 
 .message-queue .list .alert {
     width: 99.5% !important;
+
+}
+.slider-slides {
+    width: 100% !important;
+    padding: 2px 0;
 }
 
 /* Menu left */
