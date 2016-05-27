@@ -13,13 +13,13 @@
                 <p>{{message.details['meta_data'].size}}</p>
 
                 <table border="0">
-                    <tr><td style="padding: 0px 5px;">From:</td><td>{{message['sender']}}</td></tr>
-                    <tr><td style="padding: 0px 5px;">To:</td><td>{{message['recipient']}}</td></tr>
+                    <tr><td style="padding: 0 5px;">From:</td><td>{{message['sender']}}</td></tr>
+                    <tr><td style="padding: 0 5px;">To:</td><td>{{message['recipient']}}</td></tr>
                 </table>
             </div>
 
-            <div class="item tabs tabs-secondary tabs-icon-left" on-tap="toggleRaw()" ng-if="message.details">
-                <a class="tab-item" href="#">
+            <div class="item tabs tabs-secondary tabs-icon-left" on-tap="toggleRaw()" ng-if="message.details['msgBody']">
+                <div class="tab-item">
                     <i class="icon ion-android-mail"></i>
                   <span ng-if="!showRaw">
                       Show raw message
@@ -27,14 +27,14 @@
                   <span ng-if="showRaw">
                       Hide raw message
                   </span>
-                </a>
+                </div>
             </div>
 
-            <div class="item item-body" ng-if="message.details && showRaw">
+            <div class="item item-body" ng-if="message.details['msgBody'] && showRaw">
                 <pre>{{message.details['eml']}}</pre>
             </div>
 
-            <div class="item item-body" ng-if="message.details && !showRaw">
+            <div class="item item-body" ng-if="message.details['msgBody'] && !showRaw">
                 {{message.details['msgBody']}}
             </div>
 
@@ -48,7 +48,7 @@
         <div class="buttons">
             <button class="button" on-tap="back()"><i class="icon ion-reply"></i> Back</button>
         </div>
-        <div class="title" on-tap="processAction()" ng-if="hasActions"><i class="icon ion-grid"></i></div>
+        <div class="title" on-tap="processAction()" ng-if="hasActions && message.details['msgBody']"><i class="icon ion-grid"></i></div>
         <div class="buttons">
             <button class="button button-clear">&nbsp;</button>
         </div>

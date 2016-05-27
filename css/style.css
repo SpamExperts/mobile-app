@@ -160,8 +160,28 @@
     font-size: 24px;
 }
 
+/* dashboard style */
+
+.dashboard-item {
+    width: 100%;
+    text-align: left;
+}
+
+.dashboard-title {
+    font-size: 150%;
+    line-height: 200%;
+    margin-left: 15px;
+}
+
+.dashboard-item-name {
+    display: inline-block;
+    font-size: 110%;
+    line-height: 150%;
+}
+
 /* Icons */
 .icon-se {
+    display: inline-block;
     width: 50px;
     height: 50px;
     line-height: 49px;
@@ -208,6 +228,12 @@
 .icon-unknown {
     border:1px gray solid;
     background-color:gray;
+    color: white !important;
+}
+
+.icon-blue {
+    border:1px #38add6 solid;
+    background-color: #39B0DA;
     color: white !important;
 }
 

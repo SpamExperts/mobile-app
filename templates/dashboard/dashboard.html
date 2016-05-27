@@ -6,22 +6,23 @@
 
         <div  ng-repeat="item in menuItems">
             <div class="card" ng-if="!item.data.noDash">
-                <div class="item item-divider">
+                <div class="item item-divider dashboard-header">
                     <div class="row">
-                        <div class="col-20">
-                            <div class="icon-se icon-unknown">
-                                <i class="icon {{item.icon}}"></i>
-                            </div>
+                        <div class="icon-se icon-unknown">
+                            <i class="icon {{item.icon}}"></i>
                         </div>
-                        <div class="col-80">
-                            <h2>{{item.data.name}}</h2>
-                        </div>
+
+                        <div class="dashboard-title">{{item.name}}</div>
                     </div>
                 </div>
-                <div class="item item-text-wrap" ng-repeat="page in item.items" ui-sref="{{page.data.state}}">
-                    <i class="icon {{page.data.icon}}"></i>
-                    {{page.data.name}}
-                </div>
+                <button class="item dashboard-item" ng-repeat="page in item.items" ui-sref="{{page.data.state}}">
+                    <div class="icon-se">
+                        <i class="icon {{page.data.icon}}"></i>
+                    </div>
+                    <div class="dashboard-item-name">
+                        {{page.data.name}}
+                    </div>
+                </button>
             </div>
         </div>
 
