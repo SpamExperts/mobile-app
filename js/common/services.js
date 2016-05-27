@@ -411,6 +411,10 @@ angular.module('SpamExpertsApp')
                             pendingXHR.resolve();
                         }
 
+                        if (requestTimer) {
+                            $timeout.cancel(requestTimer);
+                        }
+
                         pendingXHR = $q.defer();
                         config.timeout = pendingXHR.promise;
 
@@ -496,7 +500,6 @@ angular.module('SpamExpertsApp')
                         }
 
                         var status = {
-                            '-1': API_EVENTS.notFound,
                             302: API_EVENTS.notFound,
                             401: API_EVENTS.notAuthenticated,
                             403: API_EVENTS.notAuthorized,
