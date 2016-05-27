@@ -8,6 +8,8 @@
     </ion-nav-buttons>
 
     <ion-content>
+        <div message-queue></div>
+
         <ion-list ng-if="messageEntries.length">
             <ion-item class="item-avatar-left" ng-repeat="message in messageEntries track by $index" on-hold="selectEntry($index)" on-tap="openMessage(message)" ng-class="{grayedout: message.isChecked}">
                 <div se-checkbox></div>
