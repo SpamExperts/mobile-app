@@ -37,8 +37,8 @@ angular.module('SpamExpertsApp')
     ]);
 
 angular.module('SpamExpertsApp')
-    .controller('CommonMessagesCtrl', ['$scope', '$state', '$timeout', '$ionicScrollDelegate', 'messagesService', 'criteriaService', 'ActionManager',
-        function($scope, $state, $timeout, $ionicScrollDelegate, messagesService, criteriaService, ActionManager) {
+    .controller('CommonMessagesCtrl', ['$scope', '$state', '$timeout', '$ionicScrollDelegate', 'MessageQueue', 'messagesService', 'criteriaService', 'ActionManager',
+        function($scope, $state, $timeout, $ionicScrollDelegate, MessageQueue, messagesService, criteriaService, ActionManager) {
 
             $scope.info = {
                 count: 0,
@@ -50,6 +50,7 @@ angular.module('SpamExpertsApp')
             $scope.loadingEntries = false;
 
             $scope.$on('refreshEntries', function () {
+                MessageQueue.remove();
                 messagesService.wipe();
                 $scope.messageEntries = messagesService.getMessages();
                 $scope.noMoreItemsAvailable = false;
