@@ -1,6 +1,12 @@
 angular.module('SpamExpertsApp')
-    .controller('CommonCtrl', ['$rootScope', '$state', '$ionicPopup', '$ionicSideMenuDelegate', 'MessageQueue', 'ROUTES', 'GROUPS', 'USER_ROLES', 'API_EVENTS',
-        function($rootScope, $state, $ionicPopup, $ionicSideMenuDelegate, MessageQueue, ROUTES, GROUPS, USER_ROLES, API_EVENTS) {
+    .controller('CommonCtrl', ['$rootScope', '$state', '$ionicPopup', '$ionicSideMenuDelegate', 'MessageQueue', 'ROUTES', 'GROUPS', 'USER_ROLES', 'API_EVENTS', 'ionicMaterialInk',
+        function($rootScope, $state, $ionicPopup, $ionicSideMenuDelegate, MessageQueue, ROUTES, GROUPS, USER_ROLES, API_EVENTS, ionicMaterialInk) {
+
+            ionicMaterialInk.displayEffect();
+
+            $rootScope.$on('ngLastRepeat.mylist',function(e) {
+                ionicMaterialInk.displayEffect();
+            });
 
             $rootScope.removeQueueMessage = MessageQueue.remove;
 

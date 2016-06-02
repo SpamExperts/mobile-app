@@ -24,6 +24,8 @@ gulp dev default
 
 if [ ! -z "$1" ]; then
     gulp add-proxy
+else
+    gulp remove-proxy
 fi
 
 rm -rf $current/minified

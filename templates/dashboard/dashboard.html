@@ -4,7 +4,7 @@
 
         <h3 class="title text-center">Welcome {{username}}!</h3>
 
-        <div  ng-repeat="item in menuItems">
+        <div  ng-repeat="item in menuItems" ng-last-repeat="mylist">
             <div class="card" ng-if="!item.data.noDash">
                 <div class="item item-divider dashboard-header">
                     <div class="row">
@@ -15,7 +15,8 @@
                         <div class="dashboard-title">{{item.name}}</div>
                     </div>
                 </div>
-                <button class="item dashboard-item" ng-repeat="page in item.items" ui-sref="{{page.data.state}}">
+                <button class="item button button-full dashboard-item" ng-repeat="page in item.items" ui-sref="{{page.data.state}}">
+
                     <div class="icon-se">
                         <i class="icon {{page.data.icon}}"></i>
                     </div>

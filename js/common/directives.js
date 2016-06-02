@@ -12,4 +12,18 @@ angular.module('SpamExpertsApp')
                 templateUrl: 'templates/common/checkbox.html'
             };
         }
-    );
+    )
+    .directive('ngLastRepeat', ['$timeout',
+        function ($timeout) {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attr) {
+                    if (scope.$last === true) {
+                        $timeout(function () {
+                            scope.$emit('ngLastRepeat' + (attr.ngLastRepeat ? '.' + attr.ngLastRepeat : ''));
+                        });
+                    }
+                }
+            }
+        }
+    ]);

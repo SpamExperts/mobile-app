@@ -200,6 +200,7 @@
 
 .item-person {
     padding: 5px;
+    background: #fff;
 }
 
 .item-person h2,
@@ -254,6 +255,7 @@
 }
 
 .flip-container.selected .flipper {
+    will-change: transform;
     -webkit-transform: rotateY(180deg);
     -moz-transform: rotateY(180deg);
     -o-transform: rotateY(180deg);
@@ -333,6 +335,40 @@
     padding: 5px;
 }
 
-.ADMdtp-calendar-container {
-    left: -6px !important;
+.text-center {
+    text-align: center!important;
+}
+
+.item.item-divider {
+    height: 67px;
+}
+
+.bar .button {
+    width: auto;
+    max-width: none;
+}
+.message-entries .item {
+    height: 75px!important;
+}
+
+.menu-right ion-content {
+    background: #fff;
+}
+
+.bar-footer .button:before,
+.bar-footer .button i:before
+{
+    font-size: 25px !important;
+    line-height: 40px !important;
+}
+
+.bar-footer .button {
+    font-size: 15px !important;
+    line-height: 40px !important;
+    margin-top: 3px;
+}
+
+.bar-footer .title {
+    left: 0!important;
+    right: 0!important;
 }

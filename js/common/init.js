@@ -1,5 +1,5 @@
 'use strict';
-angular.module('SpamExpertsApp', ['ionic', 'ngCordova', 'ion-datetime-picker'])
+angular.module('SpamExpertsApp', ['ionic', 'ngCordova', 'ionic-material', 'ion-datetime-picker'])
     .run(['$ionicPlatform',
         function($ionicPlatform) {
             $ionicPlatform.ready(function() {

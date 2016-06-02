@@ -3,20 +3,19 @@
         Messages {{info.count}} / {{info.lastCount}}
     </ion-nav-title>
     <ion-nav-buttons side="right">
-        <button class="button button-icon icon ion-search" menu-toggle="right">
-        </button>
+        <button class="button button-clear button-icon ion-search" menu-toggle="right"></button>
     </ion-nav-buttons>
 
     <ion-content>
         <div message-queue></div>
 
-        <ion-list ng-if="messageEntries.length">
-            <ion-item class="item-avatar-left" ng-repeat="message in messageEntries track by $index" on-hold="selectEntry($index)" on-tap="openMessage(message)" ng-class="{grayedout: message.isChecked}">
+        <div class="list message-entries" ng-if="messageEntries.length">
+            <a class="item item-avatar" ng-repeat="message in messageEntries track by $index" ng-last-repeat="mylist" on-hold="selectEntry($index)"  on-tap="openMessage(message)" ng-class="{grayedout: message.isChecked}">
                 <div se-checkbox></div>
                 <h2>{{message['decoded_subject_header']}}</h2>
                 <p>{{message['classification']}} - {{message['classification_details']}}</p>
-            </ion-item>
-        </ion-list>
+            </a>
+        </div>
 
         <ion-list ng-if="!loadingEntries && !messageEntries.length">
             <ion-item class="text-center">
@@ -29,26 +28,21 @@
 
         <div ng-if="bulkMode" class="se-spacer"></div>
     </ion-content>
-
-    <ion-footer-bar class="bar-assertive" ng-if="bulkMode" align-title="center">
-        <div class="buttons">
-            <button class="button" ng-repeat="action in barActions" on-tap="processAction(action)">
-                <i class="icon {{action.icon}}"></i>
-                {{action.text}}
+    <ion-footer-bar class="bar-assertive" align-title="center" ng-if="bulkMode">
+        <div class="buttons buttons-left">
+            <button class="button button-clear button-icon icon-left {{action.icon}}" ng-repeat="action in barActions" on-tap="processAction(action)">
+                &nbsp;{{action.text}}
             </button>
             <button ng-if="!barActions.length" class="button button-clear">&nbsp;</button>
         </div>
 
         <div class="title" on-tap="processAction()"><i class="icon ion-grid"></i></div>
 
-        <div class="buttons">
-            <button class="button" ng-if="info.count != selectedCount" on-tap="selectAll(true)">
-                <i class="icon ion-ios-checkmark-outline"></i>
-                Selected {{selectedCount}}/{{info.count}}
-            </button>
-            <button class="button" ng-if="info.count == selectedCount" on-tap="selectAll(false)">
-                <i class="icon ion-ios-circle-outline"></i>
-                Deselect {{selectedCount}}/{{info.count}}
+        <div class="buttons buttons-right">
+            <button class="button button-clear" on-tap="selectAll(info.count != selectedCount)">
+                <i class="icon ion-ios-circle-outline" ng-show="info.count == selectedCount"></i>
+                <i class="icon ion-ios-checkmark-outline" ng-show="info.count != selectedCount"></i>
+                &nbsp;{{selectedCount}}/{{info.count}}
             </button>
         </div>
     </ion-footer-bar>

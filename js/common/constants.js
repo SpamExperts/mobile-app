@@ -345,7 +345,7 @@ angular.module('SpamExpertsApp')
                 {
                     name: 'purge',
                     icon: 'ion-trash-a',
-                    text: 'Empty quarantine',
+                    text: 'Purge',
                     confirmText:
                     'You are going to empty your spam quarantine folder.%s' +
                     'ALL its messages will be removed.%s' +

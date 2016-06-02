@@ -21,10 +21,10 @@
             <div class="item tabs tabs-secondary tabs-icon-left" on-tap="toggleRaw()" ng-if="message.details['msgBody']">
                 <div class="tab-item">
                     <i class="icon ion-android-mail"></i>
-                  <span ng-if="!showRaw">
+                  <span ng-show="!showRaw">
                       Show raw message
                   </span>
-                  <span ng-if="showRaw">
+                  <span ng-show="showRaw">
                       Hide raw message
                   </span>
                 </div>
@@ -45,8 +45,8 @@
         </div>
     </ion-content>
     <ion-footer-bar class="bar-assertive" align-title="center">
-        <div class="buttons">
-            <button class="button" on-tap="back()"><i class="icon ion-reply"></i> Back</button>
+        <div class="buttons buttons-left">
+            <button class="button button-clear button-icon ion-reply" on-tap="back()">&nbsp;Back</button>
         </div>
         <div class="title" on-tap="processAction()" ng-if="hasActions && message.details['msgBody']"><i class="icon ion-grid"></i></div>
         <div class="buttons">
