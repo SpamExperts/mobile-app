@@ -1,0 +1,56 @@
+<div message-queue></div>
+<md-card>
+    <md-card-header>
+        <md-card-avatar>
+                <div class="rotate-90">
+                    <md-icon md-svg-set="material-icons"> polymer </md-icon>
+                </div>
+        </md-card-avatar>
+        <md-card-header-text>
+            <span class="md-title">{{message['decoded_subject_header']}}</span>
+            <span class="md-subhead">{{message['datestamp']}}</span>
+            <!--<p>{{message['classification_details']}} - {{message.status}}</p>-->
+            <!--<p>{{message.details['meta_data'].size}}</p>-->
+        </md-card-header-text>
+    </md-card-header>
+    <md-card-actions layout="row" layout-align="start center" ng-if="message.details['msgBody']">
+        <div flex="100" class="text-center">
+        <md-button ng-click="toggleRaw()">
+            <md-icon md-svg-set="material-icons"> mail </md-icon>
+                  <span ng-if="!showRaw">
+                      Show raw message
+                  </span>
+                  <span ng-if="showRaw">
+                      Hide raw message
+                  </span>
+        </md-button>
+        </div>
+    </md-card-actions>
+    <md-card-content ng-if="message.details['msgBody'] && showRaw">
+        <pre>{{message.details['eml']}}</pre>
+    </md-card-content>
+    <md-card-content ng-if="message.details['msgBody'] && !showRaw">
+    {{message.details['msgBody']}}
+    </md-card-content>
+    <md-card-content ng-show="!message.details">
+        <div flex="100" class="text-center">
+            <md-progress-circular md-mode="indeterminate" style="left:45%"></md-progress-circular>
+        </div>
+    </md-card-content>
+</md-card>
+
+<md-fab-speed-dial md-direction="left" class="md-scale" id="my-speed-dial">
+    <md-fab-trigger>
+        <md-button aria-label="menu" class="md-fab md-primary">
+            <md-icon md-svg-set="material-icons">menu</md-icon>
+        </md-button>
+    </md-fab-trigger>
+    <md-fab-actions>
+        <div ng-repeat="action in availableActions">
+            <md-button aria-label="Twitter" class="md-fab md-raised md-mini" ng-click="processAction(action, message)">
+                <md-tooltip md-direction="left" md-visible="tooltipVisible" md-autohide="false">{{action.text}}</md-tooltip>
+                <md-icon md-svg-set="material-icons" aria-label="{{action.text}}">{{action.icon}}</md-icon>
+            </md-button>
+        </div>
+    </md-fab-actions>
+</md-fab-speed-dial>

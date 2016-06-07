@@ -1,0 +1,55 @@
+<md-list>
+    <div class="user-info">
+        <md-list-item class="md-2-line">
+            <img class="md-avatar" ng-src="img/se_logo.png">
+            <div class="md-list-item-text">
+                <h4>{{username}}</h4>
+                <p>{{role}}</p>
+            </div>
+        </md-list-item>
+        <md-list-item>
+            <md-button flex="100" ng-click="logout()" class="md-button md-raised md-ink-ripple">
+                Logout
+            </md-button>
+        </md-list-item>
+    </div>
+
+    <div class="se-spacer-2x"></div>
+
+    <div ng-repeat="item in menuItems">
+        <div  ng-if="!item.data.noSide">
+
+            <div ng-if="!item.items.length" class="category">
+                <md-divider></md-divider>
+
+                <md-list-item class="md-1-line" md-ink-ripple="#39B0DA" ng-if="item.data.state" ui-sref-active="active" ui-sref="{{item.data.state}}" ng-click="openLeftMenu()">
+                    <md-icon md-font-set="material-icons" class="md-avatar-icon"> {{item.data.icon}} </md-icon>
+                    <div class="md-list-item-text">{{item.data.name}}</div>
+                </md-list-item>
+
+                <md-list-item class="md-1-line" ng-if="!item.data.state">
+                    <md-icon md-font-set="material-icons" class="md-avatar-icon"> {{item.data.icon}} </md-icon>
+                    <div class="md-list-item-text">{{item.data.name}}</div>
+                </md-list-item>
+                <md-divider></md-divider>
+            </div>
+
+            <div ng-if="item.items.length">
+                <md-list-item class="md-1-line category" >
+                    <md-icon md-font-set="material-icons" class="md-avatar-icon"> {{item.icon}} </md-icon>
+                    <div class="md-list-item-text">{{item.name}}</div>
+                </md-list-item>
+                <md-divider></md-divider>
+
+                <md-list-item class="md-1-line" ng-repeat="page in item.items" ui-sref-active="active" ui-sref="{{page.data.state}}" ng-click="openLeftMenu()">
+                    <md-icon md-font-set="material-icons" class="md-avatar-icon"> {{page.data.icon}} </md-icon>
+                    <div class="md-list-item-text">{{page.data.name}}</div>
+                </md-list-item>
+            </div>
+            <md-divider></md-divider>
+        </div>
+    </div>
+    <div class="se-spacer-2x se-background-color">
+        ©2016 Spamexperts
+    </div>
+</md-list>

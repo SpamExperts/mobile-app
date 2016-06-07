@@ -1,0 +1,20 @@
+<md-dialog aria-label="List dialog">
+    <md-dialog-content>
+        <div flex="100" class="text-center" ng-if="checkingConnection">
+            <md-progress-circular md-mode="indeterminate" style="left:45%"></md-progress-circular>
+        </div>
+        <div  ng-if="checkingConnection">
+            Checking network availability...
+        </div>
+        <div  ng-if="!checkingConnection">
+            It seems that your {{connectionType}} connection is currently offline...<br>
+            Once your connection is back on, please retry to perform the same action
+        </div>
+
+    </md-dialog-content>
+    <md-dialog-actions>
+        <div  ng-if="!checkingConnection">
+            <md-button ng-if="cancelLoading" ng-click="recheckConnection()" class="md-primary">Recheck</md-button>
+        </div>
+    </md-dialog-actions>
+</md-dialog>

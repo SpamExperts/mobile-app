@@ -1,0 +1,13 @@
+<md-dialog>
+    <md-dialog-content>
+        <div flex="100" class="text-center">
+            <md-progress-circular md-mode="indeterminate" style="left:45%"></md-progress-circular>
+        </div>
+        <div  ng-if="cancelLoading">
+            It seems that this action is taking too long...
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <md-button ng-if="cancelLoading" ng-click="stopRequest()" class="md-primary">Stop</md-button>
+    </md-dialog-actions>
+</md-dialog>

@@ -1,0 +1,38 @@
+<div class="message-queue" ng-if="messageQueue['success'].length || messageQueue['notice'].length || messageQueue['error'].length || messageQueue['info'].length">
+    <md-list>
+        <md-list-item ng-if="messageQueue['error'].length" class="alert alert-error">
+            <div style="width: 100%">
+                <div ng-repeat="error in messageQueue['error'] track by $index" ng-bind-html="error|trust"></div>
+            </div>
+            <md-button class="md-icon-button md-button md-ink-ripple" ng-click="removeQueueMessage('error')">
+                <md-icon md-svg-set="material-icons">keyboard_arrow_right</md-icon>
+            </md-button>
+        </md-list-item>
+
+        <md-list-item ng-if="messageQueue['notice'].length" class="alert alert-notice">
+            <div style="width: 100%">
+                <div ng-repeat="notice in messageQueue['notice'] track by $index" ng-bind-html="notice|trust"></div>
+            </div>
+            <md-button class="md-icon-button md-button md-ink-ripple" ng-click="removeQueueMessage('notice')">
+                <md-icon md-svg-set="material-icons">keyboard_arrow_right</md-icon>
+            </md-button>
+        </md-list-item>
+
+        <md-list-item ng-if="messageQueue['success'].length" class="alert alert-success">
+            <div style="width: 100%">
+                <div ng-repeat="success in messageQueue['success'] track by $index" ng-bind-html="success|trust"></div>
+            </div>
+            <md-button class="md-icon-button md-button md-ink-ripple" ng-click="removeQueueMessage('success')">
+                <md-icon md-svg-set="material-icons">keyboard_arrow_right</md-icon>
+            </md-button>
+        </md-list-item>
+
+        <md-list-item ng-if="messageQueue['info'].length" class="alert alert-info">
+            <div style="width: 100%">
+                <div ng-repeat="info in messageQueue['info'] track by $index" ng-bind-html="info|trust"></div>
+            </div>
+            <md-button class="md-icon-button md-button md-ink-ripple" ng-click="removeQueueMessage('info')">
+                <md-icon md-svg-set="material-icons">keyboard_arrow_right</md-icon>
+            </md-button>           </md-list-item>
+    </md-list>
+</div>

@@ -1,0 +1,25 @@
+<md-toolbar style="position:fixed; background: #39B0DA">
+    <div class="md-toolbar-tools">
+        <md-button ng-click="openLeftMenu()" class="md-icon-button md-button md-ink-ripple">
+            <md-icon md-svg-set="material-icons"> menu </md-icon>
+        </md-button>
+
+        <span>{{currentTitle}}</span>
+        <!-- fill up the space between left and right area -->
+        <span flex></span>
+        <md-button ng-click="openRightMenu()" class="md-icon-button md-button md-ink-ripple" ng-if="canDragLeft">
+            <md-icon md-svg-set="material-icons"> more_vert </md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<md-sidenav md-component-id="left" class="md-sidenav-left menu menu-left" md-swipe-left="openLeftMenu()">
+    <div ng-include="'templates/common/leftmenu.html'"></div>
+</md-sidenav>
+<md-sidenav md-component-id="right" class="md-sidenav-right" md-swipe-right="openRightMenu()" ng-if="canDragLeft">
+    <ui-view name="right-side-menu"></ui-view>
+</md-sidenav>
+
+<md-content md-swipe-right="openLeftMenu()" md-swipe-left="openRightMenu()" flex style="padding-top: 56px" class="md-padding" layout="column">
+    <ui-view name="main-container"></ui-view>
+</md-content>

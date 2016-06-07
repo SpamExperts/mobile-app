@@ -1,0 +1,20 @@
+<md-list>
+    <!--<md-list-item>-->
+        <!--<md-datepicker flex="100" ng-model="searchCriteria['since']" md-placeholder="From date" md-open-on-focus=""></md-datepicker>-->
+    <!--</md-list-item>-->
+    <!--<md-list-item>-->
+        <!--<md-datepicker flex="100" ng-model="searchCriteria['until']" md-placeholder="To date" md-open-on-focus=""></md-datepicker>-->
+    <!--</md-list-item>-->
+    <md-list-item ng-repeat="field in criteriaFields">
+        <md-input-container flex="100">
+            <label>{{field.label}}</label>
+            <input type="{{field.type}}" ng-model="searchCriteria[field.model]">
+        </md-input-container>
+    </md-list-item>
+    <md-list-item ng-repeat="action in criteriaActions">
+        <md-button flex="100" ng-click="actions[action]()" class="md-button md-raised {{action.cssClass}} md-ink-ripple">
+            <md-icon md-font-set="material-icons"> {{action.icon}} </md-icon>
+            {{action.label}}
+        </md-button>
+    </md-list-item>
+</md-list>

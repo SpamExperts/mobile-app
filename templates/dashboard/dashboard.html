@@ -1,0 +1,23 @@
+    <div message-queue></div>
+
+    <h3 class="title text-center">Welcome {{username}}!</h3>
+
+    <div ng-repeat="item in menuItems" flex="100">
+        <md-list ng-if="!item.data.noDash">
+            <md-divider></md-divider>
+
+            <md-list-item class="md-1-line category">
+                <md-icon md-font-set="material-icons" class="md-avatar-icon"> {{item.icon}} </md-icon>
+                <div class="md-list-item-text">{{item.name}}</div>
+            </md-list-item>
+            <md-divider></md-divider>
+
+            <md-list-item class="md-1-line" ng-repeat="page in item.items" ui-sref-active="active" ui-sref="{{page.data.state}}">
+                <md-icon md-font-set="material-icons" class="md-avatar-icon"> {{page.data.icon}} </md-icon>
+                <div class="md-list-item-text">{{page.data.name}}</div>
+            </md-list-item>
+            <md-divider></md-divider>
+
+        </md-list>
+        <br>
+    </div>

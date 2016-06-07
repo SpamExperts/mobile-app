@@ -1,0 +1,38 @@
+<div message-queue></div>
+
+    <md-virtual-repeat-container md-top-index="topIndex"  layout="column" style="width: 100%;height:500px">
+        <md-list class="messages-list">
+            <div md-virtual-repeat="message in messageEntries" md-on-demand="true" md-item-size="50">
+                <div ng-if="message">
+                    <md-list-item
+                            md-ink-ripple
+                            class="md-2-line repeated-item"
+                            ng-class="{grayedout: message.isChecked}"
+                    >
+                        <div se-checkbox></div>
+                        <div class="md-list-item-text" ng-click="openMessage(message)">
+                            <h3 class="ng-binding">{{message['decoded_subject_header']}}</h3>
+                            <p>{{message['classification']}} - {{message['classification_details']}}</p>
+                        </div>
+                    </md-list-item>
+                </div>
+            </div>
+        </md-list>
+    </md-virtual-repeat-container>
+
+
+<md-fab-speed-dial ng-if="bulkMode" md-direction="left" class="md-scale" id="my-speed-dial">
+    <md-fab-trigger>
+        <md-button aria-label="menu" class="md-fab md-primary">
+            <md-icon md-svg-set="material-icons">menu</md-icon>
+        </md-button>
+    </md-fab-trigger>
+    <md-fab-actions>
+        <div ng-repeat="action in availableActions">
+            <md-button aria-label="Twitter" class="md-fab md-raised md-mini" ng-click="processAction(action)">
+                <md-tooltip md-direction="left" md-visible="tooltipVisible" md-autohide="false">{{action.text}}</md-tooltip>
+                <md-icon md-svg-set="material-icons" aria-label="{{action.text}}">{{action.icon}}</md-icon>
+            </md-button>
+        </div>
+    </md-fab-actions>
+</md-fab-speed-dial>
