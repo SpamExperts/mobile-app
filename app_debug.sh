@@ -35,20 +35,13 @@ else
     # clear the blank assets
     rm -rf www/*
 
+    # checkout branch in www
     cd www
     git init
     git pull https://github.com/SpamExperts/mobile-app.git
     git remote add origin https://github.com/SpamExperts/mobile-app/
-    bash build_assets.sh $2
 
-    # add dependencies
-    bower install
-    find lib -type f ! -name '*.min.css' ! -name '*.min.js' ! -name '*.ttf' ! -name '*.woff' ! -name '*.svg' ! -name '*.eot'| xargs rm -rf
-    find lib -type d -empty -delete
-    cd -
-
-    # remove unused folder
-    rm -rf mobile-app
+    bash build_assets.sh dev
 
     # add own config
     cp www/config.xml .
@@ -63,6 +56,7 @@ else
     # add platform
     ionic platform add $PLATFORM
 
+    # add cordova plugins
     cordova plugin add cordova-plugin-network-information
 
     # clear default resources

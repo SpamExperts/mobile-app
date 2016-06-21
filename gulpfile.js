@@ -31,6 +31,24 @@ var
             'js/logSearch/view/services.js',
             'js/logSearch/view/controllers.js'
         ]
+    },
+
+    dependency = {
+        fonts: [
+            'lib/ionic/fonts/ionicons.eot',
+            'lib/ionic/fonts/ionicons.svg',
+            'lib/ionic/fonts/ionicons.ttf',
+            'lib/ionic/fonts/ionicons.woff'
+        ],
+        allCss:  [
+            'lib/ionic/css/ionic.min.css',
+            'lib/ion-datetime-picker/release/ion-datetime-picker.min.css'
+        ],
+        allJs: [
+            'lib/ionic/js/ionic.bundle.min.js',
+            'lib/ion-datetime-picker/release/ion-datetime-picker.min.js',
+            'lib/ngCordova/dist/ng-cordova.min.js'
+        ]
     };
 
 gulp.task('clean', function() {
@@ -59,7 +77,26 @@ gulp.task('allJs', function() {
         .on('error', gutil.log);
 });
 
-gulp.task('build', ['clean', 'allCss', 'allJs']);
+
+gulp.task('allLib', function() {
+    // Minify and concatenate styles for all css files
+    gulp.src(dependency.allCss)
+        .pipe(concat('all.css'))
+        .pipe(gulp.dest('minified/lib'))
+        .on('error', gutil.log);
+
+    gulp.src(dependency.fonts)
+        .pipe(gulp.dest('minified/fonts'))
+        .on('error', gutil.log);
+
+    // Minify and concatenate scripts for all.js
+    gulp.src(dependency.allJs)
+        .pipe(concat('all.js'))
+        .pipe(gulp.dest('minified/lib'))
+        .on('error', gutil.log);
+});
+
+gulp.task('build', ['clean', 'allCss', 'allJs', 'allLib']);
 
 gulp.task('dev', function() {
     minify  = false;

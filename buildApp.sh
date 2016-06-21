@@ -34,26 +34,13 @@ else
 
     # build app assets
     cd mobile-app
-    npm install
-    gulp
 
-    # add dependencies
-    bower install
-    find lib -type f ! -name '*.min.css' ! -name '*.min.js' ! -name '*.ttf' ! -name '*.woff' ! -name '*.svg' ! -name '*.eot'| xargs rm -rf
-    find lib -type d -empty -delete
+    # build_assets
+    bash build_assets.sh
 
-    cd -
-
-    # add index.html
+    # keep only the needed files
     mv mobile-app/index.html www/
-
-    # add img folder
     mv mobile-app/img www/
-
-    # add the dependencies
-    mv mobile-app/lib www/
-
-    # add the minified scripts
     mv mobile-app/minified www/
 
     # keep our config
@@ -66,6 +53,7 @@ else
     # add platform
     ionic platform add $PLATFORM
 
+    # add cordova plugins
     cordova plugin add cordova-plugin-network-information
 
     # clear default resources

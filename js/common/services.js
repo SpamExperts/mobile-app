@@ -265,8 +265,8 @@ angular.module('SpamExpertsApp')
             };
         }
     ])
-    .factory('Api', ['$http', '$localstorage', 'MessageQueue', 'ENDPOINTS', 'DEV_PROXY', 'NetworkService',
-        function($http, $localstorage, MessageQueue, ENDPOINTS, DEV_PROXY, NetworkService) {
+    .factory('Api', ['$http', '$localstorage', 'ENDPOINTS', 'DEV_PROXY', 'NetworkService',
+        function($http, $localstorage, ENDPOINTS, DEV_PROXY, NetworkService) {
 
             return {
                 protocol: 'http://',

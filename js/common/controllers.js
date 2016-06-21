@@ -43,6 +43,14 @@ angular.module('SpamExpertsApp')
                 }
             });
 
+            $rootScope.closeLeft = function () {
+                $ionicSideMenuDelegate.toggleLeft(false);
+            };
+
+            $rootScope.closeRight = function () {
+                $ionicSideMenuDelegate.toggleRight(false);
+            };
+
             $rootScope.canDragRight = function() {
                 $ionicSideMenuDelegate.canDragContent(true);
             };
