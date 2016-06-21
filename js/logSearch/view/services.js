@@ -124,20 +124,18 @@ angular.module('SpamExpertsApp')
             return MessagesService;
         }
     ])
-    .factory('ActionManager', ['$ionicActionSheet', '$ionicPopup', 'MessageQueue','filterPermissions', 'BULK_ACTIONS',
-        function ($ionicActionSheet, $ionicPopup, MessageQueue, filterPermissions, BULK_ACTIONS) {
+    .factory('ActionManager', ['uiService', 'MessageQueue','filterPermissions', 'BULK_ACTIONS',
+        function (uiService, MessageQueue, filterPermissions, BULK_ACTIONS) {
 
             function confirm (action, callback) {
-                $ionicPopup
-                    .confirm({
+                uiService.confirm({
                         title: 'Confirm action',
                         template: action.confirmText.replace(/\%s/g, '<br>')
-                    })
-                    .then(function(choice) {
-                        if (choice &&  typeof callback == 'function') {
+                    }, function () {
+                        if (typeof callback == 'function') {
                             callback(action);
                         }
-                    });
+                    })
             }
 
             return function (direction) {
@@ -153,18 +151,8 @@ angular.module('SpamExpertsApp')
 
                 this.processAction = function (actions, callback) {
                     if (angular.isArray(actions)) {
-                        var actionSheet = $ionicActionSheet.show({
-                            buttons: actions,
-                            titleText: 'Select Actions',
-                            cancelText: 'Cancel',
-                            cancel: function() {
-                                actionSheet();
-                            },
-                            buttonClicked: function(i, action) {
-                                actionSheet();
-                                confirm(action, callback);
-                                return true;
-                            }
+                        uiService.actionSheet(actions, function (action) {
+                            confirm(action, callback);
                         });
                     } else {
                         confirm(actions, callback);
@@ -178,7 +166,6 @@ angular.module('SpamExpertsApp')
                 this.noViewAction = function () {
                     MessageQueue.set({info: ['You are not allowed to view this message']});
                 };
-
             };
 
         }

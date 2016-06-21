@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .controller('CommonCtrl', ['$rootScope', '$state', '$ionicPopup', '$ionicSideMenuDelegate', 'MessageQueue', 'ROUTES', 'GROUPS', 'USER_ROLES', 'API_EVENTS',
-        function($rootScope, $state, $ionicPopup, $ionicSideMenuDelegate, MessageQueue, ROUTES, GROUPS, USER_ROLES, API_EVENTS) {
+    .controller('CommonCtrl', ['$rootScope', '$state', 'uiService', 'MessageQueue', 'ROUTES', 'GROUPS', 'USER_ROLES', 'API_EVENTS',
+        function($rootScope, $state, uiService, MessageQueue, ROUTES, GROUPS, USER_ROLES, API_EVENTS) {
 
             $rootScope.removeQueueMessage = MessageQueue.remove;
 
@@ -26,8 +26,8 @@ angular.module('SpamExpertsApp')
 
             $rootScope.$on('$stateChangeSuccess', function () {
 
-                $ionicSideMenuDelegate.toggleLeft(false);
-                $ionicSideMenuDelegate.toggleRight(false);
+                uiService.sideMenuDelegate.toggleLeft(false);
+                uiService.sideMenuDelegate.toggleRight(false);
 
                 $rootScope.menuItems = filterRoutes(
                     ROUTES({GROUPS: GROUPS, USER_ROLES: USER_ROLES}),
@@ -44,24 +44,24 @@ angular.module('SpamExpertsApp')
             });
 
             $rootScope.closeLeft = function () {
-                $ionicSideMenuDelegate.toggleLeft(false);
+                uiService.sideMenuDelegate.toggleLeft(false);
             };
 
             $rootScope.closeRight = function () {
-                $ionicSideMenuDelegate.toggleRight(false);
+                uiService.sideMenuDelegate.toggleRight(false);
             };
 
             $rootScope.canDragRight = function() {
-                $ionicSideMenuDelegate.canDragContent(true);
+                uiService.sideMenuDelegate.canDragContent(true);
             };
 
             $rootScope.canDragLeft = function () {
                 if (
                     isEmpty($state.current.views['right-side-menu']) &&
-                    !$ionicSideMenuDelegate.isOpenLeft()
+                    !uiService.sideMenuDelegate.isOpenLeft()
                 ) {
-                    $ionicSideMenuDelegate.canDragContent(false);
-                    $ionicSideMenuDelegate.toggleRight(false);
+                    uiService.sideMenuDelegate.canDragContent(false);
+                    uiService.sideMenuDelegate.toggleRight(false);
                 }
             };
 
@@ -70,21 +70,21 @@ angular.module('SpamExpertsApp')
             };
 
             $rootScope.$on(API_EVENTS.notFound, function() {
-                $ionicPopup.alert({
+                uiService.alert({
                     title: 'Not found!',
                     template: 'The resource you are trying to access might have been moved or is unavailable at the moment'
                 });
             });
 
             $rootScope.$on(API_EVENTS.serverError, function() {
-                $ionicPopup.alert({
+                uiService.alert({
                     title: 'Server error',
                     template: 'Oops! Something went wrong! Please try again later!'
                 });
             });
 
             $rootScope.$on(API_EVENTS.serviceUnavailable, function() {
-                $ionicPopup.alert({
+                uiService.alert({
                     title: 'Service unavailable',
                     template: 'Oops! Something went wrong! Please try again later!'
                 });

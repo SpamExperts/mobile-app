@@ -194,8 +194,8 @@ angular.module('SpamExpertsApp')
             }
         }
     ])
-    .factory('NetworkService', ['$rootScope', '$cordovaNetwork', '$ionicLoading', '$q', '$timeout',
-        function($rootScope, $cordovaNetwork, $ionicLoading, $q, $timeout) {
+    .factory('NetworkService', ['$rootScope', '$cordovaNetwork', 'uiService', '$q', '$timeout',
+        function($rootScope, $cordovaNetwork, uiService, $q, $timeout) {
             return {
                 isOnline: function () {
                     var status;
@@ -242,13 +242,7 @@ angular.module('SpamExpertsApp')
                         }, 700);
                     };
 
-                    $ionicLoading.show({
-                        templateUrl: 'templates/common/offlineIndicator.html',
-                        scope: $scope,
-                        animation: 'fade-in',
-                        showBackdrop: true,
-                        showDelay: 300
-                    });
+                    uiService.loading().show($scope, 'templates/common/offlineIndicator.html');
 
                     var deferred = $q.defer();
                     var promise = deferred.promise;
@@ -260,7 +254,7 @@ angular.module('SpamExpertsApp')
                     return promise;
                 },
                 showOnline: function() {
-                    $ionicLoading.hide();
+                    uiService.loading().hide();
                 }
             };
         }
@@ -371,20 +365,14 @@ angular.module('SpamExpertsApp')
             };
         }
     ])
-    .factory('BusyService', ['$ionicLoading',
-        function($ionicLoading) {
+    .factory('BusyService', ['uiService',
+        function(uiService) {
             return {
                 show: function($scope) {
-                    $ionicLoading.show({
-                        templateUrl: 'templates/common/loading.html',
-                        scope: $scope,
-                        animation: 'fade-in',
-                        showBackdrop: true,
-                        showDelay: 300
-                    });
+                    uiService.loading().show($scope, 'templates/common/loading.html');
                 },
                 hide: function() {
-                    $ionicLoading.hide();
+                    uiService.loading().hide();
                 }
             };
         }
@@ -517,5 +505,64 @@ angular.module('SpamExpertsApp')
             };
 
             return interceptor;
+        }
+    ])
+    .factory('uiService', ['$ionicPopup', '$ionicActionSheet', '$ionicScrollDelegate', '$ionicSideMenuDelegate', '$ionicLoading',
+        function($ionicPopup, $ionicActionSheet, $ionicScrollDelegate, $ionicSideMenuDelegate, $ionicLoading) {
+
+            return {
+                sideMenuDelegate: $ionicSideMenuDelegate,
+                scrollDelegate: $ionicScrollDelegate,
+                alert: function (params) {
+                    $ionicPopup.alert(params);
+                },
+                confirm: function (params, agree, cancel) {
+                    if (agree || cancel) {
+                        $ionicPopup.confirm(params)
+                            .then(function (choice) {
+                                if (choice) {
+                                    agree();
+                                } else {
+                                    cancel();
+                                }
+                            });
+                    } else {
+                        return $ionicPopup.confirm(params);
+                    }
+                },
+                loading: function () {
+                    return {
+                        show: function($scope, template) {
+                            $ionicLoading.show({
+                                templateUrl: template,
+                                scope: $scope,
+                                animation: 'fade-in',
+                                showBackdrop: true,
+                                showDelay: 300
+                            });
+                        },
+                        hide: function() {
+                            $ionicLoading.hide();
+                        }
+                    }
+                },
+                actionSheet: function (actions, success) {
+                    var actionSheet = $ionicActionSheet.show({
+                        buttons: actions,
+                        titleText: 'Select Actions',
+                        cancelText: 'Cancel',
+                        cancel: function() {
+                            actionSheet();
+                        },
+                        buttonClicked: function(i, action) {
+                            actionSheet();
+                            if (success && typeof success == 'function') {
+                                success(action);
+                            }
+                            return true;
+                        }
+                    });
+                }
+            }
         }
     ]);

@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .controller('LoginCtrl', ['$scope', '$state', '$ionicPopup', 'AuthService', 'MessageQueue',
-        function($scope, $state, $ionicPopup, AuthService, MessageQueue) {
+    .controller('LoginCtrl', ['$scope', '$state', 'uiService', 'AuthService', 'MessageQueue',
+        function($scope, $state, uiService, AuthService, MessageQueue) {
 
             $scope.$on('$stateChangeSuccess', function () {
                 $scope.data = AuthService.getUserCredentials();
@@ -22,12 +22,12 @@ angular.module('SpamExpertsApp')
                     isEmpty(data.username) ||
                     isEmpty(data.password)
                 ) {
-                    $ionicPopup.alert(failedPopup);
+                    uiService.alert(failedPopup);
                 } else {
                     AuthService.login(data.hostname, data.username, data.password, data.remember)
                         .then(function(response) {
                             if (!response.data.token) {
-                                $ionicPopup.alert(failedPopup);
+                                uiService.alert(failedPopup);
                                 $scope.data.password = '';
                             } else {
                                 MessageQueue.remove();

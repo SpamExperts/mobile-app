@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .run(['$rootScope', '$state', '$ionicHistory', '$ionicPopup', 'AuthService', 'API_EVENTS',
-        function ($rootScope, $state, $ionicHistory, $ionicPopup, AuthService, API_EVENTS) {
+    .run(['$rootScope', '$state', '$ionicHistory', 'uiService', 'AuthService', 'API_EVENTS',
+        function ($rootScope, $state, $ionicHistory, uiService, AuthService, API_EVENTS) {
 
             $rootScope.$on('$stateChangeStart', function (event, next) {
                 if (next.name !== 'login') {
@@ -22,25 +22,21 @@ angular.module('SpamExpertsApp')
             });
 
             $rootScope.$on('$logout', function () {
-                $ionicPopup
-                    .confirm({
+                uiService.confirm({
                         title: 'Confirm logout',
                         template: 'Are you sure you want to log out?'
-                    })
-                    .then(function(choice) {
-                        if (choice) {
-                            AuthService.logout();
-                            $state.go('login', {}, {reload: true});
-                            $ionicHistory.clearHistory();
-                            $ionicHistory.clearCache().then(function() {
-                                window.location.reload();
-                            });
-                        }
+                    }, function() {
+                        AuthService.logout();
+                        $state.go('login', {}, {reload: true});
+                        $ionicHistory.clearHistory();
+                        $ionicHistory.clearCache().then(function() {
+                            window.location.reload();
+                        });
                     });
             });
 
             $rootScope.$on(API_EVENTS.notAuthorized, function() {
-                $ionicPopup.alert({
+                uiService.alert({
                     title: 'Unauthorized!',
                     template: 'You are not allowed to access this resource.'
                 });
@@ -50,7 +46,7 @@ angular.module('SpamExpertsApp')
                 AuthService.logout();
                 AuthService.clearPassword();
                 $state.go('login');
-                $ionicPopup.alert({
+                uiService.alert({
                     title: 'Authentication expired',
                     template: 'Sorry, you have to login again.'
                 });
