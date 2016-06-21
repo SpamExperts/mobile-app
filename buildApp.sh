@@ -34,9 +34,9 @@ else
 
     # build app assets
     cd mobile-app
-
     # build_assets
     bash build_assets.sh
+    cd -
 
     # keep only the needed files
     mv mobile-app/index.html www/

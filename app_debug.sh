@@ -35,13 +35,13 @@ else
     # clear the blank assets
     rm -rf www/*
 
-    # checkout branch in www
+    # checkout branch in www and build assets
     cd www
     git init
     git pull https://github.com/SpamExperts/mobile-app.git
     git remote add origin https://github.com/SpamExperts/mobile-app/
-
     bash build_assets.sh dev
+    cd -
 
     # add own config
     cp www/config.xml .
