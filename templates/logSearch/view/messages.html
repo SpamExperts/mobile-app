@@ -44,11 +44,11 @@
         <div class="buttons">
             <button class="button" ng-if="info.count != selectedCount" on-tap="selectAll(true)">
                 <i class="icon ion-ios-checkmark-outline"></i>
-                Selected {{selectedCount}}/{{info.count}}
+                {{selectedCount}}/{{info.count}}
             </button>
             <button class="button" ng-if="info.count == selectedCount" on-tap="selectAll(false)">
                 <i class="icon ion-ios-circle-outline"></i>
-                Deselect {{selectedCount}}/{{info.count}}
+                {{selectedCount}}/{{info.count}}
             </button>
         </div>
     </ion-footer-bar>

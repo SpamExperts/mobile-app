@@ -50,7 +50,6 @@ angular.module('SpamExpertsApp')
             $scope.loadingEntries = false;
 
             $scope.$on('refreshEntries', function () {
-                MessageQueue.remove();
                 messagesService.wipe();
                 $scope.messageEntries = messagesService.getMessages();
                 $scope.noMoreItemsAvailable = false;

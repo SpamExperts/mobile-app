@@ -5,6 +5,7 @@ angular.module('SpamExpertsApp')
     .constant('OTHERS', {
         sliceLength: 10,
         apiTimeout: 10,
+        notificationsTimeout: 10,
         dateFormat: 'yyyy-MM-dd HH:mm'
     })
 

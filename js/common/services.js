@@ -127,8 +127,8 @@ angular.module('SpamExpertsApp')
             };
         }
     ])
-    .factory('MessageQueue', ['$rootScope', '$timeout',
-        function ($rootScope, $timeout) {
+    .factory('MessageQueue', ['$rootScope', '$timeout', 'OTHERS',
+        function ($rootScope, $timeout, OTHERS) {
             var queueTimer;
             return {
                 remove: function (item) {
@@ -150,7 +150,7 @@ angular.module('SpamExpertsApp')
                     if (queueTimer) {
                         $timeout.cancel(queueTimer);
                     }
-                    queueTimer = $timeout(this.remove, 10000);
+                    queueTimer = $timeout(this.remove, OTHERS.notificationsTimeout * 1000);
                 }
             };
         }

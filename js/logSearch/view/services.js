@@ -161,6 +161,7 @@ angular.module('SpamExpertsApp')
                                 actionSheet();
                             },
                             buttonClicked: function(i, action) {
+                                actionSheet();
                                 confirm(action, callback);
                                 return true;
                             }
