@@ -68,15 +68,15 @@ angular.module('SpamExpertsApp')
                             action: 'get',
                             requestParams: searchCriteria
                         })
-                        .success(function(resp) {
-                            if (!isEmpty(resp['newest_entries'])) {
-                                that.messages = resp['newest_entries'];
-                            } else if (!isEmpty(resp['new_entries'])) {
-                                that.messages = resp['new_entries'].concat(that.messages);
-                            } else if (!isEmpty(resp['entries']))  {
-                                that.messages = that.messages.concat(resp['entries']);
+                        .success(function(response) {
+                            if (!isEmpty(response['newest_entries'])) {
+                                that.messages = response['newest_entries'];
+                            } else if (!isEmpty(response['new_entries'])) {
+                                that.messages = response['new_entries'].concat(that.messages);
+                            } else if (!isEmpty(response['entries']))  {
+                                that.messages = that.messages.concat(response['entries']);
                             }
-                            that.last_count = resp.last_count || 0;
+                            that.last_count = response.last_count || 0;
                         });
                 },
                 viewMessage: function (message) {

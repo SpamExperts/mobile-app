@@ -36,8 +36,15 @@ angular.module('SpamExpertsApp')
             $scope.criteriaActions = criteriaManager.criteriaForm('actions');
 
             $scope.searchCriteria = criteriaService.getSearchCriteria();
-
             $scope.dateFormat = criteriaService.getDateFormat();
+
+            $scope.$on('updateToNow', function () {
+                var criteria = criteriaService.getSearchCriteria();
+                criteria.until = criteriaService.getCurrentDate();
+                criteriaService.setSearchCriteria(criteria);
+
+                $scope.searchCriteria = criteria;
+            });
 
             $scope.doSearch = function() {
                 criteriaService.setSearchCriteria($scope.searchCriteria);

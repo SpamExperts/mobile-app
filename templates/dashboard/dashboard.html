@@ -2,25 +2,25 @@
     <ion-content>
         <div message-queue></div>
 
-        <h3 class="title text-center">Welcome {{username}}!</h3>
+        <h3 class="title text-center">Welcome {{::username}}!</h3>
 
         <div  ng-repeat="item in menuItems">
             <div class="card" ng-if="!item.data.noDash">
                 <div class="item item-divider dashboard-header">
                     <div class="row">
                         <div class="icon-se icon-unknown">
-                            <i class="icon {{item.icon}}"></i>
+                            <i class="icon {{::item.icon}}"></i>
                         </div>
 
-                        <div class="dashboard-title">{{item.name}}</div>
+                        <div class="dashboard-title">{{::item.name}}</div>
                     </div>
                 </div>
-                <button class="item dashboard-item" ng-repeat="page in item.items" ui-sref="{{page.data.state}}">
+                <button class="item dashboard-item" ng-repeat="page in item.items" ui-sref="{{::page.data.state}}">
                     <div class="icon-se">
-                        <i class="icon {{page.data.icon}}"></i>
+                        <i class="icon {{::page.data.icon}}"></i>
                     </div>
                     <div class="dashboard-item-name">
-                        {{page.data.name}}
+                        {{::page.data.name}}
                     </div>
                 </button>
             </div>

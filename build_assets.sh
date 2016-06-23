@@ -12,6 +12,8 @@ if [ ! -d $appContainer/.se_app_assets ]; then
     ln -s $current/js $appContainer/.se_app_assets/js
     ln -s $current/css $appContainer/.se_app_assets/css
     ln -s $current/templates $appContainer/.se_app_assets/templates
+
+    sudo chmod -R 770 $appContainer/.se_app_assets
 fi
 
 cp $current/gulpfile.js $appContainer/.se_app_assets/
@@ -21,9 +23,9 @@ cp $current/bower.json $appContainer/.se_app_assets/
 cp $current/.bowerrc $appContainer/.se_app_assets/
 
 cd $appContainer/.se_app_assets
-sudo npm install
 
-bower install --allow-root
+sudo npm install
+sudo bower install --allow-root
 
 if [ -z "$1" ]; then
     gulp default

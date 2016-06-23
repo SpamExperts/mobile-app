@@ -37,8 +37,8 @@ angular.module('SpamExpertsApp')
     ]);
 
 angular.module('SpamExpertsApp')
-    .controller('CommonMessagesCtrl', ['$scope', '$state', '$timeout', 'uiService', 'MessageQueue', 'messagesService', 'criteriaService', 'ActionManager',
-        function($scope, $state, $timeout, uiService, MessageQueue, messagesService, criteriaService, ActionManager) {
+    .controller('CommonMessagesCtrl', ['$rootScope', '$scope', '$state', '$timeout', 'uiService', 'MessageQueue', 'messagesService', 'criteriaService', 'ActionManager',
+        function($rootScope, $scope, $state, $timeout, uiService, MessageQueue, messagesService, criteriaService, ActionManager) {
 
             $scope.info = {
                 count: 0,
@@ -51,54 +51,24 @@ angular.module('SpamExpertsApp')
 
             $scope.$on('refreshEntries', function () {
                 messagesService.wipe();
+
+                var count = messagesService.count();
+                var lastCount = messagesService.getLastCount();
+
                 $scope.messageEntries = messagesService.getMessages();
+
+                $scope.info.count = count;
+                $scope.info.lastCount = lastCount;
+
                 $scope.noMoreItemsAvailable = false;
+                $scope.loadingEntries = false;
                 $scope.bulkMode = false;
+
                 $scope.$broadcast('scroll.infiniteScrollComplete');
                 uiService.scrollDelegate.resize();
             });
 
-            $scope.doRefresh = function() {
-
-                if ($scope.loadingEntries === true) {
-                    uiService.scrollDelegate.resize();
-                    return;
-                }
-
-                $scope.loadingEntries = true;
-
-                var criteria = criteriaService.getSearchCriteria(true);
-
-                criteria.until = criteriaService.getCurrentDate(true);
-                criteria.refresh = true;
-                criteria.last_count = messagesService.getLastCount();
-
-                messagesService.fetch(criteria)
-                    .then(function () {
-                        $scope.messageEntries = messagesService.getMessages();
-
-                        $scope.info.count = messagesService.count();
-                        $scope.info.lastCount = messagesService.getLastCount();
-
-                        $scope.loadingEntries = false;
-                        $scope.$broadcast('scroll.refreshComplete');
-                    })
-                    .catch(function () {
-                        $scope.noMoreItemsAvailable = true;
-                        $scope.loadingEntries = false;
-                        $scope.$broadcast('scroll.refreshComplete');
-                    });
-
-            };
-
-            $scope.loadMoreData = function() {
-                $scope.loadingEntries = true;
-
-                var criteria = criteriaService.getSearchCriteria(true);
-
-                criteria.refresh = false;
-                criteria.offset = messagesService.count();
-
+            function handleScroll(criteria, type) {
                 messagesService.fetch(criteria)
                     .then(function () {
                         var count = messagesService.count();
@@ -113,14 +83,58 @@ angular.module('SpamExpertsApp')
                         }
 
                         $scope.loadingEntries = false;
-                        $scope.$broadcast('scroll.infiniteScrollComplete');
+
+                        if (type == 'infinite') {
+                            $scope.$broadcast('scroll.infiniteScrollComplete');
+                        } else {
+                            $scope.$broadcast('scroll.refreshComplete');
+                        }
                     })
                     .catch(function () {
                         $scope.noMoreItemsAvailable = true;
                         $scope.loadingEntries = false;
-                        $scope.$broadcast('scroll.infiniteScrollComplete');
+
+                        if (type == 'infinite') {
+                            $scope.$broadcast('scroll.infiniteScrollComplete');
+                        } else {
+                            $scope.$broadcast('scroll.refreshComplete');
+                        }
                     });
+            }
+
+            $scope.pullToRefresh = function() {
+
+                if ($scope.loadingEntries === true) {
+                    uiService.scrollDelegate.resize();
+                    return;
+                }
+
+                $scope.loadingEntries = true;
+
+                var criteria = criteriaService.getSearchCriteria(true);
+                criteria.until = criteriaService.getCurrentDate(true);
+
+                criteria.refresh = true;
+                criteria.last_count = messagesService.getLastCount();
+
+                $scope.noMoreItemsAvailable = false;
+
+                $rootScope.$broadcast('updateToNow');
+
+                handleScroll(criteria, 'refresh');
             };
+
+            $scope.infiniteScroll = function() {
+                $scope.loadingEntries = true;
+
+                var criteria = criteriaService.getSearchCriteria(true);
+
+                criteria.refresh = false;
+                criteria.offset = messagesService.count();
+
+                handleScroll(criteria, 'infinite');
+            };
+
 
             var actionManager = new ActionManager();
 

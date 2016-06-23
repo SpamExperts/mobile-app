@@ -10,11 +10,13 @@
     <ion-content>
         <div message-queue></div>
 
+        <ion-refresher pulling-text="Release me" on-refresh="pullToRefresh()"></ion-refresher>
+
         <ion-list ng-if="messageEntries.length">
-            <ion-item class="item-avatar-left" ng-repeat="message in messageEntries track by $index" on-hold="selectEntry($index)" on-tap="openMessage(message)" ng-class="{grayedout: message.isChecked}">
+            <ion-item class="item-avatar-left" collection-repeat="message in messageEntries track by $index" on-hold="selectEntry($index)" on-tap="openMessage(message)" ng-class="{grayedout: message.isChecked}">
                 <div se-checkbox></div>
-                <h2>{{message['decoded_subject_header']}}</h2>
-                <p>{{message['classification']}} - {{message['classification_details']}}</p>
+                <h2>{{::message['decoded_subject_header']}}</h2>
+                <p>{{::message['classification']}} - {{::message['classification_details']}}</p>
             </ion-item>
         </ion-list>
 
@@ -24,8 +26,7 @@
             </ion-item>
         </ion-list>
 
-        <ion-refresher pulling-text="Release me" on-refresh="doRefresh()"></ion-refresher>
-        <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMoreData()" distance="1%"></ion-infinite-scroll>
+        <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="infiniteScroll()" distance="10%"></ion-infinite-scroll>
 
         <div ng-if="bulkMode" class="se-spacer"></div>
     </ion-content>
@@ -33,8 +34,8 @@
     <ion-footer-bar class="bar-assertive" ng-if="bulkMode" align-title="center">
         <div class="buttons">
             <button class="button" ng-repeat="action in barActions" on-tap="processAction(action)">
-                <i class="icon {{action.icon}}"></i>
-                {{action.text}}
+                <i class="icon {{::action.icon}}"></i>
+                {{::action.text}}
             </button>
             <button ng-if="!barActions.length" class="button button-clear">&nbsp;</button>
         </div>

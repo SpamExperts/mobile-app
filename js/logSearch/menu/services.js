@@ -29,13 +29,12 @@ angular.module('SpamExpertsApp')
                     return this.direction;
                 },
                 getDefaultCriteria: function() {
-                    var yesterday = new Date();
-                    yesterday.setDate(yesterday.getDate() - 1);
-                    yesterday.setHours(0);
-                    yesterday.setMinutes(0);
+                    var today = new Date();
+                    today.setHours(0);
+                    today.setMinutes(0);
 
                     return {
-                        since: yesterday,
+                        since: today,
                         until: new Date(),
                         offset: 0,
                         length: OTHERS.sliceLength,

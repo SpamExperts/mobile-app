@@ -521,9 +521,13 @@ angular.module('SpamExpertsApp')
                         $ionicPopup.confirm(params)
                             .then(function (choice) {
                                 if (choice) {
-                                    agree();
+                                    if (agree && typeof agree == 'function') {
+                                        agree();
+                                    }
                                 } else {
-                                    cancel();
+                                    if (cancel && typeof cancel == 'function') {
+                                        cancel();
+                                    }
                                 }
                             });
                     } else {

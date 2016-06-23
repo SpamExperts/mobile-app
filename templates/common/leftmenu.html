@@ -6,8 +6,8 @@
                 <img src="img/se_logo.png">
             </div>
             <div class="col-80">
-                <h2>{{username}}</h2>
-                <p>{{role}}</p>
+                <h2>{{::username}}</h2>
+                <p>{{::role}}</p>
             </div>
         </div>
         <button class="button icon-right ion-log-out button-stable button-full" on-tap="logout()">Logout</button>
@@ -17,24 +17,24 @@
         <div  ng-if="!item.data.noSide">
 
             <div ng-if="!item.items.length">
-                <ion-item class="item-divider item-icon-left" ng-if="item.data.state" ui-sref-active="active" ui-sref="{{item.data.state}}">
-                    <i class="icon {{item.data.icon}}"></i>{{item.data.name}}
+                <ion-item class="item-divider item-icon-left" ng-if="item.data.state" ui-sref-active="active" ui-sref="{{::item.data.state}}">
+                    <i class="icon {{::item.data.icon}}"></i>{{::item.data.name}}
                 </ion-item>
                 <ion-item class="item-divider item-icon-left" ng-if="!item.data.state" href="">
-                    <i class="icon {{item.data.icon}}"></i>{{item.data.name}}
+                    <i class="icon {{::item.data.icon}}"></i>{{::item.data.name}}
                 </ion-item>
             </div>
 
             <div ng-if="item.items.length">
-                <ion-item class="item-divider item-icon-left" ng-if="item.state" ui-sref-active="active" ui-sref="{{item.state}}">
-                    <i class="icon {{item.icon}}"></i>{{item.name}}
+                <ion-item class="item-divider item-icon-left" ng-if="item.state" ui-sref-active="active" ui-sref="{{::item.state}}">
+                    <i class="icon {{::item.icon}}"></i>{{::item.name}}
                 </ion-item>
                 <ion-item class="item-divider item-icon-left" ng-if="!item.state" href="">
-                    <i class="icon {{item.icon}}"></i>{{item.name}}
+                    <i class="icon {{::item.icon}}"></i>{{::item.name}}
                 </ion-item>
 
-                <ion-item class="item-icon-left submenu" ng-repeat="page in item.items" ui-sref-active="active" ui-sref="{{page.data.state}}">
-                    <i class="icon {{page.data.icon}} page-icon"></i>{{page.data.name}}<i class="icon icon-indicator ion-arrow-left-b"></i>
+                <ion-item class="item-icon-left submenu" ng-repeat="page in item.items" ui-sref-active="active" ui-sref="{{::page.data.state}}">
+                    <i class="icon {{::page.data.icon}} page-icon"></i>{{::page.data.name}}<i class="icon icon-indicator ion-arrow-left-b"></i>
                 </ion-item>
             </div>
 

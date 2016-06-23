@@ -1,4 +1,4 @@
-<ion-view view-title="{{message['decoded_subject_header']}}">
+<ion-view view-title="{{::message['decoded_subject_header']}}">
     <ion-content class="padding">
         <div message-queue></div>
 
@@ -7,14 +7,14 @@
             <div class="item item-avatar">
                 <div class="icon-se icon-rejected">S</div>
 
-                <h2>{{message['decoded_subject_header']}}</h2>
-                <p>{{message['datestamp']}}</p>
-                <p>{{message['classification_details']}} - {{message.status}}</p>
-                <p>{{message.details['meta_data'].size}}</p>
+                <h2>{{::message['decoded_subject_header']}}</h2>
+                <p>{{::message['datestamp']}}</p>
+                <p>{{::message['classification_details']}} - {{::message.status}}</p>
+                <p>{{::message.details['meta_data'].size}}</p>
 
                 <table border="0">
-                    <tr><td style="padding: 0 5px;">From:</td><td>{{message['sender']}}</td></tr>
-                    <tr><td style="padding: 0 5px;">To:</td><td>{{message['recipient']}}</td></tr>
+                    <tr><td style="padding: 0 5px;">From:</td><td>{{::message['sender']}}</td></tr>
+                    <tr><td style="padding: 0 5px;">To:</td><td>{{::message['recipient']}}</td></tr>
                 </table>
             </div>
 
@@ -31,11 +31,11 @@
             </div>
 
             <div class="item item-body" ng-if="message.details['msgBody'] && showRaw">
-                <pre>{{message.details['eml']}}</pre>
+                <pre>{{::message.details['eml']}}</pre>
             </div>
 
             <div class="item item-body" ng-if="message.details['msgBody'] && !showRaw">
-                {{message.details['msgBody']}}
+                {{::message.details['msgBody']}}
             </div>
 
 

@@ -11,11 +11,11 @@
     </label>
 
     <label class="item item-input item-floating-label" ng-repeat="field in criteriaFields">
-        <span class="input-label">{{field.label}}</span>
-        <input type="{{field.type}}" placeholder="{{field.label}}" ng-model="searchCriteria[field.model]">
+        <span class="input-label">{{::field.label}}</span>
+        <input type="{{::field.type}}" placeholder="{{::field.label}}" ng-model="searchCriteria[field.model]">
     </label>
 
-    <button class="{{action.cssClass}}" on-tap="{{action.action}}" ng-repeat="action in criteriaActions">
-        {{action.label}}
+    <button class="{{::action.cssClass}}" on-tap="{{::action.action}}" ng-repeat="action in criteriaActions">
+        {{::action.label}}
     </button>
 </div>
