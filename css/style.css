@@ -253,11 +253,15 @@
     display: inline-block;
 }
 
-.flip-container.selected .flipper {
+.flip-container.selected .flipper, .flip:before {
     -webkit-transform: rotateY(180deg);
     -moz-transform: rotateY(180deg);
     -o-transform: rotateY(180deg);
     transform: rotateY(180deg);
+}
+.flip:before {
+    padding-right: 0!important;
+    padding-left: .2em!important;
 }
 
 .flip-container .flipper {

@@ -33,9 +33,11 @@ angular.module('SpamExpertsApp')
                     today.setHours(0);
                     today.setMinutes(0);
 
+                    var currentDate = this.getCurrentDate();
+
                     return {
                         since: today,
-                        until: new Date(),
+                        until: currentDate,
                         offset: 0,
                         length: OTHERS.sliceLength,
                         refresh: false,
@@ -46,6 +48,8 @@ angular.module('SpamExpertsApp')
                 },
                 getCurrentDate: function (apiDate) {
                     var now = new Date();
+                    now.setSeconds(0);
+
                     if (apiDate) {
                         now = $filter('date')(now, OTHERS.dateFormat);
                     }

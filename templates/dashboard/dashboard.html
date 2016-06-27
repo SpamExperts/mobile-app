@@ -1,5 +1,12 @@
 <ion-view view-title="Dashboard">
-    <ion-content>
+    <ion-header-bar align-title="center" class="bar-calm">
+        <div class="buttons">
+            <button class="button button-icon icon ion-navicon" menu-toggle="left"></button>
+        </div>
+        <h1 class="title">Dashboard</h1>
+    </ion-header-bar>
+
+    <ion-content class="has-header">
         <div message-queue></div>
 
         <h3 class="title text-center">Welcome {{::username}}!</h3>

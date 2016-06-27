@@ -3,7 +3,7 @@ angular.module('SpamExpertsApp')
     .constant('DEV_PROXY', 'DEV_PROXY_FALSE')
 
     .constant('OTHERS', {
-        sliceLength: 20,
+        sliceLength: 100,
         apiTimeout: 10,
         notificationsTimeout: 10,
         dateFormat: 'yyyy-MM-dd HH:mm'
@@ -156,36 +156,43 @@ angular.module('SpamExpertsApp')
                 release: {
                     method: 'PUT',
                     endpoint: '/rest/log/release/delivery',
+                    params: ['recipient', 'message_id', 'host', 'datestamp', 'sender'],
                     loading: true
                 },
                 releaseandwhitelist: {
                     method: 'PUT',
                     endpoint: '/rest/log/releaseandwhitelist/delivery',
+                    params: ['recipient', 'message_id', 'host', 'datestamp', 'sender'],
                     loading: true
                 },
                 releaseandtrain: {
                     method: 'PUT',
                     endpoint: '/rest/log/releaseandtrain/delivery',
+                    params: ['recipient', 'message_id', 'host', 'datestamp', 'sender'],
                     loading: true
                 },
                 remove: {
                     method: 'DELETE',
                     endpoint: '/rest/log/remove/delivery',
+                    params: ['recipient', 'message_id', 'host', 'datestamp', 'sender'],
                     loading: true
                 },
                 removeandblacklist: {
                     method: 'DELETE',
                     endpoint: '/rest/log/removeandblacklist/delivery',
+                    params: ['recipient', 'message_id', 'host', 'datestamp', 'sender'],
                     loading: true
                 },
                 view: {
                     method: 'GET',
                     endpoint: '/rest/log/view/delivery',
+                    params: ['recipient', 'message_id', 'host', 'datestamp', 'sender'],
                     loading: false
                 },
                 purge: {
                     method: 'DELETE',
                     endpoint: '/rest/log/quarantined/delivery',
+                    params: ['recipient', 'message_id', 'host', 'datestamp', 'sender'],
                     loading: true
                 }
             }
@@ -200,36 +207,43 @@ angular.module('SpamExpertsApp')
                 release: {
                     method: 'PUT',
                     endpoint: '/rest/log/release/submission',
+                    params: ['user', 'message_id', 'host', 'datestamp', 'sender'],
                     loading: true
                 },
                 releaseandwhitelist: {
                     method: 'PUT',
                     endpoint: '/rest/log/releaseandwhitelist/submission',
+                    params: ['user', 'message_id', 'host', 'datestamp', 'sender'],
                     loading: true
                 },
                 releaseandtrain: {
                     method: 'PUT',
                     endpoint: '/rest/log/releaseandtrain/submission',
+                    params: ['user', 'message_id', 'host', 'datestamp', 'sender'],
                     loading: true
                 },
                 remove: {
                     method: 'DELETE',
                     endpoint: '/rest/log/remove/submission',
+                    params: ['user', 'message_id', 'host', 'datestamp', 'sender'],
                     loading: true
                 },
                 removeandblacklist: {
                     method: 'DELETE',
                     endpoint: '/rest/log/removeandblacklist/submission',
+                    params: ['user', 'message_id', 'host', 'datestamp', 'sender'],
                     loading: true
                 },
                 view: {
                     method: 'GET',
                     endpoint: '/rest/log/view/submission',
+                    params: ['user', 'message_id', 'host', 'datestamp', 'sender'],
                     loading: false
                 },
                 purge: {
                     method: 'DELETE',
                     endpoint: '/rest/log/quarantined/submission',
+                    params: ['user', 'message_id', 'host', 'datestamp', 'sender'],
                     loading: true
                 }
             }
@@ -282,7 +296,7 @@ angular.module('SpamExpertsApp')
                 },
                 {
                     label: 'Reset',
-                    cssClass: 'button button-full button-energized icon-left ion-refresh',
+                    cssClass: 'button button-full button-energized icon-left ion-refresh flip',
                     action: 'doReset()'
                 }
             ]
@@ -346,13 +360,30 @@ angular.module('SpamExpertsApp')
                 {
                     name: 'purge',
                     icon: 'ion-trash-a',
-                    text: 'Empty quarantine',
+                    text: 'Purge',
                     confirmText:
                     'You are going to empty your spam quarantine folder.%s' +
                     'ALL its messages will be removed.%s' +
                     'Please keep in mind that messages might still appear in the list while we\'re processing this action.%s' +
                     'Are you sure you want to do this?',
                     condition: domainAndEmailAndIncoming
+                },
+                {
+                    name: 'release',
+                    icon: 'ion-share',
+                    text: 'Release',
+                    confirmText:
+                        'The email(s) that you have selected previously will be released.%s Are you sure you want to continue?'
+                    ,
+                    condition: adminOrIncoming
+                },
+                {
+                    name: 'remove',
+                    icon: 'ion-minus-circled',
+                    text: 'Remove',
+                    confirmText: 'The email(s) that you have selected will be removed.%s Are you sure you want to continue?'
+                    ,
+                    condition: adminOrIncoming
                 }
             ],
             tapAction: [{

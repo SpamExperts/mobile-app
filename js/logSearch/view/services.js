@@ -100,23 +100,18 @@ angular.module('SpamExpertsApp')
                     return null;
                 },
                 bulkAction: function (action, entry) {
-                    var entries = [];
 
                     if (!isEmpty(entry)) {
-                        entries.push(entry);
-                    } else {
-                        angular.forEach(this.messages, function(message) {
-                            if (message.isChecked) {
-                                this.push(message);
-                            }
-                        }, entries);
+                        entry.isChecked = true;
                     }
 
                     return Api.request({
                             direction: this.direction,
                             resource: 'logSearch',
                             action: action,
-                            requestParams: entries
+                            requestParams: !isEmpty(entry) ? [entry] : this.messages,
+                            filterChecked: true,
+                            filterParams: true
                         });
                 }
             };
@@ -124,7 +119,7 @@ angular.module('SpamExpertsApp')
             return MessagesService;
         }
     ])
-    .factory('ActionManager', ['uiService', 'MessageQueue','filterPermissions', 'BULK_ACTIONS',
+    .factory('ActionManager', ['uiService', 'MessageQueue', 'filterPermissions', 'BULK_ACTIONS',
         function (uiService, MessageQueue, filterPermissions, BULK_ACTIONS) {
 
             function confirm (action, callback) {
@@ -149,13 +144,12 @@ angular.module('SpamExpertsApp')
                     return actions[type];
                 };
 
-                this.processAction = function (actions, callback) {
-                    if (angular.isArray(actions)) {
-                        uiService.actionSheet(actions, function (action) {
-                            confirm(action, callback);
-                        });
+                this.processAction = function (action, callback) {
+                    if (!isEmpty(action.actions)) {
+                        uiService.dropdown().show(action);
                     } else {
-                        confirm(actions, callback);
+                        uiService.dropdown().hide();
+                        confirm(action, callback);
                     }
                 };
 

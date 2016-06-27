@@ -1,19 +1,53 @@
 <ion-view>
-    <ion-nav-title>
-        Messages {{info.count}} / {{info.lastCount}}
-    </ion-nav-title>
-    <ion-nav-buttons side="right">
-        <button class="button button-icon icon ion-search" menu-toggle="right">
-        </button>
-    </ion-nav-buttons>
 
-    <ion-content>
+    <ion-header-bar  class="bar-calm" ng-if="!bulkMode" align-title="center" on-tap="scrollTop()">
+        <div class="buttons">
+            <button class="button button-icon icon ion-navicon" menu-toggle="left"></button>
+        </div>
+        <h1 class="title">Messages {{info.count}} / {{info.lastCount}}</h1>
+        <div class="buttons">
+            <button class="button button-icon icon ion-search" menu-toggle="right"></button>
+        </div>
+    </ion-header-bar>
+
+    <ion-header-bar class="bar-assertive" ng-if="bulkMode" align-title="center">
+
+        <div class="buttons">
+            <button class="button button-clear" ng-if="info.count != selectedCount" on-tap="selectAll(true)">
+                <i class="icon ion-ios-checkmark-outline"></i>
+                {{selectedCount}}/{{info.count}}
+            </button>
+            <button class="button button-clear" ng-if="info.count == selectedCount" on-tap="selectAll(false)">
+                <i class="icon ion-ios-circle-outline"></i>
+                {{selectedCount}}/{{info.count}}
+            </button>
+        </div>
+
+        <div class="title">&nbsp;</div>
+
+        <div class="buttons">
+            <button class="button" ng-repeat="action in barActions" on-tap="processAction(action)">
+                <i class="icon {{::action.icon}}"></i>
+            </button>
+            <button class="button" on-tap="processAction('', $event)">
+                <i class="icon ion-more"></i>
+            </button>
+        </div>
+    </ion-header-bar>
+
+    <ion-content class="has-header">
         <div message-queue></div>
 
         <ion-refresher pulling-text="Release me" on-refresh="pullToRefresh()"></ion-refresher>
 
         <ion-list ng-if="messageEntries.length">
-            <ion-item class="item-avatar-left" collection-repeat="message in messageEntries track by $index" on-hold="selectEntry($index)" on-tap="openMessage(message)" ng-class="{grayedout: message.isChecked}">
+            <ion-item
+                    class="item-avatar-left"
+                    ng-class="{grayedout: message.isChecked}"
+                    collection-repeat="message in messageEntries"
+                    on-hold="selectEntry($index)"
+                    on-tap="openMessage(message)"
+            >
                 <div se-checkbox></div>
                 <h2>{{::message['decoded_subject_header']}}</h2>
                 <p>{{::message['classification']}} - {{::message['classification_details']}}</p>
@@ -27,30 +61,5 @@
         </ion-list>
 
         <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="infiniteScroll()" distance="10%"></ion-infinite-scroll>
-
-        <div ng-if="bulkMode" class="se-spacer"></div>
     </ion-content>
-
-    <ion-footer-bar class="bar-assertive" ng-if="bulkMode" align-title="center">
-        <div class="buttons">
-            <button class="button" ng-repeat="action in barActions" on-tap="processAction(action)">
-                <i class="icon {{::action.icon}}"></i>
-                {{::action.text}}
-            </button>
-            <button ng-if="!barActions.length" class="button button-clear">&nbsp;</button>
-        </div>
-
-        <div class="title" on-tap="processAction()"><i class="icon ion-grid"></i></div>
-
-        <div class="buttons">
-            <button class="button" ng-if="info.count != selectedCount" on-tap="selectAll(true)">
-                <i class="icon ion-ios-checkmark-outline"></i>
-                {{selectedCount}}/{{info.count}}
-            </button>
-            <button class="button" ng-if="info.count == selectedCount" on-tap="selectAll(false)">
-                <i class="icon ion-ios-circle-outline"></i>
-                {{selectedCount}}/{{info.count}}
-            </button>
-        </div>
-    </ion-footer-bar>
 </ion-view>

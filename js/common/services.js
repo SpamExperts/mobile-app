@@ -61,6 +61,9 @@ angular.module('SpamExpertsApp')
                         return packObject(obj, path.split('.'), value);
                     }
                     else if (path.length == 1 && value !== undefined) {
+                        if (value == 'true') value = true;
+                        if (value == 'false') value = false;
+                        if (value != '' && !isNaN(value)) value *= 1;
                         return obj[path[0]] = value;
                     }
                     else if (path.length == 0) {
@@ -298,7 +301,9 @@ angular.module('SpamExpertsApp')
                         resource  : null,
                         action    : null,
                         urlParams : null,
-                        requestParams: null
+                        requestParams: null,
+                        filterChecked: false,
+                        filterParams: false
                     };
 
                     angular.merge(defaultParams, params);
@@ -313,6 +318,25 @@ angular.module('SpamExpertsApp')
 
                     if (params.action) {
                         request = request[params.action];
+                    }
+
+                    if (params.filterChecked && params.filterParams) {
+                        var entries = [];
+                        angular.forEach(params.requestParams, function(entry) {
+
+                            if (entry.isChecked) {
+                                var filteredEntry = {};
+
+                                for (var param in request.params) {
+                                    var key = request.params[param];
+                                    filteredEntry[key] = entry[key];
+                                }
+
+                                this.push(filteredEntry);
+                            }
+                        }, entries);
+
+                        params.requestParams = entries;
                     }
 
                     switch (request.method) {
@@ -507,8 +531,8 @@ angular.module('SpamExpertsApp')
             return interceptor;
         }
     ])
-    .factory('uiService', ['$ionicPopup', '$ionicActionSheet', '$ionicScrollDelegate', '$ionicSideMenuDelegate', '$ionicLoading',
-        function($ionicPopup, $ionicActionSheet, $ionicScrollDelegate, $ionicSideMenuDelegate, $ionicLoading) {
+    .factory('uiService', ['$rootScope', '$timeout', '$ionicPopup', '$ionicActionSheet', '$ionicScrollDelegate', '$ionicSideMenuDelegate', '$ionicLoading', '$ionicPopover',
+        function($rootScope, $timeout, $ionicPopup, $ionicActionSheet, $ionicScrollDelegate, $ionicSideMenuDelegate, $ionicLoading, $ionicPopover) {
 
             return {
                 sideMenuDelegate: $ionicSideMenuDelegate,
@@ -550,6 +574,31 @@ angular.module('SpamExpertsApp')
                         }
                     }
                 },
+                dropdown: function () {
+
+                    return {
+                        show: function (action) {
+                            var $scope = action.scope;
+                            $scope.actions = action.actions;
+
+
+                            $ionicPopover.fromTemplateUrl('templates/common/dropdown.html', {
+                                scope: $scope
+                            }).then(function(popover) {
+                                $rootScope.popover = popover;
+                                $rootScope.popover.show(action.event);
+                            });
+                        },
+                        hide: function () {
+                            if ($rootScope.popover) {
+                                $rootScope.popover.hide();
+                                $rootScope.popover.remove();
+                            }
+                        }
+                    };
+
+
+                },
                 actionSheet: function (actions, success) {
                     var actionSheet = $ionicActionSheet.show({
                         buttons: actions,
@@ -561,11 +610,18 @@ angular.module('SpamExpertsApp')
                         buttonClicked: function(i, action) {
                             actionSheet();
                             if (success && typeof success == 'function') {
-                                success(action);
+                                $timeout(function () {success(action)}, 150);
                             }
                             return true;
                         }
                     });
+                },
+                kConvert: function (value) {
+                    if (value < 1000) {
+                        return value;
+                    } else {
+                        return Math.round(value/10) / 100 + 'k';
+                    }
                 }
             }
         }

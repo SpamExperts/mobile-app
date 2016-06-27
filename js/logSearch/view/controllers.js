@@ -52,20 +52,21 @@ angular.module('SpamExpertsApp')
             $scope.$on('refreshEntries', function () {
                 messagesService.wipe();
 
-                var count = messagesService.count();
-                var lastCount = messagesService.getLastCount();
+                $scope.noMoreItemsAvailable = false;
+                $scope.loadingEntries = false;
+                $rootScope.bulkMode = false;
 
                 $scope.messageEntries = messagesService.getMessages();
 
-                $scope.info.count = count;
-                $scope.info.lastCount = lastCount;
-
-                $scope.noMoreItemsAvailable = false;
-                $scope.loadingEntries = false;
-                $scope.bulkMode = false;
-
                 $scope.$broadcast('scroll.infiniteScrollComplete');
                 uiService.scrollDelegate.resize();
+
+                var count = messagesService.count();
+                var lastCount = messagesService.getLastCount();
+
+                $scope.info.count = uiService.kConvert(count);
+                $scope.info.lastCount = uiService.kConvert(lastCount);
+
             });
 
             function handleScroll(criteria, type) {
@@ -75,8 +76,8 @@ angular.module('SpamExpertsApp')
                         var lastCount = messagesService.getLastCount();
                         $scope.messageEntries = messagesService.getMessages();
 
-                        $scope.info.count = count;
-                        $scope.info.lastCount = lastCount;
+                        $scope.info.count = uiService.kConvert(count);
+                        $scope.info.lastCount = uiService.kConvert(lastCount);
 
                         if (count == lastCount) {
                             $scope.noMoreItemsAvailable = true;
@@ -101,6 +102,10 @@ angular.module('SpamExpertsApp')
                         }
                     });
             }
+
+            $scope.refreshList = function () {
+                $scope.$broadcast('refreshEntries');
+            };
 
             $scope.pullToRefresh = function() {
 
@@ -142,7 +147,7 @@ angular.module('SpamExpertsApp')
             var availableActions = actionManager.getActions('actionSheet');
             var tapAction = actionManager.getActions('tapAction');
 
-            $scope.bulkMode = false;
+            $rootScope.bulkMode = false;
             $scope.selectedCount = messagesService.countSelected();
             $scope.barActions = barActions;
 
@@ -164,7 +169,7 @@ angular.module('SpamExpertsApp')
                 if (!isEmpty(barActions) || !isEmpty(availableActions)) {
                     messagesService.selectMessage(index);
                     $scope.selectedCount = messagesService.countSelected();
-                    $scope.bulkMode = messagesService.isBulkMode();
+                    $rootScope.bulkMode = messagesService.isBulkMode();
                 } else {
                     actionManager.noAvailableAction();
                 }
@@ -173,12 +178,16 @@ angular.module('SpamExpertsApp')
             $scope.selectAll = function (toggle) {
                 messagesService.selectAll(toggle);
                 $scope.selectedCount = messagesService.countSelected();
-                $scope.bulkMode = messagesService.isBulkMode();
+                $rootScope.bulkMode = messagesService.isBulkMode();
             };
 
-            $scope.processAction = function (action) {
+            $scope.processAction = function (action, $event) {
                 actionManager.processAction(
-                    (isEmpty(action) ? availableActions : action),
+
+                    isEmpty(action)
+                        ? {actions: availableActions, scope: $scope, event: $event}
+                        : action
+                    ,
                     function (action) {
                         messagesService
                             .bulkAction(action.name)
@@ -186,7 +195,7 @@ angular.module('SpamExpertsApp')
                                 $timeout(function() {
                                     $scope.$broadcast('refreshEntries');
                                 });
-                                $scope.bulkMode = false;
+                                $rootScope.bulkMode = false;
                             });
                     }
                 );
@@ -226,13 +235,19 @@ angular.module('SpamExpertsApp')
             });
 
             var actionManager = new ActionManager($state.params.previousState.group);
+            $scope.barActions = actionManager.getActions('bar');
+
             var availableActions = actionManager.getActions('actionSheet');
 
             $scope.hasActions = !isEmpty(availableActions);
 
-            $scope.processAction = function () {
+            $scope.processAction = function (action, $event) {
                 actionManager.processAction(
-                    availableActions,
+
+                    isEmpty(action)
+                        ? {actions: availableActions, scope: $scope, event: $event}
+                        : action,
+
                     function (action) {
                         messageService
                             .bulkAction(action.name, message)
@@ -241,6 +256,7 @@ angular.module('SpamExpertsApp')
                                 $timeout(function() {
                                     $rootScope.$broadcast('refreshEntries');
                                 });
+                                $rootScope.bulkMode = false;
                             });
                     }
                 );

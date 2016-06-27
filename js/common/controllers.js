@@ -52,17 +52,27 @@ angular.module('SpamExpertsApp')
             };
 
             $rootScope.canDragRight = function() {
-                uiService.sideMenuDelegate.canDragContent(true);
+                if (!$rootScope.bulkMode) {
+                    uiService.sideMenuDelegate.canDragContent(true);
+                } else {
+                    uiService.sideMenuDelegate.canDragContent(false);
+                    uiService.sideMenuDelegate.toggleLeft(false);
+                }
             };
 
             $rootScope.canDragLeft = function () {
                 if (
                     isEmpty($state.current.views['right-side-menu']) &&
                     !uiService.sideMenuDelegate.isOpenLeft()
+                    && !$rootScope.bulkMode
                 ) {
                     uiService.sideMenuDelegate.canDragContent(false);
                     uiService.sideMenuDelegate.toggleRight(false);
                 }
+            };
+
+            $rootScope.scrollTop = function() {
+                uiService.scrollDelegate.scrollTop();
             };
 
             $rootScope.logout = function() {

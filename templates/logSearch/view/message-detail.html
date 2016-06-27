@@ -1,5 +1,26 @@
 <ion-view view-title="{{::message['decoded_subject_header']}}">
-    <ion-content class="padding">
+
+    <ion-header-bar class="bar-assertive" align-title="center">
+
+        <div class="buttons">
+            <button class="button button-clear" on-tap="back()"><i class="icon ion-arrow-left-c"></i></button>
+        </div>
+
+        <div class="title">
+            &nbsp;
+        </div>
+
+        <div class="buttons" ng-if="hasActions && message.details['msgBody']">
+            <button class="button" ng-repeat="action in barActions" on-tap="processAction(action)">
+                <i class="icon {{::action.icon}}"></i>
+            </button>
+            <button class="button" on-tap="processAction('', $event)">
+                <i class="icon ion-more"></i>
+            </button>
+        </div>
+    </ion-header-bar>
+
+    <ion-content class="has-header">
         <div message-queue></div>
 
         <div class="list card">
@@ -44,13 +65,4 @@
             </div>
         </div>
     </ion-content>
-    <ion-footer-bar class="bar-assertive" align-title="center">
-        <div class="buttons">
-            <button class="button" on-tap="back()"><i class="icon ion-reply"></i> Back</button>
-        </div>
-        <div class="title" on-tap="processAction()" ng-if="hasActions && message.details['msgBody']"><i class="icon ion-grid"></i></div>
-        <div class="buttons">
-            <button class="button button-clear">&nbsp;</button>
-        </div>
-    </ion-footer-bar>
 </ion-view>
