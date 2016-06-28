@@ -28,6 +28,9 @@ angular.module('SpamExpertsApp')
                 getMessageParts: function () {
                     return this.messageParts;
                 },
+                clearMessageParts: function () {
+                    this.messageParts = {};
+                },
                 isBulkMode: function () {
                     return 0 < this.selected;
                 },
@@ -51,6 +54,7 @@ angular.module('SpamExpertsApp')
                 },
                 wipe: function() {
                     this.messages = [];
+                    this.selected = 0;
                     this.last_count = 0;
                 },
                 count: function() {

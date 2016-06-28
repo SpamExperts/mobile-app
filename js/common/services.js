@@ -397,7 +397,8 @@ angular.module('SpamExpertsApp')
                             return $http.delete(
                                 baseEndpoint + request.endpoint.printf(params.urlParams),
                                 {
-                                    params: params.requestParams,
+                                    data: params.requestParams,
+                                    headers: {'Content-Type': 'application/json'},
                                     responseKey: !isEmpty(params.responseKey) ? params.responseKey : '',
                                     loading: request.loading === true,
                                     cancelLoading: request.cancelLoading

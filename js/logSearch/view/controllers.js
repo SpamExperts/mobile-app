@@ -58,14 +58,16 @@ angular.module('SpamExpertsApp')
 
                 $scope.messageEntries = messagesService.getMessages();
 
-                $scope.$broadcast('scroll.infiniteScrollComplete');
-                uiService.scrollDelegate.resize();
-
                 var count = messagesService.count();
                 var lastCount = messagesService.getLastCount();
 
                 $scope.info.count = uiService.kConvert(count);
                 $scope.info.lastCount = uiService.kConvert(lastCount);
+
+                $timeout(function() {
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                    uiService.scrollDelegate.resize();
+                });
 
             });
 
@@ -227,6 +229,7 @@ angular.module('SpamExpertsApp')
             };
 
             $scope.back = function () {
+                messageService.clearMessageParts();
                 $state.go($state.params.previousState.state);
             };
 
