@@ -40,7 +40,10 @@
 
         <ion-refresher pulling-text="Release me" on-refresh="pullToRefresh()"></ion-refresher>
 
-        <ion-list ng-if="messageEntries.length">
+        <ion-list>
+            <ion-item class="text-center" ng-if="!loadingEntries && !messageEntries.length">
+                No entries. Pull to refresh...
+            </ion-item>
             <ion-item
                     class="item-avatar-left"
                     ng-class="{grayedout: message.isChecked}"
@@ -54,12 +57,11 @@
             </ion-item>
         </ion-list>
 
-        <ion-list ng-if="!loadingEntries && !messageEntries.length">
-            <ion-item class="text-center">
-                No entries. Pull to refresh...
-            </ion-item>
-        </ion-list>
-
-        <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="infiniteScroll()" distance="10%"></ion-infinite-scroll>
+        <ion-infinite-scroll
+                ng-if="!noMoreItemsAvailable"
+                on-infinite="infiniteScroll()"
+                distance="10%"
+        >
+        </ion-infinite-scroll>
     </ion-content>
 </ion-view>
