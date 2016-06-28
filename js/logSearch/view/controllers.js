@@ -93,13 +93,18 @@ angular.module('SpamExpertsApp')
                             $scope.$broadcast('scroll.refreshComplete');
                         }
                     })
-                    .catch(function () {
-                        $scope.noMoreItemsAvailable = true;
-                        $scope.loadingEntries = false;
-
+                    .catch(function (request) {
                         if (type == 'infinite') {
-                            $scope.$broadcast('scroll.infiniteScrollComplete');
+                            if (request.config.wasCanceled !== true) {
+                                $scope.noMoreItemsAvailable = true;
+                                $scope.loadingEntries = false;
+                                $scope.$broadcast('scroll.infiniteScrollComplete');
+                            }
+
                         } else {
+                            $scope.noMoreItemsAvailable = true;
+                            $scope.loadingEntries = false;
+
                             $scope.$broadcast('scroll.refreshComplete');
                         }
                     });

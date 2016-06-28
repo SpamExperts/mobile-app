@@ -440,6 +440,7 @@ angular.module('SpamExpertsApp')
                         BusyService.hide();
 
                         if (pendingXHR) {
+                            config.wasCanceled = true;
                             pendingXHR.resolve();
                         }
 
