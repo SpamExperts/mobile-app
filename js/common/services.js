@@ -262,8 +262,42 @@ angular.module('SpamExpertsApp')
             };
         }
     ])
-    .factory('Api', ['$http', '$localstorage', 'ENDPOINTS', 'DEV_PROXY', 'NetworkService',
-        function($http, $localstorage, ENDPOINTS, DEV_PROXY, NetworkService) {
+    .factory('ApiParamsFilter', [
+        function() {
+
+            return function (params, apiParams) {
+                var entries = [];
+
+                var filter = function (entry) {
+                    var filteredEntry = {};
+
+                    for (var param in apiParams) {
+                        var key = apiParams[param];
+                        filteredEntry[key] = entry[key];
+                    }
+                    return filteredEntry;
+                };
+
+                if (isObject(params)) {
+                    return filter(params);
+                } else {
+                    if (1 < params.length) {
+                        angular.forEach(params, function(entry) {
+                            if (entry.isChecked) {
+                                this.push(filter(entry));
+                            }
+                        }, entries);
+                        return entries;
+
+                    } else {
+                        return [filter(params[0])];
+                    }
+                }
+            }
+        }
+    ])
+    .factory('Api', ['$http', '$localstorage', 'NetworkService', 'ApiParamsFilter', 'ENDPOINTS', 'DEV_PROXY',
+        function($http, $localstorage, NetworkService, ApiParamsFilter, ENDPOINTS, DEV_PROXY) {
 
             return {
                 protocol: 'http://',
@@ -320,23 +354,8 @@ angular.module('SpamExpertsApp')
                         request = request[params.action];
                     }
 
-                    if (params.filterChecked && params.filterParams) {
-                        var entries = [];
-                        angular.forEach(params.requestParams, function(entry) {
-
-                            if (entry.isChecked) {
-                                var filteredEntry = {};
-
-                                for (var param in request.params) {
-                                    var key = request.params[param];
-                                    filteredEntry[key] = entry[key];
-                                }
-
-                                this.push(filteredEntry);
-                            }
-                        }, entries);
-
-                        params.requestParams = entries;
+                    if (params.filterParams) {
+                        params.requestParams = ApiParamsFilter(params.requestParams, request.params);
                     }
 
                     switch (request.method) {

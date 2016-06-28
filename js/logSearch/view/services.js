@@ -90,7 +90,8 @@ angular.module('SpamExpertsApp')
                                 direction: this.direction,
                                 resource: 'logSearch',
                                 action: 'view',
-                                requestParams: message
+                                requestParams: message,
+                                filterParams: true
                             })
                             .success(function (response) {
                                 that.messageParts.details = response['mail'];
@@ -101,16 +102,11 @@ angular.module('SpamExpertsApp')
                 },
                 bulkAction: function (action, entry) {
 
-                    if (!isEmpty(entry)) {
-                        entry.isChecked = true;
-                    }
-
                     return Api.request({
                             direction: this.direction,
                             resource: 'logSearch',
                             action: action,
                             requestParams: !isEmpty(entry) ? [entry] : this.messages,
-                            filterChecked: true,
                             filterParams: true
                         });
                 }

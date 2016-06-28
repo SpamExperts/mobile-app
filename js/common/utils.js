@@ -52,6 +52,10 @@ function unique(array) {
     return arr;
 }
 
+function isObject(variable) {
+    return Object.prototype.toString.call(variable) === "[object Object]";
+}
+
 function adminOrIncoming(params, constant) {
     return -1 < [
             constant['USER_ROLES'].admin
