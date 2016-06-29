@@ -8,6 +8,7 @@ var
     templateCache= require('gulp-angular-templatecache'),
     gulpif       = require('gulp-if'),
     replace      = require('gulp-replace'),
+    strip        = require('gulp-strip-comments');
 
     minify       = true,
 
@@ -71,6 +72,7 @@ gulp.task('allCss', function() {
 gulp.task('allJs', function() {
     // Minify and concatenate scripts for all.js
     return gulp.src(buildSources.allJs)
+        .pipe(strip())
         .pipe(gulpif(minify, uglify()))
         .pipe(concat('scripts.js'))
         .pipe(gulp.dest('minified/js'))

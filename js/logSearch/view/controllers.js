@@ -1,4 +1,6 @@
 angular.module('SpamExpertsApp')
+
+    // IncomingMessagesCtrl controller extends CommonMessagesCtrl
     .controller('IncomingMessagesCtrl', ['$scope', '$controller', 'MessagesService', 'SearchCriteriaService', 'GROUPS',
         function($scope, $controller, MessagesService, SearchCriteriaService, GROUPS) {
             $controller('CommonMessagesCtrl', {
@@ -18,6 +20,8 @@ angular.module('SpamExpertsApp')
     ]);
 
 angular.module('SpamExpertsApp')
+
+    // OutgoingMessagesCtrl controller extends CommonMessagesCtrl
     .controller('OutgoingMessagesCtrl', ['$scope', '$controller', 'MessagesService', 'SearchCriteriaService', 'GROUPS',
         function($scope, $controller, MessagesService, SearchCriteriaService, GROUPS) {
             $controller('CommonMessagesCtrl', {
@@ -49,6 +53,7 @@ angular.module('SpamExpertsApp')
 
             $scope.loadingEntries = false;
 
+            // getting the list of messages again after performing a BULK_ACTION
             $scope.$on('refreshEntries', function () {
                 messagesService.wipe();
 
@@ -71,22 +76,28 @@ angular.module('SpamExpertsApp')
 
             });
 
+            // common function for handling infinite-scroll and pull-to-refresh
             function handleScroll(criteria, type) {
                 messagesService.fetch(criteria)
                     .then(function () {
                         var count = messagesService.count();
                         var lastCount = messagesService.getLastCount();
+
+                        // get the messages
                         $scope.messageEntries = messagesService.getMessages();
 
+                        // update count and last count
                         $scope.info.count = uiService.kConvert(count);
                         $scope.info.lastCount = uiService.kConvert(lastCount);
 
+                        // we shouldn't load more than the maximum count
                         if (count == lastCount) {
                             $scope.noMoreItemsAvailable = true;
                         }
 
                         $scope.loadingEntries = false;
 
+                        // broadcast the proper event
                         if (type == 'infinite') {
                             $scope.$broadcast('scroll.infiniteScrollComplete');
                         } else {
@@ -95,6 +106,8 @@ angular.module('SpamExpertsApp')
                     })
                     .catch(function (request) {
                         if (type == 'infinite') {
+
+                            // we should allow loading if the request was actually canceled
                             if (request.config.wasCanceled !== true) {
                                 $scope.noMoreItemsAvailable = true;
                                 $scope.loadingEntries = false;
@@ -119,6 +132,7 @@ angular.module('SpamExpertsApp')
 
                 $scope.loadingEntries = true;
 
+                // get the criteria and set up parameters required for pull-to-refresh
                 var criteria = criteriaService.getSearchCriteria(true);
                 criteria.until = criteriaService.getCurrentDate(true);
 
@@ -127,6 +141,7 @@ angular.module('SpamExpertsApp')
 
                 $scope.noMoreItemsAvailable = false;
 
+                // we should update the date in the right-side-menu
                 $rootScope.$broadcast('updateToNow');
 
                 handleScroll(criteria, 'refresh');
@@ -135,6 +150,7 @@ angular.module('SpamExpertsApp')
             $scope.infiniteScroll = function() {
                 $scope.loadingEntries = true;
 
+                // get the criteria and set up parameters for infinite-scroll
                 var criteria = criteriaService.getSearchCriteria(true);
 
                 criteria.refresh = false;
@@ -144,16 +160,20 @@ angular.module('SpamExpertsApp')
             };
 
 
+            // process BULK_ACTIONS
             var actionManager = new ActionManager();
 
             var barActions = actionManager.getActions('bar');
             var availableActions = actionManager.getActions('actionSheet');
             var tapAction = actionManager.getActions('tapAction');
 
+            // bulk mode descriptor
             $rootScope.bulkMode = false;
+
             $scope.selectedCount = messagesService.countSelected();
             $scope.barActions = barActions;
 
+            // handle message preview
             $scope.openMessage = function(message) {
                 if (!isEmpty(tapAction)) {
                     $state.go('main.message-detail', {
@@ -168,6 +188,7 @@ angular.module('SpamExpertsApp')
                 }
             };
 
+            // handle selection on message entries
             $scope.selectEntry = function(index) {
                 if (!isEmpty(barActions) || !isEmpty(availableActions)) {
                     messagesService.selectMessage(index);
@@ -178,12 +199,14 @@ angular.module('SpamExpertsApp')
                 }
             };
 
+            // handle the selection of all messages
             $scope.toggleBulkSelect = function () {
                 messagesService.selectAll($scope.info.count != $scope.selectedCount);
                 $scope.selectedCount =  uiService.kConvert(messagesService.countSelected());
                 $rootScope.bulkMode = messagesService.isBulkMode();
             };
 
+            // handle clicking on BULK_ACTIONS
             $scope.processAction = function (action, $event) {
                 actionManager.processAction(
 
@@ -211,6 +234,9 @@ angular.module('SpamExpertsApp')
         function($rootScope, $scope, $state, $timeout, MessageQueue, MessagesService, ActionManager) {
 
             var message = angular.copy($state.params.message);
+
+            // We can not stay on a message preview if no messages have been
+            // previously loaded since we can't know what to request
             if (isEmpty(message)) {
                 $state.go('main.dash', {}, {reload: true});
                 return;
@@ -225,19 +251,23 @@ angular.module('SpamExpertsApp')
 
             $scope.showRaw = false;
 
+            // handle toggle raw button, see message-detail.html
             $scope.toggleRaw = function() {
                 $scope.showRaw = !$scope.showRaw;
             };
 
+            // handle back button, see message-detail.html
             $scope.back = function () {
                 messageService.clearMessageParts();
                 $state.go($state.params.previousState.state);
             };
 
+            // retrieve the entire mail parts
             messageService.viewMessage(message).then(function() {
                 $scope.message = messageService.getMessageParts();
             });
 
+            // process the actions available for the message
             var actionManager = new ActionManager($state.params.previousState.group);
             $scope.barActions = actionManager.getActions('bar');
 
@@ -245,6 +275,7 @@ angular.module('SpamExpertsApp')
 
             $scope.hasActions = !isEmpty(availableActions);
 
+            // handle clicking on BULK_ACTIONS
             $scope.processAction = function (action, $event) {
                 actionManager.processAction(
 

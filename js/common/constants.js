@@ -1,7 +1,20 @@
+// Define constants
 angular.module('SpamExpertsApp')
 
+    /**
+     *  Development constant that will be replaced by gulp tasks 'add-proxy', 'remove-proxy'
+     *  when using ionic serve/ionic emulate
+     */
     .constant('DEV_PROXY', 'DEV_PROXY_FALSE')
 
+    /**
+     * Different config constants
+     *
+     * sliceLength - slice of messages to be fetched
+     * apiTimeout - display notification of API request taking too long (seconds)
+     * notificationsTimeout - notification messages will be auto-removed after x seconds
+     * dateFormat - date time format (be careful with this)
+     */
     .constant('OTHERS', {
         sliceLength: 100,
         apiTimeout: 10,
@@ -9,11 +22,17 @@ angular.module('SpamExpertsApp')
         dateFormat: 'yyyy-MM-dd HH:mm'
     })
 
+    /**
+     * Groups constants
+     */
     .constant('GROUPS', {
         incoming: 'incoming',
         outgoing: 'outgoing'
     })
 
+    /**
+     * Supported user roles
+     */
     .constant('USER_ROLES', {
         admin:  'Super-Admin',
         domain: 'Domain User',
@@ -21,6 +40,9 @@ angular.module('SpamExpertsApp')
         public: 'public_role'
     })
 
+    /**
+     * API events constants - see $rootScope.$on(API_EVENTS.event)
+     */
     .constant('API_EVENTS', {
         notAuthenticated: 'not-authenticated',
         notAuthorized: 'not-authorized',
@@ -29,6 +51,18 @@ angular.module('SpamExpertsApp')
         notFound: 'not-found'
     })
 
+    /**
+     * Routes descriptor, side menu and dash are also generated from this constant
+     * (constants get injected for role permissions)
+     * data: {
+     *      state: 'state name',
+     *      name: 'resource name',
+     *      icon: 'css icon class'
+     *      noDash: 'bool display on dash',
+     *      noSide: 'bool display on side-menu',
+     *      authorizedRoles: [authorized roles]
+     *     }
+     */
     .constant('ROUTES', function(constant) {
         return [
             {
@@ -139,6 +173,18 @@ angular.module('SpamExpertsApp')
         ]
     })
 
+    /**
+     * API ENDPOINTS constant
+     * resource: {
+     *     action: {
+     *         method: GET/POST/PUT/DELETE,
+     *         endpoint: 'rest endpoint without hostname',
+     *         loading: bool - display screen loading for this action - see BusyService,
+     *
+     *
+     *     }
+     * }
+     */
     .constant('ENDPOINTS', {
         auth: {
             method: 'GET',
@@ -250,6 +296,9 @@ angular.module('SpamExpertsApp')
         }
     })
 
+    /**
+     * Right side menu search criteria form
+     */
     .constant('SEARCH_CRITERIA', {
         logSearch: {
             fields: [
@@ -303,6 +352,9 @@ angular.module('SpamExpertsApp')
         }
     })
 
+    /**
+     * Actions that can be performed on selected messages
+     */
     .constant('BULK_ACTIONS', {
         logSearch: {
             actionSheet: [

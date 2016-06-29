@@ -4,6 +4,7 @@ angular.module('SpamExpertsApp')
 
             $rootScope.removeQueueMessage = MessageQueue.remove;
 
+            // Filter routes based on current role to get the menu items
             function filterRoutes(Routes, role) {
                 var out = [];
                 for (var i in Routes) {
@@ -26,31 +27,38 @@ angular.module('SpamExpertsApp')
 
             $rootScope.$on('$stateChangeSuccess', function () {
 
+                // we should always close the side-menu when changing routes
                 uiService.sideMenuDelegate.toggleLeft(false);
                 uiService.sideMenuDelegate.toggleRight(false);
 
+                // get the menu items
                 $rootScope.menuItems = filterRoutes(
                     ROUTES({GROUPS: GROUPS, USER_ROLES: USER_ROLES}),
                     $rootScope.role
                 );
 
+                // we should stop pending requests when changing routes (happens only for infinite-scroll and pull-to-refresh)
                 if ($rootScope.stopRequest && $rootScope.stopRequest instanceof Function) {
                     $rootScope.stopRequest();
                 }
 
+                // depending on the keepMessageQueue state param we keep or discard the notification queue
                 if (!$state.params.keepMessageQueue) {
                     MessageQueue.remove();
                 }
             });
 
+            // allow closing left menu using swipe
             $rootScope.closeLeft = function () {
                 uiService.sideMenuDelegate.toggleLeft(false);
             };
 
+            // allow closing right menu using swipe
             $rootScope.closeRight = function () {
                 uiService.sideMenuDelegate.toggleRight(false);
             };
 
+            // we should always be able to open LEFT side menu unless we're in bulk mode
             $rootScope.canDragRight = function() {
                 if (!$rootScope.bulkMode) {
                     uiService.sideMenuDelegate.canDragContent(true);
@@ -60,6 +68,7 @@ angular.module('SpamExpertsApp')
                 }
             };
 
+            // we should be able to open the right side menu if there is one and we're not in bulk mode
             $rootScope.canDragLeft = function () {
                 if (
                     isEmpty($state.current.views['right-side-menu']) &&
@@ -71,14 +80,17 @@ angular.module('SpamExpertsApp')
                 }
             };
 
+            // Tap to top utility
             $rootScope.scrollTop = function() {
                 uiService.scrollDelegate.scrollTop();
             };
 
+            // broadcast the logout event - see Auth init $rootScope.$on('$logout')
             $rootScope.logout = function() {
                 $rootScope.$broadcast('$logout')
             };
 
+            // handle 404 http status
             $rootScope.$on(API_EVENTS.notFound, function() {
                 uiService.alert({
                     title: 'Not found!',
@@ -86,6 +98,7 @@ angular.module('SpamExpertsApp')
                 });
             });
 
+            // handle 500 http status
             $rootScope.$on(API_EVENTS.serverError, function() {
                 uiService.alert({
                     title: 'Server error',
@@ -93,6 +106,7 @@ angular.module('SpamExpertsApp')
                 });
             });
 
+            // handle 503 http error
             $rootScope.$on(API_EVENTS.serviceUnavailable, function() {
                 uiService.alert({
                     title: 'Service unavailable',

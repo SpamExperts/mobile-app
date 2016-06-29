@@ -4,6 +4,8 @@ angular.module('SpamExpertsApp')
 
             var Routes = ROUTES({GROUPS: GROUPS, USER_ROLES: USER_ROLES});
             var stateConfig;
+
+            // generate our router based on the ROUTES constant (see common/constants.js)
             for (var i in Routes) {
                 if (!isEmpty(Routes[i].items)) {
                     for (var j in Routes[i].items) {
@@ -17,6 +19,9 @@ angular.module('SpamExpertsApp')
                     $stateProvider.state(Routes[i].data.state, Routes[i]);
                 }
             }
+
+            // we should always try to remain on dash
+            // whenever you're not logged in you'll be forced to the login route see auth init.js
             $urlRouterProvider.otherwise('dash');
         }
     ]);

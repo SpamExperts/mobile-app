@@ -16,10 +16,14 @@ angular.module('SpamExpertsApp', ['ionic', 'ngCordova', 'ion-datetime-picker'])
     ])
     .config(['$httpProvider', '$ionicConfigProvider',
         function ($httpProvider, $ionicConfigProvider) {
+            // register our $http interceptor
             $httpProvider.interceptors.push('ApiInterceptor');
+
+            // Fixes an issue that causes some controllers to reload
             $ionicConfigProvider.views.forwardCache(true);
         }
     ])
+    // created filter for the notification queue messages see 'templates/common/messageQueue.html'
     .filter('trust', ['$sce', function($sce) {
         return $sce.trustAsHtml;
     }]);

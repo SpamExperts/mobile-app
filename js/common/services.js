@@ -1,9 +1,13 @@
 angular.module('SpamExpertsApp')
+
+    // factory for easier usage of localStorage
+    // allows to keep volatile values and access properties of an object like settings.hostname
     .factory('$localstorage', ['$window',
         function($window) {
 
             cleanup();
 
+            // cleaning up volatile storage
             function cleanup() {
                 if (!isEmpty($window.localStorage['volatile'])) {
                     var volatile = $window.localStorage['volatile'].split(',');
@@ -21,6 +25,8 @@ angular.module('SpamExpertsApp')
                 $window.localStorage['volatile'] = '';
             }
 
+            // unpacking an object for local storage
+            // {a: {b:1, c:2}} -> {'a.b':1, 'a.c':2}
             function unpack(original, store) {
                 var unpacked = {};
 
@@ -47,6 +53,8 @@ angular.module('SpamExpertsApp')
                 }
             }
 
+            // packing back an object
+            // {'a.b':1, 'a.c':2} -> {a: {b:1, c:2}}
             function pack(unpacked, keyStarter) {
 
                 function packObject(obj, path, value) {
@@ -91,6 +99,7 @@ angular.module('SpamExpertsApp')
             }
 
             return {
+                // retrieve a localstorage value/object
                 get: function (key, defaultValue, isVolatile) {
                     if (isEmpty(defaultValue)) defaultValue = {};
 
@@ -104,6 +113,7 @@ angular.module('SpamExpertsApp')
                     }
                 },
 
+                // set localstorage value/object
                 set: function (key, value, isVolatile) {
                         var object = {};
 
@@ -130,6 +140,8 @@ angular.module('SpamExpertsApp')
             };
         }
     ])
+
+    // Notification queue factory
     .factory('MessageQueue', ['$rootScope', '$timeout', 'OTHERS',
         function ($rootScope, $timeout, OTHERS) {
             var queueTimer;
@@ -158,6 +170,8 @@ angular.module('SpamExpertsApp')
             };
         }
     ])
+
+    // filtering permissions for SEARCH_CRITERIA or BULK_ACTIONS
     .factory('filterPermissions', ['$state', 'AuthService', 'USER_ROLES', 'GROUPS',
         function ($state, AuthService, USER_ROLES, GROUPS) {
             return function (collection, params, constants) {
@@ -197,6 +211,8 @@ angular.module('SpamExpertsApp')
             }
         }
     ])
+
+    // Wrapper for $cordovaNetwork plugin - used for detecting network states (works only on phone)
     .factory('NetworkService', ['$rootScope', '$cordovaNetwork', 'uiService', '$q', '$timeout',
         function($rootScope, $cordovaNetwork, uiService, $q, $timeout) {
             return {
@@ -262,6 +278,8 @@ angular.module('SpamExpertsApp')
             };
         }
     ])
+
+    // Filtering API parameters that need to be sent to the server see ENDPOINTS 'params' property
     .factory('ApiParamsFilter', [
         function() {
 
@@ -296,6 +314,8 @@ angular.module('SpamExpertsApp')
             }
         }
     ])
+
+    // Factory used to perform API requests, returns a $http promise
     .factory('Api', ['$http', '$localstorage', 'NetworkService', 'ApiParamsFilter', 'ENDPOINTS', 'DEV_PROXY',
         function($http, $localstorage, NetworkService, ApiParamsFilter, ENDPOINTS, DEV_PROXY) {
 
@@ -304,20 +324,24 @@ angular.module('SpamExpertsApp')
                 useHttps: function() {
                     this.protocol = "https://";
                 },
+                // Basic authorization used to retrieve the token
                 setAuth: function (username, password) {
                     var authorization = btoa(unescape(encodeURIComponent(username + ':' + password)));
                     $http.defaults.headers.common['Authorization'] = 'Basic ' + authorization;
                 },
+                // Clearing the basic authorization
                 clearAuth: function () {
                     $http.defaults.headers.common['Authorization'] = 'Bearer ';
                 },
                 request: function (params) {
                     var baseEndpoint = '';
 
+                    // checking network state using NetworkService wrapper over $cordovaNetwork
                     if (!NetworkService.isOnline()) {
                         return NetworkService.showOffline();
                     }
 
+                    // ignoring hostname when development mode as we're using a proxy
                     if (DEV_PROXY == 'DEV_PROXY_FALSE') {
                         var host;
 
@@ -364,7 +388,10 @@ angular.module('SpamExpertsApp')
                                 baseEndpoint + request.endpoint.printf(params.urlParams),
                                 {
                                     params: params.requestParams,
+                                    // need paramSerializer to fix requests with array parameters
                                     paramSerializer: '$httpParamSerializerJQLike',
+
+                                    // custom properties used in the interceptor
                                     responseKey: !isEmpty(params.responseKey) ? params.responseKey : '',
                                     loading: request.loading === true,
                                     cancelLoading: request.cancelLoading
@@ -376,6 +403,7 @@ angular.module('SpamExpertsApp')
                                 baseEndpoint + request.endpoint.printf(params.urlParams),
                                 params.requestParams,
                                 {
+                                    // custom properties used in the interceptor
                                     responseKey: !isEmpty(params.responseKey) ? params.responseKey : '',
                                     loading: request.loading === true,
                                     cancelLoading: request.cancelLoading
@@ -387,6 +415,7 @@ angular.module('SpamExpertsApp')
                                 baseEndpoint + request.endpoint.printf(params.urlParams),
                                 params.requestParams,
                                 {
+                                    // custom properties used in the interceptor
                                     responseKey: !isEmpty(params.responseKey) ? params.responseKey : '',
                                     loading: request.loading === true,
                                     cancelLoading: request.cancelLoading
@@ -394,11 +423,16 @@ angular.module('SpamExpertsApp')
                             );
 
                         case 'DELETE':
+                            // DELETE requires to send parameters via body (Request Payload)
+                            // we need to send parameters as data and set 'Content-Type': 'application/json'
+                            // otherwise they will be sent in the URL
                             return $http.delete(
                                 baseEndpoint + request.endpoint.printf(params.urlParams),
                                 {
                                     data: params.requestParams,
                                     headers: {'Content-Type': 'application/json'},
+
+                                    // custom properties used in the interceptor
                                     responseKey: !isEmpty(params.responseKey) ? params.responseKey : '',
                                     loading: request.loading === true,
                                     cancelLoading: request.cancelLoading
@@ -409,6 +443,8 @@ angular.module('SpamExpertsApp')
             };
         }
     ])
+
+    // Display loading during requests
     .factory('BusyService', ['uiService',
         function(uiService) {
             return {
@@ -421,6 +457,8 @@ angular.module('SpamExpertsApp')
             };
         }
     ])
+
+    // The $http interceptor
     .factory('ApiInterceptor', ['$q', '$rootScope', '$injector', '$timeout', '$localstorage', 'MessageQueue', 'API_EVENTS', 'OTHERS',
         function ($q, $rootScope, $injector, $timeout, $localstorage, MessageQueue, API_EVENTS, OTHERS) {
             var pendingXHR;
@@ -430,20 +468,24 @@ angular.module('SpamExpertsApp')
             var interceptor = {
                 request: function(config) {
 
+                    // we need to perform actions only on our requests
                     if (
                         config.hasOwnProperty('params') ||
                         config.hasOwnProperty('responseKey')
                     ) {
+                        // getting BusyService via $injector to prevent some errors
                         var BusyService = $injector.get('BusyService');
                         manualStop = false;
 
                         BusyService.hide();
 
+                        // if we have a pending request (infinite-scroll, pull-to-refresh) we'll cancel it
                         if (pendingXHR) {
                             config.wasCanceled = true;
                             pendingXHR.resolve();
                         }
 
+                        // we clear the previous requestTimer()
                         if (requestTimer) {
                             $timeout.cancel(requestTimer);
                         }
@@ -455,6 +497,7 @@ angular.module('SpamExpertsApp')
 
                         scope.cancelLoading = false;
 
+                        // register stopRequest function to be used in templates/common/loading.html
                         $rootScope.stopRequest = function () {
                             manualStop = true;
                             pendingXHR.resolve();
@@ -464,12 +507,15 @@ angular.module('SpamExpertsApp')
                             }
                         };
 
+                        // we display normal loading in the beginning
+                        // we switch to allow cancel loading according to the timer
                         if (config.loading === true) {
                             requestTimer = $timeout(function () {
                                 scope.cancelLoading = (config.cancelLoading === true);
                             }, OTHERS.apiTimeout * 1000);
                             BusyService.show(scope);
                         } else {
+                            // any requests that don't require loading at first will get the cancel loading eventually
                             requestTimer = $timeout(function () {
                                 scope.cancelLoading = true;
                                 BusyService.show(scope);
@@ -487,12 +533,17 @@ angular.module('SpamExpertsApp')
                     return config || $q.when(config);
                 },
                 response: function (response) {
+                    // we need to perform actions only on our requests
+
                     if (
                         !isEmpty(response.config.params) ||
                         response.config.hasOwnProperty('responseKey')
                     ) {
+
+                        // response arrived hide loading
                         $injector.get('BusyService').hide();
 
+                        // work-around for 302 redirect status
                         if (!angular.isObject(response.data)) {
                             response.status = 302;
                             return interceptor.responseError(response);
@@ -501,10 +552,12 @@ angular.module('SpamExpertsApp')
                         var data = response.data;
                         var key = !isEmpty(response.config.responseKey) ? response.config.responseKey : 'body';
 
+                        // process the messageQueue
                         if (data['body'].hasOwnProperty('messageQueue')) {
                             MessageQueue.set(data['body']['messageQueue']);
                         }
 
+                        // use the Token
                         if (!isEmpty(data['token'])) {
                             $localstorage.set('token', data['token'],
                                 ($localstorage.get('settings.remember') != 'enabled')
@@ -512,6 +565,7 @@ angular.module('SpamExpertsApp')
                             data[key].token = data['token'];
                         }
 
+                        // response arrived we should clear the requestTimer
                         if (requestTimer) {
                             $timeout.cancel(requestTimer);
                         }
@@ -522,12 +576,14 @@ angular.module('SpamExpertsApp')
                     return response;
                 },
                 responseError: function (response) {
+                    // we need to perform actions only on our requests
                     if (
                         !isEmpty(response.config.params) ||
                         response.config.hasOwnProperty('responseKey')
                     ) {
                         $injector.get('BusyService').hide();
 
+                        // error response arrived we should clear the requestTimer
                         if (requestTimer) {
                             $timeout.cancel(requestTimer);
                         }
@@ -541,6 +597,7 @@ angular.module('SpamExpertsApp')
                             503: API_EVENTS.serviceUnavailable
                         };
 
+                        // broadcast event based on the received status if the stop was not done manually by the user
                         if (!manualStop) {
                             $rootScope.$broadcast(status[response.status], response);
                         }
@@ -552,6 +609,8 @@ angular.module('SpamExpertsApp')
             return interceptor;
         }
     ])
+
+    // Wrapper for several $ionic services for easier transitioning on platform update
     .factory('uiService', ['$rootScope', '$timeout', '$ionicPopup', '$ionicActionSheet', '$ionicScrollDelegate', '$ionicSideMenuDelegate', '$ionicLoading', '$ionicPopover',
         function($rootScope, $timeout, $ionicPopup, $ionicActionSheet, $ionicScrollDelegate, $ionicSideMenuDelegate, $ionicLoading, $ionicPopover) {
 
