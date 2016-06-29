@@ -343,6 +343,7 @@ angular.module('SpamExpertsApp')
                     text: 'Remove',
                     confirmText: 'The email(s) that you have selected will be removed.%s Are you sure you want to continue?'
                     ,
+                    isDivider: true,
                     condition: adminOrIncoming
                 },
                 {
@@ -354,20 +355,22 @@ angular.module('SpamExpertsApp')
                     'Please note, emails from blacklisted senders are immediately discarded.%s' +
                     'Are you sure you wish to blacklist these senders ?',
                     condition: domainAndIncoming
-                }
-            ],
-            bar: [
+                },
                 {
                     name: 'purge',
                     icon: 'ion-trash-a',
-                    text: 'Purge',
+                    text: 'Purge Quarantine',
+                    cssClass: 'se-purge-button',
                     confirmText:
                     'You are going to empty your spam quarantine folder.%s' +
                     'ALL its messages will be removed.%s' +
                     'Please keep in mind that messages might still appear in the list while we\'re processing this action.%s' +
                     'Are you sure you want to do this?',
+                    isDivider: true,
                     condition: domainAndEmailAndIncoming
-                },
+                }
+            ],
+            bar: [
                 {
                     name: 'release',
                     icon: 'ion-share',

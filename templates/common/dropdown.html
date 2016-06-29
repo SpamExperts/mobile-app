@@ -1,7 +1,7 @@
 <ion-popover-view>
     <ion-content>
         <ion-list>
-            <ion-item ng-repeat="action in actions" on-tap="processAction(action)" class="item-icon-left">
+            <ion-item class="item-icon-left" ng-class="{'se-action-divider': action.isDivider}" on-tap="processAction(action)" ng-repeat="action in actions">
                 <i class="icon {{::action.icon}}"></i>
                 <h2>{{::action.text}}</h2>
             </ion-item>

@@ -110,10 +110,6 @@ angular.module('SpamExpertsApp')
                     });
             }
 
-            $scope.refreshList = function () {
-                $scope.$broadcast('refreshEntries');
-            };
-
             $scope.pullToRefresh = function() {
 
                 if ($scope.loadingEntries === true) {
@@ -182,8 +178,9 @@ angular.module('SpamExpertsApp')
                 }
             };
 
-            $scope.selectAll = function (toggle) {
-                messagesService.selectAll(toggle);
+
+            $scope.toggleBulkSelect = function () {
+                messagesService.selectAll($scope.info.count != $scope.selectedCount);
                 $scope.selectedCount = messagesService.countSelected();
                 $rootScope.bulkMode = messagesService.isBulkMode();
             };

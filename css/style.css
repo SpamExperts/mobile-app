@@ -336,3 +336,22 @@
     line-height: 96px;
     padding: 5px;
 }
+
+.popover {
+    height: auto !important;
+}
+.popover ion-header-bar {
+    position: relative;
+}
+.popover ion-content {
+    top: 0;
+    position: relative;
+}
+
+.se-bar-actions .button {
+    margin-left: 5px;
+}
+
+.se-action-divider {
+    border-top-color: #ddd !important;
+}

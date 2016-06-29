@@ -11,7 +11,7 @@
         </div>
 
         <div class="buttons" ng-if="hasActions && message.details['msgBody']">
-            <button class="button" ng-repeat="action in barActions" on-tap="processAction(action)">
+            <button class="button {{::action.cssClass}}"  on-tap="processAction(action)" ng-repeat="action in barActions">
                 <i class="icon {{::action.icon}}"></i>
             </button>
             <button class="button" on-tap="processAction('', $event)">

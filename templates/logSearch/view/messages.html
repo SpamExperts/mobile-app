@@ -13,20 +13,17 @@
     <ion-header-bar class="bar-assertive" ng-if="bulkMode" align-title="center">
 
         <div class="buttons">
-            <button class="button button-clear" ng-if="info.count != selectedCount" on-tap="selectAll(true)">
-                <i class="icon ion-ios-checkmark-outline"></i>
-                {{selectedCount}}/{{info.count}}
-            </button>
-            <button class="button button-clear" ng-if="info.count == selectedCount" on-tap="selectAll(false)">
-                <i class="icon ion-ios-circle-outline"></i>
+            <button class="button button-clear" on-tap="toggleBulkSelect()">
+                <i class="icon ion-checkmark-round"
+                   ng-class="{'ion-ios-checkmark-outline': info.count != selectedCount, 'ion-ios-circle-outline': info.count == selectedCount}"></i>
                 {{selectedCount}}/{{info.count}}
             </button>
         </div>
 
         <div class="title">&nbsp;</div>
 
-        <div class="buttons">
-            <button class="button" ng-repeat="action in barActions" on-tap="processAction(action)">
+        <div class="buttons se-bar-actions">
+            <button class="button {{::action.cssClass}}"  on-tap="processAction(action)" ng-repeat="action in barActions">
                 <i class="icon {{::action.icon}}"></i>
             </button>
             <button class="button" on-tap="processAction('', $event)">
