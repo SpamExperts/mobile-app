@@ -171,17 +171,16 @@ angular.module('SpamExpertsApp')
             $scope.selectEntry = function(index) {
                 if (!isEmpty(barActions) || !isEmpty(availableActions)) {
                     messagesService.selectMessage(index);
-                    $scope.selectedCount = messagesService.countSelected();
+                    $scope.selectedCount = uiService.kConvert(messagesService.countSelected());
                     $rootScope.bulkMode = messagesService.isBulkMode();
                 } else {
                     actionManager.noAvailableAction();
                 }
             };
 
-
             $scope.toggleBulkSelect = function () {
                 messagesService.selectAll($scope.info.count != $scope.selectedCount);
-                $scope.selectedCount = messagesService.countSelected();
+                $scope.selectedCount =  uiService.kConvert(messagesService.countSelected());
                 $rootScope.bulkMode = messagesService.isBulkMode();
             };
 
