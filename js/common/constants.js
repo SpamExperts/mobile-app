@@ -202,43 +202,43 @@ angular.module('SpamExpertsApp')
                 release: {
                     method: 'PUT',
                     endpoint: '/rest/log/release/delivery',
-                    params: ['recipient', 'message_id', 'host', 'datestamp', 'sender'],
+                    params: ['recipient', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: true
                 },
                 releaseandwhitelist: {
                     method: 'PUT',
                     endpoint: '/rest/log/releaseandwhitelist/delivery',
-                    params: ['recipient', 'message_id', 'host', 'datestamp', 'sender'],
+                    params: ['recipient', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: true
                 },
                 releaseandtrain: {
                     method: 'PUT',
                     endpoint: '/rest/log/releaseandtrain/delivery',
-                    params: ['recipient', 'message_id', 'host', 'datestamp', 'sender'],
+                    params: ['recipient', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: true
                 },
                 remove: {
                     method: 'DELETE',
                     endpoint: '/rest/log/remove/delivery',
-                    params: ['recipient', 'message_id', 'host', 'datestamp', 'sender'],
+                    params: ['recipient', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: true
                 },
                 removeandblacklist: {
                     method: 'DELETE',
                     endpoint: '/rest/log/removeandblacklist/delivery',
-                    params: ['recipient', 'message_id', 'host', 'datestamp', 'sender'],
+                    params: ['recipient', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: true
                 },
                 view: {
                     method: 'GET',
                     endpoint: '/rest/log/view/delivery',
-                    params: ['recipient', 'message_id', 'host', 'datestamp', 'sender'],
+                    params: ['recipient', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: false
                 },
                 purge: {
                     method: 'DELETE',
                     endpoint: '/rest/log/quarantined/delivery',
-                    params: ['recipient', 'message_id', 'host', 'datestamp', 'sender'],
+                    params: ['recipient', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: true
                 }
             }
@@ -253,43 +253,43 @@ angular.module('SpamExpertsApp')
                 release: {
                     method: 'PUT',
                     endpoint: '/rest/log/release/submission',
-                    params: ['user', 'message_id', 'host', 'datestamp', 'sender'],
+                    params: ['user', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: true
                 },
                 releaseandwhitelist: {
                     method: 'PUT',
                     endpoint: '/rest/log/releaseandwhitelist/submission',
-                    params: ['user', 'message_id', 'host', 'datestamp', 'sender'],
+                    params: ['user', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: true
                 },
                 releaseandtrain: {
                     method: 'PUT',
                     endpoint: '/rest/log/releaseandtrain/submission',
-                    params: ['user', 'message_id', 'host', 'datestamp', 'sender'],
+                    params: ['user', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: true
                 },
                 remove: {
                     method: 'DELETE',
                     endpoint: '/rest/log/remove/submission',
-                    params: ['user', 'message_id', 'host', 'datestamp', 'sender'],
+                    params: ['user', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: true
                 },
                 removeandblacklist: {
                     method: 'DELETE',
                     endpoint: '/rest/log/removeandblacklist/submission',
-                    params: ['user', 'message_id', 'host', 'datestamp', 'sender'],
+                    params: ['user', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: true
                 },
                 view: {
                     method: 'GET',
                     endpoint: '/rest/log/view/submission',
-                    params: ['user', 'message_id', 'host', 'datestamp', 'sender'],
+                    params: ['user', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: false
                 },
                 purge: {
                     method: 'DELETE',
                     endpoint: '/rest/log/quarantined/submission',
-                    params: ['user', 'message_id', 'host', 'datestamp', 'sender'],
+                    params: ['user', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: true
                 }
             }

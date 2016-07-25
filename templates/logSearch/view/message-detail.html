@@ -1,4 +1,4 @@
-<ion-view view-title="{{::message['decoded_subject_header']}}">
+<ion-view view-title="{{::message['subject_header']}}">
 
     <ion-header-bar class="bar-assertive" align-title="center">
 
@@ -28,8 +28,8 @@
             <div class="item item-avatar">
                 <div class="icon-se icon-rejected">S</div>
 
-                <h2>{{::message['decoded_subject_header']}}</h2>
-                <p>{{::message['datestamp']}}</p>
+                <h2>{{::message['subject_header']}}</h2>
+                <p>{{::message['datetime']}}</p>
                 <p>{{::message['classification_details']}} - {{::message.status}}</p>
                 <p>{{::message.details['meta_data'].size}}</p>
 
