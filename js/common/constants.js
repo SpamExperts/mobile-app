@@ -16,7 +16,7 @@ angular.module('SpamExpertsApp')
      * dateFormat - date time format (be careful with this)
      */
     .constant('OTHERS', {
-        sliceLength: 100,
+        sliceLength: 500,
         apiTimeout: 10,
         notificationsTimeout: 10,
         dateFormat: 'yyyy-MM-dd HH:mm'

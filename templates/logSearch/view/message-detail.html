@@ -10,8 +10,8 @@
             &nbsp;
         </div>
 
-        <div class="buttons" ng-if="hasActions && message.details['msgBody']">
-            <button class="button {{::action.cssClass}}"  on-tap="processAction(action)" ng-repeat="action in barActions">
+        <div class="buttons" ng-if="hasActions && !angular.isUndefined(message.details['msgBody'])">
+            <button class="button {{::action.cssClass}}" on-tap="processAction(action)" ng-repeat="action in barActions">
                 <i class="icon {{::action.icon}}"></i>
             </button>
             <button class="button" on-tap="processAction('', $event)">
@@ -39,7 +39,7 @@
                 </table>
             </div>
 
-            <div class="item tabs tabs-secondary tabs-icon-left" on-tap="toggleRaw()" ng-if="message.details['msgBody']">
+            <div class="item tabs tabs-secondary tabs-icon-left" on-tap="toggleRaw()" ng-if="!angular.isUndefined(message.details['msgBody'])">
                 <div class="tab-item">
                     <i class="icon ion-android-mail"></i>
                   <span ng-if="!showRaw">
@@ -51,11 +51,11 @@
                 </div>
             </div>
 
-            <div class="item item-body" ng-if="message.details['msgBody'] && showRaw">
+            <div class="item item-body" ng-if="!angular.isUndefined(message.details['msgBody']) && showRaw">
                 <pre>{{::message.details['eml']}}</pre>
             </div>
 
-            <div class="item item-body" ng-if="message.details['msgBody'] && !showRaw">
+            <div class="item item-body" ng-if="!angular.isUndefined(message.details['msgBody']) && !showRaw">
                 {{::message.details['msgBody']}}
             </div>
 

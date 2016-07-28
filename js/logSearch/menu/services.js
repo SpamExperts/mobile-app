@@ -38,7 +38,7 @@ angular.module('SpamExpertsApp')
                     return {
                         since: today,
                         until: currentDate,
-                        offset: 0,
+                        current_page: 0,
                         length: OTHERS.sliceLength,
                         refresh: false,
                         sender: '',

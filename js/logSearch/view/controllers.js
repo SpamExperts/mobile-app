@@ -7,6 +7,8 @@ angular.module('SpamExpertsApp')
                 $scope: $scope,
                 messagesService: new MessagesService({
                     direction: GROUPS.incoming,
+                    firstPage: 0,
+                    currentPage: 0,
                     last_count: 0,
                     messages: []
                 }),
@@ -28,6 +30,8 @@ angular.module('SpamExpertsApp')
                 $scope: $scope,
                 messagesService: new MessagesService({
                     direction: GROUPS.outgoing,
+                    firstPage: 0,
+                    currentPage: 0,
                     last_count: 0,
                     messages: []
                 }),
@@ -91,7 +95,12 @@ angular.module('SpamExpertsApp')
                         $scope.info.lastCount = uiService.kConvert(lastCount);
 
                         // we shouldn't load more than the maximum count
-                        if (count == lastCount) {
+                        // count >= lasCount as an extra protection but it should never be the case
+                        // messagesService.getCurrentPage() ==1 means we are on the last page of infinite scrolling
+                        if (
+                            count >= lastCount ||
+                            messagesService.getCurrentPage() == 1
+                        ) {
                             $scope.noMoreItemsAvailable = true;
                         }
 
@@ -154,7 +163,7 @@ angular.module('SpamExpertsApp')
                 var criteria = criteriaService.getSearchCriteria(true);
 
                 criteria.refresh = false;
-                criteria.offset = messagesService.count();
+                criteria.current_page = messagesService.getCurrentPage();
 
                 handleScroll(criteria, 'infinite');
             };

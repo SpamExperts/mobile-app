@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .factory('MessagesService', ['Api',
-        function(Api) {
+    .factory('MessagesService', ['Api', 'OTHERS',
+        function(Api, OTHERS) {
 
             /** @var modelData = {direction: direction, last_count: last_count, messages: [], message: {}}; */
             function MessagesService(modelData) {
@@ -9,6 +9,8 @@ angular.module('SpamExpertsApp')
                 this.direction = null;
                 this.messageParts = {};
                 this.selected = 0;
+                this.currentPage = 0;
+                this.firstPage = 0;
 
                 if (!isEmpty(modelData)) {
                     this.construct(modelData);
@@ -56,6 +58,8 @@ angular.module('SpamExpertsApp')
                     this.messages = [];
                     this.selected = 0;
                     this.last_count = 0;
+                    this.firstPage = 0;
+                    this.currentPage = 0;
                 },
                 count: function() {
                     return this.messages.length;
@@ -63,8 +67,11 @@ angular.module('SpamExpertsApp')
                 getLastCount: function() {
                     return this.last_count;
                 },
+                getCurrentPage: function () {
+                    return this.currentPage;
+                },
                 fetch: function(searchCriteria) {
-                    var that = this;
+                    var self = this;
 
                     return Api.request({
                             direction: this.direction,
@@ -73,14 +80,60 @@ angular.module('SpamExpertsApp')
                             requestParams: searchCriteria
                         })
                         .success(function(response) {
-                            if (!isEmpty(response['newest_entries'])) {
-                                that.messages = response['newest_entries'];
-                            } else if (!isEmpty(response['new_entries'])) {
-                                that.messages = response['new_entries'].concat(that.messages);
+
+                            // Maybe messages were wiped
+                            if (response['last_count'] == 0) {
+                                self.wipe();
+
+                                // If we have new entries and what to refresh
+                            } else if (
+                                !isEmpty(response['new_entries']) &&
+                                self.last_count != response['last_count']
+                            ) {
+
+                                // if the new returned page is higher than next,
+                                // replace the list and let infinite scroll fill next entries
+                                if (response['currentPage'] > self.firstPage + 1) {
+                                    self.messages = response['new_entries'];
+
+                                    // if the new returned page it's exactly next
+                                } else if (response['currentPage'] == self.firstPage + 1) {
+
+                                    // if we loaded full pages (no gap) we can add them to the top
+                                    if (self.messages.length % OTHERS.sliceLength == 0) {
+                                        self.messages = response['new_entries'].concat(self.messages);
+                                        self.firstPage = response['currentPage'];
+                                    } else {
+                                        // there is a gap so replace the list and let infinite scroll fill next entries
+                                        self.messages = response['new_entries'];
+                                    }
+                                    // if the returned is the same page
+                                } else if (response['currentPage'] == self.firstPage) {
+
+                                    // calculate the first page length
+                                    var firstPageLength = self.messages.length % OTHERS.sliceLength;
+
+                                    // if we actually don't have a full slice we remove the broken slice
+                                    // and add the returned full slice
+                                    if (0 < firstPageLength) {
+                                        self.messages.splice(0, firstPageLength);
+                                        self.messages = response['new_entries'].concat(self.messages);
+                                        self.firstPage = response['currentPage'];
+                                    }
+                                }
+
+                                // infinite scroll
                             } else if (!isEmpty(response['entries']))  {
-                                that.messages = that.messages.concat(response['entries']);
+                                self.messages = self.messages.concat(response['entries']);
                             }
-                            that.last_count = response.last_count || 0;
+
+                            self.currentPage = response['currentPage'] || 0;
+                            self.last_count = response['last_count'] || 0;
+
+                            // remember the returned first page number
+                            if (self.firstPage == 0) {
+                                self.firstPage = response['currentPage'];
+                            }
                         });
                 },
                 viewMessage: function (message) {
@@ -88,7 +141,7 @@ angular.module('SpamExpertsApp')
                     if (message) {
                         this.messageParts = message;
 
-                        var that = this;
+                        var self = this;
 
                         return Api.request({
                                 direction: this.direction,
@@ -98,7 +151,7 @@ angular.module('SpamExpertsApp')
                                 filterParams: true
                             })
                             .success(function (response) {
-                                that.messageParts.details = response['mail'];
+                                self.messageParts.details = response['mail'];
                             });
                     }
 
