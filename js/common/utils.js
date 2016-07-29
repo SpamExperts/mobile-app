@@ -28,6 +28,10 @@ String.prototype.printf = function (obj) {
     }
 };
 
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 function isEmpty(obj) {

@@ -50,7 +50,7 @@ angular.module('SpamExpertsApp')
 
             $scope.info = {
                 count: 0,
-                lastCount: 0
+                direction: messagesService.getDirection().capitalize()
             };
 
             $scope.noMoreItemsAvailable = false;
@@ -68,10 +68,7 @@ angular.module('SpamExpertsApp')
                 $scope.messageEntries = messagesService.getMessages();
 
                 var count = messagesService.count();
-                var lastCount = messagesService.getLastCount();
-
                 $scope.info.count = uiService.kConvert(count);
-                $scope.info.lastCount = uiService.kConvert(lastCount);
 
                 $timeout(function() {
                     $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -92,7 +89,6 @@ angular.module('SpamExpertsApp')
 
                         // update count and last count
                         $scope.info.count = uiService.kConvert(count);
-                        $scope.info.lastCount = uiService.kConvert(lastCount);
 
                         // we shouldn't load more than the maximum count
                         // count >= lasCount as an extra protection but it should never be the case
@@ -146,7 +142,6 @@ angular.module('SpamExpertsApp')
                 criteria.until = criteriaService.getCurrentDate(true);
 
                 criteria.refresh = true;
-                criteria.last_count = messagesService.getLastCount();
 
                 $scope.noMoreItemsAvailable = false;
 
