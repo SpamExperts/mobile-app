@@ -204,8 +204,12 @@ angular.module('SpamExpertsApp')
             };
 
             // handle the selection of all messages
-            $scope.toggleBulkSelect = function () {
-                messagesService.selectAll($scope.info.count != $scope.selectedCount);
+            $scope.toggleBulkSelect = function (force) {
+                var toogle = angular.isUndefined(force)
+                    ? $scope.info.count != $scope.selectedCount
+                    : force;
+
+                messagesService.selectAll(toogle);
                 $scope.selectedCount =  uiService.kConvert(messagesService.countSelected());
                 $rootScope.bulkMode = messagesService.isBulkMode();
             };

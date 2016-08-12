@@ -8,7 +8,7 @@ var
     templateCache= require('gulp-angular-templatecache'),
     gulpif       = require('gulp-if'),
     replace      = require('gulp-replace'),
-    strip        = require('gulp-strip-comments');
+    strip        = require('gulp-strip-comments'),
 
     minify       = true,
 

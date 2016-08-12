@@ -12,7 +12,6 @@
   },
   "homepage": "https://github.com/SpamExperts/mobile-app#readme",
   "dependencies": {
-    "adm-dtp": "^1.1.4",
     "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-angular-templatecache": "^1.8.0",
