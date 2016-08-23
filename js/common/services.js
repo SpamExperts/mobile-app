@@ -320,10 +320,7 @@ angular.module('SpamExpertsApp')
         function($http, $localstorage, NetworkService, ApiParamsFilter, ENDPOINTS, DEV_PROXY) {
 
             return {
-                protocol: 'http://',
-                useHttps: function() {
-                    this.protocol = "https://";
-                },
+                protocol: 'https://',
                 // Basic authorization used to retrieve the token
                 setAuth: function (username, password) {
                     var authorization = btoa(unescape(encodeURIComponent(username + ':' + password)));
