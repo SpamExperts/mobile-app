@@ -59,6 +59,9 @@ else
     # add cordova plugins
     cordova plugin add cordova-plugin-network-information
 
+    # add debug plugin
+    cordova plugin add cordova-plugin-console
+
     # clear default resources
     rm -rf resources/*
 

@@ -16,7 +16,7 @@ elif [ "$1" = "android" ]; then
 fi
 
 if ! type "ionic" > /dev/null; then
-echo "You need to install ionic.\n Try using: npm install -g cordova ionic \n http://ionicframework.com/getting-started/"
+    echo "You need to install ionic.\n Try using: npm install -g cordova ionic \n http://ionicframework.com/getting-started/"
 else
 
     rm -rf spamexperts_mobile_app
@@ -56,12 +56,19 @@ else
     # add cordova plugins
     cordova plugin add cordova-plugin-network-information
 
+    # remove debug plugin
+    cordova plugin rm cordova-plugin-console
+
     # clear default resources
     rm -rf resources/*
 
     # set config and resources
     cp www/img/spamexperts_logo.png resources/splash.png
     cp www/img/spamexperts_logo.png resources/icon.png
+
+    # add own config
+    mv www/config.xml .
+    mv www/ionic.project .
 
     # build resources
     ionic resources
@@ -71,17 +78,20 @@ else
     rm resources/splash.png
     rm resources/icon.png
 
-    # add own config
-    mv www/config.xml .
-    mv www/ionic.project .
-
     # build for platform
-    OUTPUT="$(ionic build $PLATFORM | tail -n 1)"
+    OUTPUT="$(cordova build --release $PLATFORM | tail -n 1)"
 
     # get the apk/ipa file
-    mv $OUTPUT ../spamexperts_app.$EXTENSION
+    mv $OUTPUT ../unsigned_spamexperts_app.$EXTENSION
 
     # cleanup
     cd ..
     rm -rf spamexperts_mobile_app
+
+    if [ "$PLATFORM" = "android" ] && ! [ -z "$2" ]; then
+        jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $2 unsigned_spamexperts_app.apk spamexperts_app
+        zipalign -v 4 unsigned_spamexperts_app.apk spamexperts_app.apk
+        rm unsigned_spamexperts_app.apk
+    fi
+
 fi
