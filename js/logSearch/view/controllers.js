@@ -257,12 +257,8 @@ angular.module('SpamExpertsApp')
 
             $scope.message = message;
 
-            $scope.showRaw = false;
-
-            // handle toggle raw button, see message-detail.html
-            $scope.toggleRaw = function() {
-                $scope.showRaw = !$scope.showRaw;
-            };
+            $scope.isLoading = true;
+            $scope.selectedView = '';
 
             // handle back button, see message-detail.html
             $scope.back = function () {
@@ -271,9 +267,27 @@ angular.module('SpamExpertsApp')
             };
 
             // retrieve the entire mail parts
-            messageService.viewMessage(message).then(function() {
-                $scope.message = messageService.getMessageParts();
-            });
+            messageService.viewMessage(message)
+                .then(function() {
+                    $scope.message = messageService.getMessageParts();
+
+                    $scope.selectedView = '';
+
+                    if ($scope.message.details) {
+                        if (!isEmpty($scope.message.details['htmlSource'])) {
+                            $scope.selectedView = 'htmlSource';
+                        } else if (!isEmpty($scope.message.details['msgBody'])) {
+                            $scope.selectedView = 'msgBody';
+                        } else if (!isEmpty($scope.message.details['eml'])) {
+                            $scope.selectedView = 'eml';
+                        }
+                    }
+                    $scope.isLoading = false;
+                })
+                .catch(function () {
+                    $scope.errorDisplay = true;
+                    $scope.isLoading = false;
+                });
 
             // process the actions available for the message
             var actionManager = new ActionManager($state.params.previousState.group);
@@ -282,6 +296,18 @@ angular.module('SpamExpertsApp')
             var availableActions = actionManager.getActions('actionSheet');
 
             $scope.hasActions = !isEmpty(availableActions);
+
+            $scope.showTab = function (tab) {
+                $scope.selectedView = tab;
+            };
+
+            $scope.canShowTab = function (tab) {
+                return $scope.message.details && !isEmpty($scope.message.details[tab]);
+            };
+
+            $scope.isActiveTab = function (tab) {
+                return $scope.selectedView == tab;
+            };
 
             // handle clicking on BULK_ACTIONS
             $scope.processAction = function (action, $event) {

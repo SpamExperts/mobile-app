@@ -1,6 +1,6 @@
 <ion-view view-title="{{::message['subject_header']}}">
 
-    <ion-header-bar class="bar-assertive" align-title="center">
+    <ion-header-bar class="bar-assertive" align-title="center" on-tap="scrollTop()">
 
         <div class="buttons">
             <button class="button button-clear" on-tap="back()"><i class="icon ion-arrow-left-c"></i></button>
@@ -39,30 +39,41 @@
                 </table>
             </div>
 
-            <div class="item tabs tabs-secondary tabs-icon-left" on-tap="toggleRaw()" ng-if="!angular.isUndefined(message.details['msgBody'])">
-                <div class="tab-item">
-                    <i class="icon ion-android-mail"></i>
-                  <span ng-if="!showRaw">
-                      Show raw message
-                  </span>
-                  <span ng-if="showRaw">
-                      Hide raw message
-                  </span>
+            <div class="item tabs tabs-secondary tabs-icon-top tabs-background-positive tabs-color-assertive" ng-if="!isLoading && !errorDisplay">
+                <div class="tab-item" ng-class="{active: isActiveTab('htmlSource')}" on-tap="showTab('htmlSource')" ng-if="canShowTab('htmlSource')">
+                    <i class="icon ion-ipad"></i>
+                    HTML
+                </div>
+                <div class="tab-item" ng-class="{active: isActiveTab('msgBody')}" on-tap="showTab('msgBody')" ng-if="canShowTab('msgBody')">
+                    <i class="icon ion-document"></i>
+                    Text
+                </div>
+                <div class="tab-item" ng-class="{active: isActiveTab('eml')}" on-tap="showTab('eml')" ng-if="canShowTab('eml')">
+                    <i class="icon ion-ios-email-outline"></i>
+                    Raw
                 </div>
             </div>
 
-            <div class="item item-body" ng-if="!angular.isUndefined(message.details['msgBody']) && showRaw">
-                <pre>{{::message.details['eml']}}</pre>
+            <div class="item item-body" ng-if="!isLoading && !errorDisplay">
+                <div ng-if="canShowTab('htmlSource') && 'htmlSource' == selectedView">
+                    <se-mail-preview content="message.details['htmlSource']"></se-mail-preview>
+                </div>
+                <div ng-if="canShowTab('msgBody') && 'msgBody' == selectedView">
+                    <pre>{{::message.details['msgBody']}}</pre>
+                </div>
+                <div ng-if="canShowTab('eml') && 'eml' == selectedView">
+                    <pre>{{::message.details['eml']}}</pre>
+                </div>
             </div>
 
-            <div class="item item-body" ng-if="!angular.isUndefined(message.details['msgBody']) && !showRaw">
-                {{::message.details['msgBody']}}
+            <div class="item item-body" ng-if="errorDisplay">
+                Could not fetch the requested message
             </div>
 
-
-            <div class="item item-body text-center" ng-if="!message.details">
+            <div class="item item-body text-center" ng-if="isLoading">
                 <ion-spinner></ion-spinner>
             </div>
         </div>
+
     </ion-content>
 </ion-view>
