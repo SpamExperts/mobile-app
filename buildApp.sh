@@ -56,8 +56,16 @@ else
     # add cordova plugins
     cordova plugin add cordova-plugin-network-information
 
+    # we need this plugin to allow connection on servers with self-signed certificates
+    cordova plugin add cordova-plugin-http
+
     # remove debug plugin
     cordova plugin rm cordova-plugin-console
+
+    # add jshybugger for debugging a production app
+    if  [ -z "$3" ] && [ "$3" = "debug" ]; then
+        ionic plugin add https://github.com/jsHybugger/cordova-plugin-jshybugger.git
+    fi
 
     # clear default resources
     rm -rf resources/*
