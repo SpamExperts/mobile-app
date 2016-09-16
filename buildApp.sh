@@ -22,7 +22,7 @@ else
     rm -rf spamexperts_mobile_app
 
     # create blank app
-    while true; do echo n; done | ionic start spamexperts_mobile_app blank
+    ionic start spamexperts_mobile_app blank
 
     cd spamexperts_mobile_app
 
@@ -45,7 +45,7 @@ else
 
     # keep our config
     mv mobile-app/config.xml www/
-    mv mobile-app/ionic.project www/
+    mv mobile-app/ionic.config.json www/
 
     # remove unused folder
     rm -rf mobile-app
@@ -57,13 +57,13 @@ else
     cordova plugin add cordova-plugin-network-information
 
     # we need this plugin to allow connection on servers with self-signed certificates
-    cordova plugin add cordova-plugin-http
+    cordova plugin add cordova-plugin-certificates
 
     # remove debug plugin
     cordova plugin rm cordova-plugin-console
 
     # add jshybugger for debugging a production app
-    if  [ -z "$3" ] && [ "$3" = "debug" ]; then
+    if ! [ -z "$3" ] && [ "$3" = "debug" ]; then
         ionic plugin add https://github.com/jsHybugger/cordova-plugin-jshybugger.git
     fi
 
@@ -76,7 +76,7 @@ else
 
     # add own config
     mv www/config.xml .
-    mv www/ionic.project .
+    mv www/ionic.config.json .
 
     # build resources
     ionic resources

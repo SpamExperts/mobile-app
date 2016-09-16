@@ -48,9 +48,9 @@ else
     cp www/ionic.project .
 
     if [ "$PLATFORM" = "ios" ]; then
-        sed -i '' 's/"proxies": \[\]/\"proxies\"\: \[\{"path": "\/rest","proxyUrl": "http:\/\/'$2'\/rest"\}\]/g' ionic.project
+        sed -i '' 's/"proxies": \[\]/\"proxies\"\: \[\{"path": "\/rest","proxyUrl": "https:\/\/'$2'\/rest"\}\]/g' ionic.config.json
     else
-        sed -i 's/"proxies": \[\]/\"proxies\"\: \[\{"path": "\/rest","proxyUrl": "http:\/\/'$2'\/rest"\}\]/g' ionic.project
+        sed -i 's/"proxies": \[\]/\"proxies\"\: \[\{"path": "\/rest","proxyUrl": "https:\/\/'$2'\/rest"\}\]/g' ionic.config.json
     fi
 
     # add platform
