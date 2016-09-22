@@ -29,6 +29,16 @@ else
     # create blank app
     ionic start spamexperts_mobile_app https://github.com/SpamExperts/mobile-app
 
+    cd spamexperts_mobile_app/www
+    # cleanup
+    rm -rf css js lib
+
+    git init
+    git remote add origin https://github.com/SpamExperts/mobile-app.git
+    git fetch origin
+    git reset --hard origin/master
+    cd -
+
     # build assets
     cd spamexperts_mobile_app/www/src/
     npm install
@@ -59,13 +69,5 @@ else
     # remove useless icon
     rm -rf resources/splash.png resources/icon.png
 
-    # cleanup
-    rm -rf www/css www/js www/lib
-
-    cd www
-
-    git init
-    git remote add origin https://github.com/SpamExperts/mobile-app/
-
-    ionic serve $PLATFORM
+    echo -e "Run:\n ionic serve $PLATFORM \n"
 fi
