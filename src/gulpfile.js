@@ -52,11 +52,26 @@ var
         ]
     };
 
+function getArg(key) {
+    var index = process.argv.indexOf(key);
+    var next = process.argv[index + 1];
+    return (index < 0) ? null : (!next || next[0] === "-") ? true : next;
+}
+
+function newFile(name, contents) {
+    //uses the node stream object
+    var readableStream = require('stream').Readable({ objectMode: true });
+    //reads in our contents string
+    readableStream._read = function () {
+        this.push(new gutil.File({ cwd: "", base: "", path: name, contents: new Buffer(contents) }));
+        this.push(null);
+    };
+    return readableStream;
+}
+
 gulp.task('clean', function() {
     del([
-        'minified/css/styles.css',
-        'minified/js/scripts.js',
-        'minified/templates/templates.js'
+        '../minified'
     ], {force: true});
 });
 
@@ -65,7 +80,7 @@ gulp.task('allCss', function() {
     return gulp.src(buildSources.allCss)
         .pipe(concat('styles.css'))
         .pipe(gulpif(minify, minifyCSS()))
-        .pipe(gulp.dest('minified/css'))
+        .pipe(gulp.dest('../minified/css'))
         .on('error', gutil.log);
 });
 
@@ -75,7 +90,7 @@ gulp.task('allJs', function() {
         .pipe(strip())
         .pipe(gulpif(minify, uglify()))
         .pipe(concat('scripts.js'))
-        .pipe(gulp.dest('minified/js'))
+        .pipe(gulp.dest('../minified/js'))
         .on('error', gutil.log);
 });
 
@@ -84,17 +99,17 @@ gulp.task('allLib', function() {
     // Minify and concatenate styles for all css files
     gulp.src(dependency.allCss)
         .pipe(concat('all.css'))
-        .pipe(gulp.dest('minified/lib'))
+        .pipe(gulp.dest('../minified/lib'))
         .on('error', gutil.log);
 
     gulp.src(dependency.fonts)
-        .pipe(gulp.dest('minified/fonts'))
+        .pipe(gulp.dest('../minified/fonts'))
         .on('error', gutil.log);
 
     // Minify and concatenate scripts for all.js
     gulp.src(dependency.allJs)
         .pipe(concat('all.js'))
-        .pipe(gulp.dest('minified/lib'))
+        .pipe(gulp.dest('../minified/lib'))
         .on('error', gutil.log);
 });
 
@@ -105,25 +120,49 @@ gulp.task('dev', function() {
 });
 
 gulp.task('add-proxy', function() {
-    return gulp.src('minified/js/scripts.js')
-        .pipe(
-            replace(
-                "\.constant\('DEV_PROXY', 'DEV_PROXY_FALSE'\)",
-                '.constant("DEV_PROXY", "DEV_PROXY_TRUE")'
+    var config = require('./config/ionic.config.json');
+    var server = getArg("--server");
+
+    if (!server) {
+        throw new gutil.PluginError({
+            plugin: 'add-proxy',
+            message: 'Please enter proxy server. gulp add-proxy --server yourserver'
+        });
+    } else {
+        config['proxies'] = [{
+            "path": "/rest",
+            "proxyUrl": "http://" + server + "/rest"
+        }];
+
+        del(['../../ionic.config.json'], {force: true});
+
+        new newFile('ionic.config.json', JSON.stringify(config, null, 2))
+            .pipe(gulp.dest('../../'));
+
+        gulp.src('../minified/js/scripts.js')
+            .pipe(
+                replace(
+                    '\.constant\("DEV_PROXY"\,"DEV_PROXY_FALSE"\)',
+                    '.constant("DEV_PROXY","DEV_PROXY_TRUE")'
+                )
             )
-        )
-        .pipe(gulp.dest('minified/js'));
+            .pipe(gulp.dest('../minified/js'));
+    }
 });
 
 gulp.task('remove-proxy', function() {
-    return gulp.src('minified/js/scripts.js')
+
+    gulp.src('config/ionic.config.json')
+        .pipe(gulp.dest('../../'));
+
+    gulp.src('../minified/js/scripts.js')
         .pipe(
             replace(
-                '\.constant\("DEV_PROXY", "DEV_PROXY_TRUE"\)',
-                '.constant("DEV_PROXY", "DEV_PROXY_FALSE")'
+                '\.constant\("DEV_PROXY"\,"DEV_PROXY_TRUE"\)',
+                '.constant("DEV_PROXY","DEV_PROXY_FALSE")'
             )
         )
-        .pipe(gulp.dest('minified/js'));
+        .pipe(gulp.dest('../minified/js'));
 });
 
 gulp.task('templates', function () {
@@ -132,16 +171,10 @@ gulp.task('templates', function () {
             module: 'SpamExpertsApp',
             root: 'templates'
         }))
-        .pipe(gulp.dest('minified/templates'))
+        .pipe(gulp.dest('../minified/templates'))
         .on('error', gutil.log);
 });
 
 
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', ['build', 'templates']);
-
-gulp.task('watch', ['dev', 'default'], function() {
-    gulp.watch(buildSources.allCss, ['allCss']);
-    gulp.watch(buildSources.allJs, ['allJs']);
-    gulp.watch('templates/**/*.html', ['templates']);
-});

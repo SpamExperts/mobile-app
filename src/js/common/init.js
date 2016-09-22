@@ -10,6 +10,15 @@ angular.module('SpamExpertsApp', ['ionic', 'ngCordova', 'ion-datetime-picker'])
                     // the above will only work in production
                 }
 
+                try {
+                    // we should hide the splashscreen as soon as the app started
+                    window.setTimeout(function () {
+                        navigator.splashscreen.hide();
+                    }, 10);
+                } catch (err) {
+                    // the above will only work in production
+                }
+
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
                 if(window.cordova && window.cordova.plugins.Keyboard) {

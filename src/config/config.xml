@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.spamexpertsmobileapp" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.spamexperts.mobileapp" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Spamexperts Quarantine</name>
     <description>
         Spamexperts mobile app
@@ -15,7 +15,7 @@
     <preference name="android-minSdkVersion" value="17"/>
     <preference name="BackupWebStorage" value="none"/>
     <preference name="SplashScreen" value="screen"/>
-    <preference name="SplashScreenDelay" value="1000"/>
+    <preference name="SplashScreenDelay" value="10000"/>
     <feature name="StatusBar">
         <param name="ios-package" value="CDVStatusBar" onload="true"/>
     </feature>

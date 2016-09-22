@@ -1,8 +1,7 @@
 {
-  "name": "spamexperts_mobile_assets_build",
+  "name": "SpamExpertsMobileApp",
   "version": "1.0.0",
-  "description": "Script to build mobile assets",
-  "main": "gulpfile.js",
+  "description": "SpamExperts Mobile App",
   "repository": {
     "type": "git",
     "url": "https://github.com/SpamExperts/mobile-app.git"
@@ -11,7 +10,11 @@
     "url": "https://github.com/SpamExperts/mobile-app/issues"
   },
   "homepage": "https://github.com/SpamExperts/mobile-app#readme",
+  "scripts": {
+    "preinstall": "bash scripts/install_global_dependencies.sh"
+  },
   "dependencies": {
+    "bower": "^1.7.9",
     "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-angular-templatecache": "^1.8.0",
