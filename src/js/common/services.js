@@ -126,7 +126,7 @@ angular.module('SpamExpertsApp')
                         var p = volatile.indexOf(key);
 
                         if (isVolatile === true && p == -1) {
-                            volatile.push(key.split('.')[0]);
+                            volatile.push(key);
                         } else if(-1 < p) {
                             volatile = volatile.splice(p, 1);
                         }

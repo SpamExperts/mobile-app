@@ -35,7 +35,7 @@ else
 
     git init
     git remote add origin https://github.com/SpamExperts/mobile-app.git
-    git fetch origin
+    git fetch origin master
     git reset --hard origin/master
     cd -
 
@@ -69,5 +69,5 @@ else
     # remove useless icon
     rm -rf resources/splash.png resources/icon.png
 
-    echo -e "Run:\n ionic serve $PLATFORM \n"
+    echo "Use 'ionic serve' to start the local dev server"
 fi

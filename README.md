@@ -28,4 +28,11 @@ There are two gulp tasks that switch this service proxy on and off.
 $ gulp add-proxy --server <proxy_server>
 $ gulp remove-proxy
 ```
+
+On iOS you may need to grant permissions to `.npm` and `.config` before running the build or dev script
+```bash
+$ sudo chmod -R $USER:$GROUP ~/.npm
+$ sudo chmod -R $USER:$GROUP ~/.config
+```
+
 For more information visit the [Ionic documentation page](http://ionicframework.com/docs/guide/) .

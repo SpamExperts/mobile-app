@@ -2,9 +2,7 @@
   "name": "SpamExperts Quarantine",
   "app_id": "",
   "watchPatterns": [
-    "www/src/js/**/*",
-    "www/src/css/**/*",
-    "www/src/templates/**/*"
+    "www/minified/**/*"
   ],
   "proxies": []
 }

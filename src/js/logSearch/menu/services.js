@@ -59,8 +59,9 @@ angular.module('SpamExpertsApp')
                     var criteria = this.getDefaultCriteria();
                     var currentCriteria = $localstorage.get('searchCriteria.' + this.direction, filterDates(criteria), true);
                     if (!apiDates) {
-                        currentCriteria.since = new Date(currentCriteria.since);
-                        currentCriteria.until = new Date(currentCriteria.until);
+                        // .replace(/-/g, '/') as iOS safari doesn't support date formats with -
+                        currentCriteria.since = new Date(currentCriteria.since.replace(/-/g, '/'));
+                        currentCriteria.until = new Date(currentCriteria.until.replace(/-/g, '/'));
                     }
                     return currentCriteria;
                 },
