@@ -72,19 +72,25 @@ else
         OUTPUT="$(cordova build --release $PLATFORM | tail -n 1)"
     fi
 
-    # get the apk/ipa file
-    mv $OUTPUT ../unsigned_spamexperts_app.$EXTENSION
-
-    cd -
-    rm -rf spamexperts_mobile_app
-
     if ! [ -z "$2" ]; then
-        if [ "$PLATFORM" = "android" ]; then
+       if [ "$PLATFORM" = "android" ]; then
+            # get the apk file
+            mv $OUTPUT ../unsigned_spamexperts_app.apk
+            cd -
             jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $2 unsigned_spamexperts_app.apk spamexperts_app
             zipalign -v 4 unsigned_spamexperts_app.apk spamexperts_app.apk
             rm unsigned_spamexperts_app.apk
+
         elif [ "$PLATFORM" = "ios" ]; then
-            echo 'Can not sign for ios automatically. Sign the app manually'
+            cd -
+
+            OUTPUT="$(find . -name 'SpamExpertsQuarantine.xcodeproj')"
+            xcodebuild clean -project $OUTPUT -configuration Release -alltargets
+            xcodebuild archive -project $OUTPUT -scheme SpamExpertsQuarantine -archivePath $OUTPUT DEVELOPMENT_TEAM="SpamExperts BV"
+            xcodebuild -exportArchive -archivePath $OUTPUT.xcarchive -exportPath SpamExpertsQuarantine -exportFormat ipa -exportProvisioningProfile $2
         fi
     fi
+
 fi
+
+rm -rf spamexperts_mobile_app

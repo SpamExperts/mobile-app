@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.spamexperts.mobileapp" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Spamexperts Quarantine</name>
+    <name>SpamExpertsQuarantine</name>
     <description>
-        Spamexperts mobile app
+        SpamExperts mobile app
     </description>
     <author email="addons@spamexperts.com" href="https://www.spamexperts.com/">
-        Spamexperts
+        SpamExperts
     </author>
     <content src="index.html"/>
     <access origin="*"/>

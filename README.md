@@ -9,7 +9,7 @@
 - run the following command in a terminal
 ```bash
 $ wget https://raw.githubusercontent.com/SpamExperts/mobile-app/master/src/scripts/buildApp.sh && bash buildApp.sh <android | ios>
-$ # buildApp.sh <android | ios> <your-signing-key.keystore> <debug>
+$ # buildApp.sh <android | ios> <your-signing-key.keystore | ios_provisioning_profile> <debug>
 ```
 - install `spamexperts_app.apk` on your Android device.
 
@@ -31,8 +31,13 @@ $ gulp remove-proxy
 
 On iOS you may need to grant permissions to `.npm` and `.config` before running the build or dev script
 ```bash
-$ sudo chmod -R $USER:$GROUP ~/.npm
-$ sudo chmod -R $USER:$GROUP ~/.config
+$ sudo chown -R $USER:$GROUP ~/.npm
+$ sudo chown -R $USER:$GROUP ~/.config
+```
+Also at times you may encounter some bower `EACCES` error. Fix them by running:
+```bash
+$ bower cache clean
+$ sudo chown -R $USER:$GROUP /restricted_path
 ```
 
 For more information visit the [Ionic documentation page](http://ionicframework.com/docs/guide/) .
