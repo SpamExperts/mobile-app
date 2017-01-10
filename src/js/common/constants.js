@@ -360,7 +360,7 @@ angular.module('SpamExpertsApp')
             actionSheet: [
                 {
                     name: 'release',
-                    icon: 'ion-share',
+                    icon: 'ion-checkmark-round',
                     text: 'Release',
                     confirmText:
                         'The email(s) that you have selected previously will be released.%s Are you sure you want to continue?'
@@ -369,7 +369,7 @@ angular.module('SpamExpertsApp')
                 },
                 {
                     name: 'releaseandwhitelist',
-                    icon: 'ion-ios-list-outline',
+                    icon: 'ion-close-round',
                     text: 'Whitelist and release',
                     confirmText:
                     'You have chosen to release the email and whitelist their senders.' +
@@ -425,7 +425,7 @@ angular.module('SpamExpertsApp')
             bar: [
                 {
                     name: 'release',
-                    icon: 'ion-share',
+                    icon: 'ion-checkmark-round',
                     text: 'Release',
                     confirmText:
                         'The email(s) that you have selected previously will be released.%s Are you sure you want to continue?'
@@ -434,7 +434,7 @@ angular.module('SpamExpertsApp')
                 },
                 {
                     name: 'remove',
-                    icon: 'ion-minus-circled',
+                    icon: 'ion-close-round',
                     text: 'Remove',
                     confirmText: 'The email(s) that you have selected will be removed.%s Are you sure you want to continue?'
                     ,

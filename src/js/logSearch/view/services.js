@@ -36,10 +36,13 @@ angular.module('SpamExpertsApp')
                 isBulkMode: function () {
                     return 0 < this.selected;
                 },
-                selectMessage: function (index) {
-                    var toggle = !this.messages[index].isChecked;
-                    this.messages[index].isChecked = toggle;
-                    if (toggle) {
+                selectMessage: function (index, directToggle) {
+
+                    if (!directToggle) {
+                        this.messages[index].isChecked = !this.messages[index].isChecked;
+                    }
+
+                    if (this.messages[index].isChecked) {
                         this.selected++;
                     } else {
                         this.selected--;

@@ -1,10 +1,12 @@
-<ion-popover-view>
+<ion-popover-view class="platform-ios">
     <ion-content>
-        <ion-list>
-            <ion-item class="item-icon-left" ng-class="{'se-action-divider': action.isDivider}" on-tap="processAction(action)" ng-repeat="action in actions">
-                <i class="icon {{::action.icon}}"></i>
-                <h2>{{::action.text}}</h2>
-            </ion-item>
-        </ion-list>
+        <ul class="list">
+            <li class="item item-dark text-center">
+                Available actions
+            </li>
+            <li class="item" ng-class="{'se-action-divider': action.isDivider}" on-tap="processAction(action)" ng-repeat="action in actions">
+                {{::action.text}}
+            </li>
+        </ul>
     </ion-content>
 </ion-popover-view>

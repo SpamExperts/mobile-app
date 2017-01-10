@@ -45,8 +45,8 @@ angular.module('SpamExpertsApp')
     ]);
 
 angular.module('SpamExpertsApp')
-    .controller('CommonMessagesCtrl', ['$rootScope', '$scope', '$state', '$timeout', 'uiService', 'MessageQueue', 'messagesService', 'criteriaService', 'ActionManager',
-        function($rootScope, $scope, $state, $timeout, uiService, MessageQueue, messagesService, criteriaService, ActionManager) {
+    .controller('CommonMessagesCtrl', ['$rootScope', '$scope', '$state', '$timeout', 'uiService', 'MessageQueue', 'messagesService', 'criteriaService', 'ActionManager', 'USER_ROLES',
+        function($rootScope, $scope, $state, $timeout, uiService, MessageQueue, messagesService, criteriaService, ActionManager, USER_ROLES) {
 
             $scope.info = {
                 count: 0,
@@ -56,6 +56,18 @@ angular.module('SpamExpertsApp')
             $scope.noMoreItemsAvailable = false;
 
             $scope.loadingEntries = false;
+
+            function setTopBar() {
+                var criteria = criteriaService.getSearchCriteria(true);
+                $scope.fromDate = criteria.since;
+                $scope.toDate = criteria.until;
+
+                $scope.searchDomain = $rootScope.role == USER_ROLES.admin
+                    ? criteria.domain
+                    : $rootScope.username;
+            }
+
+            setTopBar();
 
             // getting the list of messages again after performing a BULK_ACTION
             $scope.$on('refreshEntries', function () {
@@ -74,7 +86,7 @@ angular.module('SpamExpertsApp')
                     $scope.$broadcast('scroll.infiniteScrollComplete');
                     uiService.scrollDelegate.resize();
                 });
-
+                setTopBar();
             });
 
             // common function for handling infinite-scroll and pull-to-refresh
@@ -148,6 +160,7 @@ angular.module('SpamExpertsApp')
                 // we should update the date in the right-side-menu
                 $rootScope.$broadcast('updateToNow');
 
+                setTopBar();
                 handleScroll(criteria, 'refresh');
             };
 
@@ -162,7 +175,6 @@ angular.module('SpamExpertsApp')
 
                 handleScroll(criteria, 'infinite');
             };
-
 
             // process BULK_ACTIONS
             var actionManager = new ActionManager();
@@ -193,9 +205,9 @@ angular.module('SpamExpertsApp')
             };
 
             // handle selection on message entries
-            $scope.selectEntry = function(index) {
+            $scope.selectEntry = function(index, directToggle) {
                 if (!isEmpty(barActions) || !isEmpty(availableActions)) {
-                    messagesService.selectMessage(index);
+                    messagesService.selectMessage(index, directToggle);
                     $scope.selectedCount = uiService.kConvert(messagesService.countSelected());
                     $rootScope.bulkMode = messagesService.isBulkMode();
                 } else {

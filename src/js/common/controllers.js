@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .controller('CommonCtrl', ['$rootScope', '$state', 'uiService', 'MessageQueue', 'ROUTES', 'GROUPS', 'USER_ROLES', 'API_EVENTS',
-        function($rootScope, $state, uiService, MessageQueue, ROUTES, GROUPS, USER_ROLES, API_EVENTS) {
+    .controller('CommonCtrl', ['$rootScope', '$state', '$filter', 'uiService', 'MessageQueue', 'ROUTES', 'GROUPS', 'USER_ROLES', 'API_EVENTS',
+        function($rootScope, $state, $filter, uiService, MessageQueue, ROUTES, GROUPS, USER_ROLES, API_EVENTS) {
 
             $rootScope.removeQueueMessage = MessageQueue.remove;
 
@@ -47,6 +47,11 @@ angular.module('SpamExpertsApp')
                     MessageQueue.remove();
                 }
             });
+
+            $rootScope.getDate = function (date, format) {
+                date = new Date(date.replace(/-/g, '/'));
+                return $filter('date')(date, format)
+            };
 
             // allow closing left menu using swipe
             $rootScope.closeLeft = function () {

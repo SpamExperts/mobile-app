@@ -1,33 +1,21 @@
 <ion-view>
-
-    <ion-header-bar  class="bar-calm" ng-if="!bulkMode" align-title="center" on-tap="scrollTop()">
+    <ion-header-bar class="se-header-bar" align-title="center" on-tap="scrollTop()">
         <div class="buttons">
             <button class="button button-icon icon ion-navicon" menu-toggle="left"></button>
         </div>
-        <h1 class="title">{{::info.direction}} spam messages</h1>
+        <div class="title">
+            <div class="row">
+                <div class="col col-70 col-center text-left">
+                    <div ng-class="{'higher-text': !searchDomain}">{{::info.direction}} spam messages</div>
+                    <div ng-if="searchDomain">{{searchDomain}}</div>
+                </div>
+                <div class="col col-30 col-center text-right top-date">
+                    {{getDate(fromDate, 'dd MMM')}} - {{getDate(toDate, 'dd MMM yyyy')}}
+                </div>
+            </div>
+        </div>
         <div class="buttons">
             <button class="button button-icon icon ion-search" menu-toggle="right"></button>
-        </div>
-    </ion-header-bar>
-
-    <ion-header-bar class="bar-assertive" ng-if="bulkMode" align-title="center">
-
-        <div class="buttons">
-            <button class="button button-clear" on-tap="toggleBulkSelect(false)">
-                <i class="icon ion-checkmark-round ion-ios-checkmark-outline"></i>
-                {{selectedCount}}
-            </button>
-        </div>
-
-        <div class="title">&nbsp;</div>
-
-        <div class="buttons se-bar-actions">
-            <button class="button {{::action.cssClass}}" on-tap="processAction(action)" ng-repeat="action in barActions">
-                <i class="icon {{::action.icon}}"></i>
-            </button>
-            <button class="button" on-tap="processAction('', $event)">
-                <i class="icon ion-more"></i>
-            </button>
         </div>
     </ion-header-bar>
 
@@ -41,15 +29,45 @@
                 No entries. Pull to refresh...
             </ion-item>
             <ion-item
-                    class="item-avatar-left"
+                    class="se-message"
                     ng-class="{grayedout: message.isChecked}"
                     collection-repeat="message in messageEntries"
                     on-hold="selectEntry($index)"
                     on-tap="openMessage(message)"
             >
-                <div se-checkbox></div>
-                <h2>{{message['subject_header']}}</h2>
-                <p>{{message['classification']}} - {{message['classification_details']}}</p>
+                <div class="row">
+                    <div class="col col-85">
+                        <div class="row padding-none">
+                            <div class="col col-80 message-title">
+                                {{getDate(message['datetime'], 'EEEE, dd MMMM yyyy')}}
+                            </div>
+                            <div class="col col-20 text-right message-title">
+                                <span class="metallic-border main-class">
+                                    {{message['main_class']}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <h3 class="grayedout-text">{{message['sender']}}</h3>
+                            <h2>{{message['subject_header']}}</h2>
+                        </div>
+                    </div>
+                    <div class="col text-center">
+                        <div class="message-title">
+                            {{getDate(message['datetime'], 'HH:mm')}}
+                        </div>
+                        <div class="content">
+                            <ion-checkbox
+                                    on-tap="$event.stopPropagation()"
+                                    class="checkbox-square checkbox-dark no-border"
+                                    ng-change="selectEntry($index, true)"
+                                    ng-model="message.isChecked"
+                            >
+                            </ion-checkbox>
+                        </div>
+                    </div>
+                </div>
+
             </ion-item>
         </ion-list>
 
@@ -60,4 +78,26 @@
         >
         </ion-infinite-scroll>
     </ion-content>
+
+    <ion-footer-bar class="bar-stable se-footer-bar" ng-if="bulkMode" align-title="center">
+
+        <div class="buttons bar-actions">
+            <button class="button button-clear {{::action.cssClass}}" on-tap="processAction(action)" ng-repeat="action in barActions">
+                <i class="icon {{::action.icon}}"></i> {{::action.text}}
+            </button>
+        </div>
+
+        <div class="title">&nbsp;</div>
+
+        <div class="buttons se-bar-actions">
+            <button class="button button-clear" on-tap="processAction('', $event)">
+                <i class="icon ion-more"></i> More
+            </button>
+            <button class="button button-clear" on-tap="toggleBulkSelect(false)">
+                <span class="metallic-border selected-count">
+                    {{selectedCount}}
+                </span>
+            </button>
+        </div>
+    </ion-footer-bar>
 </ion-view>
