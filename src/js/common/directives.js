@@ -8,15 +8,6 @@ angular.module('SpamExpertsApp')
             };
         }
     )
-
-    // round message list checkbox directive
-    .directive('seCheckbox', function () {
-            return {
-                replace: true,
-                templateUrl: 'templates/common/checkbox.html'
-            };
-        }
-    )
     // html message preview directive
     .directive('seMailPreview', function () {
             return {

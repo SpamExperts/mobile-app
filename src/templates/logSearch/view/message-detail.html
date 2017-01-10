@@ -1,79 +1,98 @@
 <ion-view view-title="{{::message['subject_header']}}">
 
-    <ion-header-bar class="bar-assertive" align-title="center" on-tap="scrollTop()">
-
+    <ion-header-bar class="se-header-bar" align-title="center" on-tap="scrollTop()">
         <div class="buttons">
-            <button class="button button-clear" on-tap="back()"><i class="icon ion-arrow-left-c"></i></button>
+            <button class="button button-clear" on-tap="back()"><i class="icon ion-chevron-left"></i></button>
         </div>
-
         <div class="title">
-            &nbsp;
-        </div>
-
-        <div class="buttons" ng-if="hasActions && !angular.isUndefined(message.details['msgBody'])">
-            <button class="button {{::action.cssClass}}" on-tap="processAction(action)" ng-repeat="action in barActions">
-                <i class="icon {{::action.icon}}"></i>
-            </button>
-            <button class="button" on-tap="processAction('', $event)">
-                <i class="icon ion-more"></i>
-            </button>
+            <div class="row">
+                <div class="col col-70 col-center text-left">
+                    <div>Quarantined message</div>
+                    <div>{{::username}}</div>
+                </div>
+            </div>
         </div>
     </ion-header-bar>
 
-    <ion-content class="has-header">
+    <ion-content class="has-header message-detail" scroll="false">
         <div message-queue></div>
 
-        <div class="list card">
-
-            <div class="item item-avatar">
-                <div class="icon-se icon-rejected">S</div>
-
-                <h2>{{::message['subject_header']}}</h2>
-                <p>{{::message['datetime']}}</p>
-                <p>{{::message['classification_details']}} - {{::message.status}}</p>
-                <p>{{::message.details['meta_data'].size}}</p>
-
-                <table border="0">
-                    <tr><td style="padding: 0 5px;">From:</td><td>{{::message['sender']}}</td></tr>
-                    <tr><td style="padding: 0 5px;">To:</td><td>{{::message['recipient']}}</td></tr>
+        <div class="row padding-none message-detail-headers">
+            <div class="col col-80">
+                <table>
+                    <tr>
+                        <td class="header-name">sent:&nbsp;</td>
+                        <td class="header-value">{{::getDate(message['datetime'], 'EEEE, d MMMM yyyy')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="header-name">from:&nbsp;</td>
+                        <td class="header-value">{{::message['sender']}}</td>
+                    </tr>
+                    <tr>
+                        <td class="header-name">to: &nbsp;</td>
+                        <td class="header-value">{{::message['recipient']}}</td>
+                    </tr>
                 </table>
             </div>
-
-            <div class="item tabs tabs-secondary tabs-icon-top tabs-background-positive tabs-color-assertive" ng-if="!isLoading && !errorDisplay">
-                <div class="tab-item" ng-class="{active: isActiveTab('htmlSource')}" on-tap="showTab('htmlSource')" ng-if="canShowTab('htmlSource')">
-                    <i class="icon ion-ipad"></i>
-                    HTML
+            <div class="col col-20">
+                <div class="message-detail-time">
+                    {{::getDate(message['datetime'], 'HH:mm a')}}
                 </div>
-                <div class="tab-item" ng-class="{active: isActiveTab('msgBody')}" on-tap="showTab('msgBody')" ng-if="canShowTab('msgBody')">
-                    <i class="icon ion-document"></i>
-                    Text
-                </div>
-                <div class="tab-item" ng-class="{active: isActiveTab('eml')}" on-tap="showTab('eml')" ng-if="canShowTab('eml')">
-                    <i class="icon ion-ios-email-outline"></i>
-                    Raw
-                </div>
-            </div>
-
-            <div class="item item-body" ng-if="!isLoading && !errorDisplay">
-                <div ng-if="canShowTab('htmlSource') && 'htmlSource' == selectedView">
-                    <se-mail-preview content="message.details['htmlSource']"></se-mail-preview>
-                </div>
-                <div ng-if="canShowTab('msgBody') && 'msgBody' == selectedView">
-                    <pre>{{::message.details['msgBody']}}</pre>
-                </div>
-                <div ng-if="canShowTab('eml') && 'eml' == selectedView">
-                    <pre>{{::message.details['eml']}}</pre>
-                </div>
-            </div>
-
-            <div class="item item-body" ng-if="errorDisplay">
-                Could not fetch the requested message
-            </div>
-
-            <div class="item item-body text-center" ng-if="isLoading">
-                <ion-spinner></ion-spinner>
             </div>
         </div>
 
+        <div class="message-detail-body">
+            <div class="detail-tabs">
+                <h5>{{::message['subject_header']}}</h5>
+                <div class="tabs tabs-background-stable tabs-color-dark" ng-if="!isLoading && !errorDisplay" style="position: relative">
+                    <div class="tab-item" ng-class="{active: isActiveTab('htmlSource')}" on-tap="showTab('htmlSource')" ng-if="canShowTab('htmlSource')">
+                        HTML
+                    </div>
+                    <div class="tab-item" ng-class="{active: isActiveTab('msgBody')}" on-tap="showTab('msgBody')" ng-if="canShowTab('msgBody')">
+                        Text
+                    </div>
+                    <div class="tab-item" ng-class="{active: isActiveTab('eml')}" on-tap="showTab('eml')" ng-if="canShowTab('eml')">
+                        Raw
+                    </div>
+                </div>
+            </div>
+
+            <div class="message-scroll-container" ng-if="!isLoading && !errorDisplay">
+                <ion-scroll direction="y">
+                    <div ng-if="canShowTab('htmlSource') && 'htmlSource' == selectedView">
+                        <se-mail-preview content="message.details['htmlSource']"></se-mail-preview>
+                    </div>
+                    <div ng-if="canShowTab('msgBody') && 'msgBody' == selectedView">
+                        <pre>{{::message.details['msgBody']}}</pre>
+                    </div>
+                    <div ng-if="canShowTab('eml') && 'eml' == selectedView">
+                        <pre>{{::message.details['eml']}}</pre>
+                    </div>
+                    <div class="item item-body" ng-if="errorDisplay">
+                        Could not fetch the requested message
+                    </div>
+                </ion-scroll>
+            </div>
+            <div class="text-center" ng-if="isLoading">
+                <ion-spinner></ion-spinner>
+            </div>
+        </div>
     </ion-content>
+
+    <ion-footer-bar class="bar-stable se-footer-bar" ng-if="hasActions && !angular.isUndefined(message.details['msgBody'])" align-title="center">
+
+        <div class="buttons bar-actions">
+            <button class="button button-clear {{::action.cssClass}}" on-tap="processAction(action)" ng-repeat="action in barActions">
+                <i class="icon {{::action.icon}}"></i> {{::action.text}}
+            </button>
+        </div>
+
+        <div class="title">&nbsp;</div>
+
+        <div class="buttons se-bar-actions">
+            <button class="button button-clear" on-tap="processAction('', $event)">
+                <i class="icon ion-more"></i> More
+            </button>
+        </div>
+    </ion-footer-bar>
 </ion-view>
