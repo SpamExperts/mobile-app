@@ -9,6 +9,13 @@ $headerBarHeight: 55px;
 $footerBarHeight: 55px;
 $dashboardHeader: 100px;
 
+.log-out-box {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 15px;
+}
+
 .log-out .icon:before {
     font-size: 32px;
     line-height: 38px;
