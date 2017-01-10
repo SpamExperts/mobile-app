@@ -8,13 +8,14 @@ var
     templateCache= require('gulp-angular-templatecache'),
     gulpif       = require('gulp-if'),
     replace      = require('gulp-replace'),
+    sass         = require('gulp-sass'),
     strip        = require('gulp-strip-comments'),
 
     minify       = true,
 
     buildSources = {
         allCss:  [
-            'css/style.css'
+            'css/style.scss'
         ],
         allJs: [
             'js/common/utils.js',
@@ -69,31 +70,53 @@ function newFile(name, contents) {
     return readableStream;
 }
 
-gulp.task('clean', function() {
-    del([
-        '../minified'
-    ], {force: true});
+function enableProxy() {
+    gulp.src('../minified/js/scripts.js')
+        .pipe(
+            replace(
+                /\.constant\(.DEV_PROXY.\,(\s|).DEV_PROXY_FALSE.\)/,
+                '.constant("DEV_PROXY","DEV_PROXY_TRUE")'
+            )
+        )
+        .pipe(gulp.dest('../minified/js'));
+}
+
+gulp.task('templates', function () {
+    return gulp.src('templates/**/*.html')
+        .pipe(templateCache('templates.js', {
+            module: 'SpamExpertsApp',
+            root: 'templates'
+        }))
+        .pipe(gulp.dest('../minified/templates'))
+        .on('error', gutil.log);
 });
 
 gulp.task('allCss', function() {
-    // Minify and concatenate styles for all css files
-    return gulp.src(buildSources.allCss)
+    gulp.src(buildSources['allCss'])
         .pipe(concat('styles.css'))
+        .pipe(sass())
         .pipe(gulpif(minify, minifyCSS()))
         .pipe(gulp.dest('../minified/css'))
-        .on('error', gutil.log);
+        .on('error', sass.logError);
 });
 
 gulp.task('allJs', function() {
     // Minify and concatenate scripts for all.js
-    return gulp.src(buildSources.allJs)
+
+    gulp.src(buildSources.allJs)
         .pipe(strip())
         .pipe(gulpif(minify, uglify()))
         .pipe(concat('scripts.js'))
         .pipe(gulp.dest('../minified/js'))
+        .on('end', function () {
+            var config = require('../../ionic.config.json');
+
+            if (config['proxies'].length) {
+                enableProxy();
+            }
+        })
         .on('error', gutil.log);
 });
-
 
 gulp.task('allLib', function() {
     // Minify and concatenate styles for all css files
@@ -111,12 +134,6 @@ gulp.task('allLib', function() {
         .pipe(concat('all.js'))
         .pipe(gulp.dest('../minified/lib'))
         .on('error', gutil.log);
-});
-
-gulp.task('build', ['clean', 'allCss', 'allJs', 'allLib']);
-
-gulp.task('dev', function() {
-    minify  = false;
 });
 
 gulp.task('add-proxy', function() {
@@ -137,16 +154,11 @@ gulp.task('add-proxy', function() {
         del(['../../ionic.config.json'], {force: true});
 
         new newFile('ionic.config.json', JSON.stringify(config, null, 2))
-            .pipe(gulp.dest('../../'));
+            .pipe(gulp.dest('../../'))
+            .on('end', function () {
+                enableProxy();
+            });
 
-        gulp.src('../minified/js/scripts.js')
-            .pipe(
-                replace(
-                    '\.constant\("DEV_PROXY"\,"DEV_PROXY_FALSE"\)',
-                    '.constant("DEV_PROXY","DEV_PROXY_TRUE")'
-                )
-            )
-            .pipe(gulp.dest('../minified/js'));
     }
 });
 
@@ -158,23 +170,28 @@ gulp.task('remove-proxy', function() {
     gulp.src('../minified/js/scripts.js')
         .pipe(
             replace(
-                '\.constant\("DEV_PROXY"\,"DEV_PROXY_TRUE"\)',
+                /\.constant\(.DEV_PROXY.\,(\s|).DEV_PROXY_TRUE.\)/,
                 '.constant("DEV_PROXY","DEV_PROXY_FALSE")'
             )
         )
         .pipe(gulp.dest('../minified/js'));
 });
 
-gulp.task('templates', function () {
-    return gulp.src('templates/**/*.html')
-        .pipe(templateCache('templates.js', {
-            module: 'SpamExpertsApp',
-            root: 'templates'
-        }))
-        .pipe(gulp.dest('../minified/templates'))
-        .on('error', gutil.log);
+gulp.task('clean', function() {
+    del([
+        '../minified/**/*.*'
+    ], {force: true});
 });
 
+gulp.task('build', ['templates', 'allCss', 'allJs', 'allLib']);
+
+gulp.task('dev', function() {
+    minify  = false;
+    gutil.log(gutil.colors.green('RUNNING IN DEBUG MODE'));
+    gulp.start('default');
+});
 
 // The default task (called when you run `gulp` from cli)
-gulp.task('default', ['build', 'templates']);
+gulp.task('default', ['clean'], function () {
+    gulp.start('build');
+});

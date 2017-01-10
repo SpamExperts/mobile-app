@@ -614,6 +614,9 @@ angular.module('SpamExpertsApp')
             return {
                 sideMenuDelegate: $ionicSideMenuDelegate,
                 scrollDelegate: $ionicScrollDelegate,
+                popup: function (params) {
+                    return $ionicPopup.show(params);
+                },
                 alert: function (params) {
                     $ionicPopup.alert(params);
                 },
@@ -652,7 +655,6 @@ angular.module('SpamExpertsApp')
                     }
                 },
                 dropdown: function () {
-
                     return {
                         show: function (action) {
                             var $scope = action.scope;
@@ -664,6 +666,10 @@ angular.module('SpamExpertsApp')
                             }).then(function(popover) {
                                 $rootScope.popover = popover;
                                 $rootScope.popover.show(action.event);
+                            });
+
+                            $scope.$on('popover.hidden', function() {
+                                $rootScope.popover.remove();
                             });
                         },
                         hide: function () {

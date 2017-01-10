@@ -1,19 +1,30 @@
 <ion-view view-title="Sign-In">
     <ion-content class="padding">
-        <div class="list list-inset">
-            <label class="item item-input">
-                <input type="text" placeholder="Hostname" ng-model="data.hostname" autocapitalize="off">
-            </label>
-            <label class="item item-input">
-                <input type="text" placeholder="Username" ng-model="data.username" autocapitalize="off">
-            </label>
-            <label class="item item-input">
-                <input type="password" placeholder="Password" ng-model="data.password">
-            </label>
-            <ion-toggle ng-model="data.remember" toggle-class="toggle-calm" ng-true-value="'enabled'" ng-false-value="'disabled'" ng-change="toggleRemember(data.remember)">
-                Remember me
-            </ion-toggle>
+        <div class="row" style="height: 100%">
+            <div class="col col-center">
+                <div class="text-center" style="margin-bottom: 20px">
+                    <img src="/img/se_logo.png">
+                </div>
+                <div class="list">
+                    <label class="item item-input item-floating-label no-rtl-border">
+                        <span class="input-label se-bold">Hostname</span>
+                        <input type="text" placeholder="Hostname" ng-model="data.hostname" autocapitalize="off">
+                    </label>
+                    <label class="item item-input item-floating-label no-rtl-border">
+                        <span class="input-label se-bold">Username</span>
+                        <input type="text" placeholder="Username" ng-model="data.username" autocapitalize="off">
+                    </label>
+                    <label class="item item-input item-floating-label no-rtl-border">
+                        <span class="input-label se-bold">Password</span>
+                        <input type="password" placeholder="Password" ng-model="data.password">
+                    </label>
+                </div>
+                <ion-checkbox class="checkbox-square checkbox-dark no-border" ng-model="data.remember" ng-true-value="'enabled'" ng-false-value="'disabled'" ng-change="toggleRemember(data.remember)">
+                    <span class="se-bold">Keep me logged in</span>
+                </ion-checkbox>
+                <div class="se-spacer-2x"></div>
+                <button class="button button-block button-dark se-bold" on-tap="login(data)">Log in</button>
+            </div>
         </div>
-        <button class="button button-block button-positive" on-tap="login(data)">Login</button>
     </ion-content>
 </ion-view>
