@@ -36,5 +36,45 @@ angular.module('SpamExpertsApp')
                         });
                 }
             };
+
+            $scope.showHelper = function () {
+                $scope.troubleShoot =
+                    uiService.popup(
+                        {
+                            templateUrl: 'templates/auth/help.html',
+                            cssClass: 'troubleshooting',
+                            scope: $scope,
+                            buttons: []
+                        }
+                    )
+            };
+
+
+            $scope.groups = [
+                {
+                    name: 'Where can I find my hostname',
+                    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam mattis nibh vitae nulla venenatis venenatis. In hac habitasse platea dictumst. Curabitur congue ipsum leo, vel convallis erat consectetur elementum.'
+                },
+                {
+                    name: 'I forgot my username or password',
+                    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam mattis nibh vitae nulla venenatis venenatis. In hac habitasse platea dictumst. Curabitur congue ipsum leo, vel convallis erat consectetur elementum. '
+                }
+            ];
+
+            /*
+             * if given group is the selected group, deselect it
+             * else, select the given group
+             */
+            $scope.toggleGroup = function(group) {
+                if ($scope.isGroupShown(group)) {
+                    $scope.shownGroup = null;
+                } else {
+                    $scope.shownGroup = group;
+                }
+            };
+            $scope.isGroupShown = function(group) {
+                return $scope.shownGroup === group;
+            };
+
         }
     ]);
