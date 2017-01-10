@@ -83,11 +83,9 @@ else
 
         elif [ "$PLATFORM" = "ios" ]; then
             cd -
-
             OUTPUT="$(find . -name 'SpamExpertsQuarantine.xcodeproj')"
-            xcodebuild clean -project $OUTPUT -configuration Release -alltargets
-            xcodebuild archive -project $OUTPUT -scheme SpamExpertsQuarantine -archivePath $OUTPUT DEVELOPMENT_TEAM="SpamExperts BV"
-            xcodebuild -exportArchive -archivePath $OUTPUT.xcarchive -exportPath SpamExpertsQuarantine -exportFormat ipa -exportProvisioningProfile $2
+            mv $OUTPUT .
+            echo "Open SpamExpertsQuarantine.xcodeproj with Xcode and build for release using Automatic Provisioning feature."
         fi
     fi
 

@@ -11,9 +11,10 @@
 - run the following command in a terminal
 ```bash
 $ wget https://raw.githubusercontent.com/SpamExperts/mobile-app/master/src/scripts/buildApp.sh && bash buildApp.sh <android | ios>
-$ # buildApp.sh <android | ios> <your-signing-key.keystore | ios_provisioning_profile> <debug>
+$ # buildApp.sh <android | ios> <your-signing-key.keystore | `manual sign for iOS`> <debug>
 ```
 - install `spamexperts_app.apk` on your Android device.
+- To build for iOS open SpamExpertsQuarantine.xcodeproj with XCode and use the `Automatic provisioning` to sign and build the app.
 
 ### For development:
 - open a terminal and run the following command:

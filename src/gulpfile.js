@@ -111,7 +111,7 @@ gulp.task('allJs', function() {
         .on('end', function () {
             var config = require('../../ionic.config.json');
 
-            if (config['proxies'].length) {
+            if (config['proxies'] && config['proxies'].length) {
                 enableProxy();
             }
         })
