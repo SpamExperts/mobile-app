@@ -103,7 +103,7 @@ angular.module('SpamExpertsApp')
             {
 
                 name: 'Incoming',
-                icon: 'ion-ios-cloud-download',
+                icon: 'ion-ios-cloud-upload',
                 items: [
                     {
                         url: 'incoming/log/search',
@@ -120,8 +120,8 @@ angular.module('SpamExpertsApp')
                         data: {
                             state: 'main.incomingLogSearch',
                             group: constant['GROUPS'].incoming,
-                            name: 'Quarantine',
-                            icon: 'ion-email',
+                            name: 'Incoming Filtering Quarantine',
+                            icon: 'ion-ios-cloud-upload-outline',
                             authorizedRoles: [constant['USER_ROLES'].admin, constant['USER_ROLES'].domain, constant['USER_ROLES'].email]
                         }
                     }
@@ -129,7 +129,7 @@ angular.module('SpamExpertsApp')
             },
             {
                 name: 'Outgoing',
-                icon: 'ion-ios-cloud-upload',
+                icon: 'ion-ios-cloud-download',
                 items: [
                     {
                         url: 'outgoing/log/search',
@@ -146,8 +146,8 @@ angular.module('SpamExpertsApp')
                         data: {
                             state: 'main.outgoingLogSearch',
                             group: constant['GROUPS'].outgoing,
-                            name: 'Quarantine',
-                            icon: 'ion-email',
+                            name: 'Outgoing Filtering Quarantine',
+                            icon: 'ion-ios-cloud-download-outline',
                             authorizedRoles: [constant['USER_ROLES'].admin, constant['USER_ROLES'].domain]
                         }
                     }
