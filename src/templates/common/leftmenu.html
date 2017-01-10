@@ -1,46 +1,32 @@
-<ion-list>
-
-    <ion-item class="item item-person">
-        <div class="row">
-            <div class="col-20">
-                <img src="img/se_logo.png">
-            </div>
-            <div class="col-80">
-                <h2>{{::username}}</h2>
-                <p>{{::role}}</p>
-            </div>
-        </div>
-        <button class="button icon-right ion-log-out button-stable button-full" on-tap="logout()">Logout</button>
-    </ion-item>
-    <div class="se-spacer-2x"></div>
-    <div ng-repeat="item in menuItems">
-        <div  ng-if="!item.data.noSide">
-
-            <div ng-if="!item.items.length">
-                <ion-item class="item-divider item-icon-left" ng-if="item.data.state" ui-sref-active="active" ui-sref="{{::item.data.state}}">
-                    <i class="icon {{::item.data.icon}}"></i>{{::item.data.name}}
-                </ion-item>
-                <ion-item class="item-divider item-icon-left" ng-if="!item.data.state" href="">
-                    <i class="icon {{::item.data.icon}}"></i>{{::item.data.name}}
-                </ion-item>
-            </div>
-
-            <div ng-if="item.items.length">
-                <ion-item class="item-divider item-icon-left" ng-if="item.state" ui-sref-active="active" ui-sref="{{::item.state}}">
-                    <i class="icon {{::item.icon}}"></i>{{::item.name}}
-                </ion-item>
-                <ion-item class="item-divider item-icon-left" ng-if="!item.state" href="">
-                    <i class="icon {{::item.icon}}"></i>{{::item.name}}
-                </ion-item>
-
-                <ion-item class="item-icon-left submenu" ng-repeat="page in item.items" ui-sref-active="active" ui-sref="{{::page.data.state}}">
-                    <i class="icon {{::page.data.icon}} page-icon"></i>{{::page.data.name}}<i class="icon icon-indicator ion-arrow-left-b"></i>
-                </ion-item>
-            </div>
-
+<div class="left-menu">
+    <div class="left-menu-header">
+        <h3 class="title text-center">{{::username}}!</h3>
+        <div class="text-center">
+            <span class="role">{{::role}}</span>
         </div>
     </div>
-    <div class="se-spacer-2x se-background-color">
-        ©2016 Spamexperts
-    </div>
-</ion-list>
+    <ion-list>
+        <div class="se-spacer-2x"></div>
+
+        <div ng-repeat="item in menuItems" ng-if="!item.data.noDash">
+            <ion-item
+                    ng-repeat="page in item.items"
+                    class="item-icon-right se-no-top-border se-menu-entry"
+                    ui-sref-active="active"
+                    ui-sref="{{::page.data.state}}">
+
+                <i class="icon {{::page.data.icon}}"></i> {{::page.data.name}}
+            </ion-item>
+        </div>
+        <div class="se-spacer-3x"></div>
+        <div class="se-spacer-3x"></div>
+        <div class="padding">
+            <button class="button button-block button-light metallic-border log-out" on-tap="logout()">
+                <i class="icon ion-ios-download-outline icon-rotate-90"></i>&nbsp;&nbsp;Log out
+            </button>
+        </div>
+        <div class="text-center">
+            © Spamexperts
+        </div>
+    </ion-list>
+</div>

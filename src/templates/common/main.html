@@ -1,19 +1,15 @@
 <ion-side-menus enable-menu-with-back-views="true">
-
     <ion-side-menu-content on-drag-left="canDragLeft()" on-drag-right="canDragRight()">
         <ion-nav-view name="main-container"></ion-nav-view>
     </ion-side-menu-content>
 
     <ion-side-menu side="left" on-swipe-left="closeLeft(false)">
         <ion-content  drag-content="false">
-            <div ng-include="'templates/common/leftmenu.html'"></div>
+            <div ng-include="'templates/common/leftmenu.html'" style="height: 100%"></div>
         </ion-content>
     </ion-side-menu>
 
     <ion-side-menu side="right" on-swipe-right="closeRight(false)">
-        <ion-header-bar class="bar-calm">
-            <h1 class="title">Search criteria</h1>
-        </ion-header-bar>
         <ion-content  drag-content="false">
             <ui-view name="right-side-menu"></ui-view>
         </ion-content>
