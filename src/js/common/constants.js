@@ -304,7 +304,7 @@ angular.module('SpamExpertsApp')
             fields: [
                 {
                     label: 'Sender',
-                    type: 'text',
+                    type: 'email',
                     model: 'sender',
                     condition: function(params, constant) {
                         return -1 < [
@@ -316,7 +316,7 @@ angular.module('SpamExpertsApp')
                 },
                 {
                     label: 'Recipient',
-                    type: 'text',
+                    type: 'email',
                     model: 'recipient',
                     condition: function(params, constant) {
                         return -1 < [
@@ -339,13 +339,13 @@ angular.module('SpamExpertsApp')
             ],
             actions: [
                 {
-                    label: 'Search',
-                    cssClass: 'button button-full button-positive icon-left ion-search',
+                    label: 'Search messages',
+                    cssClass: 'button button-block button-dark icon-left ion-search se-bold',
                     action: 'doSearch()'
                 },
                 {
-                    label: 'Reset',
-                    cssClass: 'button button-full button-energized icon-left ion-refresh flip',
+                    label: 'Clear search',
+                    cssClass: 'button button-block button-light metallic-border',
                     action: 'doReset()'
                 }
             ]

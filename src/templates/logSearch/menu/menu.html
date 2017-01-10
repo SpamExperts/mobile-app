@@ -1,21 +1,33 @@
-<div class="list">
+<ion-view>
+    <ion-header-bar class="se-header-bar-stable">
+        <div class="buttons">
+            <button class="button button-icon icon ion-chevron-left" menu-toggle="right"></button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="has-header padding">
+        Search messages
+        <div class="list">
+            <label class="item item-input item-floating-label no-rtl-border" ng-repeat="field in criteriaFields">
+                <span class="input-label">{{::field.label}}</span>
+                <input type="{{::field.type}}" placeholder="{{::field.label}}" ng-model="searchCriteria[field.model]" autocapitalize="off">
+            </label>
 
-    <label class="item item-input item-floating-label" ion-datetime-picker ng-model="searchCriteria['since']">
-        <span class="input-label has-input">From date</span>
-        <div>{{searchCriteria['since']| date: dateFormat}}</div>
-    </label>
+            <div class="button-bar">
+                <label class="item item-input item-floating-label no-rtl-border datetime-input" ion-datetime-picker ng-model="searchCriteria['since']">
+                    <span class="input-label has-input">From date</span>
+                    <div class="time">{{searchCriteria['since']| date: dateFormat}}</div>
+                </label>
 
-    <label class="item item-input item-floating-label" ion-datetime-picker ng-model="searchCriteria['until']">
-        <span class="input-label has-input">To date</span>
-        <div>{{searchCriteria['until']| date: dateFormat}}</div>
-    </label>
+                <label class="item item-input item-floating-label no-rtl-border datetime-input" ion-datetime-picker ng-model="searchCriteria['until']">
+                    <span class="input-label has-input">To date</span>
+                    <div class="time">{{searchCriteria['until']| date: dateFormat}}</div>
+                </label>
+            </div>
 
-    <label class="item item-input item-floating-label" ng-repeat="field in criteriaFields">
-        <span class="input-label">{{::field.label}}</span>
-        <input type="{{::field.type}}" placeholder="{{::field.label}}" ng-model="searchCriteria[field.model]" autocapitalize="off">
-    </label>
-
-    <button class="{{::action.cssClass}}" on-tap="{{::action.action}}" ng-repeat="action in criteriaActions">
-        {{::action.label}}
-    </button>
-</div>
+            <div class="se-spacer"></div>
+            <button class="{{::action.cssClass}}" on-tap="{{::action.action}}" ng-repeat="action in criteriaActions">
+                {{::action.label}}
+            </button>
+        </div>
+    </ion-content>
+</ion-view>
