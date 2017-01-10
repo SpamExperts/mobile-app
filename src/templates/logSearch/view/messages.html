@@ -19,7 +19,7 @@
         </div>
     </ion-header-bar>
 
-    <ion-content class="has-header">
+    <ion-content class="has-header" ng-class="{'has-footer': bulkMode}">
         <div message-queue></div>
 
         <ion-refresher pulling-text="Release me" on-refresh="pullToRefresh()"></ion-refresher>

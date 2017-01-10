@@ -4,6 +4,11 @@ $metallic-gray: #F8F8F8;
 $detailTabsHeight: 105px;
 $detailHeadersHeight: 81px;
 
+
+$headerBarHeight: 55px;
+$footerBarHeight: 55px;
+$dashboardHeader: 100px;
+
 .log-out .icon:before {
     font-size: 32px;
     line-height: 38px;
@@ -280,11 +285,12 @@ $detailHeadersHeight: 81px;
     color: #ffffff;
 }
 
-$headerBarHeight: 55px;
-$dashboardHeader: 100px;
-
 .has-header {
     top: $headerBarHeight;
+}
+
+.has-footer {
+    bottom: $footerBarHeight;
 }
 
 .se-header-bar {
@@ -341,7 +347,6 @@ $dashboardHeader: 100px;
 .dashboard-button .button-label {
     line-height: 25px;
 }
-
 
 .left-menu .se-menu-entry i.icon:before {
     color: #0a9dc7;
@@ -448,8 +453,6 @@ $dashboardHeader: 100px;
     border-radius: 3px;
     padding: 2px 4px;
 }
-
-$footerBarHeight: 55px;
 
 .se-footer-bar {
     height: $footerBarHeight;
