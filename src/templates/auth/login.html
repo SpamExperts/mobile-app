@@ -1,9 +1,10 @@
 <ion-view view-title="Sign-In">
     <ion-content class="padding">
-        <div class="row" style="height: 100%">
+        <div class="row">
             <div class="col col-center">
+                <div class="se-spacer"></div>
                 <div class="text-center" style="margin-bottom: 20px">
-                    <img src="/img/se_logo.png">
+                    <img src="img/se_logo.png">
                 </div>
                 <div class="list">
                     <label class="item item-input item-floating-label no-rtl-border">
@@ -24,9 +25,8 @@
                 </ion-checkbox>
                 <div class="se-spacer-2x"></div>
                 <button class="button button-block button-dark se-bold" on-tap="login(data)">Log in</button>
-                <div class="se-spacer"></div>
                 <div class="text-center">
-                    <a ng-click="showHelper()" class="se-bold se-no-underline">Having trouble logging in</a>
+                    <button on-tap="showHelper()" class="button button-clear button-positive se-bold se-no-underline">Having trouble logging in</button>
                 </div>
             </div>
         </div>
