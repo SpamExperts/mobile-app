@@ -19,8 +19,7 @@ if ! type "ionic" > /dev/null; then
     echo "You need to install ionic.\n Try using: npm install -g cordova ionic \n http://ionicframework.com/getting-started/"
 else
 
-    rm -rf * _app.$EXTENSION
-    rm -rf spamexperts_mobile_app
+    rm -rf spamexperts_app.$EXTENSION *_spamexperts_app.$EXTENSION spamexperts_mobile_app
 
     # create blank app
     ionic start spamexperts_mobile_app https://github.com/SpamExperts/mobile-app
