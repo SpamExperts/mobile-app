@@ -9,11 +9,30 @@ $headerBarHeight: 55px;
 $footerBarHeight: 55px;
 $dashboardHeader: 100px;
 
-.log-out-box {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 15px;
+@media (min-height: 438px) {
+    .left-menu-list {
+        position: relative;
+        top: 65px;
+        left: 0;
+        right: 0;
+    }
+
+    .log-out-box {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 15px;
+    }
+}
+
+.left-menu {
+    border-right: 1px $metallic-gray solid;
+}
+
+.left-menu .se-menu-entry {
+    border: none;
+    border-bottom: 1px #bfbfbf solid;
+    margin-top: 1px;
 }
 
 .log-out .icon:before {
@@ -205,11 +224,6 @@ $dashboardHeader: 100px;
     background: #f5f5f5 !important;
 }
 
-.se-no-top-border {
-    border-top: none;
-    margin-top: 1px;
-}
-
 .popup-container.troubleshooting .popup-head {
     display: none !important;
 }
@@ -272,7 +286,7 @@ $dashboardHeader: 100px;
     transition: 0.09s all linear;
 }
 .list .item.item-accordion.ng-hide {
-    line-height: 0px;
+    line-height: 0;
 }
 .list .item.item-accordion.ng-hide-add,
 .list .item.item-accordion.ng-hide-remove {
@@ -280,7 +294,7 @@ $dashboardHeader: 100px;
 }
 
 .se-background {
-    background: #39B0DA url('../../img/background.png') no-repeat 0 0;
+    background: #39B0DA url('../../img/background.png');
     background-size: contain;
 }
 
@@ -316,7 +330,15 @@ $dashboardHeader: 100px;
 
 /* Dashboard */
 .dashboard-header {
+    position: absolute;
+    top: $headerBarHeight;
+    width: 100%;
     height: $dashboardHeader;
+}
+
+.dashboard.has-header {
+    top: $headerBarHeight + $dashboardHeader;
+    background: #fff;
 }
 
 .dashboard-header * {

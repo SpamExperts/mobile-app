@@ -1,17 +1,15 @@
 <div class="left-menu">
     <div class="left-menu-header">
-        <h3 class="title text-center">{{::username}}!</h3>
+        <h3 class="title text-center">{{::username}}</h3>
         <div class="text-center">
             <span class="role">{{::role}}</span>
         </div>
     </div>
-    <ion-list>
-        <div class="se-spacer-2x"></div>
-
+    <ion-list class="left-menu-list">
         <div ng-repeat="item in menuItems" ng-if="!item.data.noDash">
             <ion-item
                     ng-repeat="page in item.items"
-                    class="item-icon-right se-no-top-border se-menu-entry"
+                    class="item-icon-right se-menu-entry"
                     ui-sref-active="active"
                     ui-sref="{{::page.data.state}}">
 
