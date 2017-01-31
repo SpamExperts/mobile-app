@@ -17,6 +17,19 @@
   transform: rotate(-90deg);
 }
 
+.flex-center {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Customize loading */
 
 .loading {
@@ -119,11 +132,6 @@
 
 .se-float-right {
   float: right !important;
-}
-
-.se-background {
-  background: #39B0DA url('../../img/background.png');
-  background-size: contain;
 }
 
 .bar-transparent {

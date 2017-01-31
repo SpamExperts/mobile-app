@@ -1,4 +1,3 @@
-
 $scrollPadding: 20px;
 $metallic-gray: #F8F8F8;
 
@@ -7,12 +6,70 @@ $detailHeadersHeight: 81px;
 
 $headerBarHeight: 55px;
 $footerBarHeight: 55px;
-$dashboardHeader: 100px;
+$dashboardHeader: 150px;
+
+$se-theme-color: #39B0DA;
+
+$grid-padding-width:              10px !default;
+$grid-responsive-xs-break:        270px !default;  // smaller than portrait phone
+$grid-responsive-sm-break:        567px !default;  // smaller than landscape phone
+$grid-responsive-md-break:        767px !default;  // smaller than portrait tablet
+$grid-responsive-lg-break:        1023px !default; // smaller than landscape tablet
 
 @mixin scale($h, $v) {
-  transform: scale($h,$v); /* W3C */
-  -webkit-transform: scale($h,$v); /* Safari and Chrome */
-  -moz-transform: scale($h,$v); /* Firefox */
-  -ms-transform: scale($h,$v); /* IE 9 */
-  -o-transform: scale($h,$v); /* Opera */
+    transform: scale($h,$v); /* W3C */
+    -webkit-transform: scale($h,$v); /* Safari and Chrome */
+    -moz-transform: scale($h,$v); /* Firefox */
+    -ms-transform: scale($h,$v); /* IE 9 */
+    -o-transform: scale($h,$v); /* Opera */
 }
+
+@mixin flex($fg: 1, $fs: null, $fb: null) {
+    -webkit-box-flex: $fg;
+    -webkit-flex: $fg $fs $fb;
+    -moz-box-flex: $fg;
+    -moz-flex: $fg $fs $fb;
+    -ms-flex: $fg $fs $fb;
+    flex: $fg $fs $fb;
+}
+
+@mixin responsive-grid-break($selector, $max-width) {
+    @media (max-width: $max-width) {
+        #{$selector} {
+            -webkit-box-direction: normal;
+            -moz-box-direction: normal;
+            -webkit-box-orient: vertical;
+            -moz-box-orient: vertical;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+
+            .col, .col-10, .col-20, .col-25, .col-33, .col-34, .col-50, .col-66, .col-67, .col-75, .col-80, .col-90 {
+                @include flex(1);
+                margin-bottom: ($grid-padding-width * 3) / 2;
+                margin-left: 0;
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+    }
+}
+
+@mixin stick-to-bottom ($selector, $bottom: 15px, $minHeight: 438px, $minWidth: 0px) {
+    @media (min-height: $minHeight) and (min-width: $minWidth) {
+        #{$selector} {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: $bottom;
+        }
+    }
+}
+
+.col-85 {
+    @include flex(0, 0, 85%);
+    max-width: 85%;
+}
+
+
+@include responsive-grid-break('.responsive-xs', $grid-responsive-xs-break);

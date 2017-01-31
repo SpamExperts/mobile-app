@@ -48,6 +48,10 @@ angular.module('SpamExpertsApp')
                 }
             });
 
+            $rootScope.getCurrentYear = function () {
+                return $filter('date')(new Date(), 'yyyy')
+            };
+
             $rootScope.getDate = function (date, format) {
                 date = new Date(date.replace(/-/g, '/'));
                 return $filter('date')(date, format)

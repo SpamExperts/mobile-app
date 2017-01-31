@@ -1,68 +1,65 @@
 @import "definitions";
 
-/* Dashboard */
-.dashboard-header {
-  position: absolute;
-  top: $headerBarHeight;
-  width: 100%;
-  height: $dashboardHeader;
-}
+.dashboard-view {
+    background: $se-theme-color url('../../img/background.png');
+    background-size: contain;
 
-.dashboard.has-header {
-  top: $headerBarHeight + $dashboardHeader;
-  background: #fff;
-}
+    .custom-header {
+        position: absolute;
+        top: $headerBarHeight;
+        width: 100%;
+        height: $dashboardHeader;
 
-.dashboard-header * {
-  color: #fff;
-}
+        * {
+            color: #ffffff;
+        }
 
-.dashboard-header .role {
-  display: inline-block;
-  border: 1px #fff solid;
-  border-radius: 2px;
-  padding: 4px 6px 2px;
-  text-transform: uppercase;
-}
+        .role {
+            display: inline-block;
+            border-radius: 2px;
+            padding: 4px 6px 2px;
+            margin-top: 5px;
+            border: 1px #fff solid;
+            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: bold;
+        }
+    }
 
-.dashboard-body {
-  background: #ffffff;
-  height: 100%;
-  padding-top: 20px;
-}
+    .has-header {
+        top: $headerBarHeight + $dashboardHeader;
+        background: #ffffff;
+    }
 
-.dashboard-button {
-  background: #ffffff;
-}
+    ion-content {
+        background: #ffffff;
+        height: 100%;
+        padding-top: 20px;
+    }
 
-.dashboard-button i {
-  display: block;
-  padding: 50px 0 30px;
-}
+    .menu-item {
+        background: #ffffff;
 
-.dashboard-button i.icon:before{
-  color: #39B0DA;
-  font-size: 100px !important;
-}
+        i.icon {
+            display: block;
+            padding: 50px 0 30px;
 
-.dashboard-button .button-label {
-  line-height: 25px;
-}
+            &:before{
+                color: $se-theme-color;
+                font-size: 80px !important;
+            }
+        }
 
-/* dashboard style */
+        .button-label {
+            line-height: 25px;
+            font-size: 15px;
+        }
+    }
 
-.dashboard-item {
-  width: 100%;
-  text-align: left;
-}
+    .se-copyright {
+        font-size: 13px;
+    }
 
-.dashboard-title {
-  font-size: 150%;
-  line-height: 200%;
-  margin-left: 15px;
-}
+    @include stick-to-bottom('.se-copyright', ($headerBarHeight + $dashboardHeader + 15px), 540px, $grid-responsive-xs-break);
 
-.dashboard-item-name {
-  font-size: 110%;
-  line-height: 150%;
 }
