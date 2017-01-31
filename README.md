@@ -1,6 +1,6 @@
 [![Code Climate](https://codeclimate.com/github/SpamExperts/mobile-app/badges/gpa.svg)](https://codeclimate.com/github/SpamExperts/mobile-app) [![Issue Count](https://codeclimate.com/github/SpamExperts/mobile-app/badges/issue_count.svg)](https://codeclimate.com/github/SpamExperts/mobile-app)
 
-# <img src="img/se_logo.svg" style="width: 50px; height: 50px"/> Spamexperts mobile app
+# ![](img/se_logo.png) Spamexperts mobile app
 
 ### Steps to build the app:
 
