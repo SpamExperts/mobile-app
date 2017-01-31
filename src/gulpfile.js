@@ -15,7 +15,7 @@ var
 
     buildSources = {
         allCss:  [
-            'css/style.scss'
+            'styles/index.scss'
         ],
         allJs: [
             'js/common/utils.js',

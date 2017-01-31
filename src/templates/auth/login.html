@@ -1,11 +1,12 @@
-<ion-view view-title="Sign-In">
+<ion-view view-title="Sign-In" class="login-view">
     <ion-content class="padding">
         <div class="row">
-            <div class="col col-center login-view">
+            <div class="col col-center">
                 <div class="se-spacer"></div>
                 <div class="text-center">
-                    <img src="img/se_logo.svg" style="width: 60px;">
+                    <img src="img/se_logo.svg" class="se-icon">
                 </div>
+
                 <div class="list">
                     <label class="item item-input item-floating-label item-button-right no-rtl-border">
                         <span class="input-label se-bold">Hostname</span>
@@ -23,6 +24,7 @@
                         <input type="password" placeholder="Password" ng-model="data.password">
                     </label>
                 </div>
+
                 <ion-checkbox class="checkbox-square checkbox-dark no-border remember-me-checkbox" ng-model="data.remember" ng-true-value="'enabled'" ng-false-value="'disabled'" ng-change="toggleRemember(data.remember)">
                     <span class="se-bold">Keep me logged in</span>
                 </ion-checkbox>

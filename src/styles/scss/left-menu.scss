@@ -1,0 +1,51 @@
+@import "definitions";
+
+.left-menu .se-menu-entry i.icon:before {
+  color: #0a9dc7;
+}
+
+.left-menu-header {
+  height: $headerBarHeight + $dashboardHeader;
+  background: #eee;
+  padding: 50px;
+}
+
+.left-menu-header .role {
+  display: inline-block;
+  border: 1px #bfbfbf solid;
+  border-radius: 2px;
+  padding: 4px 6px 2px;
+  text-transform: uppercase;
+}
+
+
+@media (min-height: 438px) {
+  .left-menu-list {
+    position: relative;
+    top: 65px;
+    left: 0;
+    right: 0;
+  }
+
+  .log-out-box {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 15px;
+  }
+}
+
+.left-menu {
+  border-right: 1px $metallic-gray solid;
+}
+
+.left-menu .se-menu-entry {
+  border: none;
+  border-bottom: 1px #bfbfbf solid;
+  margin-top: 1px;
+}
+
+.log-out .icon:before {
+  font-size: 32px;
+  line-height: 38px;
+}

@@ -59,7 +59,7 @@ else
     rm -rf resources/splash.png resources/icon.png
 
     # cleanup
-    rm -rf www/css www/js www/lib www/src
+    rm -rf www/styles www/js www/lib www/src
 
     # build for platform
     if [ -z "$2" ]; then

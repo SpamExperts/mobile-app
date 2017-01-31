@@ -17,8 +17,8 @@
             <div class="row responsive-sm">
                 <div ng-repeat="item in menuItems" ng-if="!item.data.noDash" class="col col-50">
                     <a class="button button-full dashboard-button" ng-repeat="page in item.items" ui-sref="{{::page.data.state}}">
-                        <div style="width: 100%" class="text-center"><i class="icon {{::page.data.icon}}"></i></div>
-                        <div style="width: 100%" class="button-label text-center">{{::page.data.name}}</div>
+                        <div style="width: 100%; max-width: 170px" class="text-center"><i class="icon {{::page.data.icon}}"></i></div>
+                        <div style="width: 100%; max-width: 170px" class="button-label text-center">{{::page.data.name}}</div>
                     </a>
                 </div>
             </div>

@@ -1,0 +1,76 @@
+@import "definitions";
+
+.se-message {
+  padding: 0;
+}
+
+.se-message label {
+  padding: 16px;
+  background: transparent;
+}
+
+
+.se-message .col-85 {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 85%;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 85%;
+  -ms-flex: 0 0 85%;
+  flex: 0 0 85%;
+  max-width: 85%;
+
+  padding-right: 0;
+  text-overflow: ellipsis;
+}
+
+.se-message .col-10 {
+  padding-left: 0;
+}
+
+.se-message .message-title {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 0;
+}
+
+.se-message .content {
+  margin-top: 10px;
+}
+
+.se-message .checkbox.checkbox-input-hidden {
+  padding: 0;
+  /*margin-top: -27px;*/
+}
+
+.se-message i.checkbox-icon {
+  width: 42px;
+  height: 42px;
+}
+
+.se-message i.checkbox-icon:before {
+  border-color: #eee;
+  background: #eee;
+}
+
+.se-message i.checkbox-icon:after {
+  width: 14px;
+  height: 7px;
+  left: 36%;
+}
+
+.top-date {
+  font-size: 11px !important;
+  line-height: 36px !important;
+}
+
+.main-class {
+  padding: 2px 3px;
+  border-radius: 3px;
+}
+
+.selected-count {
+  display: inline !important;
+  padding: 4px 6px 2px;
+  border-radius: 3px;
+  font-size: 12px;
+}

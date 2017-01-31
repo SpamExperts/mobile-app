@@ -1,0 +1,45 @@
+
+@import "definitions";
+
+.message-detail-time {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 0;
+}
+
+.message-detail-headers {
+  padding: 10px 0;
+  background: #ffffff;
+  border-bottom: 1px #9a9a9a solid;
+  height: $detailHeadersHeight;
+}
+
+.message-detail-body {
+  position: absolute;
+
+  top: 1 + $detailHeadersHeight;
+  bottom: $footerBarHeight;
+  padding: $scrollPadding;
+  background: $metallic-gray;
+
+  width: 100%;
+}
+
+.message-scroll-container {
+  position: absolute;
+  top: $detailTabsHeight;
+  bottom: 0;
+  left: $scrollPadding;
+  right: $scrollPadding;
+}
+
+.message-scroll-container ion-scroll {
+  position: absolute;
+  height: 100%;
+  background: #ffffff;
+  padding: 20px;
+}
+
+.detail-tabs {
+  height: $detailTabsHeight;
+}

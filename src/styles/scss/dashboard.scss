@@ -1,0 +1,68 @@
+@import "definitions";
+
+/* Dashboard */
+.dashboard-header {
+  position: absolute;
+  top: $headerBarHeight;
+  width: 100%;
+  height: $dashboardHeader;
+}
+
+.dashboard.has-header {
+  top: $headerBarHeight + $dashboardHeader;
+  background: #fff;
+}
+
+.dashboard-header * {
+  color: #fff;
+}
+
+.dashboard-header .role {
+  display: inline-block;
+  border: 1px #fff solid;
+  border-radius: 2px;
+  padding: 4px 6px 2px;
+  text-transform: uppercase;
+}
+
+.dashboard-body {
+  background: #ffffff;
+  height: 100%;
+  padding-top: 20px;
+}
+
+.dashboard-button {
+  background: #ffffff;
+}
+
+.dashboard-button i {
+  display: block;
+  padding: 50px 0 30px;
+}
+
+.dashboard-button i.icon:before{
+  color: #39B0DA;
+  font-size: 100px !important;
+}
+
+.dashboard-button .button-label {
+  line-height: 25px;
+}
+
+/* dashboard style */
+
+.dashboard-item {
+  width: 100%;
+  text-align: left;
+}
+
+.dashboard-title {
+  font-size: 150%;
+  line-height: 200%;
+  margin-left: 15px;
+}
+
+.dashboard-item-name {
+  font-size: 110%;
+  line-height: 150%;
+}
