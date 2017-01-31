@@ -81,11 +81,30 @@ $dashboardHeader: 100px;
     background: rgba(57,176,218,0.7)!important;
 }
 
+.color-theme {
+    color: #39B0DA !important;
+}
+
 .se-loading .spinner svg {
     width: 48px;
     height: 48px;
     stroke: #fff;
     fill: #fff;
+}
+
+.help-button {
+    padding: 0;
+    border-radius: 50%;
+    top: 33px !important;
+    right: 2px!important;
+}
+
+.help-button i.icon {
+    margin: 0 auto;
+}
+
+.help-button i.icon:before {
+    font-size: 16px;
 }
 
 /* Alerts */
@@ -408,11 +427,42 @@ $dashboardHeader: 100px;
     background: transparent;
 }
 
-.se-message label.checkbox-square {
+.remember-me-checkbox {
+    padding-left: 40px;
+
+}
+
+.remember-me-checkbox .checkbox.checkbox-input-hidden {
+    padding: 0;
+    /*margin-top: -27px;*/
+}
+
+.login-view .item-floating-label{
+    padding-left: 0;
+}
+
+.remember-me-checkbox i.checkbox-icon {
+    width: 42px;
+    height: 42px;
+    margin-left: -13px;
+}
+
+.remember-me-checkbox i.checkbox-icon:before {
+    border-color: #eee;
+    background: #eee;
+}
+
+.remember-me-checkbox i.checkbox-icon:after {
+    width: 14px;
+    height: 7px;
+    left: 36%;
+}
+
+.remember-me-checkbox label.checkbox-square {
     padding: 0;
 }
 
-.se-message label.checkbox-square > .checkbox {
+.remember-me-checkbox label.checkbox-square > .checkbox {
     padding: 0;
     margin: 0;
     position: relative;
