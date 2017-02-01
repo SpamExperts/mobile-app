@@ -31,20 +31,7 @@
             padding: 0;
         }
 
-        label.checkbox-square {
-            padding: 0;
-
-            & > .checkbox {
-                padding: 0;
-                margin: 0;
-                position: relative;
-                top: 0;
-                left: 0;
-                right: 0;
-            }
-        }
-
-        i.checkbox-icon {
+        .checkbox-icon {
             width: 42px;
             height: 42px;
             margin-left: -13px;
@@ -58,7 +45,6 @@
                 width: 14px;
                 height: 7px;
                 left: 36%;
-                border-color: #000000;
             }
         }
     }
@@ -82,7 +68,7 @@
         height: 50px;
 
         div {
-            margin: 10px;
+            margin: 10px 5px;
         }
     }
 
@@ -91,8 +77,8 @@
         text-overflow: initial;
         white-space: initial;
 
-        .active {
-            background: #f5f7f9;
+        &.active {
+            background: $metallic-gray;
         }
     }
 

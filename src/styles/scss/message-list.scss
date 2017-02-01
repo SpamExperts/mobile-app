@@ -14,6 +14,7 @@
             font-size: 12px;
             font-weight: 500;
             padding: 0;
+            margin-right: 3px;
         }
 
         .content {
@@ -22,6 +23,8 @@
 
         .checkbox.checkbox-input-hidden {
             padding: 0;
+            left: auto;
+            right: 0;
         }
 
         .checkbox-dark input:checked+.checkbox-icon:before,
