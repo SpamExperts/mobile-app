@@ -1,51 +1,98 @@
 @import "definitions";
 
-.left-menu .se-menu-entry i.icon:before {
-  color: #0a9dc7;
-}
+.left-menu-view {
+    height: 100%;
+    border-right: 1px $metallic-gray solid;
+    background: $metallic-gray;
 
-.left-menu-header {
-  height: $headerBarHeight + $dashboardHeader;
-  background: #eee;
-  padding: 50px;
-}
+    h4 {
+        font-size: 17px;
+        color: #444444;
+    }
 
-.left-menu-header .role {
-  display: inline-block;
-  border: 1px #bfbfbf solid;
-  border-radius: 2px;
-  padding: 4px 6px 2px;
-  text-transform: uppercase;
-}
+    .bar-header {
+        .button:before {
+            color: #b0b0b0;
+        }
+    }
 
+    .custom-header {
+        position: absolute;
+        top: $bar-header-height;
+        width: 100%;
+        height: $custom-header-height;
 
-@media (min-height: 438px) {
-  .left-menu-list {
-    position: relative;
-    top: 65px;
-    left: 0;
-    right: 0;
-  }
+        * {
+            color: #444444;
+        }
 
-  .log-out-box {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 15px;
-  }
-}
+        .role {
+            display: inline-block;
+            border-radius: 2px;
+            padding: 4px 6px 2px;
+            margin-top: 5px;
+            border: 1px #b0b0b0 solid;
+            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: bold;
+        }
+    }
 
-.left-menu {
-  border-right: 1px $metallic-gray solid;
-}
+    .has-header {
+        top: $dashboard-header-total;
+        background: #ffffff;
+    }
 
-.left-menu .se-menu-entry {
-  border: none;
-  border-bottom: 1px #bfbfbf solid;
-  margin-top: 1px;
-}
+    ion-content {
+        background: #ffffff;
+        height: 100%;
+        padding-top: 20px;
 
-.log-out .icon:before {
-  font-size: 32px;
-  line-height: 38px;
+        & > .scroll {
+            min-height: 512px;
+        }
+    }
+
+    .menu-item {
+        border: none;
+        margin-top: 1px;
+        font-size: 15px;
+        border: 0;
+        padding-left: 5px;
+        padding-right: 5px;
+
+        a.item-content {
+            padding-left: 0;
+            padding-right: 40px;
+            border-bottom: 1px #bfbfbf solid;
+
+            i.icon:before {
+                right: 5px;
+                color: $se-theme-color;
+            }
+        }
+    }
+
+    .menu-item.active {
+        background: $metallic-gray;
+        border-radius: 5px;
+
+        a.item-content {
+            background: transparent;
+        }
+    }
+
+    @include stick-to-bottom('.log-out-box', ($dashboard-header-total + 40px), 540px);
+    .log-out-button {
+        .icon:before {
+            font-size: 32px;
+            line-height: 38px;
+        }
+    }
+
+    @include stick-to-bottom('.se-copyright', ($dashboard-header-total + 5px), 540px);
+
+    .se-copyright {
+        font-size: 13px;
+    }
 }

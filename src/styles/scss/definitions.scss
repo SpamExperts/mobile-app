@@ -4,9 +4,9 @@ $metallic-gray: #F8F8F8;
 $detailTabsHeight: 105px;
 $detailHeadersHeight: 81px;
 
-$headerBarHeight: 55px;
+$bar-header-height: 55px;
 $footerBarHeight: 55px;
-$dashboardHeader: 150px;
+$custom-header-height: 150px;
 
 $se-theme-color: #39B0DA;
 
@@ -15,6 +15,8 @@ $grid-responsive-xs-break:        270px !default;  // smaller than portrait phon
 $grid-responsive-sm-break:        567px !default;  // smaller than landscape phone
 $grid-responsive-md-break:        767px !default;  // smaller than portrait tablet
 $grid-responsive-lg-break:        1023px !default; // smaller than landscape tablet
+
+$dashboard-header-total: $bar-header-height + $custom-header-height;
 
 @mixin scale($h, $v) {
     transform: scale($h,$v); /* W3C */

@@ -143,7 +143,7 @@
 }
 
 .has-header {
-  top: $headerBarHeight;
+  top: $bar-header-height;
 }
 
 .has-footer {
@@ -151,14 +151,14 @@
 }
 
 .se-header-bar {
-  height: $headerBarHeight;
+  height: $bar-header-height;
   background-color: #39B0DA;
   border: 0;
   color: #fff;
 }
 
 .se-header-bar-stable {
-  height: $headerBarHeight;
+  height: $bar-header-height;
   background-color: $metallic-gray;
   border: 0;
   color: #fff;

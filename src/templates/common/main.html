@@ -3,14 +3,14 @@
         <ion-nav-view name="main-container"></ion-nav-view>
     </ion-side-menu-content>
 
-    <ion-side-menu side="left" on-swipe-left="closeLeft(false)">
-        <ion-content  drag-content="false">
-            <div ng-include="'templates/common/leftmenu.html'" style="height: 100%"></div>
-        </ion-content>
-    </ion-side-menu>
+    <ion-side-menu side="left"
+                   on-swipe-left="closeLeft(false)"
+                   ng-include="'templates/common/leftmenu.html'"
+                   class="left-menu-view"
+    ></ion-side-menu>
 
     <ion-side-menu side="right" on-swipe-right="closeRight(false)">
-        <ion-content  drag-content="false">
+        <ion-content drag-content="false">
             <ui-view name="right-side-menu"></ui-view>
         </ion-content>
     </ion-side-menu>
