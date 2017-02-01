@@ -1,7 +1,7 @@
-<ion-view>
+<ion-view class="messages-list-view">
     <ion-header-bar class="se-header-bar" align-title="center" on-tap="scrollTop()">
         <div class="buttons">
-            <button class="button button-icon icon ion-navicon" menu-toggle="left"></button>
+            <button class="button button-icon icon ion-navicon" ng-class="{'disabled': bulkMode}" on-tap="toggleLeftMenu()"></button>
         </div>
         <div class="title">
             <div class="row">
@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="buttons">
-            <button class="button button-icon icon ion-search" menu-toggle="right"></button>
+            <button class="button button-icon icon ion-search" ng-class="{'disabled': bulkMode}" on-tap="toggleRightMenu()"></button>
         </div>
     </ion-header-bar>
 
@@ -52,7 +52,7 @@
                             <h2>{{message['subject_header']}}</h2>
                         </div>
                     </div>
-                    <div class="col text-center">
+                    <div class="col text-right">
                         <div class="message-title">
                             {{getDate(message['datetime'], 'HH:mm')}}
                         </div>

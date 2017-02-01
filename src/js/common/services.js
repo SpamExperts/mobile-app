@@ -152,6 +152,7 @@ angular.module('SpamExpertsApp')
                     } else {
                         $rootScope.messageQueue[item] = [];
                     }
+                    $rootScope.forceScrollUpdate(150);
                 },
                 set: function (messageQueue) {
                     if (isEmpty(messageQueue)) return;

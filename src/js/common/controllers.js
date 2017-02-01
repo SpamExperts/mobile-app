@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .controller('CommonCtrl', ['$rootScope', '$state', '$filter', 'uiService', 'MessageQueue', 'ROUTES', 'GROUPS', 'USER_ROLES', 'API_EVENTS',
-        function($rootScope, $state, $filter, uiService, MessageQueue, ROUTES, GROUPS, USER_ROLES, API_EVENTS) {
+    .controller('CommonCtrl', ['$rootScope', '$state', '$filter', '$timeout', 'uiService', 'MessageQueue', 'ROUTES', 'GROUPS', 'USER_ROLES', 'API_EVENTS',
+        function($rootScope, $state, $filter, $timeout, uiService, MessageQueue, ROUTES, GROUPS, USER_ROLES, API_EVENTS) {
 
             $rootScope.removeQueueMessage = MessageQueue.remove;
 
@@ -48,6 +48,15 @@ angular.module('SpamExpertsApp')
                 }
             });
 
+            $rootScope.forceScrollUpdate = function (time) {
+                var scrollView = uiService.scrollDelegate.getScrollView();
+                if (scrollView) {
+                    $timeout(function () {
+                        uiService.scrollDelegate.resize();
+                    }, time);
+                }
+            };
+
             $rootScope.getCurrentYear = function () {
                 return $filter('date')(new Date(), 'yyyy')
             };
@@ -65,6 +74,18 @@ angular.module('SpamExpertsApp')
             // allow closing right menu using swipe
             $rootScope.closeRight = function () {
                 uiService.sideMenuDelegate.toggleRight(false);
+            };
+
+            $rootScope.toggleLeftMenu = function () {
+                if (!$rootScope.bulkMode) {
+                    uiService.sideMenuDelegate.toggleLeft();
+                }
+            };
+
+            $rootScope.toggleRightMenu = function () {
+                if (!$rootScope.bulkMode) {
+                    uiService.sideMenuDelegate.toggleRight();
+                }
             };
 
             // we should always be able to open LEFT side menu unless we're in bulk mode

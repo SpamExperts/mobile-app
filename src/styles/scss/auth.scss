@@ -1,116 +1,116 @@
 @import "definitions";
 
 .login-view {
-  .se-icon {
-    width: 60px;
-  }
-
-  .item-floating-label {
-    padding-left: 0;
-  }
-
-  .help-button {
-    padding: 0;
-    border-radius: 50%;
-    top: 33px !important;
-    right: 2px!important;
-
-    i.icon {
-      margin: 0 auto;
-
-      &:before {
-        font-size: 16px;
-      }
-    }
-  }
-
-  .remember-me-checkbox {
-    padding-left: 40px;
-
-    .checkbox.checkbox-input-hidden {
-      padding: 0;
+    .se-icon {
+        width: 60px;
     }
 
-    label.checkbox-square {
-      padding: 0;
+    .item-floating-label {
+        padding-left: 0;
+    }
 
-      & > .checkbox {
+    .help-button {
         padding: 0;
-        margin: 0;
-        position: relative;
-        top: 0;
-        left: 0;
-        right: 0;
-      }
+        border-radius: 50%;
+        top: 33px !important;
+        right: 2px!important;
+
+        i.icon {
+            margin: 0 auto;
+
+            &:before {
+                font-size: 16px;
+            }
+        }
     }
 
-    i.checkbox-icon {
-      width: 42px;
-      height: 42px;
-      margin-left: -13px;
+    .remember-me-checkbox {
+        padding-left: 40px;
 
-      &:before {
-        border-color: #eee;
-        background: #eee;
-      }
+        .checkbox.checkbox-input-hidden {
+            padding: 0;
+        }
 
-      &:after {
-        width: 14px;
-        height: 7px;
-        left: 36%;
-        border-color: #000000;
-      }
+        label.checkbox-square {
+            padding: 0;
+
+            & > .checkbox {
+                padding: 0;
+                margin: 0;
+                position: relative;
+                top: 0;
+                left: 0;
+                right: 0;
+            }
+        }
+
+        i.checkbox-icon {
+            width: 42px;
+            height: 42px;
+            margin-left: -13px;
+
+            &:before {
+                border-color: #eee;
+                background: #eee;
+            }
+
+            &:after {
+                width: 14px;
+                height: 7px;
+                left: 36%;
+                border-color: #000000;
+            }
+        }
     }
-  }
 }
 
 .troubleshooting {
 
-  .popup-head {
-    display: none !important;
-  }
-
-  .popup-body {
-    padding: 0;
-  }
-
-  .help-header {
-    padding: 5px 5px;
-    background: #39B0DA;
-    color: #ffffff;
-    font-size: 20px;
-    height: 50px;
-
-    div {
-      margin: 10px;
-    }
-  }
-
-  .group-text {
-    font-size: 13px;
-    text-overflow: initial;
-    white-space: initial;
-
-    .active {
-      background: #f5f7f9;
-    }
-  }
-
-  .list .item.item-accordion {
-    line-height: 38px;
-    padding-top: 0;
-    padding-bottom: 0;
-    transition: 0.09s all linear;
-
-    .ng-hide {
-      line-height: 0;
+    .popup-head {
+        display: none !important;
     }
 
-    .ng-hide-add,
-    .ng-hide-remove {
-      display: block !important;
+    .popup-body {
+        padding: 0;
     }
-  }
+
+    .help-header {
+        padding: 5px 5px;
+        background: #39B0DA;
+        color: #ffffff;
+        font-size: 20px;
+        height: 50px;
+
+        div {
+            margin: 10px;
+        }
+    }
+
+    .group-text {
+        font-size: 13px;
+        text-overflow: initial;
+        white-space: initial;
+
+        .active {
+            background: #f5f7f9;
+        }
+    }
+
+    .list .item.item-accordion {
+        line-height: 38px;
+        padding-top: 0;
+        padding-bottom: 0;
+        transition: 0.09s all linear;
+
+        .ng-hide {
+            line-height: 0;
+        }
+
+        .ng-hide-add,
+        .ng-hide-remove {
+            display: block !important;
+        }
+    }
 
 }
 

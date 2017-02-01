@@ -84,7 +84,7 @@ angular.module('SpamExpertsApp')
 
                 $timeout(function() {
                     $scope.$broadcast('scroll.infiniteScrollComplete');
-                    uiService.scrollDelegate.resize();
+                    $rootScope.forceScrollUpdate(0);
                 });
                 setTopBar();
             });
@@ -143,7 +143,7 @@ angular.module('SpamExpertsApp')
             $scope.pullToRefresh = function() {
 
                 if ($scope.loadingEntries === true) {
-                    uiService.scrollDelegate.resize();
+                    $rootScope.forceScrollUpdate(0);
                     return;
                 }
 
@@ -210,6 +210,7 @@ angular.module('SpamExpertsApp')
                     messagesService.selectMessage(index, directToggle);
                     $scope.selectedCount = uiService.kConvert(messagesService.countSelected());
                     $rootScope.bulkMode = messagesService.isBulkMode();
+                    $rootScope.forceScrollUpdate(150);
                 } else {
                     actionManager.noAvailableAction();
                 }
@@ -224,6 +225,7 @@ angular.module('SpamExpertsApp')
                 messagesService.selectAll(toogle);
                 $scope.selectedCount =  uiService.kConvert(messagesService.countSelected());
                 $rootScope.bulkMode = messagesService.isBulkMode();
+                $rootScope.forceScrollUpdate(150);
             };
 
             // handle clicking on BULK_ACTIONS
