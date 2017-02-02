@@ -37,6 +37,18 @@
         max-height: $custom-header-spacer-max-height;
     }
 
+    @media (max-height: 320px) {
+        .custom-header {
+            height: $custom-header-min-height;
+            max-height: $custom-header-min-height;
+        }
+
+        .custom-header-spacing {
+            height: $custom-header-spacer-min-height;
+            max-height: $custom-header-spacer-min-height;
+        }
+    }
+
     .has-header {
         top: $bar-header-height;
         background: #ffffff;
@@ -53,22 +65,33 @@
         }
     }
 
-     .menu-item {
-        background: #ffffff;
+    .items-container {
+        margin-top: 0;
 
-        i.icon {
-            display: block;
-            padding: 50px 0 30px;
+        .menu-item {
+            background: #ffffff;
 
-            &:before{
-                color: $se-theme-color;
-                font-size: 80px !important;
+            i.icon {
+                display: block;
+                padding: 10px 0 10px;
+
+                &:before {
+                    color: $se-theme-color;
+                    font-size: 80px !important;
+                }
+            }
+
+            .button-label {
+                margin-top: 20px;
+                line-height: 25px;
+                font-size: 15px;
             }
         }
+    }
 
-        .button-label {
-            line-height: 25px;
-            font-size: 15px;
+    @media (min-height: 540px) {
+        .items-container {
+            margin-top: 11%;
         }
     }
 

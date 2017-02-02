@@ -49,6 +49,18 @@
         max-height: $custom-header-spacer-max-height;
     }
 
+    @media (max-height: 320px) {
+        .custom-header {
+            height: $custom-header-min-height;
+            max-height: $custom-header-min-height;
+        }
+
+        .custom-header-spacing {
+            height: $custom-header-spacer-min-height;
+            max-height: $custom-header-spacer-min-height;
+        }
+    }
+
     .has-header {
         top: $bar-header-height;
         background: #ffffff;

@@ -25,11 +25,11 @@ $grid-responsive-md-break:        767px !default;  // smaller than portrait tabl
 $grid-responsive-lg-break:        1023px !default; // smaller than landscape tablet
 
 @mixin scale($h, $v) {
-    transform: scale($h,$v); /* W3C */
-    -webkit-transform: scale($h,$v); /* Safari and Chrome */
-    -moz-transform: scale($h,$v); /* Firefox */
-    -ms-transform: scale($h,$v); /* IE 9 */
-    -o-transform: scale($h,$v); /* Opera */
+    transform: scale($h,$v);
+    -webkit-transform: scale($h,$v);
+    -moz-transform: scale($h,$v);
+    -ms-transform: scale($h,$v);
+    -o-transform: scale($h,$v);
 }
 
 @mixin flex($fg: 1, $fs: null, $fb: null) {
@@ -63,7 +63,7 @@ $grid-responsive-lg-break:        1023px !default; // smaller than landscape tab
     }
 }
 
-@mixin stick-to-bottom ($selector, $bottom: 15px, $minHeight: 438px, $minWidth: 0px) {
+@mixin stick-to-bottom($selector, $bottom: 15px, $minHeight: 438px, $minWidth: 0px) {
     @media (min-height: $minHeight) and (min-width: $minWidth) {
         #{$selector} {
             position: absolute;

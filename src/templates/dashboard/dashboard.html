@@ -26,7 +26,8 @@
                         <h4>Your available products</h4>
                     </div>
                 </div>
-                <div class="row responsive-xs">
+
+                <div class="row responsive-xs items-container">
                     <div ng-repeat="item in menuItems" ng-if="!item.data.noDash" class="col col-50">
                         <a class="button button-full menu-item" ng-repeat="page in item.items" ui-sref="{{::page.data.state}}">
                             <div class="text-center"><i class="icon {{::page.data.icon}}"></i></div>
