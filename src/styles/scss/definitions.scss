@@ -6,7 +6,15 @@ $detailHeadersHeight: 81px;
 
 $bar-header-height: 55px;
 $footerBarHeight: 55px;
-$custom-header-height: 150px;
+
+
+$custom-header-height: 40%;
+$custom-header-min-height: 85px;
+$custom-header-max-height: 190px;
+
+$custom-header-spacer-height: $custom-header-height - 8%;
+$custom-header-spacer-min-height: $custom-header-min-height - $bar-header-height;
+$custom-header-spacer-max-height: $custom-header-max-height - $bar-header-height;
 
 $se-theme-color: #39B0DA;
 
@@ -15,8 +23,6 @@ $grid-responsive-xs-break:        270px !default;  // smaller than portrait phon
 $grid-responsive-sm-break:        567px !default;  // smaller than landscape phone
 $grid-responsive-md-break:        767px !default;  // smaller than portrait tablet
 $grid-responsive-lg-break:        1023px !default; // smaller than landscape tablet
-
-$dashboard-header-total: $bar-header-height + $custom-header-height;
 
 @mixin scale($h, $v) {
     transform: scale($h,$v); /* W3C */
