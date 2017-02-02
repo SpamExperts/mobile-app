@@ -49,7 +49,7 @@
         max-height: $custom-header-spacer-max-height;
     }
 
-    @media (max-height: 320px) {
+    @include landscape {
         .custom-header {
             height: $custom-header-min-height;
             max-height: $custom-header-min-height;

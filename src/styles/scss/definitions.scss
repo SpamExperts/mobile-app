@@ -74,6 +74,15 @@ $grid-responsive-lg-break:        1023px !default; // smaller than landscape tab
     }
 }
 
+@mixin landscape() {
+    @media (max-width: 300px) {
+        @content;
+    }
+    @media (max-height: 420px) and (orientation: landscape) {
+        @content;
+    }
+}
+
 .col-85 {
     @include flex(0, 0, 85%);
     max-width: 85%;
