@@ -1,53 +1,62 @@
-    <ion-header-bar class="se-header-bar bar-transparent">
-        <div class="buttons"></div>
-        <div class="title"></div>
-        <div class="buttons">
-            <button class="button button-icon icon ion-chevron-right" menu-toggle="left"></button>
-        </div>
-    </ion-header-bar>
-    <div class="custom-header flex-center">
-        <div>
-            <h3 class="title text-center">{{::username}}</h3>
-            <div class="text-center">
-                <span class="role">{{::role}}</span>
-            </div>
+<ion-header-bar class="se-header-bar bar-transparent">
+    <div class="buttons"></div>
+    <div class="title"></div>
+    <div class="buttons">
+        <button class="button button-icon icon ion-chevron-right" menu-toggle="left"></button>
+    </div>
+</ion-header-bar>
+
+<div class="custom-header flex-center">
+    <div>
+        <h3 class="title text-center">{{::username}}</h3>
+        <div class="text-center">
+            <span class="role">{{::role}}</span>
         </div>
     </div>
-    <ion-content class="has-header">
-        <div class="row">
-            <div class="col">
-                <h4>Your available products</h4>
-            </div>
-        </div>
+</div>
 
-        <div class="row">
-            <div class="col">
-                <ion-list class="left-menu-list">
-                    <div ng-repeat="item in menuItems" ng-if="!item.data.noDash">
-                        <ion-item
-                                ng-repeat="page in item.items"
-                                class="item-icon-right menu-item"
-                                ui-sref-active="active"
-                                ui-sref="{{::page.data.state}}">
+<ion-content class="has-header" style="background: transparent" scroll="false">
 
-                            <i class="icon {{::page.data.icon}}"></i> {{::page.data.name}}
-                        </ion-item>
-                    </div>
-                </ion-list>
-            </div>
-        </div>
+    <div class="custom-header-spacing"></div>
 
-        <div class="row log-out-box">
-            <div class="col">
-                <button class="button button-block button-light metallic-border log-out-button" on-tap="logout()">
-                    <i class="icon ion-ios-download-outline icon-rotate-90"></i>&nbsp;&nbsp;Log out
-                </button>
+    <div class="menu">
+        <ion-content>
+            <div class="row">
+                <div class="col">
+                    <h4>Your available products</h4>
+                </div>
             </div>
-        </div>
 
-        <div class="row se-copyright">
-            <div class="col text-center">
-                &copy; {{::getCurrentYear()}} SpamExperts
+            <div class="row">
+                <div class="col">
+                    <ion-list class="left-menu-list">
+                        <div ng-repeat="item in menuItems" ng-if="!item.data.noDash">
+                            <ion-item
+                                    ng-repeat="page in item.items"
+                                    class="item-icon-right menu-item"
+                                    ui-sref-active="active"
+                                    ui-sref="{{::page.data.state}}">
+
+                                <i class="icon {{::page.data.icon}}"></i> {{::page.data.name}}
+                            </ion-item>
+                        </div>
+                    </ion-list>
+                </div>
             </div>
-        </div>
-    </ion-content>
+
+            <div class="row log-out-box">
+                <div class="col">
+                    <button class="button button-block button-light metallic-border log-out-button" on-tap="logout()">
+                        <i class="icon ion-ios-download-outline icon-rotate-90"></i>&nbsp;&nbsp;Log out
+                    </button>
+                </div>
+            </div>
+
+            <div class="row se-copyright">
+                <div class="col text-center">
+                    &copy; {{::getCurrentYear()}} SpamExperts
+                </div>
+            </div>
+        </ion-content>
+    </div>
+</ion-content>
