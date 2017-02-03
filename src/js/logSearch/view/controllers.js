@@ -201,6 +201,7 @@ angular.module('SpamExpertsApp')
                     }, {reload: true});
                 } else {
                     actionManager.noViewAction();
+                    $rootScope.scrollTop();
                 }
             };
 
@@ -212,7 +213,9 @@ angular.module('SpamExpertsApp')
                     $rootScope.bulkMode = messagesService.isBulkMode();
                     $rootScope.forceScrollUpdate(150);
                 } else {
+                    $scope.messageEntries[index].isChecked = false;
                     actionManager.noAvailableAction();
+                    $rootScope.scrollTop();
                 }
             };
 

@@ -163,6 +163,8 @@ angular.module('SpamExpertsApp')
                     $rootScope.messageQueue['notice']  = unique($rootScope.messageQueue['notice'].concat(messageQueue.notice || []));
                     $rootScope.messageQueue['success'] = unique($rootScope.messageQueue['success'].concat(messageQueue.success || []));
 
+                    $rootScope.forceScrollUpdate(150);
+
                     if (queueTimer) {
                         $timeout.cancel(queueTimer);
                     }
