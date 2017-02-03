@@ -7,23 +7,25 @@
                     <img src="img/se_logo.svg" class="se-icon">
                 </div>
 
-                <div class="list">
-                    <label class="item item-input item-floating-label item-button-right no-rtl-border">
+                <ion-list>
+                    <ion-item class="item item-input item-floating-label item-button-right no-rtl-border">
                         <span class="input-label se-bold">Hostname</span>
-                        <input type="text" placeholder="Hostname" ng-model="data.hostname" ng-blur="isShowingHelp" autocapitalize="off">
-                        <button class="button help-button" on-tap="showHelper()">
+                        <input type="text" placeholder="Hostname" ng-model="data.hostname" autocapitalize="off">
+                        <button class="button help-button" on-tap="$event.stopPropagation();showHelper()">
                             <i class="icon ion-help"></i>
                         </button>
-                    </label>
-                    <label class="item item-input item-floating-label no-rtl-border">
+                    </ion-item>
+
+                    <ion-item class="item item-input item-floating-label no-rtl-border">
                         <span class="input-label se-bold">Username</span>
                         <input type="text" placeholder="User" ng-model="data.username" ng-blur="isShowingHelp" autocapitalize="off">
-                    </label>
-                    <label class="item item-input item-floating-label no-rtl-border">
+                    </ion-item>
+
+                    <ion-item class="item item-input item-floating-label no-rtl-border">
                         <span class="input-label se-bold">Password</span>
                         <input type="password" placeholder="Password" ng-model="data.password" ng-blur="isShowingHelp">
-                    </label>
-                </div>
+                    </ion-item>
+                </ion-list>
 
                 <ion-checkbox class="checkbox-square checkbox-dark no-border remember-me-checkbox" ng-model="data.remember" ng-true-value="'enabled'" ng-false-value="'disabled'" ng-change="toggleRemember(data.remember)">
                     <span class="se-bold">Keep me logged in</span>
