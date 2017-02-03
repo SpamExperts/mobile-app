@@ -1,6 +1,7 @@
 angular.module('SpamExpertsApp')
     .controller('LoginCtrl', ['$scope', '$state', 'uiService', 'AuthService', 'MessageQueue',
         function($scope, $state, uiService, AuthService, MessageQueue) {
+            $scope.isShowingHelp = false;
 
             $scope.$on('$stateChangeSuccess', function () {
                 $scope.data = AuthService.getUserCredentials();
@@ -38,6 +39,7 @@ angular.module('SpamExpertsApp')
             };
 
             $scope.showHelper = function () {
+                $scope.isShowingHelp = true;
                 $scope.troubleShoot =
                     uiService.popup(
                         {
@@ -46,9 +48,13 @@ angular.module('SpamExpertsApp')
                             scope: $scope,
                             buttons: []
                         }
-                    )
+                    );
             };
 
+            $scope.closeHelper = function () {
+                $scope.isShowingHelp = false;
+                $scope.troubleShoot.close();
+            };
 
             $scope.groups = [
                 {
@@ -72,6 +78,7 @@ angular.module('SpamExpertsApp')
                     $scope.shownGroup = group;
                 }
             };
+
             $scope.isGroupShown = function(group) {
                 return $scope.shownGroup === group;
             };

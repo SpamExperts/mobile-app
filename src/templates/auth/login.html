@@ -10,18 +10,18 @@
                 <div class="list">
                     <label class="item item-input item-floating-label item-button-right no-rtl-border">
                         <span class="input-label se-bold">Hostname</span>
-                        <input type="text" placeholder="Hostname" ng-model="data.hostname" autocapitalize="off">
+                        <input type="text" placeholder="Hostname" ng-model="data.hostname" ng-blur="isShowingHelp" autocapitalize="off">
                         <button class="button help-button" on-tap="showHelper()">
                             <i class="icon ion-help"></i>
                         </button>
                     </label>
                     <label class="item item-input item-floating-label no-rtl-border">
                         <span class="input-label se-bold">Username</span>
-                        <input type="text" placeholder="User" ng-model="data.username" autocapitalize="off">
+                        <input type="text" placeholder="User" ng-model="data.username" ng-blur="isShowingHelp" autocapitalize="off">
                     </label>
                     <label class="item item-input item-floating-label no-rtl-border">
                         <span class="input-label se-bold">Password</span>
-                        <input type="password" placeholder="Password" ng-model="data.password">
+                        <input type="password" placeholder="Password" ng-model="data.password" ng-blur="isShowingHelp">
                     </label>
                 </div>
 

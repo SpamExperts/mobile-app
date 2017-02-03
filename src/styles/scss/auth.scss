@@ -65,7 +65,7 @@
     }
 
     .help-header {
-        padding: 10px 20px 5px 15px;
+        padding: 15px 20px 10px 15px;
         background: #39B0DA;
         color: #fff;
         font-size: 20px;
@@ -80,31 +80,41 @@
         }
     }
 
-    .group-text {
-        font-size: 13px;
-        text-overflow: initial;
-        white-space: initial;
+    .list {
+        .item.item-icon-right {
 
-        &.active {
-            background: $metallic-gray;
+            &.activated {
+                background: $metallic-gray;
+            }
+
+            .icon {
+                font-size: 20px;
+            }
+        }
+
+        .item.item-accordion {
+            font-size: 13px;
+            text-overflow: initial;
+            white-space: initial;
+
+            line-height: 38px;
+            padding-top: 0;
+            padding-bottom: 0;
+            transition: 0.09s all linear;
+
+            &.ng-hide {
+                line-height: 0px;
+            }
+
+            &.ng-hide-add,
+            &.ng-hide-remove {
+                display: block !important;
+            }
+
+            &.active {
+                background: $metallic-gray;
+            }
         }
     }
-
-    .list .item.item-accordion {
-        line-height: 38px;
-        padding-top: 0;
-        padding-bottom: 0;
-        transition: 0.09s all linear;
-
-        .ng-hide {
-            line-height: 0;
-        }
-
-        .ng-hide-add,
-        .ng-hide-remove {
-            display: block !important;
-        }
-    }
-
 }
 
