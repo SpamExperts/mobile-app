@@ -51,13 +51,15 @@
 
     @include landscape {
         .custom-header {
-            height: $custom-header-min-height;
-            max-height: $custom-header-min-height;
+            height: $custom-header-height-landscape;
+            min-height: $custom-header-min-height-landscape;
+            max-height: $custom-header-max-height-landscape;
         }
 
         .custom-header-spacing {
-            height: $custom-header-spacer-min-height;
-            max-height: $custom-header-spacer-min-height;
+            height: $custom-header-spacer-height-landscape;
+            min-height: $custom-header-spacer-min-height-landscape;
+            max-height: $custom-header-spacer-max-height-landscape;
         }
     }
 
