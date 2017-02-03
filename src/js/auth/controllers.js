@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .controller('LoginCtrl', ['$scope', '$state', 'uiService', 'AuthService', 'MessageQueue',
-        function($scope, $state, uiService, AuthService, MessageQueue) {
+    .controller('LoginCtrl', ['$scope', '$state', '$timeout', 'uiService', 'AuthService', 'MessageQueue',
+        function($scope, $state, $timeout, uiService, AuthService, MessageQueue) {
 
             $scope.$on('$stateChangeSuccess', function () {
                 $scope.data = AuthService.getUserCredentials();
@@ -38,15 +38,19 @@ angular.module('SpamExpertsApp')
             };
 
             $scope.showHelper = function () {
-                $scope.troubleShoot =
-                    uiService.popup(
-                        {
-                            templateUrl: 'templates/auth/help.html',
-                            cssClass: 'troubleshooting',
-                            scope: $scope,
-                            buttons: []
-                        }
-                    );
+
+                $timeout(function () {
+                    $scope.troubleShoot =
+                        uiService.popup(
+                            {
+                                templateUrl: 'templates/auth/help.html',
+                                cssClass: 'troubleshooting',
+                                scope: $scope,
+                                buttons: []
+                            }
+                        );
+                }, 250);
+
             };
 
             $scope.closeHelper = function () {
