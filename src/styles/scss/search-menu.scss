@@ -1,1 +1,103 @@
 @import "definitions";
+
+.search-menu-view {
+
+    ion-header-bar {
+        height: $bar-header-height;
+        background: $metallic-gray;
+        border: 0;
+        color: #444444;
+
+        .title.title-left {
+            line-height: $bar-header-height;
+        }
+    }
+
+    h4 {
+        font-size: 17px;
+        color: #444444;
+        margin: 10px 0 0 10px;
+    }
+
+    .has-header {
+        top: $bar-header-height;
+        background: #ffffff;
+    }
+
+    ion-content {
+        .row {
+            padding-top: 0;
+            .col {
+                padding-top: 0;
+            }
+        }
+    }
+
+    ion-content .list {
+        .item {
+            font-size: 15px;
+            padding-left: 5px;
+            padding-right: 5px;
+
+            .has-input {
+                font-weight: 600;
+            }
+
+            .required:after {
+                content: '*';
+                color: $se-theme-color;
+                font-size: 20px;
+                position: absolute;
+                top: 50%;
+                right: 0;
+            }
+        }
+
+        .datetime-buttons {
+            .button {
+                padding-left: 2px;
+                padding-right: 2px;
+                font-size: 12px;
+                font-weight: bold;
+                margin: 0 3px;
+                min-height: 40px;
+                line-height: 12px;
+
+                &:first-child {
+                    margin-left: 0;
+                }
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+
+        .row {
+            padding: 0;
+
+            .col-50:first-child {
+                .datetime-input{
+                    margin-right: 10px;
+                }
+            }
+
+            .datetime-input {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .datetime-input .time {
+                font-size: 80%
+            }
+        }
+    }
+
+    .actions {
+        .button.icon-left:before {
+            float: none;
+        }
+    }
+
+
+}

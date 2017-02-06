@@ -55,6 +55,18 @@ angular.module('SpamExpertsApp')
                     }
                     return now;
                 },
+                getXDaysBackDate: function (days) {
+                    var now = new Date();
+                    now.setSeconds(0);
+                    now.setDate(now.getDate() - days);
+                    return now;
+                },
+                getXMonthsBackDate: function (months) {
+                    var now = new Date();
+                    now.setSeconds(0);
+                    now.setMonth(now.getMonth() - months);
+                    return now;
+                },
                 getSearchCriteria: function(apiDates) {
                     var criteria = this.getDefaultCriteria();
                     var currentCriteria = $localstorage.get('searchCriteria.' + this.direction, filterDates(criteria), true);

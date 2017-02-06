@@ -91,6 +91,11 @@ $grid-responsive-lg-break:        1023px !default; // smaller than landscape tab
     }
 }
 
+.col-33 {
+    @include flex(0, 0, 33.33%);
+    max-width: 33.33%;
+}
+
 .col-85 {
     @include flex(0, 0, 85%);
     max-width: 85%;

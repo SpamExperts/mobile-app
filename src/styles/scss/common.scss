@@ -1,12 +1,5 @@
 @import "definitions";
 
-.datetime-input {
-    margin: 0 5px;
-}
-.datetime-input .time {
-    font-size: 80%
-}
-
 .higher-text {
     @include scale(1, 1.2);
 }

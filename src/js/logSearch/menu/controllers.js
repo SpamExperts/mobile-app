@@ -62,5 +62,21 @@ angular.module('SpamExpertsApp')
                 });
             };
 
+
+            $scope.past24Hours = function () {
+                $scope.searchCriteria.since = criteriaService.getXDaysBackDate(1);
+                $scope.searchCriteria.until = criteriaService.getCurrentDate();
+            };
+
+            $scope.pastWeek = function () {
+                $scope.searchCriteria.since = criteriaService.getXDaysBackDate(7);
+                $scope.searchCriteria.until = criteriaService.getCurrentDate();
+            };
+
+            $scope.pastMonth = function () {
+                $scope.searchCriteria.since = criteriaService.getXMonthsBackDate(1);
+                $scope.searchCriteria.until = criteriaService.getCurrentDate();
+            };
+
         }
     ]);

@@ -303,6 +303,17 @@ angular.module('SpamExpertsApp')
         logSearch: {
             fields: [
                 {
+                    label: 'Domain',
+                    type: 'text',
+                    model: 'domain',
+                    required: true,
+                    condition: function(params, constant) {
+                        return -1 < [
+                                constant['USER_ROLES'].admin
+                            ].indexOf(params['role']);
+                    }
+                },
+                {
                     label: 'Sender',
                     type: 'email',
                     model: 'sender',
@@ -325,22 +336,12 @@ angular.module('SpamExpertsApp')
                             ].indexOf(params['role'])
                             || params['direction'] == constant['GROUPS'].outgoing;
                     }
-                },
-                {
-                    label: 'Domain',
-                    type: 'text',
-                    model: 'domain',
-                    condition: function(params, constant) {
-                        return -1 < [
-                                constant['USER_ROLES'].admin
-                            ].indexOf(params['role']);
-                    }
                 }
             ],
             actions: [
                 {
                     label: 'Search messages',
-                    cssClass: 'button button-block button-dark icon-left ion-search se-bold',
+                    cssClass: 'button button-block button-dark icon-left ion-ios-search-strong se-bold',
                     action: 'doSearch()'
                 },
                 {

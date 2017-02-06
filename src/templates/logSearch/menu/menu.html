@@ -1,33 +1,70 @@
-<ion-view>
-    <ion-header-bar class="se-header-bar-stable">
+<ion-view class="search-menu-view">
+    <ion-header-bar>
         <div class="buttons">
-            <button class="button button-icon icon ion-chevron-left" menu-toggle="right"></button>
+            <button class="button button-icon icon ion-ios-arrow-left" menu-toggle="right"></button>
         </div>
+        <div class="title">Back to results</div>
     </ion-header-bar>
-    <ion-content class="has-header padding">
-        Search messages
-        <div class="list">
-            <label class="item item-input item-floating-label no-rtl-border" ng-repeat="field in criteriaFields">
-                <span class="input-label">{{::field.label}}</span>
-                <input type="{{::field.type}}" placeholder="{{::field.label}}" ng-model="searchCriteria[field.model]" autocapitalize="off">
-            </label>
+    <ion-content class="has-header">
 
-            <div class="button-bar">
-                <label class="item item-input item-floating-label no-rtl-border datetime-input" ion-datetime-picker ng-model="searchCriteria['since']">
-                    <span class="input-label has-input">From date</span>
-                    <div class="time">{{searchCriteria['since']| date: dateFormat}}</div>
-                </label>
+        <h4>Search messages</h4>
+        <div class="row">
+            <div class="col">
+                <div class="list">
+                    <label class="item item-input item-floating-label no-rtl-border" ng-repeat="field in criteriaFields">
+                        <span class="input-label">{{::field.label}}</span>
+                        <span ng-class="{'required': field.required}">
+                            <input type="{{::field.type}}" placeholder="{{::field.label}}" ng-model="searchCriteria[field.model]" autocapitalize="off">
+                        </span>
+                    </label>
 
-                <label class="item item-input item-floating-label no-rtl-border datetime-input" ion-datetime-picker ng-model="searchCriteria['until']">
-                    <span class="input-label has-input">To date</span>
-                    <div class="time">{{searchCriteria['until']| date: dateFormat}}</div>
-                </label>
+                    <label class="item item-input item-floating-label no-border datetime-buttons">
+                        <span class="input-label has-input">Sent</span>
+                        <div class="row">
+                            <button class="button button-block button-light metallic-border" on-tap="past24Hours()">
+                                Past 24H
+                            </button>
+
+                            <button class="button button-block button-light metallic-border" on-tap="pastWeek()">
+                                Past Week
+                            </button>
+
+                            <button class="button button-block button-light metallic-border" on-tap="pastMonth()">
+                                Past Month
+                            </button>
+                        </div>
+                    </label>
+
+                    <label class="item item-input item-floating-label no-border">
+                        <span class="input-label has-input">Custom timeframe</span>
+                        <div class="row">
+                            <div class="col-50">
+                                <label class="item item-input item-floating-label no-rtl-border datetime-input" ion-datetime-picker ng-model="searchCriteria['since']">
+                                    <span class="input-label has-input">From date</span>
+                                    <div class="time">{{searchCriteria['since']| date: dateFormat}}</div>
+                                </label>
+                            </div>
+                            <div class="col-50">
+                                <label class="item item-input item-floating-label no-rtl-border datetime-input" ion-datetime-picker ng-model="searchCriteria['until']">
+                                    <span class="input-label has-input">To date</span>
+                                    <div class="time">{{searchCriteria['until']| date: dateFormat}}</div>
+                                </label>
+                            </div>
+                        </div>
+                    </label>
+                </div>
             </div>
+        </div>
 
-            <div class="se-spacer"></div>
-            <button class="{{::action.cssClass}}" on-tap="{{::action.action}}" ng-repeat="action in criteriaActions">
-                {{::action.label}}
-            </button>
+        <div class="row actions">
+            <div class="col">
+                <button class="{{::action.cssClass}}" on-tap="{{::action.action}}" ng-repeat="action in criteriaActions">
+                    {{::action.label}}
+                </button>
+            </div>
+        </div>
+        <div class="text-center color-theme se-bold" ng-if="isSuperAdmin()">
+            Fields marked with * are required
         </div>
     </ion-content>
 </ion-view>

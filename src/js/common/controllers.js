@@ -57,6 +57,10 @@ angular.module('SpamExpertsApp')
                 }
             };
 
+            $rootScope.isSuperAdmin = function () {
+                return $rootScope.role === USER_ROLES.admin;
+            };
+
             $rootScope.getCurrentYear = function () {
                 return $filter('date')(new Date(), 'yyyy')
             };
