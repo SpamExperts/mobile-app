@@ -16,7 +16,7 @@
     h4 {
         font-size: 17px;
         color: #444444;
-        margin: 10px 0 0 10px;
+        margin: 15px 0 0 10px;
     }
 
     .has-header {
@@ -99,5 +99,11 @@
         }
     }
 
+    .required-text {
+        color: $se-theme-color;
+        text-align: center;
+        font-weight: 600;
+        font-size: 12px;
+    }
 
 }

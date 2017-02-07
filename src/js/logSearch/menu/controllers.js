@@ -48,6 +48,7 @@ angular.module('SpamExpertsApp')
 
             $scope.doSearch = function() {
                 criteriaService.setSearchCriteria($scope.searchCriteria);
+                $rootScope.toggleRightMenu();
                 $timeout(function() {
                     $rootScope.$broadcast('refreshEntries');
                 });
@@ -57,11 +58,11 @@ angular.module('SpamExpertsApp')
                 var defaultCriteria = criteriaService.getDefaultCriteria();
                 criteriaService.setSearchCriteria(defaultCriteria);
                 $scope.searchCriteria = defaultCriteria;
+                $rootScope.toggleRightMenu();
                 $timeout(function() {
                     $rootScope.$broadcast('refreshEntries');
                 });
             };
-
 
             $scope.past24Hours = function () {
                 $scope.searchCriteria.since = criteriaService.getXDaysBackDate(1);
