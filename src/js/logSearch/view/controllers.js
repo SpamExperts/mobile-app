@@ -114,8 +114,6 @@ angular.module('SpamExpertsApp')
 
                         $scope.loadingEntries = false;
 
-                        $scope.openMessage($scope.messageEntries[0]); // debug certain message;
-
                         // broadcast the proper event
                         if (type == 'infinite') {
                             $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -266,8 +264,7 @@ angular.module('SpamExpertsApp')
             // We can not stay on a message preview if no messages have been
             // previously loaded since we can't know what to request
             if (isEmpty(message)) {
-                $state.go('main.incomingLogSearch', {}, {reload: true}); // debug certain message;
-                // $state.go('main.dash', {}, {reload: true});
+                $state.go('main.dash', {}, {reload: true});
                 return;
             }
 
