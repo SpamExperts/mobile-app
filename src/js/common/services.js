@@ -682,8 +682,31 @@ angular.module('SpamExpertsApp')
                             }
                         }
                     };
+                },
+                tooltip: function () {
+                    return {
+                        show: function (list, $event) {
+                            var $scope = $rootScope.$new();
+                            $scope.list = list;
 
+                            $ionicPopover.fromTemplateUrl('templates/common/tooltip-list.html', {
+                                scope: $scope
+                            }).then(function(popover) {
+                                $rootScope.popover = popover;
+                                $rootScope.popover.show($event);
+                            });
 
+                            $scope.$on('popover.hidden', function() {
+                                $rootScope.popover.remove();
+                            });
+                        },
+                        hide: function () {
+                            if ($rootScope.popover) {
+                                $rootScope.popover.hide();
+                                $rootScope.popover.remove();
+                            }
+                        }
+                    };
                 },
                 actionSheet: function (actions, success) {
                     var actionSheet = $ionicActionSheet.show({

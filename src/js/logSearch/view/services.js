@@ -139,22 +139,26 @@ angular.module('SpamExpertsApp')
                             }
                         });
                 },
-                viewMessage: function (message) {
+                viewMessage: function (message, type) {
 
                     if (message) {
+
                         this.messageParts = message;
 
-                        var self = this;
+                        if (!this.messageParts.details) {
+                            this.messageParts.details = {};
+                        }
 
+                        var self = this;
                         return Api.request({
                                 direction: this.direction,
                                 resource: 'logSearch',
-                                action: 'view',
+                                action: type,
                                 requestParams: message,
                                 filterParams: true
                             })
                             .success(function (response) {
-                                self.messageParts.details = response['mail'];
+                                angular.extend(self.messageParts.details, response['mail']);
                             });
                     }
 

@@ -70,6 +70,10 @@ angular.module('SpamExpertsApp')
                 return $filter('date')(date, format)
             };
 
+            $rootScope.kConvert = function (value) {
+                return uiService.kConvert(value);
+            };
+
             // allow closing left menu using swipe
             $rootScope.closeLeft = function () {
                 uiService.sideMenuDelegate.toggleLeft(false);

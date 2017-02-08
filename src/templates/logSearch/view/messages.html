@@ -34,6 +34,8 @@
                     collection-repeat="message in messageEntries"
                     on-hold="selectEntry($index)"
                     on-tap="openMessage(message)"
+                    collection-item-width="100%"
+                    collection-item-height="92px"
             >
                 <div class="row">
                     <div class="col col-85">
@@ -49,7 +51,8 @@
                         </div>
                         <div class="content">
                             <h3 class="grayedout-text">{{message['sender']}}</h3>
-                            <h2>{{message['subject_header']}}</h2>
+                            <h2 ng-if="!message['subject_header']">&lt; No subject &gt;</h2>
+                            <h2 ng-if="message['subject_header']">{{::message['subject_header']}}</h2>
                         </div>
                     </div>
                     <div class="col text-right">

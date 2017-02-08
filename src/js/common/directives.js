@@ -20,7 +20,7 @@ angular.module('SpamExpertsApp')
 
                     iframe.style.width = '100%';
                     scope.$watch('content', function () {
-                        body.innerHTML = scope.content;
+                        body.innerHTML = scope.content ? scope.content : '';
                         iframe.style.height = body.scrollHeight + 'px';
                     });
                 },

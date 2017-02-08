@@ -114,6 +114,8 @@ angular.module('SpamExpertsApp')
 
                         $scope.loadingEntries = false;
 
+                        $scope.openMessage($scope.messageEntries[0]); // debug certain message;
+
                         // broadcast the proper event
                         if (type == 'infinite') {
                             $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -196,7 +198,8 @@ angular.module('SpamExpertsApp')
                         message: message,
                         previousState: {
                             group: $state.current.data.group,
-                            state: $state.current.data.state
+                            state: $state.current.data.state,
+                            searchDomain: $scope.searchDomain
                         }
                     }, {reload: true});
                 } else {
@@ -255,15 +258,16 @@ angular.module('SpamExpertsApp')
         }
     ])
 
-    .controller('MessageDetailCtrl', ['$rootScope', '$scope', '$state', '$timeout', 'MessageQueue', 'MessagesService', 'ActionManager',
-        function($rootScope, $scope, $state, $timeout, MessageQueue, MessagesService, ActionManager) {
+    .controller('MessageDetailCtrl', ['$rootScope', '$scope', '$state', '$timeout', 'MessageQueue', 'MessagesService', 'ActionManager', 'uiService',
+        function($rootScope, $scope, $state, $timeout, MessageQueue, MessagesService, ActionManager, uiService) {
 
             var message = angular.copy($state.params.message);
 
             // We can not stay on a message preview if no messages have been
             // previously loaded since we can't know what to request
             if (isEmpty(message)) {
-                $state.go('main.dash', {}, {reload: true});
+                $state.go('main.incomingLogSearch', {}, {reload: true}); // debug certain message;
+                // $state.go('main.dash', {}, {reload: true});
                 return;
             }
 
@@ -272,10 +276,40 @@ angular.module('SpamExpertsApp')
                 messageParts: {}
             });
 
+            $scope.searchDomain = $state.params.previousState.searchDomain;
             $scope.message = message;
 
-            $scope.isLoading = true;
-            $scope.selectedView = '';
+            $scope.isActiveTab = function (tab) {
+                return $scope.selectedTab == tab;
+            };
+
+            $scope.showTab = function (tab) {
+                if ($scope.isActiveTab(tab)) return;
+
+                $scope.selectedTab = tab;
+                $scope.errorDisplay = false;
+
+                if (!$scope.message.details ||
+                    ($scope.message.details && !$scope.message.details[tab])
+                ) {
+                    $scope.isLoading = true;
+
+                    // retrieve the entire mail parts
+                    messageService.viewMessage(message, tab)
+                        .then(function() {
+                            $scope.message = messageService.getMessageParts();
+                            $scope.isLoading = false;
+                        })
+                        .catch(function (http) {
+                            if (http.config.wasCanceled !== true) {
+                                $scope.errorDisplay = true;
+                            }
+                            $scope.isLoading = false;
+                        });
+                }
+            };
+
+            $scope.showTab('viewPlain');
 
             // handle back button, see message-detail.html
             $scope.back = function () {
@@ -283,28 +317,19 @@ angular.module('SpamExpertsApp')
                 $state.go($state.params.previousState.state);
             };
 
-            // retrieve the entire mail parts
-            messageService.viewMessage(message)
-                .then(function() {
-                    $scope.message = messageService.getMessageParts();
+            $scope.showRecipientsPopup = function ($event) {
+                uiService.tooltip().show(
+                    $scope.message.details['meta_data']['to'],
+                    $event
+                );
+            };
 
-                    $scope.selectedView = '';
-
-                    if ($scope.message.details) {
-                        if (!isEmpty($scope.message.details['htmlSource'])) {
-                            $scope.selectedView = 'htmlSource';
-                        } else if (!isEmpty($scope.message.details['msgBody'])) {
-                            $scope.selectedView = 'msgBody';
-                        } else if (!isEmpty($scope.message.details['eml'])) {
-                            $scope.selectedView = 'eml';
-                        }
-                    }
-                    $scope.isLoading = false;
-                })
-                .catch(function () {
-                    $scope.errorDisplay = true;
-                    $scope.isLoading = false;
-                });
+            $scope.showAttachmentsPopup = function ($event) {
+                uiService.tooltip().show(
+                    $scope.message.details['attachments'],
+                    $event
+                );
+            };
 
             // process the actions available for the message
             var actionManager = new ActionManager($state.params.previousState.group);
@@ -313,18 +338,6 @@ angular.module('SpamExpertsApp')
             var availableActions = actionManager.getActions('actionSheet');
 
             $scope.hasActions = !isEmpty(availableActions);
-
-            $scope.showTab = function (tab) {
-                $scope.selectedView = tab;
-            };
-
-            $scope.canShowTab = function (tab) {
-                return $scope.message.details && !isEmpty($scope.message.details[tab]);
-            };
-
-            $scope.isActiveTab = function (tab) {
-                return $scope.selectedView == tab;
-            };
 
             // handle clicking on BULK_ACTIONS
             $scope.processAction = function (action, $event) {

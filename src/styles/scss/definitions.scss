@@ -1,12 +1,11 @@
-$scrollPadding: 20px;
 $metallic-gray: #F8F8F8;
-
-$detailTabsHeight: 105px;
-$detailHeadersHeight: 81px;
 
 $bar-header-height: 55px;
 $footerBarHeight: 55px;
 
+$detailHeadersHeight: 90px;
+$detailTabsHeight: 40px;
+$scrollPadding: 15px;
 
 $custom-header-height: 40%;
 $custom-header-min-height: 85px;
@@ -31,6 +30,12 @@ $grid-responsive-xs-break:        270px !default;  // smaller than portrait phon
 $grid-responsive-sm-break:        567px !default;  // smaller than landscape phone
 $grid-responsive-md-break:        767px !default;  // smaller than portrait tablet
 $grid-responsive-lg-break:        1023px !default; // smaller than landscape tablet
+
+@mixin rotate($deg) {
+    -ms-transform: rotate($deg);
+    -webkit-transform: rotate($deg);
+    transform: rotate($deg);
+}
 
 @mixin scale($h, $v) {
     transform: scale($h,$v);

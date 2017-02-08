@@ -229,9 +229,21 @@ angular.module('SpamExpertsApp')
                     params: ['recipient', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: true
                 },
-                view: {
+                viewPlain: {
                     method: 'GET',
-                    endpoint: '/rest/log/view/delivery',
+                    endpoint: '/rest/log/view/delivery/plain',
+                    params: ['recipient', 'message_id', 'filtering_host', 'datetime', 'sender'],
+                    loading: false
+                },
+                viewNormal: {
+                    method: 'GET',
+                    endpoint: '/rest/log/view/delivery/normal',
+                    params: ['recipient', 'message_id', 'filtering_host', 'datetime', 'sender'],
+                    loading: false
+                },
+                viewRaw: {
+                    method: 'GET',
+                    endpoint: '/rest/log/view/delivery/raw',
                     params: ['recipient', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: false
                 },
@@ -280,9 +292,21 @@ angular.module('SpamExpertsApp')
                     params: ['full_username', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: true
                 },
-                view: {
+                viewPlain: {
                     method: 'GET',
-                    endpoint: '/rest/log/view/submission',
+                    endpoint: '/rest/log/view/submission/plain',
+                    params: ['full_username', 'message_id', 'filtering_host', 'datetime', 'sender'],
+                    loading: false
+                },
+                viewNormal: {
+                    method: 'GET',
+                    endpoint: '/rest/log/view/submission/normal',
+                    params: ['full_username', 'message_id', 'filtering_host', 'datetime', 'sender'],
+                    loading: false
+                },
+                viewRaw: {
+                    method: 'GET',
+                    endpoint: '/rest/log/view/submission/raw',
                     params: ['full_username', 'message_id', 'filtering_host', 'datetime', 'sender'],
                     loading: false
                 },

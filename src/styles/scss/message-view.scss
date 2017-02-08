@@ -1,45 +1,144 @@
-
 @import "definitions";
 
-.message-detail-time {
-  font-size: 12px;
-  font-weight: 500;
-  padding: 0;
-}
+.message-detail-view {
+    .se-header-bar {
+        .title {
+            top: 4px;
+            right: 10px!important;
 
-.message-detail-headers {
-  padding: 10px 0;
-  background: #ffffff;
-  border-bottom: 1px #9a9a9a solid;
-  height: $detailHeadersHeight;
-}
+            .main-class {
+                margin-left: 5px;
+                border: 1px #54bff1 solid;
+                padding: 2px 5px;
+                border-radius: 3px;
+            }
 
-.message-detail-body {
-  position: absolute;
+            .generic-title {
+                color: #94eeff;
+            }
 
-  top: 1 + $detailHeadersHeight;
-  bottom: $footerBarHeight;
-  padding: $scrollPadding;
-  background: $metallic-gray;
+            .search-domain {
+                font-size: 16px;
+            }
+        }
+    }
 
-  width: 100%;
-}
+    ion-content {
+        .headers {
+            padding: 10px 0;
+            background: #ffffff;
+            border-bottom: 1px #d9dce0 solid;
+            height: $detailHeadersHeight;
 
-.message-scroll-container {
-  position: absolute;
-  top: $detailTabsHeight;
-  bottom: 0;
-  left: $scrollPadding;
-  right: $scrollPadding;
-}
+            table {
+                .header-name, .header-value {
+                    font-size: 12px;
+                }
 
-.message-scroll-container ion-scroll {
-  position: absolute;
-  height: 100%;
-  background: #ffffff;
-  padding: 20px;
-}
+                .header-name {
+                    text-align: right;
+                    color: #9a9a9a;
+                }
 
-.detail-tabs {
-  height: $detailTabsHeight;
+                .header-value {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+            }
+
+            .time {
+                font-size: 12px;
+                font-weight: 500;
+                padding: 0;
+                text-align: right;
+            }
+
+            .recipients button {
+                margin-right: 0;
+                margin-left: auto;
+                padding: 0 3px;
+                width: 85px;
+                max-width: 85px;
+                min-height: 10px;
+                height: 28px;
+                line-height: 28px;
+                font-size: 12px;
+
+                i.ion-android-arrow-dropdown:before {
+                    font-size: 14px;
+                    line-height: 28px
+                }
+            }
+        }
+
+        .body {
+            position: absolute;
+            top: 1 + $detailHeadersHeight;
+            bottom: 0;
+            padding: 0 $scrollPadding $scrollPadding;
+            background: $metallic-gray;
+            width: 100%;
+
+            .attachments button {
+                padding: 0 3px;
+                min-height: 10px;
+                height: 28px;
+                line-height: 28px;
+                font-size: 12px;
+
+                i.ion-paperclip:before {
+                    font-size: 22px;
+                    line-height: 27px;
+                    @include rotate(30deg);
+                }
+            }
+
+            .detail-tabs {
+                position: absolute;
+                top: $detailHeadersHeight - 29px;
+
+                left: $scrollPadding;
+                right: $scrollPadding;
+                height: $detailTabsHeight;
+
+                .tabs {
+                    position: relative;
+                    background: transparent;
+                    height: $detailTabsHeight;
+                    max-height: $detailTabsHeight;
+
+                    .tab-item {
+                        height: $detailTabsHeight;
+                        max-height: $detailTabsHeight;
+                        line-height: $detailTabsHeight + 2;
+                        color: #444444;
+                        width: 100%;
+                        max-width: 50%;
+                    }
+
+                    .tab-item.active {
+                        background: #eceff2;
+                    }
+                }
+            }
+
+            .message-scroll-container {
+                position: absolute;
+                top: $detailHeadersHeight + $detailTabsHeight - 25px;
+                bottom: 0;
+                left: $scrollPadding;
+                right: $scrollPadding;
+
+                ion-scroll {
+                    position: absolute;
+                    height: 100%;
+                    background: #ffffff;
+                    padding: 5px $scrollPadding $scrollPadding;
+                }
+            }
+
+        }
+    }
+
 }

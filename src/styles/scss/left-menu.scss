@@ -113,6 +113,7 @@
         .icon:before {
             font-size: 32px;
             line-height: 38px;
+            @include rotate(-90deg);
         }
     }
 
