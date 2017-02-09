@@ -172,6 +172,20 @@
 
 .se-footer-bar {
     height: $footerBarHeight;
+
+    .row {
+        .col {
+            text-align: center;
+        }
+
+        .col:first-child {
+            text-align: left;
+        }
+
+        .col:last-child {
+            text-align: right;
+        }
+    }
 }
 
 .se-footer-bar i:before {

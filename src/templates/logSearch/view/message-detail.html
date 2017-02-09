@@ -23,16 +23,29 @@
     <ion-content class="has-header has-footer" scroll="false">
         <div message-queue></div>
 
-        <div class="row headers">
-            <div class="col col-70">
+        <div class="message-contents">
+            <div class="row headers">
                 <table>
                     <tr>
                         <td class="header-name">sent:&nbsp;</td>
-                        <td class="header-value">{{::getDate(message['datetime'], 'EEEE, d MMMM yyyy')}}</td>
+                        <td class="header-value">
+                            {{::getDate(message['datetime'], 'EEEE, d MMMM yyyy')}}
+                        </td>
+                        <td class="time">
+                            {{::getDate(message['datetime'], 'HH:mm a')}}
+                        </td>
                     </tr>
                     <tr>
                         <td class="header-name">from:&nbsp;</td>
                         <td class="header-value">{{::message['sender']}}</td>
+                        <td class="recipients" rowspan="2">
+                            <button class="button button-block button-light metallic-border"
+                                    ng-if="message.details['meta_data']['to'].length"
+                                    on-tap="showRecipientsPopup($event)"
+                            >
+                                + {{::kConvert(message.details['meta_data']['to'].length)}} more <i class="icon ion-android-arrow-dropdown"></i>
+                            </button>
+                        </td>
                     </tr>
                     <tr>
                         <td class="header-name">to: &nbsp;</td>
@@ -40,93 +53,77 @@
                     </tr>
                 </table>
             </div>
-            <div class="col col-30 col-bottom text-right">
-                <div class="time">
-                    {{::getDate(message['datetime'], 'HH:mm a')}}
-                </div>
-                <div class="recipients">
-                    <button class="button button-block button-light metallic-border"
-                            ng-if="message.details['meta_data']['to'].length"
-                            on-tap="showRecipientsPopup($event)"
-                    >
-                        + {{::kConvert(message.details['meta_data']['to'].length)}} more <i class="icon ion-android-arrow-dropdown"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="body">
-            <div class="row">
-                <div class="col-80 subject">
-                    <h5 ng-if="!message['subject_header']" class="grayedout-text">&lt; No subject &gt;</h5>
-                    <h5 ng-if="message['subject_header']">{{::message['subject_header']}}</h5>
-                </div>
-                <div class="col-20 col-center text-right attachments">
-                    <button class="button button-light metallic-border"
-                            ng-if="message.details['attachments'].length"
-                            on-tap="showAttachmentsPopup($event)"
-                    >
-                        {{::kConvert(message.details['attachments'].length)}} &times; <i class="icon ion-paperclip"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="detail-tabs">
-                <div class="tabs tabs-background-stable tabs-color-dark" ng-disabled="!isLoading && !errorDisplay">
-                    <div class="tab-item" ng-class="{active: isActiveTab('viewPlain')}" on-tap="showTab('viewPlain')">
-                        Plain
+            <div class="body">
+                <div class="row" ng-if="message.details['attachments'].length">
+                    <div class="col-80 col-top subject">
+                        <h5 ng-if="!message['subject_header']" class="grayedout-text">&lt; No subject &gt;</h5>
+                        <h5 ng-if="message['subject_header']">{{::message['subject_header']}}</h5>
                     </div>
-                    <div class="tab-item" ng-class="{active: isActiveTab('viewNormal')}" on-tap="showTab('viewNormal')">
-                        Normal
-                    </div>
-                    <div class="tab-item" ng-class="{active: isActiveTab('viewRaw')}" on-tap="showTab('viewRaw')">
-                        Raw
+                    <div class="col-20 col-top text-right attachments">
+                        <button class="button button-light metallic-border" on-tap="showAttachmentsPopup($event)">
+                            {{::kConvert(message.details['attachments'].length)}} &times; <i class="icon ion-paperclip"></i>
+                        </button>
                     </div>
                 </div>
-            </div>
 
-            <div class="message-scroll-container">
-                <ion-scroll direction="y">
-
-                    <div class="flex-center" ng-if="isLoading">
-                        <ion-spinner></ion-spinner>
+                <div class="detail-tabs">
+                    <div class="tabs tabs-background-stable tabs-color-dark" ng-disabled="!isLoading && !errorDisplay">
+                        <div class="tab-item" ng-class="{active: isActiveTab('viewPlain')}" on-tap="showTab('viewPlain')">
+                            Plain
+                        </div>
+                        <div class="tab-item" ng-class="{active: isActiveTab('viewNormal')}" on-tap="showTab('viewNormal')">
+                            Normal
+                        </div>
+                        <div class="tab-item" ng-class="{active: isActiveTab('viewRaw')}" on-tap="showTab('viewRaw')">
+                            Raw
+                        </div>
                     </div>
+                </div>
 
-                    <div ng-if="!isLoading && !errorDisplay">
+                <div class="message-scroll-container">
+                    <ion-scroll direction="y">
+
+                        <div class="flex-center" ng-if="isLoading">
+                            <ion-spinner></ion-spinner>
+                        </div>
+
+                        <div class="flex-center grayedout-text" ng-if="errorDisplay">
+                            Could not fetch the requested message
+                        </div>
+
+                        <div ng-if="!isCurrentViewAvailable()" class="flex-center grayedout-text">
+                            This view is not available
+                        </div>
+
                         <div ng-if="isActiveTab('viewPlain')">
                             <pre>{{::message.details['viewPlain']}}</pre>
                         </div>
+
                         <div ng-if="isActiveTab('viewNormal')">
                             <se-mail-preview content="message.details['viewNormal']"></se-mail-preview>
                         </div>
+
                         <div ng-if="isActiveTab('viewRaw')">
                             <pre>{{::message.details['viewRaw']}}</pre>
                         </div>
-                    </div>
-
-                    <div class="item item-body" ng-if="errorDisplay">
-                        Could not fetch the requested message
-                    </div>
-
-                </ion-scroll>
+                    </ion-scroll>
+                </div>
             </div>
         </div>
     </ion-content>
 
-    <ion-footer-bar class="bar-stable se-footer-bar" ng-if="hasActions && !angular.isUndefined(message.details['msgBody'])" align-title="center">
-
-        <div class="buttons bar-actions">
-            <button class="button button-clear {{::action.cssClass}}" on-tap="processAction(action)" ng-repeat="action in barActions">
-                <i class="icon {{::action.icon}}"></i> {{::action.text}}
-            </button>
-        </div>
-
-        <div class="title">&nbsp;</div>
-
-        <div class="buttons se-bar-actions">
-            <button class="button button-clear" on-tap="processAction('', $event)">
-                <i class="icon ion-more"></i> More
-            </button>
+    <ion-footer-bar class="bar-stable se-footer-bar" ng-if="hasActions && !angular.isUndefined(message.details['msgBody'])">
+        <div class="row">
+            <div class="col" ng-repeat="action in barActions">
+                <button class="button button-clear {{::action.cssClass}}" on-tap="processAction(action)">
+                    <i class="icon {{::action.icon}}"></i> {{::action.text}}
+                </button>
+            </div>
+            <div class="col">
+                <button class="button button-clear" on-tap="processAction('', $event)">
+                    <i class="icon ion-more"></i> More
+                </button>
+            </div>
         </div>
     </ion-footer-bar>
 </ion-view>

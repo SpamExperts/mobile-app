@@ -145,10 +145,6 @@ angular.module('SpamExpertsApp')
 
                         this.messageParts = message;
 
-                        if (!this.messageParts.details) {
-                            this.messageParts.details = {};
-                        }
-
                         var self = this;
                         return Api.request({
                                 direction: this.direction,
@@ -158,7 +154,11 @@ angular.module('SpamExpertsApp')
                                 filterParams: true
                             })
                             .success(function (response) {
-                                angular.extend(self.messageParts.details, response['mail']);
+                                if (!self.messageParts.details) {
+                                    self.messageParts.details = response['mail'];
+                                } else {
+                                    self.messageParts.details[type] = response['mail'][type];
+                                }
                             });
                     }
 

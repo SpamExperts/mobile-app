@@ -82,25 +82,24 @@
         </ion-infinite-scroll>
     </ion-content>
 
-    <ion-footer-bar class="bar-stable se-footer-bar" ng-if="bulkMode" align-title="center">
+    <ion-footer-bar class="bar-stable se-footer-bar" ng-if="bulkMode">
+        <div class="row">
+            <div class="col" ng-repeat="action in barActions">
+                <button class="button button-clear {{::action.cssClass}}" on-tap="processAction(action)">
+                    <i class="icon {{::action.icon}}"></i> {{::action.text}}
+                </button>
+            </div>
+            <div class="col">
+                <button class="button button-clear" on-tap="processAction('', $event)">
+                    <i class="icon ion-more"></i> More
+                </button>
 
-        <div class="buttons bar-actions">
-            <button class="button button-clear {{::action.cssClass}}" on-tap="processAction(action)" ng-repeat="action in barActions">
-                <i class="icon {{::action.icon}}"></i> {{::action.text}}
-            </button>
-        </div>
-
-        <div class="title">&nbsp;</div>
-
-        <div class="buttons se-bar-actions">
-            <button class="button button-clear" on-tap="processAction('', $event)">
-                <i class="icon ion-more"></i> More
-            </button>
-            <button class="button button-clear" on-tap="toggleBulkSelect(false)">
-                <span class="metallic-border selected-count">
-                    {{selectedCount}}
-                </span>
-            </button>
+                <button class="button button-clear" on-tap="toggleBulkSelect(false)">
+                    <span class="metallic-border selected-count">
+                        {{selectedCount}}
+                    </span>
+                </button>
+            </div>
         </div>
     </ion-footer-bar>
 </ion-view>

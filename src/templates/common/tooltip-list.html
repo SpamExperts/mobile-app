@@ -1,7 +1,7 @@
 <ion-popover-view class="platform-ios tooltip-list">
     <ion-content>
         <ul class="list">
-            <li class="item" ng-repeat="item in list">{{::item}}</li>
+            <li class="item" ng-repeat="item in list" ng-click="handleClick()">{{::item}}</li>
         </ul>
     </ion-content>
 </ion-popover-view>

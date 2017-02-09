@@ -276,18 +276,23 @@ angular.module('SpamExpertsApp')
             $scope.searchDomain = $state.params.previousState.searchDomain;
             $scope.message = message;
 
+            $scope.isCurrentViewAvailable = function() {
+                return $scope.message.details &&
+                    $scope.message.details[$scope.selectedTab];
+            };
+
             $scope.isActiveTab = function (tab) {
-                return $scope.selectedTab == tab;
+                return !$scope.isLoading && !$scope.errorDisplay && $scope.selectedTab == tab;
             };
 
             $scope.showTab = function (tab) {
-                if ($scope.isActiveTab(tab)) return;
+                if ($scope.selectedTab == tab) return;
 
                 $scope.selectedTab = tab;
                 $scope.errorDisplay = false;
 
                 if (!$scope.message.details ||
-                    ($scope.message.details && !$scope.message.details[tab])
+                    ($scope.message.details && !$scope.message.details.hasOwnProperty(tab))
                 ) {
                     $scope.isLoading = true;
 
@@ -297,8 +302,8 @@ angular.module('SpamExpertsApp')
                             $scope.message = messageService.getMessageParts();
                             $scope.isLoading = false;
                         })
-                        .catch(function (http) {
-                            if (http.config.wasCanceled !== true) {
+                        .catch(function (request) {
+                            if (request.config.wasCanceled !== true) {
                                 $scope.errorDisplay = true;
                             }
                             $scope.isLoading = false;
@@ -322,10 +327,19 @@ angular.module('SpamExpertsApp')
             };
 
             $scope.showAttachmentsPopup = function ($event) {
-                uiService.tooltip().show(
-                    $scope.message.details['attachments'],
-                    $event
-                );
+                uiService.tooltip()
+                    .click(function () {
+                        MessageQueue.set({
+                            info: ['The message has these potentially unsafe attachments.<br> For your safety, you can not download them']
+                        });
+                    })
+                    .onHide(function () {
+                        MessageQueue.clearInfo();
+                    })
+                    .show(
+                        $scope.message.details['attachments'],
+                        $event
+                    );
             };
 
             // process the actions available for the message
@@ -333,6 +347,7 @@ angular.module('SpamExpertsApp')
             $scope.barActions = actionManager.getActions('bar');
 
             var availableActions = actionManager.getActions('actionSheet');
+            availableActions.pop(); // bad fix don't display purge quarantine
 
             $scope.hasActions = !isEmpty(availableActions);
 

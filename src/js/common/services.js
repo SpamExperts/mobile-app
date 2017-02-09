@@ -169,6 +169,13 @@ angular.module('SpamExpertsApp')
                         $timeout.cancel(queueTimer);
                     }
                     queueTimer = $timeout(this.remove, OTHERS.notificationsTimeout * 1000);
+                },
+                clearInfo: function () {
+                    $rootScope.messageQueue['info'] = [];
+
+                    if (queueTimer) {
+                        $timeout.cancel(queueTimer);
+                    }
                 }
             };
         }
@@ -685,9 +692,12 @@ angular.module('SpamExpertsApp')
                 },
                 tooltip: function () {
                     return {
+                        _click: function () {},
+                        _onhide: function () {},
                         show: function (list, $event) {
                             var $scope = $rootScope.$new();
                             $scope.list = list;
+                            $scope.handleClick = this._click;
 
                             $ionicPopover.fromTemplateUrl('templates/common/tooltip-list.html', {
                                 scope: $scope
@@ -696,15 +706,27 @@ angular.module('SpamExpertsApp')
                                 $rootScope.popover.show($event);
                             });
 
+                            var self = this;
+
                             $scope.$on('popover.hidden', function() {
+                                self._onhide();
                                 $rootScope.popover.remove();
                             });
                         },
                         hide: function () {
                             if ($rootScope.popover) {
+                                this._onhide();
                                 $rootScope.popover.hide();
                                 $rootScope.popover.remove();
                             }
+                        },
+                        click: function (callback) {
+                            this._click = callback;
+                            return this;
+                        },
+                        onHide: function (callback) {
+                            this._onhide = callback;
+                            return this;
                         }
                     };
                 },
