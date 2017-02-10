@@ -154,6 +154,10 @@
                         padding: 5px $scrollPadding $scrollPadding;
                     }
 
+                    &.viewNormal ion-scroll {
+                        padding: 0 6px 0 0;
+                    }
+
                     @include landscape() {
                         ion-scroll {
                             height: 100vh;

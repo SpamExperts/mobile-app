@@ -83,7 +83,7 @@
                     </div>
                 </div>
 
-                <div class="message-scroll-container">
+                <div class="message-scroll-container {{selectedTab}}">
                     <ion-scroll direction="y">
 
                         <div class="flex-center" ng-if="isLoading">
@@ -98,15 +98,15 @@
                             This view is not available
                         </div>
 
-                        <div ng-if="isActiveTab('viewPlain')">
+                        <div ng-show="isActiveTab('viewPlain')">
                             <pre>{{::message.details['viewPlain']}}</pre>
                         </div>
 
-                        <div ng-if="isActiveTab('viewNormal')">
-                            <se-mail-preview content="message.details['viewNormal']"></se-mail-preview>
+                        <div ng-show="isActiveTab('viewNormal')">
+                            <se-mail-preview ng-if="message.details['viewNormal']" content="message.details['viewNormal']"></se-mail-preview>
                         </div>
 
-                        <div ng-if="isActiveTab('viewRaw')">
+                        <div ng-show="isActiveTab('viewRaw')">
                             <pre>{{::message.details['viewRaw']}}</pre>
                         </div>
                     </ion-scroll>

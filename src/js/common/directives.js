@@ -18,13 +18,37 @@ angular.module('SpamExpertsApp')
                     var element0 = element[0];
                     element0.appendChild(iframe);
 
-                    var body = iframe.contentDocument.body;
-
+                    var iDoc = iframe.contentDocument;
                     iframe.style.width = '100%';
-                    scope.$watch('content', function () {
-                        body.innerHTML = scope.content ? scope.content : '';
-                        iframe.style.height = body.scrollHeight + 'px';
-                    });
+
+
+                    iDoc.body.innerHTML = scope.content ? scope.content : '';
+                    iframe.style.height = iDoc.body.scrollHeight + 'px';
+
+                    var $iframe = angular.element(iDoc.body);
+
+                    $iframe.find('a').attr('target', '_blank');
+
+                    var img = $iframe.find('img');
+
+                    for (var i = 0; i < img.length; i++) {
+                        var currentImg = angular.element(img[i]);
+                        var imageHtml = currentImg.clone().wrap('<div></div>').parent().html();
+
+                        currentImg.replaceWith(
+                            '<span class="se-img-replacement" style="cursor: pointer;">click to load image</span>'
+                        );
+
+                        angular.element(iDoc.querySelectorAll('.se-img-replacement')[i])
+                            .data('img', imageHtml)
+                            .on('click', function (e) {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                var elem = angular.element(this);
+                                elem.replaceWith(elem.data('img'));
+                            });
+                    }
+
                 },
                 restrict: 'E',
                 scope: {
