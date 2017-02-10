@@ -153,6 +153,18 @@
                         background: #ffffff;
                         padding: 5px $scrollPadding $scrollPadding;
                     }
+
+                    @include landscape() {
+                        ion-scroll {
+                            height: 100vh;
+                        }
+
+                        ion-scroll {
+                            .flex-center {
+                                //align-items: initial;
+                            }
+                        }
+                    }
                 }
 
             }

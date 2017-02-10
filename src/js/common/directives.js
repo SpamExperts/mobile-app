@@ -12,6 +12,8 @@ angular.module('SpamExpertsApp')
     .directive('seMailPreview', function () {
             return {
                 link: function (scope, element) {
+                    if (!scope.content) return;
+
                     var iframe = document.createElement('iframe');
                     var element0 = element[0];
                     element0.appendChild(iframe);

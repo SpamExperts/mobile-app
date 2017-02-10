@@ -20,7 +20,7 @@
         </div>
     </ion-header-bar>
 
-    <ion-content class="has-header has-footer" scroll="false">
+    <ion-content class="has-header has-footer">
         <div message-queue></div>
 
         <div class="message-contents">
@@ -54,13 +54,16 @@
                 </table>
             </div>
             <div class="body">
-                <div class="row" ng-if="message.details['attachments'].length">
+                <div class="row">
                     <div class="col-80 col-top subject">
                         <h5 ng-if="!message['subject_header']" class="grayedout-text">&lt; No subject &gt;</h5>
                         <h5 ng-if="message['subject_header']">{{::message['subject_header']}}</h5>
                     </div>
                     <div class="col-20 col-top text-right attachments">
-                        <button class="button button-light metallic-border" on-tap="showAttachmentsPopup($event)">
+                        <button class="button button-light metallic-border"
+                                ng-if="message.details['attachments'].length"
+                                on-tap="showAttachmentsPopup($event)"
+                        >
                             {{::kConvert(message.details['attachments'].length)}} &times; <i class="icon ion-paperclip"></i>
                         </button>
                     </div>
