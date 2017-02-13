@@ -14,41 +14,51 @@ angular.module('SpamExpertsApp')
                 link: function (scope, element) {
                     if (!scope.content) return;
 
-                    var iframe = document.createElement('iframe');
-                    var element0 = element[0];
-                    element0.appendChild(iframe);
+                    var iFrame = document.createElement('iframe');
+                    element[0].appendChild(iFrame);
 
-                    var iDoc = iframe.contentDocument;
-                    iframe.style.width = '100%';
+                    var iFrameDocument = iFrame.contentDocument;
 
+                    var $content = '';
 
-                    iDoc.body.innerHTML = scope.content ? scope.content : '';
-                    iframe.style.height = iDoc.body.scrollHeight + 'px';
+                    if (scope.content) {
+                        scope.content = scope.content.replace(/src=/g, 'data-src=');
+                        $content = angular.element('<div>' + scope.content + '</div>');
 
-                    var $iframe = angular.element(iDoc.body);
+                        $content.find('a').attr('target', '_blank');
 
-                    $iframe.find('a').attr('target', '_blank');
+                        var img = $content.find('img');
 
-                    var img = $iframe.find('img');
+                        for (var i = 0; i < img.length; i++) {
+                            var currentImg = angular.element(img[i]);
+                            var imageHtml = currentImg.clone().wrap('<div></div>').parent().html();
 
-                    for (var i = 0; i < img.length; i++) {
-                        var currentImg = angular.element(img[i]);
-                        var imageHtml = currentImg.clone().wrap('<div></div>').parent().html();
-
-                        currentImg.replaceWith(
-                            '<span class="se-img-replacement" style="cursor: pointer;">click to load image</span>'
-                        );
-
-                        angular.element(iDoc.querySelectorAll('.se-img-replacement')[i])
-                            .data('img', imageHtml)
-                            .on('click', function (e) {
-                                e.stopPropagation();
-                                e.preventDefault();
-                                var elem = angular.element(this);
-                                elem.replaceWith(elem.data('img'));
-                            });
+                            currentImg.replaceWith(
+                                '<span class="se-img-replacement" style="cursor: pointer;" data-img="' + encodeURIComponent(imageHtml) + '">click to load image</span>'
+                            );
+                        }
                     }
 
+                    iFrame.style.width = '100%';
+
+                    iFrameDocument.body.innerHTML = scope.content ? $content.html() : '';
+                    iFrame.style.height = iFrameDocument.body.scrollHeight + 'px';
+
+                    angular.element(iFrameDocument.querySelectorAll('.se-img-replacement'))
+                        .on('click', function (e) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            var elem = angular.element(this);
+                            elem.replaceWith(
+                                decodeURIComponent(elem.attr('data-img')).replace(/data-src=/, 'src=')
+                            );
+                            iFrame.style.height = iFrameDocument.body.scrollHeight + 'px';
+                        });
+
+                    angular.element(iFrameDocument.querySelectorAll('a'))
+                        .on('click', function (e) {
+                            e.preventDefault();
+                        });
                 },
                 restrict: 'E',
                 scope: {

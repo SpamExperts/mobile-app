@@ -277,7 +277,7 @@ angular.module('SpamExpertsApp')
             $scope.message = message;
 
             $scope.isCurrentViewAvailable = function() {
-                return !$scope.isLoading &&
+                return $scope.isLoading === false &&
                     $scope.message.details &&
                     $scope.message.details[$scope.selectedTab];
             };
@@ -316,7 +316,7 @@ angular.module('SpamExpertsApp')
 
             // handle back button, see message-detail.html
             $scope.back = function ($event) {
-                $event.stopPropagation();
+                if ($event) $event.stopPropagation();
                 messageService.clearMessageParts();
                 $state.go($state.params.previousState.state);
             };

@@ -99,7 +99,7 @@
                         </div>
 
                         <div ng-show="isActiveTab('viewPlain')">
-                            <pre>{{::message.details['viewPlain']}}</pre>
+                            <pre ng-if="message.details['viewPlain']">{{::message.details['viewPlain']}}</pre>
                         </div>
 
                         <div ng-show="isActiveTab('viewNormal')">
@@ -107,7 +107,7 @@
                         </div>
 
                         <div ng-show="isActiveTab('viewRaw')">
-                            <pre>{{::message.details['viewRaw']}}</pre>
+                            <pre ng-if="message.details['viewRaw']">{{::message.details['viewRaw']}}</pre>
                         </div>
                     </ion-scroll>
                 </div>

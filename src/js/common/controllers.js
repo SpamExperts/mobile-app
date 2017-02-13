@@ -85,7 +85,7 @@ angular.module('SpamExpertsApp')
             };
 
             $rootScope.toggleLeftMenu = function ($event) {
-                $event.stopPropagation();
+                if ($event) $event.stopPropagation();
 
                 if (!$rootScope.bulkMode) {
                     uiService.sideMenuDelegate.toggleLeft();
@@ -93,7 +93,7 @@ angular.module('SpamExpertsApp')
             };
 
             $rootScope.toggleRightMenu = function ($event) {
-                $event.stopPropagation();
+                if ($event) $event.stopPropagation();
 
                 if (!$rootScope.bulkMode) {
                     uiService.sideMenuDelegate.toggleRight();
