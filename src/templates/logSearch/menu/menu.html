@@ -21,15 +21,24 @@
                     <label class="item item-input item-floating-label no-border datetime-buttons">
                         <span class="input-label has-input">Sent</span>
                         <div class="row">
-                            <button class="button button-block button-light metallic-border" on-tap="past24Hours()">
+                            <button class="button button-block button-light metallic-border"
+                                    ng-class="{active: selectedInterval == 'past24Hours'}"
+                                    on-tap="past24Hours()"
+                            >
                                 Past 24H
                             </button>
 
-                            <button class="button button-block button-light metallic-border" on-tap="pastWeek()">
+                            <button class="button button-block button-light metallic-border"
+                                    ng-class="{active: selectedInterval == 'pastWeek'}"
+                                    on-tap="pastWeek()"
+                            >
                                 Past Week
                             </button>
 
-                            <button class="button button-block button-light metallic-border" on-tap="pastMonth()">
+                            <button class="button button-block button-light metallic-border"
+                                    ng-class="{active: selectedInterval == 'pastMonth'}"
+                                    on-tap="pastMonth()"
+                            >
                                 Past Month
                             </button>
                         </div>
@@ -39,13 +48,23 @@
                         <span class="input-label has-input se-normal">Custom timeframe</span>
                         <div class="row">
                             <div class="col-50">
-                                <label class="item item-input item-floating-label no-rtl-border datetime-input" ion-datetime-picker ng-model="searchCriteria['since']">
+                                <label class="item item-input item-floating-label no-rtl-border datetime-input"
+                                       ion-datetime-picker
+                                       only-valid="validDateInterval"
+                                       ng-model="searchCriteria['since']"
+                                       ng-change="removeSelectedInterval()"
+                                >
                                     <span class="input-label has-input">From date</span>
                                     <div class="time">{{searchCriteria['since']| date: dateFormat}}</div>
                                 </label>
                             </div>
                             <div class="col-50">
-                                <label class="item item-input item-floating-label no-rtl-border datetime-input" ion-datetime-picker ng-model="searchCriteria['until']">
+                                <label class="item item-input item-floating-label no-rtl-border datetime-input"
+                                       ion-datetime-picker
+                                       only-valid="validDateInterval"
+                                       ng-model="searchCriteria['until']"
+                                       ng-change="removeSelectedInterval()"
+                                >
                                     <span class="input-label has-input">To date</span>
                                     <div class="time">{{searchCriteria['until']| date: dateFormat}}</div>
                                 </label>

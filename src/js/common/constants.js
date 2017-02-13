@@ -371,7 +371,7 @@ angular.module('SpamExpertsApp')
                 {
                     label: 'Clear search',
                     cssClass: 'button button-block button-light metallic-border',
-                    action: 'doReset()'
+                    action: 'clearSearch()'
                 }
             ]
         }

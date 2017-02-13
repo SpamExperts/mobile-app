@@ -38,6 +38,10 @@ angular.module('SpamExpertsApp')
             $scope.searchCriteria = criteriaService.getSearchCriteria();
             $scope.dateFormat = criteriaService.getDateFormat();
 
+            $scope.validDateInterval = criteriaService.getValidDateInterval();
+
+            $scope.selectedInterval = '';
+
             $scope.$on('updateToNow', function () {
                 var criteria = criteriaService.getSearchCriteria();
                 criteria.until = criteriaService.getCurrentDate();
@@ -54,29 +58,31 @@ angular.module('SpamExpertsApp')
                 });
             };
 
-            $scope.doReset = function() {
-                var defaultCriteria = criteriaService.getDefaultCriteria();
-                criteriaService.setSearchCriteria(defaultCriteria);
-                $scope.searchCriteria = defaultCriteria;
-                $rootScope.toggleRightMenu();
-                $timeout(function() {
-                    $rootScope.$broadcast('refreshEntries');
-                });
+            $scope.clearSearch = function() {
+                $scope.searchCriteria = criteriaService.getDefaultCriteria();
+                $scope.selectedInterval = '';
+            };
+
+            $scope.removeSelectedInterval = function () {
+                $scope.selectedInterval = '';
             };
 
             $scope.past24Hours = function () {
                 $scope.searchCriteria.since = criteriaService.getXDaysBackDate(1);
                 $scope.searchCriteria.until = criteriaService.getCurrentDate();
+                $scope.selectedInterval = 'past24Hours';
             };
 
             $scope.pastWeek = function () {
                 $scope.searchCriteria.since = criteriaService.getXDaysBackDate(7);
                 $scope.searchCriteria.until = criteriaService.getCurrentDate();
+                $scope.selectedInterval = 'pastWeek';
             };
 
             $scope.pastMonth = function () {
                 $scope.searchCriteria.since = criteriaService.getXMonthsBackDate(1);
                 $scope.searchCriteria.until = criteriaService.getCurrentDate();
+                $scope.selectedInterval = 'pastMonth';
             };
 
         }

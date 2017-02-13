@@ -63,6 +63,10 @@
                 min-height: 40px;
                 line-height: 12px;
 
+                &.active {
+                    background: #f3eeee;
+                }
+
                 &:first-child {
                     margin-left: 0;
                 }

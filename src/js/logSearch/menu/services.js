@@ -67,6 +67,12 @@ angular.module('SpamExpertsApp')
                     now.setMonth(now.getMonth() - months);
                     return now;
                 },
+                getValidDateInterval: function () {
+                    return {
+                        before: 'today',
+                        inclusive: true
+                    };
+                },
                 getSearchCriteria: function(apiDates) {
                     var criteria = this.getDefaultCriteria();
                     var currentCriteria = $localstorage.get('searchCriteria.' + this.direction, filterDates(criteria), true);
