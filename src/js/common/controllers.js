@@ -84,13 +84,17 @@ angular.module('SpamExpertsApp')
                 uiService.sideMenuDelegate.toggleRight(false);
             };
 
-            $rootScope.toggleLeftMenu = function () {
+            $rootScope.toggleLeftMenu = function ($event) {
+                $event.stopPropagation();
+
                 if (!$rootScope.bulkMode) {
                     uiService.sideMenuDelegate.toggleLeft();
                 }
             };
 
-            $rootScope.toggleRightMenu = function () {
+            $rootScope.toggleRightMenu = function ($event) {
+                $event.stopPropagation();
+
                 if (!$rootScope.bulkMode) {
                     uiService.sideMenuDelegate.toggleRight();
                 }

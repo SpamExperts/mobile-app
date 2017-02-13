@@ -1,7 +1,7 @@
 <ion-view class="messages-list-view">
     <ion-header-bar class="se-header-bar" align-title="center" on-tap="scrollTop()">
         <div class="buttons">
-            <button class="button button-icon icon ion-navicon" ng-class="{'disabled': bulkMode}" on-tap="toggleLeftMenu()"></button>
+            <button class="button button-icon icon ion-navicon" ng-class="{'disabled': bulkMode}" on-tap="toggleLeftMenu($event)"></button>
         </div>
         <div class="title">
             <div class="row">
@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="buttons">
-            <button class="button button-icon icon ion-search" ng-class="{'disabled': bulkMode}" on-tap="toggleRightMenu()"></button>
+            <button class="button button-icon icon ion-search" ng-class="{'disabled': bulkMode}" on-tap="toggleRightMenu($event)"></button>
         </div>
     </ion-header-bar>
 
