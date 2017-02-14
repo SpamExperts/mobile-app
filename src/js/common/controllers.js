@@ -66,8 +66,11 @@ angular.module('SpamExpertsApp')
             };
 
             $rootScope.getDate = function (date, format) {
-                date = new Date(date.replace(/-/g, '/'));
-                return $filter('date')(date, format)
+                if (!isEmpty(date)) {
+                    date = new Date(date.replace(/-/g, '/'));
+                    return $filter('date')(date, format)
+                }
+                return '';
             };
 
             $rootScope.kConvert = function (value) {
