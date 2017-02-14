@@ -11,13 +11,14 @@ angular.module('SpamExpertsApp')
                 username: '',
                 password: '',
                 remember: 'disabled',
-                role: USER_ROLES.public
+                role: USER_ROLES.public,
+                loggedOut: true
             };
 
             var settings = $localstorage.get('settings', defaultSettings);
             var token = $localstorage.get('token');
 
-            if (settings.remember == 'enabled' && !isEmpty(token)) {
+            if (settings.remember == 'enabled' && !isEmpty(token) && !settings.loggedOut) {
                 useCredentials(settings.username, settings.role);
             }
 
@@ -85,7 +86,8 @@ angular.module('SpamExpertsApp')
                                 username: response.username || '',
                                 password: password,
                                 remember: remember,
-                                role    : response.role || ''
+                                role    : response.role || '',
+                                loggedOut: false
                             });
 
                             useCredentials(response.username, response.role);
@@ -100,9 +102,9 @@ angular.module('SpamExpertsApp')
 
                     isAuthenticated = false;
 
-                    var settings = $localstorage.get('settings');
+                    $localstorage.set('settings.loggedOut', true, false);
 
-                    if (settings.remember == 'disabled') {
+                    if ($localstorage.get('settings.remember') != 'enabled') {
                         Api.clearAuth();
                         $localstorage.set('settings', defaultSettings);
                     }

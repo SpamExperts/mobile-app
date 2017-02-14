@@ -31,7 +31,10 @@ angular.module('SpamExpertsApp')
                                 $scope.data.password = '';
                             } else {
                                 MessageQueue.remove();
-                                $state.go('main.dash', {}, {reload: true});
+                                uiService.history.clearHistory();
+                                uiService.history.clearCache().then(function () {
+                                    $state.go('main.dash', {}, {reload: true});
+                                });
                             }
                         });
                 }

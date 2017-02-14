@@ -1,6 +1,6 @@
 angular.module('SpamExpertsApp')
-    .run(['$rootScope', '$state', '$ionicHistory', 'uiService', 'AuthService', 'API_EVENTS',
-        function ($rootScope, $state, $ionicHistory, uiService, AuthService, API_EVENTS) {
+    .run(['$rootScope', '$state', 'uiService', 'AuthService', 'API_EVENTS',
+        function ($rootScope, $state, uiService, AuthService, API_EVENTS) {
 
             $rootScope.$on('$stateChangeStart', function (event, next) {
                 if (next.name !== 'login') {
@@ -18,6 +18,11 @@ angular.module('SpamExpertsApp')
                             $rootScope.$broadcast(API_EVENTS.notAuthorized);
                         }
                     }
+                } else {
+                    if (AuthService.isAuthenticated()) {
+                        event.preventDefault();
+                        $state.go('main.dash');
+                    }
                 }
             });
 
@@ -27,11 +32,7 @@ angular.module('SpamExpertsApp')
                         template: 'Are you sure you want to log out?'
                     }, function() {
                         AuthService.logout();
-                        $state.go('login', {}, {reload: true});
-                        $ionicHistory.clearHistory();
-                        $ionicHistory.clearCache().then(function() {
-                            window.location.reload();
-                        });
+                        $state.go('login');
                     });
             });
 

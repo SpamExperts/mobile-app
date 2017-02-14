@@ -618,10 +618,11 @@ angular.module('SpamExpertsApp')
     ])
 
     // Wrapper for several $ionic services for easier transitioning on platform update
-    .factory('uiService', ['$rootScope', '$timeout', '$ionicPopup', '$ionicActionSheet', '$ionicScrollDelegate', '$ionicSideMenuDelegate', '$ionicLoading', '$ionicPopover',
-        function($rootScope, $timeout, $ionicPopup, $ionicActionSheet, $ionicScrollDelegate, $ionicSideMenuDelegate, $ionicLoading, $ionicPopover) {
+    .factory('uiService', ['$rootScope', '$timeout', '$ionicPopup', '$ionicActionSheet', '$ionicScrollDelegate', '$ionicSideMenuDelegate', '$ionicLoading', '$ionicPopover', '$ionicHistory',
+        function($rootScope, $timeout, $ionicPopup, $ionicActionSheet, $ionicScrollDelegate, $ionicSideMenuDelegate, $ionicLoading, $ionicPopover, $ionicHistory) {
 
             return {
+                history: $ionicHistory,
                 sideMenuDelegate: $ionicSideMenuDelegate,
                 scrollDelegate: $ionicScrollDelegate,
                 popup: function (params) {
