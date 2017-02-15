@@ -53,12 +53,7 @@ angular.module('SpamExpertsApp')
                 direction: messagesService.getDirection().capitalize()
             };
 
-            // we should try load results with a small delay to prevent freezing the dashboard
-            $scope.noMoreItemsAvailable = true;
-            $timeout(function () {
-                $scope.noMoreItemsAvailable = false;
-                $rootScope.forceScrollUpdate(0);
-            }, 10);
+            $scope.noMoreItemsAvailable = false;
 
             $scope.loadingEntries = false;
 
