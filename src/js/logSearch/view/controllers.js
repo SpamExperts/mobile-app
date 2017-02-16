@@ -147,6 +147,13 @@ angular.module('SpamExpertsApp')
                     return;
                 }
 
+                // @see https://github.com/SpamExperts/mobile-app/issues/30
+                if (messagesService.isBulkMode()) {
+                    $rootScope.forceScrollUpdate(0);
+                    uiService.scrollDelegate.getScrollView().__refreshActive = false;
+                    return;
+                }
+
                 $scope.loadingEntries = true;
 
                 // get the criteria and set up parameters required for pull-to-refresh
