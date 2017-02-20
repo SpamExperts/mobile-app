@@ -36,6 +36,9 @@ angular.module('SpamExpertsApp')
                                     $state.go('main.dash', {}, {reload: true});
                                 });
                             }
+                        })
+                        .catch(function () {
+                            AuthService.logout();
                         });
                 }
             };

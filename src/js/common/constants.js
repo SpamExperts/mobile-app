@@ -44,6 +44,7 @@ angular.module('SpamExpertsApp')
      * API events constants - see $rootScope.$on(API_EVENTS.event)
      */
     .constant('API_EVENTS', {
+        userNotAllowed: 'user-not-authenticated',
         notAuthenticated: 'not-authenticated',
         notAuthorized: 'not-authorized',
         serverError: 'server-error',

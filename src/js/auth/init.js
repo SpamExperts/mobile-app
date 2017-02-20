@@ -43,6 +43,13 @@ angular.module('SpamExpertsApp')
                 });
             });
 
+            $rootScope.$on(API_EVENTS.userNotAllowed, function() {
+                uiService.alert({
+                    title: 'Not allowed',
+                    template: 'You are not able to use the app as an admin user.'
+                });
+            });
+
             $rootScope.$on(API_EVENTS.notAuthenticated, function() {
                 AuthService.logout();
                 AuthService.clearPassword();

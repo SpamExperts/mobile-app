@@ -578,6 +578,11 @@ angular.module('SpamExpertsApp')
                         }
 
                         response.data = data[key];
+
+                        if (data.userData && data.userData['isReseller']) {
+                            $rootScope.$broadcast(API_EVENTS.userNotAllowed, response);
+                            return $q.reject(response);
+                        }
                     }
 
                     return response;
