@@ -151,6 +151,16 @@
     color: #fff;
 }
 
+.platform-ios {
+    .se-header-bar {
+        .title {
+            height: 40px;
+            padding-top: 3px;
+            padding-bottom: 0;
+        }
+    }
+}
+
 .se-header-bar-stable {
     height: $bar-header-height;
     background-color: $metallic-gray;
@@ -299,6 +309,14 @@
 
     .se-action-divider {
         border-top-color: #ddd !important;
+    }
+}
+
+.platform-ios {
+    .dropdown-actions.popover {
+        .popover-arrow {
+            bottom: initial !important;
+        }
     }
 }
 
