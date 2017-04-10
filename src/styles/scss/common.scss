@@ -149,6 +149,10 @@
     background-color: #39B0DA;
     border: 0;
     color: #fff;
+
+    .button:hover {
+        color: inherit;
+    }
 }
 
 .platform-ios {
