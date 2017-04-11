@@ -27,6 +27,9 @@ angular.module('SpamExpertsApp')
                     AuthService.login(data.hostname, data.username, data.password, data.remember)
                         .then(function(response) {
                             if (!response.data.token) {
+                                if (!isEmpty(response.data.error)) {
+                                    failedPopup.template = response.data.error;
+                                }
                                 uiService.alert(failedPopup);
                                 $scope.data.password = '';
                             } else {

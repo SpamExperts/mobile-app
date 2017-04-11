@@ -283,8 +283,8 @@ angular.module('SpamExpertsApp')
             $scope.searchDomain = $state.params.previousState.searchDomain;
             $scope.message = message;
 
-            $scope.isCurrentViewAvailable = function() {
-                return $scope.isLoading === false &&
+            $scope.isViewAvailable = function() {
+                return !$scope.isLoading &&
                     $scope.message.details &&
                     $scope.message.details[$scope.selectedTab];
             };

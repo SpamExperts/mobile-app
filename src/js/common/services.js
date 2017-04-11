@@ -577,6 +577,14 @@ angular.module('SpamExpertsApp')
                             $timeout.cancel(requestTimer);
                         }
 
+                        // we may need to check errors
+                        if (isEmpty(data['key']) &&
+                            !isEmpty(data['body']['messageQueue']) &&
+                            !isEmpty(data['body']['messageQueue']['error'])
+                        ) {
+                            data[key]['error'] = data['body']['messageQueue']['error'];
+                        }
+
                         response.data = data[key];
 
                         if (data.userData && data.userData['isReseller']) {
