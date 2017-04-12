@@ -33,7 +33,7 @@ Options:
     -p
       specify platform: android or ios
     -s
-      specify keystore file for android signing
+      specify keystore file for android signing (Android only, use Automatic sign from XCode for iOS)
     -v
       specify a new version number for the new build
     -t
@@ -101,7 +101,7 @@ rm -rf resources/splash.png resources/icon.png
 rm -rf www/styles www/js www/lib www/src
 
 # build for platform
-if [ -z "${KEYSTORE_FILE}" ]; then
+if [ -z "${KEYSTORE_FILE}" -a "$PLATFORM" = "android" ]; then
     # do not build for release if no keystore was provided
     OUTPUT="$(cordova build $PLATFORM | tail -n 1)"
 else
@@ -123,11 +123,11 @@ if [ "$PLATFORM" = "android" ]; then
     else
         echo "The app has been built: ${OUTPUT}"
     fi
+
+    rm -rf spamexperts_mobile_app
 elif [ "$PLATFORM" = "ios" ]; then
     cd -
     OUTPUT="$(find . -name 'SpamExpertsQuarantine.xcodeproj')"
-    mv $OUTPUT .
+    echo "The app has been built: ${OUTPUT}"
     echo "Open SpamExpertsQuarantine.xcodeproj with Xcode and build for release using Automatic Provisioning feature."
 fi
-
-rm -rf spamexperts_mobile_app
