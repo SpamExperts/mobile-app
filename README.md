@@ -10,8 +10,8 @@
 - install Ionic `$ sudo npm install -g ionic`
 - run the following command in a terminal
 ```bash
-$ wget https://raw.githubusercontent.com/SpamExperts/mobile-app/master/src/scripts/buildApp.sh && bash buildApp.sh <android | ios>
-$ # buildApp.sh <android | ios> <your-signing-key.keystore | `manual sign for iOS`> <debug>
+$ wget https://raw.githubusercontent.com/SpamExperts/mobile-app/master/src/scripts/buildApp.sh 
+$ bash buildApp.sh -p <android | ios> [-s path_to_keystore_file] [-v new_build_no] [-t path_to_local_template] [-d (debug when signed)] [-h (help)]
 ```
 - install `spamexperts_app.apk` on your Android device.
 - To build for iOS open SpamExpertsQuarantine.xcodeproj with XCode and use the `Automatic provisioning` to sign and build the app.

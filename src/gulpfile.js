@@ -177,13 +177,30 @@ gulp.task('remove-proxy', function() {
         .pipe(gulp.dest('../minified/js'));
 });
 
+gulp.task('set-build-version', function() {
+    var version = getArg("--version");
+    if (version) {
+        gulp.src('config/config.xml')
+        .pipe(
+            replace(
+                /id="com\.spamexperts\.mobileapp" version=".*?"/,
+                'id="com.spamexperts.mobileapp" version="' + version + '"'
+            )
+        )
+        .pipe(gulp.dest('config'))
+        .on('end', function () {
+            gutil.log('Updated the build version to: ' + version);
+        });
+    }
+});
+
 gulp.task('clean', function() {
     del([
         '../minified/**/*.*'
     ], {force: true});
 });
 
-gulp.task('build', ['templates', 'allCss', 'allJs', 'allLib']);
+gulp.task('build', ['templates', 'allCss', 'allJs', 'allLib', 'set-build-version']);
 
 gulp.task('dev', function() {
     minify  = false;
