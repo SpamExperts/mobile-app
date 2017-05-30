@@ -609,6 +609,7 @@ angular.module('SpamExpertsApp')
                         }
 
                         var status = {
+                            '-1': API_EVENTS.serviceUnavailable,
                             302: API_EVENTS.notFound,
                             401: API_EVENTS.notAuthenticated,
                             403: API_EVENTS.notAuthorized,

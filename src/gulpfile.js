@@ -37,19 +37,19 @@ var
 
     dependency = {
         fonts: [
-            'lib/ionic/fonts/ionicons.eot',
-            'lib/ionic/fonts/ionicons.svg',
-            'lib/ionic/fonts/ionicons.ttf',
-            'lib/ionic/fonts/ionicons.woff'
+            'node_modules/ionic-sdk/release/fonts/ionicons.eot',
+            'node_modules/ionic-sdk/release/fonts/ionicons.svg',
+            'node_modules/ionic-sdk/release/fonts/ionicons.ttf',
+            'node_modules/ionic-sdk/release/fonts/ionicons.woff'
         ],
         allCss:  [
-            'lib/ionic/css/ionic.min.css',
-            'lib/ion-datetime-picker/release/ion-datetime-picker.min.css'
+            'node_modules/ionic-sdk/release/css/ionic.min.css',
+            'node_modules/ion-datetime-picker/release/ion-datetime-picker.min.css'
         ],
         allJs: [
-            'lib/ionic/js/ionic.bundle.min.js',
-            'lib/ion-datetime-picker/release/ion-datetime-picker.min.js',
-            'lib/ngCordova/dist/ng-cordova.min.js'
+            'node_modules/ionic-sdk/release/js/ionic.bundle.min.js',
+            'node_modules/ion-datetime-picker/release/ion-datetime-picker.min.js',
+            'node_modules/ng-cordova/dist/ng-cordova.min.js'
         ]
     };
 

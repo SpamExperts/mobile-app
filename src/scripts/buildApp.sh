@@ -62,11 +62,10 @@ ionic start spamexperts_mobile_app ${TEMPLATE}
 # build assets
 cd spamexperts_mobile_app/www/src/
 npm install
-bower install
-gulp
+node_modules/.bin/gulp
 
 if ! [ -z "${VERSION}" ]; then
-    gulp set-build-version --version ${VERSION}
+    node_modules/.bin/gulp set-build-version --version ${VERSION}
 fi
 cd -
 

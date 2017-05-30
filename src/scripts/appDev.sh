@@ -42,9 +42,8 @@ else
     # build assets
     cd spamexperts_mobile_app/www/src/
     npm install
-    bower install
-    gulp
-    gulp add-proxy --server $2
+    node_modules/.bin/gulp
+    node_modules/.bin/gulp add-proxy --server $2
     cd -
 
     cd spamexperts_mobile_app
