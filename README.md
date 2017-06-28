@@ -37,10 +37,5 @@ On iOS you may need to grant permissions to `.npm` and `.config` before running 
 $ sudo chown -R $USER:$GROUP ~/.npm
 $ sudo chown -R $USER:$GROUP ~/.config
 ```
-Also at times you may encounter some bower `EACCES` error. Fix them by running:
-```bash
-$ bower cache clean
-$ sudo chown -R $USER:$GROUP /restricted_path
-```
 
 For more information visit the [Ionic documentation page](http://ionicframework.com/docs/guide/) .
