@@ -15,7 +15,7 @@ describe('mobile app login page', function() {
 
   		it('PageLayout checking', function() {
     	
-      browser.get('http://192.168.1.187:8100/#/login');
+      browser.get('http://localhost:8100/#/login');
 		
 
    		 expect(Obj.logo.isPresent()).toBeTruthy();                           //checking the presence of the logo//
