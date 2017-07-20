@@ -45,8 +45,8 @@ angular.module('SpamExpertsApp')
 
             $rootScope.$on(API_EVENTS.userNotAllowed, function() {
                 uiService.alert({
-                    title: 'Not allowed',
-                    template: 'You are not able to use the app as an admin user.'
+                    title: 'Error logging in!',
+                    template: 'Sorry, admin users are not able to use this app yet. Please log in as a domain or email user.'
                 });
             });
 

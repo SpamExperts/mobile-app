@@ -587,7 +587,7 @@ angular.module('SpamExpertsApp')
 
                         response.data = data[key];
 
-                        if (data.userData && data.userData['isReseller']) {
+                        if (data.userData && data.userData.role == 'reseller') {
                             $rootScope.$broadcast(API_EVENTS.userNotAllowed, response);
                             return $q.reject(response);
                         }
@@ -620,6 +620,7 @@ angular.module('SpamExpertsApp')
 
                         // broadcast event based on the received status if the stop was not done manually by the user
                         if (!manualStop) {
+                            console.log(status[response.status] + "c/serv.js - line 624");
                             $rootScope.$broadcast(status[response.status], response);
                         }
                     }
