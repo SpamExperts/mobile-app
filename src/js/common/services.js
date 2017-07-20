@@ -619,8 +619,7 @@ angular.module('SpamExpertsApp')
                         };
 
                         // broadcast event based on the received status if the stop was not done manually by the user
-                        if (!manualStop) {
-                            console.log(status[response.status] + "c/serv.js - line 624");
+                        if (!manualStop && !response.config.wasCanceled) {
                             $rootScope.$broadcast(status[response.status], response);
                         }
                     }
