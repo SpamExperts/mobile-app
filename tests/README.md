@@ -37,3 +37,6 @@ $ protractor mobileConf.js
 ```bash
 $ protractor mobileConf.js --specs <specsFile>
 ```
+### Update
+Some tests have .json files attached to them. They take their testing data from there.
+Input data need updated in the .json file. 

@@ -23,7 +23,8 @@ describe('Verify Data Type', function() {
     browser.get('http://localhost:8100/#/login'); 
 
     var test = new PageData();
-    var data = new InputData("server1.test5.simplyspamfree.com", "mobile_app", "qwe123");
+    var dataFile = require('./dataForSuccessfulLogin.json')
+    var data = new InputData(dataFile.hostname, dataFile.username, dataFile.password);
 
     test.hostname.sendKeys(data.hostname);
     test.username.sendKeys(data.username);

@@ -1,0 +1,17 @@
+{
+	"superAdminH":"server1.test15.simplyspamfree.com",	
+	"superAdminU":"user",
+	"superAdminP":"1234",
+
+	"adminH":"server1.test15.simplyspamfree.com",	
+	"adminU":"user1",
+	"adminP":"1234",
+
+	"domainH":"server1.test15.simplyspamfree.com",	
+	"domainU":"example.com",
+	"domainP":"1234",
+
+	"emailH":"server1.test15.simplyspamfree.com",	
+	"emailU":"user@example.com",
+	"emailP":"1234"
+}
