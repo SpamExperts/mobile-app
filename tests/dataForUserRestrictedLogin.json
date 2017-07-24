@@ -1,10 +1,10 @@
 {
 	"superAdminH":"server1.test15.simplyspamfree.com",	
-	"superAdminU":"user",
+	"superAdminU":"internal",
 	"superAdminP":"1234",
 
 	"adminH":"server1.test15.simplyspamfree.com",	
-	"adminU":"user1",
+	"adminU":"user",
 	"adminP":"1234",
 
 	"domainH":"server1.test15.simplyspamfree.com",	
