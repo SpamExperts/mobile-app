@@ -30,7 +30,7 @@ describe('Verify Page Layout', function() {
         // it is ionic coupled with Angular, so ignore the angular load
         browser.ignoreSynchronization = true;
         // Open page
-        browser.get('http://localhost:8101/#/login');
+        browser.get('http://localhost:8100/#/login');
         var test = new PageData();
         var EC = protractor.ExpectedConditions;
         var data = add();

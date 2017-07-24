@@ -40,10 +40,11 @@ describe('mobile app login page', function() {
     var Obj = new LoginPage(); // initialize an object//
     var alert = new AlertPop_up(); //initialize the Popup//
     it('should not be able to login with an inexisting user', function() {
-        browser.get('http://localhost:8101/#/login');
+        browser.get('http://localhost:8100/#/login');
         //The three fields should be provided with valid but deprecated data
         field_cleaner(Obj);
         addCredentials(Obj, data.domain[0], data.username[0], data.password[0]);
         log_check_close(Obj, alert);
+       
     });
 });

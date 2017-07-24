@@ -23,8 +23,8 @@ describe('Verify Data Type', function() {
     browser.get('http://localhost:8100/#/login'); 
 
     var test = new PageData();
-    var dataFile = require('./dataForSuccessfulLogin.json')
-    var data = new InputData(dataFile.hostname, dataFile.username, dataFile.password);
+    var dataFile = require('./dataFor_iU_kL.json')
+    var data = new InputData(dataFile.domain[1], dataFile.username[1], dataFile.password[1]);
 
     test.hostname.sendKeys(data.hostname);
     test.username.sendKeys(data.username);
@@ -32,9 +32,20 @@ describe('Verify Data Type', function() {
     test.rememberButton.click();
     test.logButton.click();
 
-    browser.sleep(500);
+    browser.sleep(700);
     var success = browser.findElement(by.className('dashboard'));
     expect(success.getTagName()).toBe('div');
+    browser.sleep(700);
+    var menuButton = browser.findElement(by.className("button button-icon icon ion-navicon"));
+	menuButton.click();
+
+    var logoutButton = element(by.css('button.button-block.button-light.metallic-border.log-out-button.disable-user-behavior'));
+    logoutButton.click();
+    browser.sleep(800);
+
+    var OKButton = element(by.css(".button.ng-binding.button-positive"));
+    OKButton.click();
+    browser.sleep(800);
   });
 
 });

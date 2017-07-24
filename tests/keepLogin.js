@@ -57,7 +57,7 @@ describe('mobile app login page', function() {
 
     it('should keep the user logged if the button is checked and not logged otherwise', function() {
 
-        browser.get('http://localhost:8101/#/login');
+        browser.get('http://localhost:8100/#/login');
         field_cleaner(Obj);
         //for being able to login, the .json file must have valid user, and password on the second element of the arrays.
         addCredentials(Obj, data.domain[1], data.username[1], data.password[1]);

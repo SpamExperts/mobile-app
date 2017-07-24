@@ -67,7 +67,7 @@ describe('mobile app login page', function() {
 
     it('should display sugestive error messages', function() {
         
-        browser.get('http://localhost:8101/#/login');
+        browser.get('http://localhost:8100/#/login');
         addCredentials(Obj);
         Obj.logbutton.click();
         expect(logged.loginCheck.isPresent()).toBeTruthy();

@@ -12,7 +12,12 @@ var InputData = function(hostname, username, password)  {
     this.username = username;
     this.password = password;
 }
+function field_cleaner(Obj) {
 
+    Obj.hostname.clear();
+    Obj.password.clear();
+    Obj.username.clear();
+}
 /*
     Test should check that different type of users are allowed or not to use the app. 
     If they are allowed, it tests that their role is displayed correctly and 
@@ -43,11 +48,15 @@ describe('Verify User Restrictions', function() {
 
 
     //  Test for SuperAdminUser
+    
+    field_cleaner(test);
+    
     test.hostname.sendKeys(superAdminData.hostname);
     test.username.sendKeys(superAdminData.username);
     test.password.sendKeys(superAdminData.password);
     test.logButton.click();
-    browser.sleep(500);
+    
+    browser.sleep(800);
 
     role = browser.findElement(by.className("role ng-binding"));
     expect(role.getText()).toEqual("SUPER-ADMIN");
@@ -56,52 +65,54 @@ describe('Verify User Restrictions', function() {
     outgoing = element.all(by.className("text-center button-label ng-binding")).get(1);
     expect(incoming.getText()).toEqual("Incoming Filtering Quarantine");
     expect(outgoing.getText()).toEqual("Outgoing Filtering Quarantine");
-
+ 
     menuButton = browser.findElement(by.className("button button-icon icon ion-navicon"));
     menuButton.click();
-    browser.sleep(500);
+    browser.sleep(800);
 
     logoutButton = element(by.css('button.button-block.button-light.metallic-border.log-out-button.disable-user-behavior'));
     logoutButton.click();
-    browser.sleep(500);
+    browser.sleep(800);
 
     OKButton = element(by.css(".button.ng-binding.button-positive"));
     OKButton.click();
-    browser.sleep(500);
-
+    browser.sleep(800);
+ 
     //  Test for Domain User
+    field_cleaner(test);
     test.hostname.sendKeys(domainData.hostname);
     test.username.sendKeys(domainData.username);
     test.password.sendKeys(domainData.password);
     test.logButton.click();
-    browser.sleep(500);
+    browser.sleep(800);
 
     role = browser.findElement(by.className("role ng-binding"));
     expect(role.getText()).toEqual("DOMAIN USER");
-
+ 
     incoming = element.all(by.className("text-center button-label ng-binding")).get(0);
     outgoing = element.all(by.className("text-center button-label ng-binding")).get(1);
     expect(incoming.getText()).toEqual("Incoming Filtering Quarantine");
     expect(outgoing.getText()).toEqual("Outgoing Filtering Quarantine");
-
+ browser.sleep(800);
     menuButton = browser.findElement(by.className("button button-icon icon ion-navicon"));
     menuButton.click();
-    browser.sleep(500);
+    browser.sleep(800);
 
     logoutButton = element(by.css('button.button-block.button-light.metallic-border.log-out-button.disable-user-behavior'));
     logoutButton.click();
-    browser.sleep(500);
+    browser.sleep(800);
 
     OKButton = element(by.css(".button.ng-binding.button-positive"));
     OKButton.click();
-    browser.sleep(500);
-
+    browser.sleep(800);
+ 
     //  Test for Email User
+    field_cleaner(test);
     test.hostname.sendKeys(emailData.hostname);
     test.username.sendKeys(emailData.username);
     test.password.sendKeys(emailData.password);
     test.logButton.click();
-    browser.sleep(500);
+    browser.sleep(800);
 
     role = browser.findElement(by.className("role ng-binding"));
     expect(role.getText()).toEqual("EMAIL USER");
@@ -110,33 +121,35 @@ describe('Verify User Restrictions', function() {
     //outgoing = browser.findElement(by.className("text-center button-label ng-binding")).get(1);
     expect(incoming.getText()).toEqual("Incoming Filtering Quarantine");
     expect(element.all(by.className("text-center button-label ng-binding")).count()).toBe(1);
-
+     browser.sleep(800);
     menuButton = browser.findElement(by.className("button button-icon icon ion-navicon"));
     menuButton.click();
-    browser.sleep(500);
-
+    browser.sleep(800);
+ 
     logoutButton = element(by.css('button.button-block.button-light.metallic-border.log-out-button.disable-user-behavior'));
     logoutButton.click();
-    browser.sleep(500);
+    browser.sleep(800);
 
     OKButton = element(by.css(".button.ng-binding.button-positive"));
     OKButton.click();
-    browser.sleep(500);
-
+    browser.sleep(800);
+ 
     //  Test for AdminUser
+    field_cleaner(test);
     test.hostname.sendKeys(adminData.hostname);
     test.username.sendKeys(adminData.username);
     test.password.sendKeys(adminData.password);
     test.logButton.click();
-    browser.sleep(500);
+
+    browser.sleep(800);
 
     var errorMessage = element(by.xpath('/html/body/div[3]/div/div[2]'));
     expect(errorMessage.getText()).toEqual("Sorry, admin users are not able to use this app yet. Please log in as a domain or email user.");
 
     var closingButton = element(by.xpath('/html/body/div[3]/div/div[3]/button'));
     closingButton.click();
-    browser.sleep(500);
-
+    browser.sleep(800);
+ 
     test.hostname.clear();
     test.username.clear();
     test.password.clear();
