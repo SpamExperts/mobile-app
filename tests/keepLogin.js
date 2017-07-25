@@ -24,12 +24,12 @@ var AlertPop_up = function() {
 function log_check_close(Obj, alert) {
 
     Obj.logbutton.click();
-      var EC = protractor.ExpectedConditions;
+    var EC = protractor.ExpectedConditions;
     browser.wait(EC.visibilityOf(alert.alertButton), 20000)
         .then(function() {
-    expect(alert.alertBody.getText()).toEqual('Oops! Something went wrong! Please try again later!');
-    alert.alertButton.click(); //close the alert
-      });
+            expect(alert.alertBody.getText()).toEqual('Oops! Something went wrong! Please try again later!');
+            alert.alertButton.click(); //close the alert
+        });
 }
 
 function addCredentials(Obj, host, user, pwd) {
@@ -66,25 +66,36 @@ describe('mobile app login page', function() {
         addCredentials(Obj, data.domain[1], data.username[1], data.password[1]);
         Obj.reminder.click();
         Obj.logbutton.click();
-        browser.sleep(600);
-        expect(alreadyLogged.loginCheck.isPresent()).toBeTruthy();
+        var EC = protractor.ExpectedConditions;
+
+        browser.wait(EC.visibilityOf(alreadyLogged.loginCheck), 20000)
+            .then(function() {
+                expect(alreadyLogged.loginCheck.isPresent()).toBeTruthy();
+
+            });
 
         browser.refresh();
-        browser.sleep(600);
-        expect(alreadyLogged.loginCheck.isPresent()).toBeTruthy();
-
+        browser.wait(EC.visibilityOf(alreadyLogged.loginCheck), 20000)
+            .then(function() {
+                expect(alreadyLogged.loginCheck.isPresent()).toBeTruthy();
+            });
         alreadyLogged.leftButton.click();
 
         alreadyLogged.logoutButton.click();
         dashA.alertButtonOk.click();
-        browser.sleep(600);
-        field_cleaner(Obj);
+
+        browser.wait(EC.visibilityOf(Obj.logbutton), 20000)
+            .then(function() {
+                field_cleaner(Obj);
+            });
         Obj.reminder.click();
         addCredentials(Obj, data.domain[1], data.username[1], data.password[1]);
 
         Obj.logbutton.click();
-        browser.sleep(600);
-        expect(alreadyLogged.loginCheck.isPresent()).toBeTruthy();
+        browser.wait(EC.visibilityOf(alreadyLogged.loginCheck), 20000)
+            .then(function() {
+                expect(alreadyLogged.loginCheck.isPresent()).toBeTruthy();
+            });
         browser.refresh();
         field_cleaner(Obj);
         expect(alreadyLogged.loginCheck.isPresent()).toBeFalsy();

@@ -16,6 +16,11 @@ var AlertPop_up = function() {
 };
 //At the moment the app returns just 1 type of message when the fields are empty
 //or inappropriate
+function field_cleaner(Obj) {
+    Obj.hostname.clear();
+    Obj.password.clear();
+    Obj.user.clear();
+}
 function log_check_close(Obj, alert, message) {
 
     Obj.logbutton.click();
@@ -29,11 +34,7 @@ function log_check_close(Obj, alert, message) {
 }
 
 //clear all the fields for assuring a clean and appropriate test
-function field_cleaner(Obj) {
-    Obj.hostname.clear();
-    Obj.password.clear();
-    Obj.user.clear();
-}
+
 
 //The error message that is checked it's the one the application returns at the moment the test are written. 
 //If there will be an update the error message could be changed depending on the
@@ -89,7 +90,8 @@ describe('mobile app login page', function() {
         Obj.password.sendKeys('12345678');
 
         log_check_close(Obj, alert, msg);
-
+        
+        field_cleaner(Obj);
 
 
 

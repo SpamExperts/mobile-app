@@ -32,7 +32,7 @@ function field_cleaner(Obj) {
 
 function addCredentials(Obj, host, user, pwd) {
     //The three fields should be provided with valid data
-    field_cleaner(Obj);
+  //  field_cleaner(Obj);
     Obj.hostname.sendKeys(host);
     Obj.user.sendKeys(user);
     Obj.password.sendKeys(pwd);
@@ -41,11 +41,13 @@ function addCredentials(Obj, host, user, pwd) {
 describe('mobile app login page', function() {
     var Obj = new LoginPage(); // initialize an object//
     var alert = new AlertPop_up(); //initialize the Popup//
+    
     it('should not be able to login with an inexisting user', function() {
+       //   browser.ignoreSynchronization = true;
         browser.get('http://localhost:8100/#/login');
         //The three fields should be provided with valid but deprecated data
         addCredentials(Obj, data.domain[0], data.username[0], data.password[0]);
         log_check_close(Obj, alert);
-       
+            
     });
 });
