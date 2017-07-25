@@ -1,31 +1,35 @@
-var LoginPage = function() { //create an object witrrasdh the 5 elements from the 
-    //log in page, extracting their position. Will be useful in the future.
-    this.logo = element(by.css('.se-icon'));
-    this.hostname = element(by.model('data.hostname'));
-    this.user = element(by.xpath('/html/body/ion-nav-view/ion-view/ion-content/div[1]/div/div/ion-list/div/ion-item[2]/input'));
-    this.password = element(by.model('data.password'));
-    this.reminder = element.all(by.model('data.remember')).get(0);
-    this.logbutton = element(by.css('.button.button-block.button-dark.se-bold.disable-user-behavior'));
+var LoginPage = function() { //create an object with the 6 elements from the log in page, extracting their position. Will be useful in the future.
+
+    this.logo = element(by.xpath("//img[contains(@class,'se-icon')]"));
+    this.hostname = element(by.xpath("//input[contains(@ng-model,'data.hostname')]"));
+    this.user = element(by.xpath("//input[contains(@ng-model,'data.username')]"));
+    this.password = element(by.xpath("//input[contains(@ng-model,'data.password')]"));
+    this.reminder = element.all(by.xpath("//label[contains(@ng-model,'data.remember')]")).get(0);
+    this.logbutton = element(by.xpath("//button[contains(@on-tap,'login(data)')]"));
 };
 var dashPage = function() {
-    this.leftButton = element(by.css('.button.button-icon.icon.ion-navicon'));
-    this.logoutButton = element(by.css('button.button-block.button-light.metallic-border.log-out-button.disable-user-behavior'));
-    this.loginCheck = element(by.css('.dashboard'));
+    this.leftButton = element(by.xpath("//button[contains(@class,'button button-icon icon ion-navicon')]"));
+    this.logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
+    this.loginCheck = element(by.xpath("//h4[contains(.,'Your available products')]"));
 };
 var dashAlert = function() {
-    this.alertButtonOk = element(by.css('.button.ng-binding.button-positive'));
+    this.alertButtonOk = element(by.xpath("//button[contains(@class,'button ng-binding button-positive')]"));
 };
 var AlertPop_up = function() {
 
-    this.alertBody = element(by.css('.popup-body'));
-    this.alertButton = element(by.css('.button.ng-binding.button-positive'));
+    this.alertBody = element(by.xpath("//div[contains(@class,'popup-body')]"));
+    this.alertButton = element(by.xpath("//button[contains(@ng-click,'event)')]"));
 };
 
 function log_check_close(Obj, alert) {
 
     Obj.logbutton.click();
+      var EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf(alert.alertButton), 20000)
+        .then(function() {
     expect(alert.alertBody.getText()).toEqual('Oops! Something went wrong! Please try again later!');
     alert.alertButton.click(); //close the alert
+      });
 }
 
 function addCredentials(Obj, host, user, pwd) {
@@ -48,7 +52,6 @@ var data = require("./dataFor_iU_kL.json");
 //Here should be a feature allowing the soft to detect an inexisting user
 
 describe('mobile app login page', function() {
-
 
     var Obj = new LoginPage(); // initialize an object//
     var alert = new AlertPop_up(); //initialize the Popup//
