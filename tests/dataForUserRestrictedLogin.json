@@ -1,7 +1,7 @@
 {
 	"superAdminH":"server1.test15.simplyspamfree.com",	
-	"superAdminU":"mobile_app",
-	"superAdminP":"wer123",
+	"superAdminU":"internal",
+	"superAdminP":"1234",
 
 	"adminH":"server1.test15.simplyspamfree.com",	
 	"adminU":"user",

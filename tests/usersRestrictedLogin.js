@@ -1,22 +1,22 @@
 var PageData = function()   {
-
-    this.logo = browser.findElement(by.className('se-icon'));
-    this.hostname = browser.findElement(by.model('data.hostname'));
-    this.username = browser.findElement(by.model('data.username'));
-    this.password = browser.findElement(by.model('data.password'));
-    this.logButton = browser.findElement(by.className('button button-block button-dark se-bold disable-user-behavior'));
-}
+    this.logo = browser.findElement(by.xpath("//img[contains(@src,'logo.svg')]"));
+    this.hostname = browser.findElement(by.xpath("//input[contains(@placeholder,'Hostname')]"));
+    this.username = browser.findElement(by.xpath("//input[contains(@placeholder,'User')]"));
+    this.password = browser.findElement(by.xpath("//input[contains(@placeholder,'Password')]"));
+    this.rememberButton = element.all(by.xpath("//label[contains(@ng-model,'data.remember')]")).get(0);
+    this.logButton = browser.findElement(by.xpath("//button[contains(.,'Log in')]"));
+};
 
 var InputData = function(hostname, username, password)  {
     this.hostname = hostname;
     this.username = username;
     this.password = password;
 }
-function field_cleaner(Obj) {
+function field_cleaner(test) {
 
-    Obj.hostname.clear();
-    Obj.password.clear();
-    Obj.username.clear();
+    test.hostname.clear();
+    test.password.clear();
+    test.username.clear();
 }
 /*
     Test should check that different type of users are allowed or not to use the app. 
@@ -47,38 +47,36 @@ describe('Verify User Restrictions', function() {
     var emailData = new InputData(data.emailH, data.emailU, data.emailP);
 
 
-    //  Test for SuperAdminUser
+    //  Test for SuperAdmin User
     
     field_cleaner(test);
     
     test.hostname.sendKeys(superAdminData.hostname);
     test.username.sendKeys(superAdminData.username);
     test.password.sendKeys(superAdminData.password);
-    test.logButton.click();
-    
+    test.logButton.click();  
     browser.sleep(800);
 
-    role = browser.findElement(by.className("role ng-binding"));
+    role = browser.findElement(by.xpath("html/body/ion-nav-view/ion-side-menus/ion-side-menu-content/ion-nav-view/ion-view[1]/div/div/div/span"));
     expect(role.getText()).toEqual("SUPER-ADMIN");
 
-    incoming = element.all(by.className("text-center button-label ng-binding")).get(0);
-    outgoing = element.all(by.className("text-center button-label ng-binding")).get(1);
-    expect(incoming.getText()).toEqual("Incoming Filtering Quarantine");
-    expect(outgoing.getText()).toEqual("Outgoing Filtering Quarantine");
+    incoming = element.all(by.xpath("//a[contains(.,'Incoming Filtering Quarantine')]"));
+    outgoing = element.all(by.xpath("//a[contains(.,'Outgoing Filtering Quarantine')]"));
+    expect(incoming.isPresent()).toBe(true);
+    expect(outgoing.isPresent()).toBe(true);
  
-    menuButton = browser.findElement(by.className("button button-icon icon ion-navicon"));
+    menuButton = browser.findElement(by.xpath("//button[contains(@class,'button button-icon icon ion-navicon')]"));
     menuButton.click();
-    browser.sleep(800);
 
-    logoutButton = element(by.css('button.button-block.button-light.metallic-border.log-out-button.disable-user-behavior'));
+    logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
     logoutButton.click();
     browser.sleep(800);
 
-    OKButton = element(by.css(".button.ng-binding.button-positive"));
+    OKButton = element(by.xpath("//button[contains(.,'OK')]"));
     OKButton.click();
     browser.sleep(800);
  
-    //  Test for Domain User
+    //  Test for Domain User 
     field_cleaner(test);
     test.hostname.sendKeys(domainData.hostname);
     test.username.sendKeys(domainData.username);
@@ -86,23 +84,20 @@ describe('Verify User Restrictions', function() {
     test.logButton.click();
     browser.sleep(800);
 
-    role = browser.findElement(by.className("role ng-binding"));
+    role = browser.findElement(by.xpath("html/body/ion-nav-view/ion-side-menus/ion-side-menu-content/ion-nav-view/ion-view[1]/div/div/div/span"));
     expect(role.getText()).toEqual("DOMAIN USER");
  
-    incoming = element.all(by.className("text-center button-label ng-binding")).get(0);
-    outgoing = element.all(by.className("text-center button-label ng-binding")).get(1);
-    expect(incoming.getText()).toEqual("Incoming Filtering Quarantine");
-    expect(outgoing.getText()).toEqual("Outgoing Filtering Quarantine");
- browser.sleep(800);
-    menuButton = browser.findElement(by.className("button button-icon icon ion-navicon"));
-    menuButton.click();
-    browser.sleep(800);
+    expect(incoming.isPresent()).toBe(true);
+    expect(outgoing.isPresent()).toBe(true);
 
-    logoutButton = element(by.css('button.button-block.button-light.metallic-border.log-out-button.disable-user-behavior'));
+    menuButton = browser.findElement(by.xpath("//button[contains(@class,'button button-icon icon ion-navicon')]"));
+    menuButton.click();
+
+    logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
     logoutButton.click();
     browser.sleep(800);
 
-    OKButton = element(by.css(".button.ng-binding.button-positive"));
+    OKButton = element(by.xpath("//button[contains(.,'OK')]"));
     OKButton.click();
     browser.sleep(800);
  
@@ -114,23 +109,20 @@ describe('Verify User Restrictions', function() {
     test.logButton.click();
     browser.sleep(800);
 
-    role = browser.findElement(by.className("role ng-binding"));
+    role = browser.findElement(by.xpath("html/body/ion-nav-view/ion-side-menus/ion-side-menu-content/ion-nav-view/ion-view[1]/div/div/div/span"));
     expect(role.getText()).toEqual("EMAIL USER");
 
-    incoming = element.all(by.className("text-center button-label ng-binding")).get(0);
-    //outgoing = browser.findElement(by.className("text-center button-label ng-binding")).get(1);
-    expect(incoming.getText()).toEqual("Incoming Filtering Quarantine");
-    expect(element.all(by.className("text-center button-label ng-binding")).count()).toBe(1);
-     browser.sleep(800);
-    menuButton = browser.findElement(by.className("button button-icon icon ion-navicon"));
+    expect(incoming.isPresent()).toBe(true);
+    expect(outgoing.isPresent()).toBe(false);
+
+    menuButton = browser.findElement(by.xpath("//button[contains(@class,'button button-icon icon ion-navicon')]"));
     menuButton.click();
-    browser.sleep(800);
- 
-    logoutButton = element(by.css('button.button-block.button-light.metallic-border.log-out-button.disable-user-behavior'));
+
+    logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
     logoutButton.click();
     browser.sleep(800);
 
-    OKButton = element(by.css(".button.ng-binding.button-positive"));
+    OKButton = element(by.xpath("//button[contains(.,'OK')]"));
     OKButton.click();
     browser.sleep(800);
  
