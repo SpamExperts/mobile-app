@@ -1,12 +1,13 @@
 // spec.js
 var PageData = function()   {
-    this.logo = browser.findElement(by.xpath("//img[contains(@src,'logo.svg')]"));
-    this.hostname = browser.findElement(by.xpath("//input[contains(@placeholder,'Hostname')]"));
-    this.username = browser.findElement(by.xpath("//input[contains(@placeholder,'User')]"));
-    this.password = browser.findElement(by.xpath("//input[contains(@placeholder,'Password')]"));
+    this.logo = element(by.xpath("//img[contains(@src,'logo.svg')]"));
+    this.hostname = element(by.xpath("//input[contains(@placeholder,'Hostname')]"));
+    this.username = element(by.xpath("//input[contains(@placeholder,'User')]"));
+    this.password = element(by.xpath("//input[contains(@placeholder,'Password')]"));
     this.rememberButton = element.all(by.xpath("//label[contains(@ng-model,'data.remember')]")).get(0);
-    this.logButton = browser.findElement(by.xpath("//button[contains(.,'Log in')]"));
+    this.logButton = element(by.xpath("//button[contains(.,'Log in')]"));
 };
+
 var InputData = function(hostname, username, password)  {
     this.hostname = hostname;
     this.username = username;
@@ -25,12 +26,15 @@ function add() {
     array.push(new InputData("example.com", "mobile-app", "Qwer1234"));           // Correct data type !
     return array;
 }
-describe('Verify Page Layout', function() {
+describe('Verify data type', function() {
     it('Check:', function() {
-        // it is ionic coupled with Angular, so ignore the angular load
-        browser.ignoreSynchronization = true;
+
         // Open page
         browser.get('http://localhost:8100/#/login');
+
+        // it is ionic coupled with Angular, so ignore the angular load
+        browser.ignoreSynchronization = true;
+
         var test = new PageData();
         var EC = protractor.ExpectedConditions;
         var data = add();
@@ -44,16 +48,15 @@ describe('Verify Page Layout', function() {
             var alertButton = element(by.xpath("//button[contains(.,'OK')]"));
             // We need to wait for the element visibility before clicking on it;
             // guessing a pause is not very reliable
-            browser.wait(EC.visibilityOf(alertButton), 20000)
-                .then(function(){
-                    var alert = element(by.xpath("//span[contains(.,'A record with the supplied identity could not be found.')]"));
-                    expect(alert.getText()).toEqual('A record with the supplied identity could not be found.');
-                    alertButton.click();
-                    browser.sleep(500);
-                    test.hostname.clear();
-                    test.username.clear();
-                    test.password.clear();
-                });
+            browser.wait(EC.visibilityOf(alertButton), 5000).then(function(){
+                var alert = element(by.xpath("//span[contains(.,'A record with the supplied identity could not be found.')]"));
+                expect(alert.getText()).toEqual('A record with the supplied identity could not be found.');
+                alertButton.click();
+                browser.sleep(500);             // TO DO
+                test.hostname.clear();
+                test.username.clear();
+                test.password.clear();
+            });
         }
     });
 });
