@@ -44,7 +44,6 @@ describe('mobile app login page', function() {
     var Obj = new LoginPage(); // initialize an object//
     var alert = new AlertPop_up(); //initialize the Popup//
     var msg = 'Please check your credentials!';
-
     it('should display sugestive error messages', function() {
         browser.get('http://localhost:8100/#/login');
 
