@@ -20,7 +20,7 @@ describe('Verify Successful Login', function() {
 
     // Open page
     browser.get('http://localhost:8100/#/login'); 
-     browser.ignoreSynchronization = true;
+    browser.ignoreSynchronization = true;
 
     var test = new PageData();
     var dataFile = require('./dataForSuccessfulLogin.json')
