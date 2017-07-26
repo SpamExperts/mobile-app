@@ -27,6 +27,7 @@ var dashPage = function() {
     this.isearchdate = element(by.xpath("(//div[contains(@class,'col col-30 col-center text-right top-date ng-binding')])[1]"));
     this.osearchdate = element(by.xpath("(//div[@class='col col-30 col-center text-right top-date ng-binding'])[2]"));
     this.suggestionMessage = element(by.xpath("//div[contains(@ng-bind-html,'notice|trust')]"));
+       this.copyRight=element(by.xpath("(//div[@class='col text-center ng-binding'])[1]"));
 };
 
 
@@ -42,6 +43,9 @@ var iSearchPanel = function() {
     this.imonthSearch = element(by.xpath("//button[contains(@on-tap,'pastMonth()')]"));
     this.iclearSearch = element(by.xpath("//button[contains(@on-tap,'clearSearch()')]"));
     this.istartSearch = element(by.xpath("//button[contains(@on-tap,'doSearch()')]"));
+    this.requirements=element(by.xpath("(//div[@ng-if='isSuperAdmin()'])[1]"));
+
+    this.backToResults=element(by.xpath("(//div[contains(.,'Back to results')])[1]"));
 };
 
 
@@ -56,6 +60,20 @@ function extract_data(formatedDate, currentDate) {
     formatedDate[3] = currentDate[4];
     formatedDate[4] = currentDate[5];
     formatedDate[5] = currentDate[6];
+    formatedDate[6]=" ";
+    formatedDate[7]="-";
+    formatedDate[8]=" ";
+    formatedDate[9] = currentDate[8];
+    formatedDate[10] = currentDate[9];
+    formatedDate[11] = " ";
+    formatedDate[12] = currentDate[4];
+    formatedDate[13] = currentDate[5];
+    formatedDate[14] = currentDate[6];
+    formatedDate[15]= " ";
+    formatedDate[16]= currentDate[11];
+    formatedDate[17]= currentDate[12];
+    formatedDate[18]= currentDate[13];
+    formatedDate[19]= currentDate[14];
 }
 
 function field_cleaner(Obj) {
@@ -87,7 +105,7 @@ describe('mobile app login page', function() {
         var currentDate = Date();
         var formatedDate = new Array();
         extract_data(formatedDate, currentDate);
-     
+        formatedDate=formatedDate.join("");
 
         addCredentials(Obj, data.superAdminH, data.superAdminU, data.superAdminP);
         Obj.logbutton.click();
@@ -127,6 +145,10 @@ describe('mobile app login page', function() {
             .then(function() {
                 expect(logged.logoutButton.isPresent()).toBeTruthy();
             });
+        browser.wait(EC.visibilityOf(logged.copyRight), 20000)
+            .then(function() {
+                expect(logged.copyRight.isPresent()).toBeTruthy();
+            });
  //Incoming Layout Check
         logged.incoming.click();
         browser.ignoreSynchronization = true;
@@ -135,6 +157,7 @@ describe('mobile app login page', function() {
 
 
         expect(logged.isearchdate.isPresent()).toBeTruthy();
+        expect(logged.isearchdate.getText()).toEqual(formatedDate);
 
         browser.wait(EC.visibilityOf(logged.iRefresher), 20000)
             .then(function() {
@@ -155,12 +178,13 @@ describe('mobile app login page', function() {
         expect(search.irecipientSearch.isPresent()).toBeTruthy();
 
 
-
         expect(search.ihourSearch.isPresent()).toBeTruthy();
         expect(search.iweekSearch.isPresent()).toBeTruthy();
         expect(search.imonthSearch.isPresent()).toBeTruthy();
         expect(search.iclearSearch.isPresent()).toBeTruthy();
         expect(search.istartSearch.isPresent()).toBeTruthy();
+        expect(search.requirements.isPresent()).toBeTruthy();
+        expect(search.backToResults.isPresent()).toBeTruthy();
 
         browser.navigate().back();
         browser.ignoreSynchronization = false;
@@ -172,6 +196,7 @@ describe('mobile app login page', function() {
 
 
         expect(logged.osearchdate.isPresent()).toBeTruthy();
+        expect(logged.osearchdate.getText()).toEqual(formatedDate);
         browser.wait(EC.visibilityOf(logged.oRefresher), 20000)
             .then(function() {
                 expect(logged.oRefresher.isPresent()).toBeTruthy();
@@ -196,6 +221,8 @@ describe('mobile app login page', function() {
         expect(search.imonthSearch.isPresent()).toBeTruthy();
         expect(search.iclearSearch.isPresent()).toBeTruthy();
         expect(search.istartSearch.isPresent()).toBeTruthy();
+        expect(search.requirements.isPresent()).toBeTruthy();
+        expect(search.backToResults.isPresent()).toBeTruthy();
 
         browser.refresh();
     });

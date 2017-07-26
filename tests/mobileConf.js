@@ -5,12 +5,12 @@ exports.config = {
          'alertCheck.js',
          'superAdminLayout.js',
          'inexistingUser.js',
-         'emailUserLayout.js',
+         
          'elementCheck.js', // border
-         'usersRestrictedLogin.js',
-         'dataType.js',
-         'successfulLogin.js',
-  
+        // 'usersRestrictedLogin.js',
+         //'dataType.js',
+         //'successfulLogin.js',
+  		'emailUserLayout.js'
     ],
     onPrepare: function() {
         browser.driver.manage().window().setSize(1680, 1050);
