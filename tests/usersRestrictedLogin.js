@@ -66,18 +66,21 @@ describe('Verify User Restrictions', function() {
     expect(incoming.isPresent()).toBe(true);
     expect(outgoing.isPresent()).toBe(true);
  
-    menuButton = element(by.xpath("//button[@class='button button-icon icon ion-navicon']"));
+    menuButton = element(by.xpath("//ion-header-bar//button[contains(@class,'ion-navicon')]"));
     browser.wait(EC.visibilityOf(menuButton), 5000).then(function(){
+       expect(menuButton.isPresent()).toBe(true);
+    });
+    browser.wait(EC.elementToBeClickable(menuButton), 5000).then(function(){
        menuButton.click();
     });
 
     logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
-    browser.wait(EC.visibilityOf(logoutButton), 5000).then(function(){
+    browser.wait(EC.elementToBeClickable(logoutButton), 5000).then(function(){
         logoutButton.click();
     });
 
     OKButton = element(by.xpath("//button[contains(.,'OK')]"));
-    browser.wait(EC.visibilityOf(OKButton), 5000).then(function(){
+    browser.wait(EC.elementToBeClickable(OKButton), 5000).then(function(){
         OKButton.click();
     });
  
@@ -96,18 +99,21 @@ describe('Verify User Restrictions', function() {
     expect(incoming.isPresent()).toBe(true);
     expect(outgoing.isPresent()).toBe(true);
 
-    menuButton = element(by.xpath("//button[contains(@class,'button button-icon icon ion-navicon')]"));
+    menuButton = element(by.xpath("//ion-header-bar//button[contains(@class,'ion-navicon')]"));
     browser.wait(EC.visibilityOf(menuButton), 5000).then(function(){
+       expect(menuButton.isPresent()).toBe(true);
+    });
+    browser.wait(EC.elementToBeClickable(menuButton), 5000).then(function(){
        menuButton.click();
     });
 
     logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
-    browser.wait(EC.visibilityOf(logoutButton), 5000).then(function(){
+    browser.wait(EC.elementToBeClickable(logoutButton), 5000).then(function(){
         logoutButton.click();
     });
 
     OKButton = element(by.xpath("//button[contains(.,'OK')]"));
-    browser.wait(EC.visibilityOf(OKButton), 5000).then(function(){
+    browser.wait(EC.elementToBeClickable(OKButton), 5000).then(function(){
         OKButton.click();
     });
  
@@ -127,18 +133,21 @@ describe('Verify User Restrictions', function() {
     expect(incoming.isPresent()).toBe(true);
     expect(outgoing.isPresent()).toBe(false);
 
-    menuButton = element(by.xpath("//button[contains(@class,'button button-icon icon ion-navicon')]"));
+    menuButton = element(by.xpath("//ion-header-bar//button[contains(@class,'ion-navicon')]"));
     browser.wait(EC.visibilityOf(menuButton), 5000).then(function(){
+       expect(menuButton.isPresent()).toBe(true);
+    });
+    browser.wait(EC.elementToBeClickable(menuButton), 5000).then(function(){
        menuButton.click();
     });
 
     logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
-    browser.wait(EC.visibilityOf(logoutButton), 5000).then(function(){
+    browser.wait(EC.elementToBeClickable(logoutButton), 5000).then(function(){
         logoutButton.click();
     });
 
     OKButton = element(by.xpath("//button[contains(.,'OK')]"));
-    browser.wait(EC.visibilityOf(OKButton), 5000).then(function(){
+    browser.wait(EC.elementToBeClickable(OKButton), 5000).then(function(){
         OKButton.click();
     });
  
@@ -155,7 +164,7 @@ describe('Verify User Restrictions', function() {
     });
 
     var closingButton = element(by.xpath('/html/body/div[3]/div/div[3]/button'));
-    browser.wait(EC.visibilityOf(closingButton), 5000).then(function(){ 
+    browser.wait(EC.elementToBeClickable(closingButton), 5000).then(function(){ 
         closingButton.click();
     });
 
