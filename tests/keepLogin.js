@@ -10,7 +10,7 @@ var LoginPage = function() { //create an object with the 6 elements from the log
 var dashPage = function() {
     this.leftButton = element(by.xpath("//button[contains(@class,'button button-icon icon ion-navicon')]"));
     this.logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
-    this.loginCheck = element(by.xpath("//h4[contains(.,'Your available products')]"));
+    this.loginCheck = element.all(by.xpath("//h4[contains(.,'Your available products')]")).get(0);
 };
 var dashAlert = function() {
     this.alertButtonOk = element(by.xpath("//button[contains(@class,'button ng-binding button-positive')]"));

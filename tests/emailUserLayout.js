@@ -87,11 +87,11 @@ describe('mobile app login page', function() {
         var currentDate = Date();
         var formatedDate = new Array();
         extract_data(formatedDate, currentDate);
-     
+        // console.log(formatedDate);
 
-        addCredentials(Obj, data.superAdminH, data.superAdminU, data.superAdminP);
+        addCredentials(Obj, data.emailH, data.emailU, data.emailP);
         Obj.logbutton.click();
-//Firstpage's buttons 
+        //Incoming Layout Check
         browser.wait(EC.visibilityOf(logged.loginCheck), 20000)
             .then(function() {
                 expect(logged.loginCheck.isPresent()).toBeTruthy();
@@ -99,10 +99,6 @@ describe('mobile app login page', function() {
         browser.wait(EC.visibilityOf(logged.bigIncoming), 20000)
             .then(function() {
                 expect(logged.bigIncoming.isPresent()).toBeTruthy();
-            });
-        browser.wait(EC.visibilityOf(logged.bigOutgoing), 20000)
-            .then(function() {
-                expect(logged.bigOutgoing.isPresent()).toBeTruthy();
             });
         browser.wait(EC.visibilityOf(logged.leftButton), 20000)
             .then(function() {
@@ -119,21 +115,15 @@ describe('mobile app login page', function() {
             .then(function() {
                 expect(logged.incoming.isPresent()).toBeTruthy();
             });
-        browser.wait(EC.visibilityOf(logged.outgoing), 20000)
-            .then(function() {
-                expect(logged.outgoing.isPresent()).toBeTruthy();
-            });
         browser.wait(EC.visibilityOf(logged.logoutButton), 20000)
             .then(function() {
                 expect(logged.logoutButton.isPresent()).toBeTruthy();
             });
- //Incoming Layout Check
+
         logged.incoming.click();
         browser.ignoreSynchronization = true;
 
         expect(logged.ibuttonMessage.isPresent()).toBeTruthy();
-
-
         expect(logged.isearchdate.isPresent()).toBeTruthy();
 
         browser.wait(EC.visibilityOf(logged.iRefresher), 20000)
@@ -150,9 +140,8 @@ describe('mobile app login page', function() {
         expect(logged.left_arrow.isPresent()).toBeTruthy();
         expect(logged.fromdate.isPresent()).toBeTruthy();
         expect(logged.todate.isPresent()).toBeTruthy();
-        expect(search.idomainSearch.isPresent()).toBeTruthy();
         expect(search.isenderSearch.isPresent()).toBeTruthy();
-        expect(search.irecipientSearch.isPresent()).toBeTruthy();
+
 
 
 
@@ -161,42 +150,6 @@ describe('mobile app login page', function() {
         expect(search.imonthSearch.isPresent()).toBeTruthy();
         expect(search.iclearSearch.isPresent()).toBeTruthy();
         expect(search.istartSearch.isPresent()).toBeTruthy();
-
-        browser.navigate().back();
-        browser.ignoreSynchronization = false;
-//Outgoing Layout Check
-        logged.bigOutgoing.click();
-        browser.ignoreSynchronization = true;
-
-        expect(logged.obuttonMessage.isPresent()).toBeTruthy();
-
-
-        expect(logged.osearchdate.isPresent()).toBeTruthy();
-        browser.wait(EC.visibilityOf(logged.oRefresher), 20000)
-            .then(function() {
-                expect(logged.oRefresher.isPresent()).toBeTruthy();
-            });
-        browser.wait(EC.visibilityOf(search.osearchButton), 20000)
-            .then(function() {
-                expect(search.osearchButton.isPresent()).toBeTruthy();
-            });
-
-        search.osearchButton.click();
-        expect(logged.left_arrow.isPresent()).toBeTruthy();
-        expect(logged.fromdate.isPresent()).toBeTruthy();
-        expect(logged.todate.isPresent()).toBeTruthy();
-        expect(search.idomainSearch.isPresent()).toBeTruthy();
-        expect(search.isenderSearch.isPresent()).toBeTruthy();
-        expect(search.irecipientSearch.isPresent()).toBeTruthy();
-
-
-
-        expect(search.ihourSearch.isPresent()).toBeTruthy();
-        expect(search.iweekSearch.isPresent()).toBeTruthy();
-        expect(search.imonthSearch.isPresent()).toBeTruthy();
-        expect(search.iclearSearch.isPresent()).toBeTruthy();
-        expect(search.istartSearch.isPresent()).toBeTruthy();
-
         browser.refresh();
     });
 });

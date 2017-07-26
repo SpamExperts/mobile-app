@@ -1,15 +1,16 @@
 exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     specs: [       
-        // 'keepLogin.js',
-        // 'alertCheck.js',
-        // 'dashPageButtons.js',
-        // 'inexistingUser.js',
-        // 'elementCheck.js', // border
-        'usersRestrictedLogin.js',
-        'dataType.js',
-        'successfulLogin.js'
-
+         'keepLogin.js',
+         'alertCheck.js',
+         'superAdminLayout.js',
+         'inexistingUser.js',
+         'emailUserLayout.js',
+         'elementCheck.js', // border
+         'usersRestrictedLogin.js',
+         'dataType.js',
+         'successfulLogin.js',
+  
     ],
     onPrepare: function() {
         browser.driver.manage().window().setSize(1680, 1050);

@@ -57,7 +57,7 @@ describe('mobile app login page', function() {
         Obj.hostname.sendKeys('example.com');
 
         log_check_close(Obj, alert, msg);
-
+        
         //click the log in button just with the user field, filled
         Obj.user.sendKeys('adminTest');
         log_check_close(Obj, alert, msg);
