@@ -43,11 +43,15 @@ describe('mobile app login page', function() {
     var alert = new AlertPop_up(); //initialize the Popup//
     
     it('should not be able to login with an inexisting user', function() {
-       //   browser.ignoreSynchronization = true;
+       
         browser.get('http://localhost:8100/#/login');
-        //The three fields should be provided with valid but deprecated data
+     
+        var EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf(Obj.hostname), 20000)
+        .then(function() {
         addCredentials(Obj, data.domain[0], data.username[0], data.password[0]);
+          browser.ignoreSynchronization = true;
         log_check_close(Obj, alert);
-            
+            });
     });
 });
