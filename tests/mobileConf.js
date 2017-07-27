@@ -3,21 +3,21 @@ exports.config = {
     specs: [       
          'keepLogin.js',
          'alertCheck.js',
-         'superAdminLayout.js',
          'inexistingUser.js',
-         
          'elementCheck.js', // border
         // 'usersRestrictedLogin.js',
          //'dataType.js',
          //'successfulLogin.js',
-  		'emailUserLayout.js'
+        'superAdminLayout.js',
+  		'emailUserLayout.js',
+        'domainUserLayout.js'
     ],
     onPrepare: function() {
         browser.driver.manage().window().setSize(1680, 1050);
     },
     capabilities: {
         browserName: 'chrome',
-        name: 'Unnamed Job',
+        name: 'Mobile app tests',
         count: 1,
         shardTestFiles: false,
         maxInstances: 10,
