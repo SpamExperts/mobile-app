@@ -20,23 +20,34 @@ function field_cleaner(test) {
     test.username.clear();
 }
 
+function checkSetDatePopup(){
+	
+	var title = element(by.xpath("//h3[contains(.,'Pick a date and a time')]"));
+	var body = element(by.xpath("//div[contains(@class,'ion-datetime-picker')]"));
+	var OKButton = element(by.xpath("//button[contains(.,'OK')]"));
+	var cancelButton = element(by.xpath("//button[contains(.,'Cancel')]"));
+
+	expect(title.getText()).toEqual("Pick a date and a time");
+	expect(body.isPresent()).toBe(true);
+	expect(OKButton.getText()).toEqual("OK");
+	expect(cancelButton.getText()).toEqual("Cancel");
+
+	browser.wait(EC.elementToBeClickable(cancelButton), 5000).then(function(){
+        cancelButton.click();
+    });
+}
+
 function checkIncomingPage(){
 
     var name = element(by.xpath("(//div[@ng-if='searchDomain'])[1]")); 
     var content = element(by.xpath("(//ion-item[contains(.,'No entries. Pull to refresh...')])[1]"));
     var menuButton = element(by.xpath("(//button[contains(@on-tap,'toggleLeftMenu($event)')])[1]"));
     var timeDate = element(by.xpath("(//div[contains(@class,'col col-30 col-center text-right top-date ng-binding')])[1]"));
-    var currentDate = new Date();
-    var day = currentDate.getDate().toString();
-    var month = months[currentDate.getMonth()];
-    var year = currentDate.getFullYear().toString();
 
     expect(name.getText()).toEqual(domainData.username);
     expect(content.getText()).toEqual("No entries. Pull to refresh...");
     expect(menuButton.isPresent()).toBe(true);
     expect(timeDate.isPresent()).toBe(true);
-
-    var buildDate = (((day.concat(" ", month)).concat(" - ", day)).concat(" ", month)).concat(" ", year);
     expect(timeDate.getText()).toEqual(buildDate);
 }
 
@@ -46,17 +57,11 @@ function checkOutgoingPage(){
     var content = element(by.xpath("(//ion-item[contains(.,'No entries. Pull to refresh...')])[2]"));
     var menuButton = element(by.xpath("(//button[contains(@on-tap,'toggleLeftMenu($event)')])[2]"));
     var timeDate = element(by.xpath("(//div[contains(@class,'col col-30 col-center text-right top-date ng-binding')])[2]"));
-    var currentDate = new Date();
-    var day = currentDate.getDate().toString();
-    var month = months[currentDate.getMonth()];
-    var year = currentDate.getFullYear().toString();
 
     expect(name.getText()).toEqual(domainData.username);
     expect(content.getText()).toEqual("No entries. Pull to refresh...");
     expect(menuButton.isPresent()).toBe(true);
     expect(timeDate.isPresent()).toBe(true);
-
-    var buildDate = (((day.concat(" ", month)).concat(" - ", day)).concat(" ", month)).concat(" ", year);
     expect(timeDate.getText()).toEqual(buildDate);
 }
 
@@ -93,6 +98,20 @@ function checkSearchMenu(){
     expect(toDateField.isPresent()).toBe(true);
     expect(doSearch.isPresent()).toBe(true);
     expect(doClear.isPresent()).toBe(true);
+    expect(fromDateField.getText()).toEqual(fromDate);
+    expect(toDateField.getText()).toEqual(toDate);
+
+    browser.wait(EC.elementToBeClickable(fromDateField), 5000).then(function(){
+        fromDateField.click();
+    });
+
+    checkSetDatePopup();
+
+    browser.wait(EC.elementToBeClickable(toDateField), 5000).then(function(){
+        toDateField.click();
+    });
+
+    checkSetDatePopup();
 }
 
 describe('Verify Domain User Layout', function() {
@@ -106,7 +125,29 @@ describe('Verify Domain User Layout', function() {
     var data = require('./dataForUserRestrictedLogin.json');
     EC = protractor.ExpectedConditions;
     domainData = new InputData(data.domainH, data.domainU, data.domainP);
-    months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var menuButton;
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var currentDate = new Date();
+   	var day = currentDate.getDate().toString();
+    var month = months[currentDate.getMonth()];
+    var year = currentDate.getFullYear().toString();
+	buildDate = (((day.concat(" ", month)).concat(" - ", day)).concat(" ", month)).concat(" ", year);
+
+	var monthNumber = (currentDate.getMonth() + 1).toString();
+	if(currentDate.getMonth() + 1 < 10)
+		monthNumber = "0".concat("", monthNumber);
+	var dayNumber = currentDate.getDate().toString();
+	if(currentDate.getDate() < 10)
+		dayNumber = "0".concat("", dayNumber);
+	var hourNumber = currentDate.getHours().toString();
+	if(currentDate.getHours() < 10)
+		hourNumber = "0".concat("", hourNumber);
+	var minuteNumber = currentDate.getMinutes().toString();
+	if(currentDate.getMinutes() < 10)
+		minuteNumber = "0".concat("", minuteNumber);
+
+	fromDate = ((year.concat("-", monthNumber)).concat("-",dayNumber)).concat(" ","00:00");
+	toDate = (((year.concat("-", monthNumber)).concat("-",dayNumber)).concat(" ",hourNumber)).concat(":", minuteNumber);
 
     //	Login
     field_cleaner(test);
@@ -123,7 +164,6 @@ describe('Verify Domain User Layout', function() {
     var outgoing = element(by.xpath("//a[contains(@ui-sref,'main.outgoingLogSearch')]"));
     var title = element(by.xpath("//div[@class='dashboard']//h4[contains(.,'Your available products')]"));
  	var credit = element.all(by.xpath("//div[@class='col text-center ng-binding']")).get(0);
- 	var menuButton = element(by.xpath("//ion-header-bar//button[contains(@class,'ion-navicon')]"));
 
  	//	Check Header
     browser.wait(EC.visibilityOf(header), 5000).then(function(){   
@@ -138,11 +178,9 @@ describe('Verify Domain User Layout', function() {
     expect(title.isPresent()).toBe(true);
     //	Check credit    
     expect(credit.getText()).toEqual("© 2017 SpamExperts");
-    //	Check menuButton   
-    expect(menuButton.isPresent()).toBe(true);
-
 
     //	Enter Incoming Menu
+
     incoming.click();
     //browser.ignoreSynchronization = true;
 
@@ -151,15 +189,18 @@ describe('Verify Domain User Layout', function() {
     browser.wait(EC.visibilityOf(inHeader), 5000).then(function(){   
         expect(inHeader.getText()).toEqual("Incoming spam messages");
     });
+    menuButton = element(by.xpath("(//ion-header-bar//button[contains(@class,'ion-navicon')])[2]"));
+    expect(menuButton.isPresent()).toBeTruthy();
+
     checkIncomingPage();
 
     //	Enter inSearch Menu
-    var searchButton = element(by.xpath("(//button[contains(@on-tap,'toggleRightMenu($event)')])[1]"));
-    browser.wait(EC.visibilityOf(searchButton), 5000).then(function(){
-       expect(searchButton.isPresent()).toBe(true);
+    var searchInButton = element(by.xpath("(//button[contains(@on-tap,'toggleRightMenu($event)')])[1]"));
+    browser.wait(EC.visibilityOf(searchInButton), 5000).then(function(){
+       expect(searchInButton.isPresent()).toBe(true);
     });
-    browser.wait(EC.elementToBeClickable(searchButton), 5000).then(function(){
-        searchButton.click();
+    browser.wait(EC.elementToBeClickable(searchInButton), 5000).then(function(){
+        searchInButton.click();
     });
 
     //	Check inSearch Menu
@@ -180,7 +221,7 @@ describe('Verify Domain User Layout', function() {
 
      //	Enter Outgoing Menu
 
-/*    outgoing.click();
+    outgoing.click();
     //browser.ignoreSynchronization = true;
 
     //	Check Outgoing Page
@@ -188,15 +229,18 @@ describe('Verify Domain User Layout', function() {
     browser.wait(EC.visibilityOf(outHeader), 5000).then(function(){   
         expect(outHeader.getText()).toEqual("Outgoing spam messages");
     });
+    menuButton = element(by.xpath("(//ion-header-bar//button[contains(@class,'ion-navicon')])[3]"));
+    expect(menuButton.isPresent()).toBe(true);
+
     checkOutgoingPage();
 
     //	Enter outSearch Menu
-    searchButton = element(by.xpath("(//button[@on-tap='toggleRightMenu($event)'])[2]"));
-    browser.wait(EC.visibilityOf(searchButton), 5000).then(function(){
-       expect(searchButton.isPresent()).toBe(true);
+    var searchOutButton = element(by.xpath("(//button[@on-tap='toggleRightMenu($event)'])[2]"));
+    browser.wait(EC.visibilityOf(searchOutButton), 5000).then(function(){
+       expect(searchOutButton.isPresent()).toBe(true);
     });
-    browser.wait(EC.elementToBeClickable(searchButton), 5000).then(function(){
-        searchButton.click();
+    browser.wait(EC.elementToBeClickable(searchOutButton), 5000).then(function(){
+        searchOutButton.click();
     });
 
     //	Check outSearch Menu
@@ -214,9 +258,10 @@ describe('Verify Domain User Layout', function() {
     //	Go back to dashboard
     browser.navigate().back();
     //browser.ignoreSynchronization = false;	
-*/
+
 
     //	Log out
+    menuButton = element(by.xpath("(//ion-header-bar//button[contains(@class,'ion-navicon')])[1]"));
     browser.wait(EC.visibilityOf(menuButton), 5000).then(function(){
        expect(menuButton.isPresent()).toBe(true);
     });
