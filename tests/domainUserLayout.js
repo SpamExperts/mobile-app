@@ -126,19 +126,19 @@ describe('Verify Domain User Layout', function() {
     EC = protractor.ExpectedConditions;
     domainData = new InputData(data.domainH, data.domainU, data.domainP);
     var menuButton;
+    
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     var currentDate = new Date();
    	var day = currentDate.getDate().toString();
     var month = months[currentDate.getMonth()];
     var year = currentDate.getFullYear().toString();
-	buildDate = (((day.concat(" ", month)).concat(" - ", day)).concat(" ", month)).concat(" ", year);
 
 	var monthNumber = (currentDate.getMonth() + 1).toString();
 	if(currentDate.getMonth() + 1 < 10)
 		monthNumber = "0".concat("", monthNumber);
 	var dayNumber = currentDate.getDate().toString();
 	if(currentDate.getDate() < 10)
-		dayNumber = "0".concat("", dayNumber);
+		dayNumber = "0".concat("", day);
 	var hourNumber = currentDate.getHours().toString();
 	if(currentDate.getHours() < 10)
 		hourNumber = "0".concat("", hourNumber);
@@ -146,6 +146,7 @@ describe('Verify Domain User Layout', function() {
 	if(currentDate.getMinutes() < 10)
 		minuteNumber = "0".concat("", minuteNumber);
 
+	buildDate = (((dayNumber.concat(" ", month)).concat(" - ", dayNumber)).concat(" ", month)).concat(" ", year);
 	fromDate = ((year.concat("-", monthNumber)).concat("-",dayNumber)).concat(" ","00:00");
 	toDate = (((year.concat("-", monthNumber)).concat("-",dayNumber)).concat(" ",hourNumber)).concat(":", minuteNumber);
 
@@ -288,6 +289,7 @@ describe('Verify Domain User Layout', function() {
 	expect(logIncoming.isPresent()).toBe(true);
 	expect(logOutgoing.isPresent()).toBe(true);
 	expect(logCredit.getText()).toEqual("© 2017 SpamExperts");
+
     browser.wait(EC.elementToBeClickable(logoutButton), 5000).then(function(){
         logoutButton.click();
     });
