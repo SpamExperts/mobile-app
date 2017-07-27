@@ -17,8 +17,6 @@ var dashPage = function() {
     this.bigOutgoing = element(by.xpath("//a[@ui-sref='main.outgoingLogSearch']"));
     this.right_arrow = element(by.xpath("//button[@class='button button-icon icon ion-ios-arrow-right']"));
     this.left_arrow = element(by.xpath("//button[@class='button button-icon icon ion-ios-arrow-left']"));
-    this.fromdate = element(by.xpath("//span[@aria-label='From date']"));
-    this.todate = element(by.xpath("//span[@aria-label='To date']"));
     this.ioleftButton = element(by.xpath("//button[@class='button button-icon icon ion-navicon disable-user-behavior']"));
     this.ibuttonMessage = element(by.xpath("//div/div/div/div[contains(.,'Incoming spam messages')]"));
     this.obuttonMessage = element(by.xpath("//div/div/div/div[contains(.,'Outgoing spam messages')]"));
@@ -27,7 +25,7 @@ var dashPage = function() {
     this.isearchdate = element(by.xpath("(//div[contains(@class,'col col-30 col-center text-right top-date ng-binding')])[1]"));
     this.osearchdate = element(by.xpath("(//div[@class='col col-30 col-center text-right top-date ng-binding'])[2]"));
     this.suggestionMessage = element(by.xpath("//div[contains(@ng-bind-html,'notice|trust')]"));
-       this.copyRight=element(by.xpath("(//div[@class='col text-center ng-binding'])[1]"));
+    this.copyRight=element(by.xpath("(//div[@class='col text-center ng-binding'])[1]"));
 };
 
 
@@ -44,8 +42,13 @@ var iSearchPanel = function() {
     this.iclearSearch = element(by.xpath("//button[contains(@on-tap,'clearSearch()')]"));
     this.istartSearch = element(by.xpath("//button[contains(@on-tap,'doSearch()')]"));
     this.requirements=element(by.xpath("(//div[@ng-if='isSuperAdmin()'])[1]"));
-
+    this.fromdate = element(by.xpath("//span[@aria-label='From date']"));
+    this.todate = element(by.xpath("//span[@aria-label='To date']"));
     this.backToResults=element(by.xpath("(//div[contains(.,'Back to results')])[1]"));
+    this.calendarHead=element(by.xpath("//div[@class='popup-head']"));
+    this.calendarOkButton=element(by.xpath("//button[@class='button ng-binding button-positive']"));
+    this.calendarXButton=element(by.xpath("//button[contains(@class,'button ng-binding button-stable')]"));
+    this.calendar=element(by.xpath("//div[contains(@class,'popup-body')]"));
 };
 
 
@@ -171,8 +174,8 @@ describe('mobile app login page', function() {
         search.isearchButton.click();
 
         expect(logged.left_arrow.isPresent()).toBeTruthy();
-        expect(logged.fromdate.isPresent()).toBeTruthy();
-        expect(logged.todate.isPresent()).toBeTruthy();
+        expect(search.fromdate.isPresent()).toBeTruthy();
+        expect(search.todate.isPresent()).toBeTruthy();
         expect(search.idomainSearch.isPresent()).toBeTruthy();
         expect(search.isenderSearch.isPresent()).toBeTruthy();
         expect(search.irecipientSearch.isPresent()).toBeTruthy();
@@ -186,6 +189,30 @@ describe('mobile app login page', function() {
         expect(search.requirements.isPresent()).toBeTruthy();
         expect(search.backToResults.isPresent()).toBeTruthy();
 
+        search.fromdate.click();
+        
+        expect(search.calendarHead.isPresent()).toBeTruthy();
+        expect(search.calendar.isPresent()).toBeTruthy();
+        expect(search.calendarXButton.isPresent()).toBeTruthy();
+        expect(search.calendarOkButton.isPresent()).toBeTruthy();
+        browser.wait(EC.visibilityOf(search.calendarXButton), 20000)
+            .then(function() {
+                search.calendarXButton.click();
+            });
+            
+        browser.sleep(800);
+        browser.wait(EC.elementToBeClickable(search.todate), 20000)
+            .then(function() {
+        search.todate.click();
+            });
+        expect(search.calendarHead.isPresent()).toBeTruthy();
+        expect(search.calendar.isPresent()).toBeTruthy();
+        expect(search.calendarXButton.isPresent()).toBeTruthy();
+        expect(search.calendarOkButton.isPresent()).toBeTruthy();
+        browser.wait(EC.visibilityOf(search.calendarXButton), 20000)
+            .then(function() {
+                search.calendarXButton.click();
+            });
         browser.navigate().back();
         browser.ignoreSynchronization = false;
 //Outgoing Layout Check
@@ -208,8 +235,8 @@ describe('mobile app login page', function() {
 
         search.osearchButton.click();
         expect(logged.left_arrow.isPresent()).toBeTruthy();
-        expect(logged.fromdate.isPresent()).toBeTruthy();
-        expect(logged.todate.isPresent()).toBeTruthy();
+        expect(search.fromdate.isPresent()).toBeTruthy();
+        expect(search.todate.isPresent()).toBeTruthy();
         expect(search.idomainSearch.isPresent()).toBeTruthy();
         expect(search.isenderSearch.isPresent()).toBeTruthy();
         expect(search.irecipientSearch.isPresent()).toBeTruthy();
@@ -223,6 +250,30 @@ describe('mobile app login page', function() {
         expect(search.istartSearch.isPresent()).toBeTruthy();
         expect(search.requirements.isPresent()).toBeTruthy();
         expect(search.backToResults.isPresent()).toBeTruthy();
+        search.fromdate.click();
+        
+        expect(search.calendarHead.isPresent()).toBeTruthy();
+        expect(search.calendar.isPresent()).toBeTruthy();
+        expect(search.calendarXButton.isPresent()).toBeTruthy();
+        expect(search.calendarOkButton.isPresent()).toBeTruthy();
+        browser.wait(EC.visibilityOf(search.calendarXButton), 20000)
+            .then(function() {
+                search.calendarXButton.click();
+            });
+            
+        browser.sleep(800);
+        browser.wait(EC.elementToBeClickable(search.todate), 20000)
+            .then(function() {
+        search.todate.click();
+            });
+        expect(search.calendarHead.isPresent()).toBeTruthy();
+        expect(search.calendar.isPresent()).toBeTruthy();
+        expect(search.calendarXButton.isPresent()).toBeTruthy();
+        expect(search.calendarOkButton.isPresent()).toBeTruthy();
+        browser.wait(EC.visibilityOf(search.calendarXButton), 20000)
+            .then(function() {
+                search.calendarXButton.click();
+            });
 
         browser.refresh();
     });

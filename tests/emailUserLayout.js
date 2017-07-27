@@ -17,8 +17,7 @@ var dashPage = function() {
     this.bigOutgoing = element(by.xpath("//a[@ui-sref='main.outgoingLogSearch']"));
     this.right_arrow = element(by.xpath("//button[@class='button button-icon icon ion-ios-arrow-right']"));
     this.left_arrow = element(by.xpath("//button[@class='button button-icon icon ion-ios-arrow-left']"));
-    this.fromdate = element(by.xpath("//span[@aria-label='From date']"));
-    this.todate = element(by.xpath("//span[@aria-label='To date']"));
+    
     this.ioleftButton = element(by.xpath("//button[@class='button button-icon icon ion-navicon disable-user-behavior']"));
     this.ibuttonMessage = element(by.xpath("//div/div/div/div[contains(.,'Incoming spam messages')]"));
     this.obuttonMessage = element(by.xpath("//div/div/div/div[contains(.,'Outgoing spam messages')]"));
@@ -44,6 +43,12 @@ var iSearchPanel = function() {
     this.iclearSearch = element(by.xpath("//button[contains(@on-tap,'clearSearch()')]"));
     this.istartSearch = element(by.xpath("//button[contains(@on-tap,'doSearch()')]"));
     this.backToResults=element(by.xpath("(//div[contains(.,'Back to results')])[1]"));
+    this.fromdate = element(by.xpath("//span[@aria-label='From date']"));
+    this.todate = element(by.xpath("//span[@aria-label='To date']"));
+     this.calendarHead=element(by.xpath("//div[@class='popup-head']"));
+    this.calendarOkButton=element(by.xpath("//button[@class='button ng-binding button-positive']"));
+    this.calendarXButton=element(by.xpath("//button[contains(@class,'button ng-binding button-stable')]"));
+    this.calendar=element(by.xpath("//div[contains(@class,'popup-body')]"));
 };
 
 
@@ -120,9 +125,11 @@ describe('mobile app login page', function() {
         browser.wait(EC.visibilityOf(logged.leftButton), 20000)
             .then(function() {
                 expect(logged.leftButton.isPresent()).toBeTruthy();
-            });
-        logged.leftButton.click();
 
+
+            });
+            browser.sleep(1000);
+             logged.leftButton.click();
         browser.wait(EC.visibilityOf(logged.right_arrow), 20000)
             .then(function() {
                 expect(logged.right_arrow.isPresent()).toBeTruthy();
@@ -160,8 +167,8 @@ describe('mobile app login page', function() {
         search.isearchButton.click();
 
         expect(logged.left_arrow.isPresent()).toBeTruthy();
-        expect(logged.fromdate.isPresent()).toBeTruthy();
-        expect(logged.todate.isPresent()).toBeTruthy();
+        expect(search.fromdate.isPresent()).toBeTruthy();
+        expect(search.todate.isPresent()).toBeTruthy();
         expect(search.isenderSearch.isPresent()).toBeTruthy();
 
 
@@ -173,6 +180,30 @@ describe('mobile app login page', function() {
         expect(search.iclearSearch.isPresent()).toBeTruthy();
         expect(search.istartSearch.isPresent()).toBeTruthy();
         expect(search.backToResults.isPresent()).toBeTruthy();
+        search.fromdate.click();
+        
+        expect(search.calendarHead.isPresent()).toBeTruthy();
+        expect(search.calendar.isPresent()).toBeTruthy();
+        expect(search.calendarXButton.isPresent()).toBeTruthy();
+        expect(search.calendarOkButton.isPresent()).toBeTruthy();
+        browser.wait(EC.visibilityOf(search.calendarXButton), 20000)
+            .then(function() {
+                search.calendarXButton.click();
+            });
+            
+        browser.sleep(800);
+        browser.wait(EC.elementToBeClickable(search.todate), 20000)
+            .then(function() {
+        search.todate.click();
+            });
+        expect(search.calendarHead.isPresent()).toBeTruthy();
+        expect(search.calendar.isPresent()).toBeTruthy();
+        expect(search.calendarXButton.isPresent()).toBeTruthy();
+        expect(search.calendarOkButton.isPresent()).toBeTruthy();
+        browser.wait(EC.visibilityOf(search.calendarXButton), 20000)
+            .then(function() {
+                search.calendarXButton.click();
+            });
         browser.refresh();
     });
 });
