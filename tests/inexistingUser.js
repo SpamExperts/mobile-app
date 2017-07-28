@@ -7,7 +7,7 @@ var LoginPage = function() { //create an object with the 6 elements from the log
     this.reminder = element.all(by.xpath("//label[contains(@ng-model,'data.remember')]")).get(0);
     this.logbutton = element(by.xpath("//button[contains(@on-tap,'login(data)')]"));
 };
-var data = require("./dataFor_iU_kL.json");
+var data = require("./dataForUserRestrictedLogin.json");
 var AlertPop_up = function() {
 
     this.alertBody = element(by.xpath("//div[contains(@class,'popup-body')]"));
@@ -51,7 +51,7 @@ describe('mobile app login page', function() {
         var EC = protractor.ExpectedConditions;
         browser.wait(EC.visibilityOf(Obj.hostname), 20000)
             .then(function() {
-                addCredentials(Obj, data.domain[0], data.username[0], data.password[0]);
+                addCredentials(Obj, data.domainH, data.domainH, data.domainH);
                 browser.ignoreSynchronization = true;
                 log_check_close(Obj, alert);
             });

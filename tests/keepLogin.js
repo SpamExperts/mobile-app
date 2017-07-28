@@ -44,7 +44,7 @@ function field_cleaner(Obj) {
     Obj.password.clear();
     Obj.user.clear();
 }
-var data = require("./dataFor_iU_kL.json");
+var data = require("./dataForUserRestrictedLogin");
 
 //The error message that is checked it's the one the application returns at the moment the test are written. 
 //If there will be an update the error message could be changed depending on the
@@ -63,7 +63,7 @@ describe('mobile app login page', function() {
         browser.get('http://localhost:8100/#/login');
         field_cleaner(Obj);
         //for being able to login, the .json file must have valid user, and password on the second element of the arrays.
-        addCredentials(Obj, data.domain[1], data.username[1], data.password[1]);
+        addCredentials(Obj, data.superAdminH, data.superAdminU, data.superAdminP);
         Obj.reminder.click();
         Obj.logbutton.click();
         var EC = protractor.ExpectedConditions;
@@ -89,7 +89,7 @@ describe('mobile app login page', function() {
                 field_cleaner(Obj);
             });
         Obj.reminder.click();
-        addCredentials(Obj, data.domain[1], data.username[1], data.password[1]);
+        addCredentials(Obj, data.superAdminH, data.superAdminU, data.superAdminP);
 
         Obj.logbutton.click();
         browser.wait(EC.visibilityOf(alreadyLogged.loginCheck), 20000)

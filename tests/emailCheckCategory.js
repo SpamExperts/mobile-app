@@ -260,7 +260,7 @@ describe('mobile app login page', function() {
     var omailBtn=new omailButtons();
     var ocheckMail=new omailLayout();
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 50000;
-    it('should keep the user logged if the button is checked and not logged otherwise', function() {
+    it('should check email page layout', function() {
     browser.get('http://localhost:8100/#/login');
         field_cleaner(Obj);
         //for being able to login, the .json file must have valid user, and password on the second element of the arrays.

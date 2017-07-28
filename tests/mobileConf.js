@@ -10,7 +10,9 @@ exports.config = {
          //'successfulLogin.js',
         'superAdminLayout.js',
   		'emailUserLayout.js',
-        'domainUserLayout.js'
+        //'domainUserLayout.js',
+        'emailCheckCategory.js'
+
     ],
     onPrepare: function() {
         browser.driver.manage().window().setSize(1680, 1050);
