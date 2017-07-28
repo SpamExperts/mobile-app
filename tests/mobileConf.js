@@ -9,10 +9,11 @@ exports.config = {
          //'dataType.js',
          //'successfulLogin.js',
         'superAdminLayout.js',
-  		'emailUserLayout.js',
+  		  'emailUserLayout.js',
+        'checkTimeButtons.js',
         //'domainUserLayout.js',
-        'emailCheckCategory.js'
-
+        'emailCheckCategory.js',
+      
     ],
     onPrepare: function() {
         browser.driver.manage().window().setSize(1680, 1050);

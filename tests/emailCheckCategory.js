@@ -318,7 +318,7 @@ describe('mobile app login page', function() {
                search.istartSearch.click();
             });
          checkLayout(omailBtn,ocheckMail);
-         
+         browser.refresh();
                      
                       
                      

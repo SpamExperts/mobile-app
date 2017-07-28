@@ -205,5 +205,6 @@ describe('mobile app login page', function() {
                 search.calendarXButton.click();
             });
         browser.refresh();
+        browser.refresh();
     });
 });

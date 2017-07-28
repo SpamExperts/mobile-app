@@ -203,7 +203,7 @@ describe('mobile app dash page', function() {
             .then(function() {
                 logged.bigIncoming.click();
             });
-
+        browser.sleep(800);
         search.isearchButton.click();
         browser.sleep(800);
         search.ihourSearch.click();
@@ -218,6 +218,8 @@ describe('mobile app dash page', function() {
         browser.sleep(500);
         outputDate = dataDifference(3);
         expect(search.from.getText()).toEqual(outputDate);
-
+        browser.refresh();
+        field_cleaner(Obj);
+        browser.refresh();
     });
 });
