@@ -122,6 +122,7 @@ describe('mobile app login page', function() {
             .then(function() {
                 expect(logged.bigIncoming.isPresent()).toBeTruthy();
             });
+             expect(logged.bigOutgoing.isPresent()).toBeFalsy();
         browser.wait(EC.visibilityOf(logged.leftButton), 20000)
             .then(function() {
                 expect(logged.leftButton.isPresent()).toBeTruthy();
@@ -139,6 +140,7 @@ describe('mobile app login page', function() {
             .then(function() {
                 expect(logged.incoming.isPresent()).toBeTruthy();
             });
+            expect(logged.outgoing.isPresent()).toBeFalsy();
         browser.wait(EC.visibilityOf(logged.logoutButton), 20000)
             .then(function() {
                 expect(logged.logoutButton.isPresent()).toBeTruthy();
@@ -170,7 +172,9 @@ describe('mobile app login page', function() {
         expect(search.fromdate.isPresent()).toBeTruthy();
         expect(search.todate.isPresent()).toBeTruthy();
         expect(search.isenderSearch.isPresent()).toBeTruthy();
-
+         expect(search.idomainSearch.isPresent()).toBeFalsy();
+         expect(search.irecipientSearch.isPresent()).toBeFalsy();
+        
 
 
 

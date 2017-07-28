@@ -26,6 +26,7 @@ var dashPage = function() {
     this.osearchdate = element(by.xpath("(//div[@class='col col-30 col-center text-right top-date ng-binding'])[2]"));
     this.suggestionMessage = element(by.xpath("//div[contains(@ng-bind-html,'notice|trust')]"));
     this.copyRight=element(by.xpath("(//div[@class='col text-center ng-binding'])[1]"));
+    this.notification=element(by.xpath("//div[@ng-bind-html='notice|trust']"));
 };
 
 
@@ -154,8 +155,12 @@ describe('mobile app login page', function() {
             });
  //Incoming Layout Check
         logged.incoming.click();
+        
         browser.ignoreSynchronization = true;
-
+  //        browser.wait(EC.visibilityOf(logged.notification), 20000)
+  //           .then(function() {
+  //       expect(logged.notification.isPresent()).toBeTruthy();
+  // });
         expect(logged.ibuttonMessage.isPresent()).toBeTruthy();
 
 
@@ -218,7 +223,10 @@ describe('mobile app login page', function() {
 //Outgoing Layout Check
         logged.bigOutgoing.click();
         browser.ignoreSynchronization = true;
-
+  //   browser.wait(EC.visibilityOf(logged.notification), 20000)
+  //           .then(function() {
+  //       expect(logged.notification.isPresent()).toBeTruthy();
+  // });
         expect(logged.obuttonMessage.isPresent()).toBeTruthy();
 
 
