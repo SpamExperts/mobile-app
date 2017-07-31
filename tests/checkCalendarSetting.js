@@ -58,15 +58,23 @@ function setDate(button, input){
 
     var yearField = element(by.xpath("//input[contains(@ng-model,'bind.year')]"));
 
-    var initXPath = "//option[contains(@label,'February')]";
-    var finalXPath = initXPath.replace("February", month);
+    yearField.clear();
+    yearField.sendKeys(year);
+
+    var initXPath = "//option[contains(@value,'number:3')]";
+    var finalXPath = initXPath.replace("3", input.getMonth());
     var monthField = element(by.xpath(finalXPath));
-    browser.wait(EC.elementToBeClickable(monthField), 5000).then(function(){
+    var monthButton = element(by.xpath("//select[contains(@ng-model,'bind.month')]")); 
+    browser.wait(EC.elementToBeClickable(monthButton), 5000).then(function(){
+        monthButton.click();
         monthField.click();
     });
 
-    initXPath = "//div[contains(@class,'col') and contains(.,'18')]";
-    finalXPath = initXPath.replace("18", day);
+    if(input.getDate() < 6)
+        initXPath = "(//div[contains(@class, 'row calendar')]//div[contains(@class,'col') and contains(.,'6')])[2]";
+    else
+        initXPath = "(//div[contains(@class, 'row calendar')]//div[contains(@class,'col') and contains(.,'6')])[1]";
+    finalXPath = initXPath.replace("'6'", day);
     var dayField = element(by.xpath(finalXPath));
     browser.wait(EC.elementToBeClickable(dayField), 5000).then(function(){
         dayField.click();
@@ -75,8 +83,6 @@ function setDate(button, input){
     var hourField = element(by.xpath("//input[@ng-model='bind.hour']"));
     var minuteField = element(by.xpath("//input[@ng-model='bind.minute']"));
 
-    yearField.clear();
-    yearField.sendKeys(year);
     hourField.clear();
     hourField.sendKeys(hour);
     minuteField.clear();
@@ -93,11 +99,6 @@ function buildHeadDate(fromDate, toDate){
     var from = fromDate;
     var to = toDate;
 
-    if(toDate === null)
-        to = new Date();
-    if(fromDate === null)
-        from = new Date();
-
     var dayFrom = from.getDate().toString();
     var monthFrom = months[from.getMonth()];
     var dayFromNumber = from.getDate().toString();
@@ -112,6 +113,7 @@ function buildHeadDate(fromDate, toDate){
         dayToNumber = "0".concat("", dayTo);
 
     var stringDate = (((dayFromNumber.concat(" ", monthFrom)).concat(" - ", dayToNumber)).concat(" ", monthTo)).concat(" ", yearTo);
+    //console.log(stringDate);
     return stringDate;
 }
 
@@ -137,15 +139,14 @@ describe('Verify Calendar Setting', function() {
 
   it('Check:', function() {
 
-    var inputFrom = new Date("2015-03-25T04:13:00Z");
-    var inputTo = new Date("2016-11-08T18:05:00Z");
+    var inputFrom = new Date("2015-03-17T04:13:00Z");
+    var inputTo = new Date("2016-10-07T18:05:00Z");
 
     monthsLong = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     EC = protractor.ExpectedConditions;
-    fromDate = undefined;
-    toDate = undefined;
-    headDate = undefined;
+    fromDate = new Date();
+    toDate = new Date();
 
     //  Open page
     browser.get('http://localhost:8100/#/login');
@@ -188,25 +189,25 @@ describe('Verify Calendar Setting', function() {
     checkDefault(0);
 
     //  Set From Calendar
-    browser.wait(EC.elementToBeClickable(searchButton), 10000).then(function(){
+    browser.wait(EC.elementToBeClickable(searchButton), 5000).then(function(){
         searchButton.click();
     });
 
     setDate(fromButton, inputFrom);
 
     fromDate = buildDate(inputFrom, false, false);
+    expect(fromButton.getText()).toContain(fromDate.substring(0,13));
+
     toDate = buildDate(new Date(), false, false);
-    expect(fromButton.getText()).toEqual(fromDate);
-    expect(toButton.getText()).toEqual(toDate);
+    expect(toButton.getText()).toContain(toDate.substring(0,13));
 
     browser.wait(EC.elementToBeClickable(doSearch), 5000).then(function(){
         doSearch.click();
     });
 
-    headDate = buildHeadDate(inputFrom, null);
     pageDate = element(by.xpath("//div[contains(@class,'col col-30 col-center text-right top-date ng-binding')]"));
     browser.wait(EC.visibilityOf(pageDate), 5000).then(function(){
-            expect(pageDate.getText()).toEqual(headDate);
+            expect(pageDate.getText()).toEqual(buildHeadDate(inputFrom, new Date()));
     });
 
     browser.wait(EC.elementToBeClickable(searchButton), 10000).then(function(){
@@ -229,20 +230,20 @@ describe('Verify Calendar Setting', function() {
     });
 
     setDate(toButton, inputTo);
-    fromDate = buildDate(new Date(), true, false);
-    toDate = buildDate(inputTo, false, false);
 
-    expect(fromButton.getText()).toEqual(fromDate);
-    expect(toButton.getText()).toEqual(toDate);
+    toDate = buildDate(inputTo, false, false);
+    expect(toButton.getText()).toContain(toDate.substring(0,13));
+
+    fromDate = buildDate(new Date(), true, false);
+    expect(fromButton.getText()).toContain(fromDate.substring(0,13));
 
     browser.wait(EC.elementToBeClickable(doSearch), 5000).then(function(){
         doSearch.click();
     });
 
-    headDate = buildHeadDate(null, inputTo);
     pageDate = element(by.xpath("//div[contains(@class,'col col-30 col-center text-right top-date ng-binding')]"));
     browser.wait(EC.visibilityOf(pageDate), 5000).then(function(){
-            expect(pageDate.getText()).toEqual(headDate);
+            expect(pageDate.getText()).toEqual(buildHeadDate(new Date(), inputTo));
     });
 
     browser.wait(EC.elementToBeClickable(searchButton), 10000).then(function(){
@@ -265,23 +266,20 @@ describe('Verify Calendar Setting', function() {
     });
 
     setDate(fromButton, inputFrom);
-    setDate(toButton, inputTo);
-
     fromDate = buildDate(inputFrom, false, false);
-    toDate = buildDate(inputTo, false, false);
+    expect(fromButton.getText()).toContain(fromDate.substring(0,13));
 
-    expect(fromButton.getText()).toEqual(fromDate);
-    expect(toButton.getText()).toEqual(toDate);
+    setDate(toButton, inputTo);
+    toDate = buildDate(inputTo, false, false);
+    expect(toButton.getText()).toContain(toDate.substring(0,13));
 
     browser.wait(EC.elementToBeClickable(doSearch), 5000).then(function(){
         doSearch.click();
     });
 
-
-    headDate = buildHeadDate(inputFrom, inputTo);
     pageDate = element(by.xpath("//div[contains(@class,'col col-30 col-center text-right top-date ng-binding')]"));
     browser.wait(EC.visibilityOf(pageDate), 5000).then(function(){
-            expect(pageDate.getText()).toEqual(headDate);
+            expect(pageDate.getText()).toEqual(buildHeadDate(inputFrom, inputTo));
     });
     
     browser.wait(EC.elementToBeClickable(searchButton), 10000).then(function(){
