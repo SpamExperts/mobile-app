@@ -8,7 +8,7 @@ var LoginPage = function() { //create an object with the 6 elements from the log
     this.logbutton = element(by.xpath("//button[contains(@on-tap,'login(data)')]"));
 };
 var dashPage = function() {
-    this.leftButton = element(by.xpath("//button[contains(@class,'button button-icon icon ion-navicon')]"));
+    this.leftButton = element(by.xpath("(//button[@class='button button-icon icon ion-navicon'])[1]"));
     this.logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
     this.loginCheck = element.all(by.xpath("//h4[contains(.,'Your available products')]")).get(0);
     this.incoming = element(by.xpath("//ion-list//a[contains(.,'Incoming Filtering Quarantine')]"));
@@ -221,8 +221,10 @@ describe('mobile app login page', function() {
         browser.navigate().back();
         browser.ignoreSynchronization = false;
 //Outgoing Layout Check
-        logged.bigOutgoing.click();
-        browser.ignoreSynchronization = true;
+
+ 	   logged.leftButton.click();
+       logged.outgoing.click();
+       browser.ignoreSynchronization = true;
   //   browser.wait(EC.visibilityOf(logged.notification), 20000)
   //           .then(function() {
   //       expect(logged.notification.isPresent()).toBeTruthy();

@@ -157,10 +157,10 @@ describe('mobile app login page', function() {
         expect(logged.isearchdate.isPresent()).toBeTruthy();
         expect(logged.isearchdate.getText()).toEqual(formatedDate);
 
-        browser.wait(EC.visibilityOf(logged.iRefresher), 20000)
-            .then(function() {
-                expect(logged.iRefresher.isPresent()).toBeTruthy();
-            });
+        // browser.wait(EC.visibilityOf(logged.iRefresher), 20000)
+        //     .then(function() {
+        //         expect(logged.iRefresher.isPresent()).toBeTruthy();
+        //     });
         browser.wait(EC.visibilityOf(search.isearchButton), 20000)
             .then(function() {
                 expect(search.isearchButton.isPresent()).toBeTruthy();

@@ -24,14 +24,14 @@ var dashPage = function() {
     this.oRefresher = element(by.xpath("(//ion-item[@ng-if='!loadingEntries && !messageEntries.length'])[2]"));
     this.isearchdate = element(by.xpath("(//div[contains(@class,'col col-30 col-center text-right top-date ng-binding')])[1]"));
     this.osearchdate = element(by.xpath("(//div[@class='col col-30 col-center text-right top-date ng-binding'])[2]"));
-    this.suggestionMessage = element(by.xpath("//div[contains(@ng-bind-html,'notice|trust')]"));
+    this.suggestionMessageClose = element(by.xpath("html/body/ion-nav-view/ion-side-menus/ion-side-menu-content/ion-nav-view/ion-view/ion-content/div[1]/div[1]/div/div/div[1]/ion-slide/i"));
     this.copyRight = element(by.xpath("(//div[@class='col text-center ng-binding'])[1]"));
 };
 
 
 var iSearchPanel = function() {
 
-    this.isearchButton = element(by.xpath("(//button[@on-tap='toggleRightMenu($event)'])[1]"));
+    this.isearchButton = element(by.xpath("html/body/ion-nav-view/ion-side-menus/ion-side-menu-content/ion-nav-view/ion-view/ion-header-bar/div[3]/button"));
     this.osearchButton = element(by.xpath("(//button[@on-tap='toggleRightMenu($event)'])[2]"));
     this.idomainSearch = element(by.xpath("//input[contains(@placeholder,'Domain')]"));
     this.isenderSearch = element(by.xpath("//input[contains(@placeholder,'Sender')]"));
@@ -146,7 +146,10 @@ function dataDifference(interval) {
                 currentDay = currentDay + 1;
                 currentMonth -= 1;
             } else if (currentMonth == 5 || currentMonth == 7 || currentMonth == 10 || currentMonth == 12) {
-                currentMonth -= 1;
+                if(currentDay==31)
+                    currentDay=1;
+                else
+                    currentMonth -= 1;
             } else {
                 if (currentMonth == 3 && currentYear % 4 == 0)
                     currentDay = currentDay - 1;
@@ -203,8 +206,10 @@ describe('mobile app dash page', function() {
             .then(function() {
                 logged.bigIncoming.click();
             });
-        browser.sleep(800);
+        //logged.suggestionMessageClose.click();
+      
         search.isearchButton.click();
+    
         browser.sleep(800);
         search.ihourSearch.click();
         browser.sleep(500);
