@@ -191,7 +191,7 @@ function checkLayout(mailBtn, checkMail) {
     browser.wait(EC.visibilityOf(checkMail.mailContent), 20000)
         .then(function() {
             expect(checkMail.mailContent.isPresent()).toBeTruthy();
-            expect(checkMail.mailContent.getText()).toEqual('XJS*C4JDBQADN1.NSBN3*2IDNEN*STUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X');
+            expect(checkMail.mailContent.getText()).toEqual('XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X');
         });
     browser.wait(EC.visibilityOf(checkMail.date), 20000)
         .then(function() {
