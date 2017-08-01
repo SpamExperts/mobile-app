@@ -11,6 +11,7 @@
   },
   "homepage": "https://github.com/SpamExperts/mobile-app#readme",
   "devDependencies": {
+    "angular-mocks": "1.5.3",
     "del": "2.2.2",
     "gulp": "3.9.1",
     "gulp-angular-templatecache": "1.9.1",
