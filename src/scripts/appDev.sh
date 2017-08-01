@@ -42,7 +42,7 @@ else
     # build assets
     cd spamexperts_mobile_app/www/src/
     npm install
-    node_modules/.bin/gulp
+    node_modules/.bin/gulp dev
     node_modules/.bin/gulp add-proxy --server $2
     cd -
 

@@ -203,6 +203,12 @@ gulp.task('clean', function() {
 gulp.task('build', ['templates', 'allCss', 'allJs', 'allLib', 'set-build-version']);
 
 gulp.task('dev', function() {
+
+    // add mocking support
+    dependency.allJs.push(
+        'node_modules/angular-mocks/angular-mocks.js'
+    );
+
     minify  = false;
     gutil.log(gutil.colors.green('RUNNING IN DEBUG MODE'));
     gulp.start('default');
