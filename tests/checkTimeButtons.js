@@ -81,7 +81,10 @@ function dataDifference(interval) {
                     currentMonth = 12;
                 } else if (currentMonth == 2 || currentMonth == 4 || currentMonth == 6 || currentMonth == 8 ||
                     currentMonth == 9 || currentMonth == 11)
-                    currentDay = 31;
+                    {
+                    	currentDay = 31;
+                    	currentMonth-=1;
+                    			}
                 else if (currentMonth == 5 || currentMonth == 7 || currentMonth == 10 || currentMonth == 12)
                     currentDay = 30;
                 else {
@@ -113,7 +116,8 @@ function dataDifference(interval) {
                     currentYear--;
                 } else if (currentMonth == 2 || currentMonth == 4 || currentMonth == 6 || currentMonth == 8 ||
                     currentMonth == 9 || currentMonth == 11)
-                    currentDay = 31 + currentDay - 7;
+                    {currentDay = 31 + currentDay - 7;
+                    currentMonth-=1;}
                 else if (currentMonth == 5 || currentMonth == 7 || currentMonth == 10 || currentMonth == 12)
                     currentDay = 30 + currentDay - 7;
                 else {
@@ -139,11 +143,9 @@ function dataDifference(interval) {
         case 3:
             if (currentMonth == 1) {
                 currentMonth = 12;
-                currentDay = currentDay + 1;
                 currentYear--;
             } else if (currentMonth == 2 || currentMonth == 4 || currentMonth == 6 || currentMonth == 8 ||
                 currentMonth == 9 || currentMonth == 11) {
-                currentDay = currentDay + 1;
                 currentMonth -= 1;
             } else if (currentMonth == 5 || currentMonth == 7 || currentMonth == 10 || currentMonth == 12) {
                 if(currentDay==31)
