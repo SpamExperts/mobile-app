@@ -1,12 +1,5 @@
-var LoginPage = function() { //create an object with the 6 elements from the log in page, extracting their position. Will be useful in the future.
-
-    this.logo = element(by.xpath("//img[contains(@class,'se-icon')]"));
-    this.hostname = element(by.xpath("//input[contains(@ng-model,'data.hostname')]"));
-    this.user = element(by.xpath("//input[contains(@ng-model,'data.username')]"));
-    this.password = element(by.xpath("//input[contains(@ng-model,'data.password')]"));
-    this.reminder = element.all(by.xpath("//label[contains(@ng-model,'data.remember')]")).get(0);
-    this.logbutton = element(by.xpath("//button[contains(@on-tap,'login(data)')]"));
-};
+var LoginPage=require('./dependencies/LoginPageObject.js');
+var iSearchPanel=require('./dependencies/SearchPanelObject.js')
 var dashPage = function() {
     this.leftButton = element(by.xpath("//button[contains(@class,'button button-icon icon ion-navicon')]"));
     this.logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
@@ -33,26 +26,6 @@ var AlertPop_up = function() {
 
     this.alertBody = element(by.xpath("//div[contains(@class,'popup-body')]"));
     this.alertButton = element(by.xpath("//button[contains(@ng-click,'event)')]"));
-};
-var iSearchPanel = function() {
-
-    this.isearchButton = element(by.xpath("(//button[@on-tap='toggleRightMenu($event)'])[1]"));
-    this.osearchButton = element(by.xpath("(//button[@on-tap='toggleRightMenu($event)'])[2]"));
-    this.idomainSearch = element(by.xpath("//input[contains(@placeholder,'Domain')]"));
-    this.isenderSearch = element(by.xpath("//input[contains(@placeholder,'Sender')]"));
-    this.irecipientSearch = element(by.xpath("//input[contains(@placeholder,'Recipient')]"));
-    this.ihourSearch = element(by.xpath("//button[contains(@on-tap,'past24Hours()')]"));
-    this.iweekSearch = element(by.xpath("//button[contains(@on-tap,'pastWeek()')]"));
-    this.imonthSearch = element(by.xpath("//button[contains(@on-tap,'pastMonth()')]"));
-    this.iclearSearch = element(by.xpath("//button[contains(@on-tap,'clearSearch()')]"));
-    this.istartSearch = element(by.xpath("//button[contains(@on-tap,'doSearch()')]"));
-    this.backToResults = element(by.xpath("(//div[contains(.,'Back to results')])[1]"));
-    this.fromdate = element(by.xpath("//span[@aria-label='From date']"));
-    this.todate = element(by.xpath("//span[@aria-label='To date']"));
-    this.calendarHead = element(by.xpath("//div[@class='popup-head']"));
-    this.calendarOkButton = element(by.xpath("//button[@class='button ng-binding button-positive']"));
-    this.calendarXButton = element(by.xpath("//button[contains(@class,'button ng-binding button-stable')]"));
-    this.calendar = element(by.xpath("//div[contains(@class,'popup-body')]"));
 };
 var imailButtons = function() {
     this.selectButton = element(by.xpath("(//label[@ng-model='message.isChecked'])[1]"));
