@@ -17,3 +17,5 @@ var CategoryPanel = function(){
 	this.osearchButton = element.all(by.css('[on-tap="toggleRightMenu($event)"]')).get(1);
 
 }
+
+module.exports = CategoryPanel;
