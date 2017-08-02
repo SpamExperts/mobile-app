@@ -1,45 +1,30 @@
-var iSearchPanel = function() {
+var SearchPanel = function() {
 
     this.isearchButton = element.all(by.css('[on-tap="toggleRightMenu($event)"]')).get(0);
-    //element(by.xpath("(//button[@on-tap='toggleRightMenu($event)'])[1]"));
     this.osearchButton = element.all(by.css('[on-tap="toggleRightMenu($event)"]')).get(1);
-    //element(by.xpath("(//button[@on-tap='toggleRightMenu($event)'])[2]"));
+    this.backButton = element(by.css('.button.button-icon.icon.ion-ios-arrow-left'));
     this.idomainSearch = element(by.css('[placeholder="Domain"]'));
-    //element(by.xpath("//input[contains(@placeholder,'Domain')]"));
     this.isenderSearch = element(by.css('[placeholder="Sender"]'));
-    //element(by.xpath("//input[contains(@placeholder,'Sender')]"));
     this.irecipientSearch = element(by.css('[placeholder="Recipient"]'));
-    //element(by.xpath("//input[contains(@placeholder,'Recipient')]"));
+
+    this.dateTitle = element(by.css('[aria-label="Sent"]'));
     this.ihourSearch = element(by.css('[on-tap="past24Hours()"]'));
-    //element(by.xpath("//button[contains(@on-tap,'past24Hours()')]"));
     this.iweekSearch = element(by.css('[on-tap="pastWeek()"]'));
-    //element(by.xpath("//button[contains(@on-tap,'pastWeek()')]"));
     this.imonthSearch = element(by.css('[on-tap="pastMonth()"]'));
-    //element(by.xpath("//button[contains(@on-tap,'pastMonth()')]"));
     this.iclearSearch = element(by.css('[on-tap="clearSearch()"]'));
-    //element(by.xpath("//button[contains(@on-tap,'clearSearch()')]"));
     this.istartSearch = element(by.css('[on-tap="doSearch()"]'));
-    //element(by.xpath("//button[contains(@on-tap,'doSearch()')]"));
     this.backToResults = element.all(by.cssContainingText('.title', 'Back to results')).get(0);
-    //element(by.xpath("(//div[contains(.,'Back to results')])[1]"));
-    this.fromdate = element(by.css('[aria-label="From date"]'));
-    //element(by.xpath("//span[@aria-label='From date']"));
-    this.todate = element(by.css('[aria-label="To date"]'));
-    //element(by.xpath("//span[@aria-label='To date']"));
-    this.from = element.all(by.css('.time.ng-binding')).get(0);
-    //element(by.xpath("(//div[@class='time ng-binding'])[1]"));
-    this.to = element.all(by.css('.time.ng-binding')).get(1);
-    //element(by.xpath("(//div[@class='time ng-binding'])[2]"));
-    this.calendarHead = element(by.css('.popup-title.ng-binding'));
-    //element(by.xpath("//div[@class='popup-head']"));
-    this.calendarOkButton = element(by.css('.button.ng-binding.button-positive'));
-    //element(by.xpath("//button[@class='button ng-binding button-positive']"));
-    this.calendarXButton = element(by.css('.button.ng-binding.button-stable'));
-    //element(by.xpath("//button[contains(@class,'button ng-binding button-stable')]"));
-    this.calendar = element(by.css('.popup-body'));
-    //element(by.xpath("//div[contains(@class,'popup-body')]"));
     this.requirements = element.all(by.css('[ng-if="isSuperAdmin()"]')).get(0);
-    //element(by.xpath("(//div[@ng-if='isSuperAdmin()'])[1]"));
+
+    this.customTitle = element(by.css('[aria-label="Custom timeframe"]'));
+    this.fromdate = element(by.css('[aria-label="From date"]'));
+    this.todate = element(by.css('[aria-label="To date"]'));
+    this.from = element.all(by.css('.time.ng-binding')).get(0);
+    this.to = element.all(by.css('.time.ng-binding')).get(1);
+    this.calendarHead = element(by.css('.popup-title.ng-binding'));
+    this.calendarOkButton = element(by.css('.button.ng-binding.button-positive'));
+    this.calendarXButton = element(by.css('.button.ng-binding.button-stable'));
+    this.calendar = element(by.css('.popup-body'));
 };
 
-module.exports = iSearchPanel;
+module.exports = SearchPanel;
