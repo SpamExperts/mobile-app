@@ -149,7 +149,7 @@ describe('Verify Calendar Setting', function() {
     searchMenu = new SearchPanel();
     incomingPage = new CategoryPanel();
 
-    data = require('./dataForUserRestrictedLogin.json');
+    data = require('./dependencies/dataForUserRestrictedLogin.json');
 
     //  Login
     field_cleaner(test);
