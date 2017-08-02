@@ -1,5 +1,5 @@
 var dashPage = function() {
-    this.leftButton = element(by.css(".button.button-icon.icon.ion-navicon"));
+    this.leftButton = element.all(by.css(".button.button-icon.icon.ion-navicon.disable-user-behavior")).get(0);
     this.logoutButton = element(by.css("button.button-block.button-light.metallic-border.log-out-button.disable-user-behavior"));
     this.loginCheck = element(by.cssContainingText('.col.text-center','Your available products'));
     this.incoming = element.all(by.css(".item-icon-right.menu-item.item.item-complex")).get(0);
