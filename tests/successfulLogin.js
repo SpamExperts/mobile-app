@@ -1,11 +1,4 @@
-var PageData = function()   {
-    this.logo = element(by.xpath("//img[contains(@src,'logo.svg')]"));
-    this.hostname = element(by.xpath("//input[contains(@placeholder,'Hostname')]"));
-    this.username = element(by.xpath("//input[contains(@placeholder,'User')]"));
-    this.password = element(by.xpath("//input[contains(@placeholder,'Password')]"));
-    this.rememberButton = element.all(by.xpath("//label[contains(@ng-model,'data.remember')]")).get(0);
-    this.logButton = element(by.xpath("//button[contains(.,'Log in')]"));
-};
+var LoginPage = require('./dependencies/LoginPageObject.js');
 
 var InputData = function(hostname, username, password)  {
     this.hostname = hostname;
@@ -22,20 +15,20 @@ describe('Verify Successful Login', function() {
     browser.get('http://localhost:8100/#/login'); 
     browser.ignoreSynchronization = true;
 
-    var test = new PageData();
+    var test = new LoginPage();
     var dataFile = require('./dataForSuccessfulLogin.json')
     var data = new InputData(dataFile.hostname, dataFile.username, dataFile.password);
     var EC = protractor.ExpectedConditions;
 
     test.hostname.clear();
-    test.username.clear();
+    test.user.clear();
     test.password.clear();
 
     test.hostname.sendKeys(data.hostname);
-    test.username.sendKeys(data.username);
+    test.user.sendKeys(data.username);
     test.password.sendKeys(data.password);
     //test.rememberButton.click();
-    test.logButton.click();
+    test.logbutton.click();
 
     var success = element(by.xpath("//div[@class='dashboard']//h4[contains(.,'Your available products')]"));
     browser.wait(EC.elementToBeClickable(success), 5000).then(function(){
@@ -61,10 +54,10 @@ describe('Verify Successful Login', function() {
         OKButton.click();
     });
 
-    browser.wait(EC.visibilityOf(test.logButton), 5000).then(function(){
+    browser.wait(EC.visibilityOf(test.logbutton), 5000).then(function(){
         browser.sleep(1000);
         test.hostname.clear();
-        test.username.clear();
+        test.user.clear();
         test.password.clear();
         //test.rememberButton.click();
     });

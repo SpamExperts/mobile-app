@@ -22,4 +22,4 @@ var iSearchPanel = function() {
     this.requirements=element(by.xpath("(//div[@ng-if='isSuperAdmin()'])[1]"));
 };
 
-module.exports=iSearchPanel;
+module.exports = iSearchPanel;

@@ -1,11 +1,4 @@
-var PageData = function()   {
-    this.logo = element(by.xpath("//img[contains(@src,'logo.svg')]"));
-    this.hostname = element(by.xpath("//input[contains(@placeholder,'Hostname')]"));
-    this.username = element(by.xpath("//input[contains(@placeholder,'User')]"));
-    this.password = element(by.xpath("//input[contains(@placeholder,'Password')]"));
-    this.rememberButton = element.all(by.xpath("//label[contains(@ng-model,'data.remember')]")).get(0);
-    this.logButton = element(by.xpath("//button[contains(.,'Log in')]"));
-}
+var LoginPage = require('./dependencies/LoginPageObject.js');
 
 var InputData = function(hostname, username, password)  {
     this.hostname = hostname;
@@ -14,10 +7,9 @@ var InputData = function(hostname, username, password)  {
 }
 
 function field_cleaner(test) {
-    //browser.sleep(10000);
     test.hostname.clear();
+    test.user.clear();
     test.password.clear();
-    test.username.clear();
 }
 
 function checkSetDatePopup(){
@@ -121,7 +113,7 @@ describe('Verify Domain User Layout', function() {
     //	Open page
     browser.get('http://localhost:8100/#/login');
 
-    var test = new PageData();
+    var test = new LoginPage();
     var data = require('./dataForUserRestrictedLogin.json');
     EC = protractor.ExpectedConditions;
     domainData = new InputData(data.domainH, data.domainU, data.domainP);
@@ -153,9 +145,9 @@ describe('Verify Domain User Layout', function() {
     //	Login
     field_cleaner(test);
     test.hostname.sendKeys(domainData.hostname);
-    test.username.sendKeys(domainData.username);
+    test.user.sendKeys(domainData.username);
     test.password.sendKeys(domainData.password);
-    test.logButton.click();
+    test.logbutton.click();
 
     //	Check Dashboard
 
@@ -296,11 +288,9 @@ describe('Verify Domain User Layout', function() {
     browser.wait(EC.elementToBeClickable(OKButton), 5000).then(function(){
         OKButton.click();
     });
-    browser.wait(EC.visibilityOf(test.logButton), 5000).then(function(){
+    browser.wait(EC.visibilityOf(test.logbutton), 5000).then(function(){
         browser.sleep(800);
-        test.hostname.clear();
-        test.username.clear();
-        test.password.clear();
+        field_cleaner(test)
     });
 
   });

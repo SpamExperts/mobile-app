@@ -1,12 +1,4 @@
-// spec.js
-var PageData = function()   {
-    this.logo = element(by.xpath("//img[contains(@src,'logo.svg')]"));
-    this.hostname = element(by.xpath("//input[contains(@placeholder,'Hostname')]"));
-    this.username = element(by.xpath("//input[contains(@placeholder,'User')]"));
-    this.password = element(by.xpath("//input[contains(@placeholder,'Password')]"));
-    this.rememberButton = element.all(by.xpath("//label[contains(@ng-model,'data.remember')]")).get(0);
-    this.logButton = element(by.xpath("//button[contains(.,'Log in')]"));
-};
+var LoginPage = require('./dependencies/LoginPageObject.js');
 
 var InputData = function(hostname, username, password)  {
     this.hostname = hostname;
@@ -35,16 +27,16 @@ describe('Verify data type', function() {
         // it is ionic coupled with Angular, so ignore the angular load
         browser.ignoreSynchronization = true;
 
-        var test = new PageData();
+        var test = new LoginPage();
         var EC = protractor.ExpectedConditions;
         var data = add();
 
         for (var i = 0; i < data.length; i++){
             var item = data[i];
             test.hostname.sendKeys(item.hostname);
-            test.username.sendKeys(item.username);
+            test.user.sendKeys(item.username);
             test.password.sendKeys(item.password);
-            test.logButton.click();
+            test.logbutton.click();
             var alertButton = element(by.xpath("//button[contains(.,'OK')]"));
             // We need to wait for the element visibility before clicking on it;
             // guessing a pause is not very reliable
@@ -54,7 +46,7 @@ describe('Verify data type', function() {
                 alertButton.click();
                 browser.sleep(500);             // TO DO
                 test.hostname.clear();
-                test.username.clear();
+                test.user.clear();
                 test.password.clear();
             });
         }

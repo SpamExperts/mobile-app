@@ -1,5 +1,6 @@
-var LoginPage=require('./dependencies/LoginPageObject.js');
-var iSearchPanel=require('./dependencies/SearchPanelObject.js')
+var LoginPage = require('./dependencies/LoginPageObject.js');
+var iSearchPanel = require('./dependencies/SearchPanelObject.js')
+
 var dashPage = function() {
     this.leftButton = element(by.xpath("(//button[@class='button button-icon icon ion-navicon'])[1]"));
     this.logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
