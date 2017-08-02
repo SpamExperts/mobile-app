@@ -1,5 +1,6 @@
 var LoginPage=require('./dependencies/LoginPageObject.js');
 var iSearchPanel=require('./dependencies/SearchPanelObject.js')
+var AlertPop_up = require('./dependencies/AlertLogPageObject.js');
 var dashPage = function() {
     this.leftButton = element(by.xpath("//button[contains(@class,'button button-icon icon ion-navicon')]"));
     this.logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
@@ -22,11 +23,7 @@ var dashPage = function() {
     this.copyRight = element(by.xpath("(//div[@class='col text-center ng-binding'])[1]"));
 };
 
-var AlertPop_up = function() {
 
-    this.alertBody = element(by.xpath("//div[contains(@class,'popup-body')]"));
-    this.alertButton = element(by.xpath("//button[contains(@ng-click,'event)')]"));
-};
 var imailButtons = function() {
     this.selectButton = element(by.xpath("(//label[@ng-model='message.isChecked'])[1]"));
     this.releaseButton = element(by.xpath("(//div[@ng-repeat='action in barActions'])[1]"));

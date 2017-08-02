@@ -12,7 +12,6 @@ exports.config = {
   		  'emailUserLayout.js',
         'checkTimeButtons.js',
         //'domainUserLayout.js',
-        'emailCheckCategory.js',
       
     ],
     onPrepare: function() {

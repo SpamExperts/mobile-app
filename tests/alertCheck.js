@@ -1,11 +1,5 @@
 var LoginPage=require('./dependencies/LoginPageObject.js');
-
-
-var AlertPop_up = function() {
-
-    this.alertBody = element(by.xpath("//div[contains(@class,'popup-body')]"));
-    this.alertButton = element(by.xpath("//button[contains(@ng-click,'event)')]"));
-};
+var AlertPop_up=require('./dependencies/AlertLogPageObject.js');
 //At the moment the app returns just 1 type of message when the fields are empty
 //or inappropriate
 function field_cleaner(Obj) {

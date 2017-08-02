@@ -1,10 +1,6 @@
 var LoginPage=require('./dependencies/LoginPageObject.js');     
 var data = require("./dataForUserRestrictedLogin.json");
-var AlertPop_up = function() {
-
-    this.alertBody = element(by.xpath("//div[contains(@class,'popup-body')]"));
-    this.alertButton = element(by.xpath("//button[contains(@ng-click,'event)')]"));
-};
+var AlertPop_up=require('./dependencies/AlertLogPageObject.js');
 
 function log_check_close(Obj, alert) {
     Obj.logbutton.click();
