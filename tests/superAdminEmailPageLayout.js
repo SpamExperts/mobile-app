@@ -187,7 +187,7 @@ function field_cleaner(Obj) {
 }
 describe('mobile app login page', function() {
 
-    var data = require("./dataForUserRestrictedLogin");
+    var data = require("./dependencies/dataForUserRestrictedLogin");
     var Obj = new LoginPage(); // initialize an object//
     var alert = new AlertPop_up(); //initialize the Popup//
     var logged = new dashPage();
