@@ -3,65 +3,10 @@ var iSearchPanel=require('./dependencies/SearchPanelObject.js');
 var AlertPop_up=require('./dependencies/AlertLogPageObject.js');
 var dashPage=require('./dependencies/DashPageObject.js');
 
-var imailButtons = function() {
-    this.selectButton = element(by.xpath("(//label[@ng-model='message.isChecked'])[1]"));
-    this.releaseButton = element(by.xpath("(//div[@ng-repeat='action in barActions'])[1]"));
-    this.removeButton = element(by.xpath("(//div[@ng-repeat='action in barActions'])[2]"));
-    this.moreActButton = element(by.xpath("(//button[@class='button button-clear disable-user-behavior'])[1]"));
-    this.mabUnselect = element(by.xpath("(//button[@class='button button-clear disable-user-behavior'])[2]"));
-    this.mabRelease = element(by.xpath("(//li[@on-tap='processAction(action)'])[1]"));
-    this.mabRelAndTrain = element(by.xpath("(//li[@on-tap='processAction(action)'])[2]"));
-    this.mabRemove = element(by.xpath("(//li[@on-tap='processAction(action)'])[3]"));
-    this.mailBody = element(by.xpath("(//div[contains(@class,'col col-85')])[1]"));
-    this.category = element(by.xpath("(//span[@class='metallic-border main-class ng-binding'])[1]"));
-    this.mailDate = element(by.xpath("(//div[@class='col col-80 message-title ng-binding'])[1]"));
-};
-var imailLayout = function() {
-    this.sentLabel = element(by.xpath("(//td[contains(@class,'header-name')])[1]"));
-    this.fromLabel = element(by.xpath("(//td[contains(@class,'header-name')])[2]"));
-    this.toLabel = element(by.xpath("(//td[contains(@class,'header-name')])[3]"));
-    this.releaseBtn = element(by.xpath("(//button[contains(@class,'button button-clear')])[2]"));
-    this.removeBtn = element(by.xpath("(//button[contains(@class,'button button-clear')])[3]"));
-    this.moreActButton = element(by.xpath("(//button[@class='button button-clear disable-user-behavior'])[2]"));
-    this.mabRelease = element(by.xpath("(//li[@on-tap='processAction(action)'])[1]"));
-    this.mabRelAndTrain = element(by.xpath("(//li[@on-tap='processAction(action)'])[2]"));
-    this.plainType = element(by.xpath("//div[contains(@class,'user') and contains(.,'Plain')]"));
-    this.normalType = element(by.xpath("//div[contains(@class,'user') and contains(.,'Normal')]"));
-    this.rawType = element(by.xpath("//div[contains(@class,'user') and contains(.,'Raw')]"));
-    this.date = element(by.xpath("//h5[@class='ng-binding']"));
-
-    this.mailContent = element(by.xpath("//ion-scroll[contains(@direction,'y')]"));
-};
-var omailButtons = function() {
-    this.selectButton = element(by.xpath("//ion-view[3]/ion-content/div[1]/ion-list/div/div/ion-item[1]/div/div[2]/div[2]/label"));
-    this.releaseButton = element(by.xpath("(//div[@ng-repeat='action in barActions'])[1]"));
-    this.removeButton = element(by.xpath("(//div[@ng-repeat='action in barActions'])[2]"));
-    this.moreActButton = element(by.xpath("(//button[@class='button button-clear disable-user-behavior'])[1]"));
-    this.mabUnselect = element(by.xpath("(//button[@class='button button-clear disable-user-behavior'])[2]"));
-    this.mabRelease = element(by.xpath("(//li[@on-tap='processAction(action)'])[1]"));
-    this.mabRelAndTrain = element(by.xpath("(//li[@on-tap='processAction(action)'])[2]"));
-    this.mabRemove = element(by.xpath("(//li[@on-tap='processAction(action)'])[3]"));
-    this.mailBody = element(by.xpath("//ion-nav-view/ion-view[3]/ion-content/div[1]/ion-list/div/div/ion-item[1]/div/div[1]"));
-    this.category = element(by.xpath("(//ion-content/div[1]/ion-list/div/div/ion-item[1]/div/div[1]/div[1]/div[2]/span)[2]"));
-    this.mailDate = element(by.xpath("(//ion-content/div[1]/ion-list/div/div/ion-item[1]/div/div[1]/div[1]/div[1])[2]"));
-};
-var omailLayout = function() {
-    this.sentLabel = element(by.xpath("(//td[contains(@class,'header-name')])[1]"));
-    this.fromLabel = element(by.xpath("(//td[contains(@class,'header-name')])[2]"));
-    this.toLabel = element(by.xpath("(//td[contains(@class,'header-name')])[3]"));
-    this.releaseBtn = element(by.xpath("(//button[contains(@class,'button button-clear')])[2]"));
-    this.removeBtn = element(by.xpath("(//button[contains(@class,'button button-clear')])[3]"));
-    this.moreActButton = element(by.xpath("(//button[@class='button button-clear disable-user-behavior'])[2]"));
-    this.mabRelease = element(by.xpath("(//li[@on-tap='processAction(action)'])[1]"));
-    this.mabRelAndTrain = element(by.xpath("(//li[@on-tap='processAction(action)'])[2]"));
-    this.plainType = element(by.xpath("//div[contains(@class,'user') and contains(.,'Plain')]"));
-    this.normalType = element(by.xpath("//div[contains(@class,'user') and contains(.,'Normal')]"));
-    this.rawType = element(by.xpath("//div[contains(@class,'user') and contains(.,'Raw')]"));
-    this.date = element(by.xpath("//h5[@class='ng-binding']"));
-
-    this.mailContent = element(by.xpath("//ion-scroll[contains(@direction,'y')]"));
-};
-
+var imailButtons=require('./dependencies/IncomingPageWithEmails.js');
+var imailLayout=require('./dependencies/InsideIncomingEmail.js');
+var omailButtons =require('./dependencies/OutgoingPageWithEmails.js');
+var omailLayout =require('./dependencies/InsideOutgoingEmail.js');
 function checkLayout(mailBtn, checkMail) {
     var EC = protractor.ExpectedConditions;
     browser.wait(EC.visibilityOf(mailBtn.selectButton), 20000)
@@ -140,12 +85,10 @@ function checkLayout(mailBtn, checkMail) {
     browser.wait(EC.visibilityOf(checkMail.mailContent), 20000)
         .then(function() {
             expect(checkMail.mailContent.isPresent()).toBeTruthy();
-            expect(checkMail.mailContent.getText()).toEqual('XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X');
+            expect(checkMail.mailContent.getText())
+.toEqual('XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X');
         });
-    browser.wait(EC.visibilityOf(checkMail.date), 20000)
-        .then(function() {
-            expect(checkMail.date.isPresent()).toBeTruthy();
-        });
+ 
     browser.wait(EC.visibilityOf(checkMail.moreActButton), 20000)
         .then(function() {
             expect(checkMail.moreActButton.isPresent()).toBeTruthy();

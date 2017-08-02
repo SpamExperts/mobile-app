@@ -40,10 +40,10 @@ describe('mobile app dash page', function() {
             .then(function() {
                 expect(logged.loginCheck.isPresent()).toBeTruthy();
             });
-        //browser.sleep(1000);
+        browser.sleep(1000);
         logged.bigIncoming.click();
     
-      //  browser.sleep(1000);
+        browser.sleep(1000);
         search.isearchButton.click();
     
         browser.sleep(800);
