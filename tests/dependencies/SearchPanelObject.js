@@ -21,10 +21,15 @@ var SearchPanel = function() {
     this.todate = element(by.css('[aria-label="To date"]'));
     this.from = element.all(by.css('.time.ng-binding')).get(0);
     this.to = element.all(by.css('.time.ng-binding')).get(1);
+
     this.calendarHead = element(by.css('.popup-title.ng-binding'));
     this.calendarOkButton = element(by.css('.button.ng-binding.button-positive'));
     this.calendarXButton = element(by.css('.button.ng-binding.button-stable'));
     this.calendar = element(by.css('.popup-body'));
+    this.calendaryearField = element(by.css('[ng-model="bind.year"]'));
+    this.calendarmonthButton = element(by.css('[ng-model="bind.month"]')); 
+    this.calendarhourField = element(by.css('[ng-model="bind.hour"]'));
+    this.calendarminuteField = element(by.css('[ng-model="bind.minute"]'));
 };
 
 module.exports = SearchPanel;

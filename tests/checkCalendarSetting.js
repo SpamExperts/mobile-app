@@ -1,4 +1,7 @@
 var LoginPage = require('./dependencies/LoginPageObject.js');
+var SearchPanel = require('./dependencies/SearchPanelObject.js');
+var CategoryPanel = require('./dependencies/CategoryPageObject.js');
+var Dashboard = require('./dependencies/DashPageObject');
 
 function field_cleaner(test) {
     test.hostname.clear();
@@ -49,41 +52,38 @@ function setDate(button, input){
     var hour = input.getHours().toString();
     var minute = input.getMinutes().toString();
 
-    var yearField = element(by.xpath("//input[contains(@ng-model,'bind.year')]"));
+    searchMenu.calendaryearField.clear();
+    searchMenu.calendaryearField.sendKeys(year);
 
-    yearField.clear();
-    yearField.sendKeys(year);
-
-    var initXPath = "//option[contains(@value,'number:3')]";
-    var finalXPath = initXPath.replace("3", input.getMonth());
-    var monthField = element(by.xpath(finalXPath));
-    var monthButton = element(by.xpath("//select[contains(@ng-model,'bind.month')]")); 
-    browser.wait(EC.elementToBeClickable(monthButton), 5000).then(function(){
-        monthButton.click();
+    var initCss = '[value="number:3"]';
+    var finalCss = initCss.replace("3", input.getMonth());
+    var monthField = element(by.css(finalCss));
+    browser.wait(EC.elementToBeClickable(searchMenu.calendarmonthButton), 5000).then(function(){
+        searchMenu.calendarmonthButton.click();
         monthField.click();
     });
 
+    var initXPath;
     if(input.getDate() < 6)
         initXPath = "(//div[contains(@class, 'row calendar')]//div[contains(@class,'col') and contains(.,'6')])[2]";
     else
         initXPath = "(//div[contains(@class, 'row calendar')]//div[contains(@class,'col') and contains(.,'6')])[1]";
-    finalXPath = initXPath.replace("'6'", day);
+    var finalXPath = initXPath.replace("'6'", day);
     var dayField = element(by.xpath(finalXPath));
     browser.wait(EC.elementToBeClickable(dayField), 5000).then(function(){
         dayField.click();
     });
 
-    var hourField = element(by.xpath("//input[@ng-model='bind.hour']"));
-    var minuteField = element(by.xpath("//input[@ng-model='bind.minute']"));
+    var hourField = element(by.css('[ng-model="bind.hour"]'));
+    var minuteField = element(by.css('[ng-model="bind.minute"]'));
 
-    hourField.clear();
-    hourField.sendKeys(hour);
-    minuteField.clear();
-    minuteField.sendKeys(minute);
+    searchMenu.calendarhourField.clear();
+    searchMenu.calendarhourField.sendKeys(hour);
+    searchMenu.calendarminuteField.clear();
+    searchMenu.calendarminuteField.sendKeys(minute);
 
-    var OKButton = element(by.xpath("//button[contains(.,'OK')]"));
-    browser.wait(EC.elementToBeClickable(OKButton), 5000).then(function(){
-        OKButton.click();
+    browser.wait(EC.elementToBeClickable(searchMenu.calendarOkButton), 5000).then(function(){
+        searchMenu.calendarOkButton.click();
     });
 }
 
@@ -106,7 +106,7 @@ function buildHeadDate(fromDate, toDate){
         dayToNumber = "0".concat("", dayTo);
 
     var stringDate = (((dayFromNumber.concat(" ", monthFrom)).concat(" - ", dayToNumber)).concat(" ", monthTo)).concat(" ", yearTo);
-    //console.log(stringDate);
+
     return stringDate;
 }
 
@@ -116,16 +116,15 @@ function checkDefault(nr){
     toDate = buildDate(new Date(), false, false);
     headDate = buildDate(new Date(), true, true);
 
-    expect(fromButton.getText()).toEqual(fromDate);
-    expect(toButton.getText()).toEqual(toDate);
+    expect(searchMenu.from.getText()).toContain(fromDate.substring(0,13));
+    expect(searchMenu.to.getText()).toContain(toDate.substring(0,13));
 
     if(nr == 0)
-        browser.wait(EC.elementToBeClickable(backButton), 5000).then(function(){
-            backButton.click();
+        browser.wait(EC.elementToBeClickable(searchMenu.backButton), 5000).then(function(){
+            searchMenu.backButton.click();
         });
 
-    pageDate = element(by.xpath("//div[contains(@class,'col col-30 col-center text-right top-date ng-binding')]"));
-    expect(pageDate.getText()).toEqual(headDate);
+    expect(incomingPage.itimeDate.getText()).toEqual(headDate);
 }
 
 describe('Verify Calendar Setting', function() {
@@ -144,147 +143,135 @@ describe('Verify Calendar Setting', function() {
     //  Open page
     browser.get('http://localhost:8100/#/login');
 
-    var test = new LoginPage();
-    var data = require('./dataForUserRestrictedLogin.json');
-    var hostname = data.domainH;
-    var username = data.domainU;
-    var password = data.domainP;
+    // Take elements
+    test = new LoginPage();
+    dash = new Dashboard();
+    searchMenu = new SearchPanel();
+    incomingPage = new CategoryPanel();
+
+    data = require('./dataForUserRestrictedLogin.json');
 
     //  Login
     field_cleaner(test);
-    test.hostname.sendKeys(hostname);
-    test.user.sendKeys(username);
-    test.password.sendKeys(password);
+    test.hostname.sendKeys(data.domainH);
+    test.user.sendKeys(data.domainU);
+    test.password.sendKeys(data.domainP);
     test.logbutton.click();
 
     //  Enter Incoming Page
-    var incomingButton = element(by.xpath("//a[contains(@ui-sref,'main.incomingLogSearch')]"));
-    browser.wait(EC.elementToBeClickable(incomingButton), 5000).then(function(){
-        incomingButton.click();
+    browser.wait(EC.elementToBeClickable(dash.bigIncoming), 5000).then(function(){
+        dash.bigIncoming.click();
     });
-
-    pageDate = element(by.xpath("//div[contains(@class,'col col-30 col-center text-right top-date ng-binding')]"));
 
     //  Enter Search Menu
-    var searchButton = element(by.xpath("(//button[contains(@on-tap,'toggleRightMenu($event)')])[1]"));
-    browser.wait(EC.elementToBeClickable(searchButton), 10000).then(function(){
-        searchButton.click();
+    browser.wait(EC.elementToBeClickable(incomingPage.isearchButton), 10000).then(function(){
+        incomingPage.isearchButton.click();
     });
-
-    //  Take From, To, Search, Clear and Back Buttons
-    fromButton = element.all(by.xpath("//div[contains(@class,'time ng-binding')]")).get(0);
-    toButton = element.all(by.xpath("//div[contains(@class,'time ng-binding')]")).get(1);
-    var doSearch = element(by.xpath("//button[contains(@on-tap,'doSearch()')]"));
-    var doClear = element(by.xpath("//button[@on-tap='clearSearch()']"));
-    backButton = element(by.xpath("//button[contains(@menu-toggle,'right')]"));
 
     //  Check default Setup
     checkDefault(0);
 
     //  Set From Calendar
-    browser.wait(EC.elementToBeClickable(searchButton), 5000).then(function(){
-        searchButton.click();
+    browser.wait(EC.elementToBeClickable(incomingPage.isearchButton), 5000).then(function(){
+        incomingPage.isearchButton.click();
     });
 
-    setDate(fromButton, inputFrom);
+    setDate(searchMenu.from, inputFrom);
 
     fromDate = buildDate(inputFrom, false, false);
-    expect(fromButton.getText()).toContain(fromDate.substring(0,13));
+    expect(searchMenu.from.getText()).toContain(fromDate.substring(0,13));
 
     toDate = buildDate(new Date(), false, false);
-    expect(toButton.getText()).toContain(toDate.substring(0,13));
+    expect(searchMenu.to.getText()).toContain(toDate.substring(0,13));
 
-    browser.wait(EC.elementToBeClickable(doSearch), 5000).then(function(){
-        doSearch.click();
+    browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function(){
+        searchMenu.istartSearch.click();
     });
 
-    pageDate = element(by.xpath("//div[contains(@class,'col col-30 col-center text-right top-date ng-binding')]"));
-    browser.wait(EC.visibilityOf(pageDate), 5000).then(function(){
-            expect(pageDate.getText()).toEqual(buildHeadDate(inputFrom, new Date()));
+    browser.wait(EC.visibilityOf(incomingPage.itimeDate), 5000).then(function(){
+        expect(incomingPage.itimeDate.getText()).toEqual(buildHeadDate(inputFrom, new Date()));
     });
 
-    browser.wait(EC.elementToBeClickable(searchButton), 10000).then(function(){
-        searchButton.click();
+    browser.wait(EC.elementToBeClickable(incomingPage.isearchButton), 10000).then(function(){
+        incomingPage.isearchButton.click();
     });
 
-    browser.wait(EC.elementToBeClickable(doClear), 5000).then(function(){
-        doClear.click();
+    browser.wait(EC.elementToBeClickable(searchMenu.iclearSearch), 5000).then(function(){
+        searchMenu.iclearSearch.click();
     });
 
-    browser.wait(EC.elementToBeClickable(doSearch), 5000).then(function(){
-        doSearch.click();
+    browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function(){
+        searchMenu.istartSearch.click();
     });
 
     checkDefault(1);
 
     // Set To Calendar
-    browser.wait(EC.elementToBeClickable(searchButton), 10000).then(function(){
-        searchButton.click();
+    browser.wait(EC.elementToBeClickable(incomingPage.isearchButton), 10000).then(function(){
+        incomingPage.isearchButton.click();
     });
 
-    setDate(toButton, inputTo);
+    setDate(searchMenu.to, inputTo);
 
     toDate = buildDate(inputTo, false, false);
-    expect(toButton.getText()).toContain(toDate.substring(0,13));
+    expect(searchMenu.to.getText()).toContain(toDate.substring(0,13));
 
     fromDate = buildDate(new Date(), true, false);
-    expect(fromButton.getText()).toContain(fromDate.substring(0,13));
+    expect(searchMenu.from.getText()).toContain(fromDate.substring(0,13));
 
-    browser.wait(EC.elementToBeClickable(doSearch), 5000).then(function(){
-        doSearch.click();
+    browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function(){
+        searchMenu.istartSearch.click();
     });
 
-    pageDate = element(by.xpath("//div[contains(@class,'col col-30 col-center text-right top-date ng-binding')]"));
-    browser.wait(EC.visibilityOf(pageDate), 5000).then(function(){
-            expect(pageDate.getText()).toEqual(buildHeadDate(new Date(), inputTo));
+    browser.wait(EC.visibilityOf(incomingPage.itimeDate), 5000).then(function(){
+        expect(incomingPage.itimeDate.getText()).toEqual(buildHeadDate(new Date(), inputTo));
     });
 
-    browser.wait(EC.elementToBeClickable(searchButton), 10000).then(function(){
-        searchButton.click();
+    browser.wait(EC.elementToBeClickable(incomingPage.isearchButton), 10000).then(function(){
+        incomingPage.isearchButton.click();
     });
 
-    browser.wait(EC.elementToBeClickable(doClear), 5000).then(function(){
-        doClear.click();
+    browser.wait(EC.elementToBeClickable(searchMenu.iclearSearch), 5000).then(function(){
+        searchMenu.iclearSearch.click();
     });
 
-    browser.wait(EC.elementToBeClickable(doSearch), 5000).then(function(){
-        doSearch.click();
+    browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function(){
+        searchMenu.istartSearch.click();
     });
 
     checkDefault(2);
 
     // Set From & To Calendar
-    browser.wait(EC.elementToBeClickable(searchButton), 10000).then(function(){
-        searchButton.click();
+    browser.wait(EC.elementToBeClickable(incomingPage.isearchButton), 10000).then(function(){
+        incomingPage.isearchButton.click();
     });
 
-    setDate(fromButton, inputFrom);
+    setDate(searchMenu.from, inputFrom);
     fromDate = buildDate(inputFrom, false, false);
-    expect(fromButton.getText()).toContain(fromDate.substring(0,13));
+    expect(searchMenu.from.getText()).toContain(fromDate.substring(0,13));
 
-    setDate(toButton, inputTo);
+    setDate(searchMenu.to, inputTo);
     toDate = buildDate(inputTo, false, false);
-    expect(toButton.getText()).toContain(toDate.substring(0,13));
+    expect(searchMenu.to.getText()).toContain(toDate.substring(0,13));
 
-    browser.wait(EC.elementToBeClickable(doSearch), 5000).then(function(){
-        doSearch.click();
+    browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function(){
+        searchMenu.istartSearch.click();
     });
 
-    pageDate = element(by.xpath("//div[contains(@class,'col col-30 col-center text-right top-date ng-binding')]"));
-    browser.wait(EC.visibilityOf(pageDate), 5000).then(function(){
-            expect(pageDate.getText()).toEqual(buildHeadDate(inputFrom, inputTo));
+    browser.wait(EC.visibilityOf(incomingPage.itimeDate), 5000).then(function(){
+        expect(incomingPage.itimeDate.getText()).toEqual(buildHeadDate(inputFrom, inputTo));
     });
     
-    browser.wait(EC.elementToBeClickable(searchButton), 10000).then(function(){
-        searchButton.click();
+    browser.wait(EC.elementToBeClickable(incomingPage.isearchButton), 10000).then(function(){
+        incomingPage.isearchButton.click();
     });
 
-    browser.wait(EC.elementToBeClickable(doClear), 5000).then(function(){
-        doClear.click();
+    browser.wait(EC.elementToBeClickable(searchMenu.iclearSearch), 5000).then(function(){
+        searchMenu.iclearSearch.click();
     });
 
-    browser.wait(EC.elementToBeClickable(doSearch), 5000).then(function(){
-        doSearch.click();
+    browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function(){
+        searchMenu.istartSearch.click();
     });
 
     checkDefault(3);
@@ -292,23 +279,22 @@ describe('Verify Calendar Setting', function() {
     //  Log out
     browser.navigate().back();
 
-    var menuButton = element(by.xpath("(//ion-header-bar//button[contains(@class,'ion-navicon')])[1]"));
-    browser.wait(EC.elementToBeClickable(menuButton), 5000).then(function(){
-       menuButton.click();
+    browser.wait(EC.elementToBeClickable(dash.leftButton), 5000).then(function(){
+       dash.leftButton.click();
     });
 
-    var logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
     var OKButton = element(by.xpath("//button[contains(.,'OK')]"));
-    browser.wait(EC.elementToBeClickable(logoutButton), 5000).then(function(){
-        logoutButton.click();
+    browser.wait(EC.elementToBeClickable(dash.logoutButton), 5000).then(function(){
+        dash.logoutButton.click();
     });
-    browser.wait(EC.elementToBeClickable(OKButton), 5000).then(function(){
-        OKButton.click();
+
+    browser.wait(EC.elementToBeClickable(dash.okButton), 5000).then(function(){
+        dash.okButton.click();
     });
+
     browser.wait(EC.visibilityOf(test.logbutton), 5000).then(function(){
         browser.sleep(800);
         field_cleaner(test);
-
     });
 
   });
