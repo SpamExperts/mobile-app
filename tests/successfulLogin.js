@@ -1,11 +1,11 @@
 var LoginPage = require('./dependencies/LoginPageObject.js');
+var Dashboard = require('./dependencies/DashPageObject');
 
-var InputData = function(hostname, username, password)  {
-    this.hostname = hostname;
-    this.username = username;
-    this.password = password;
+function field_cleaner(test) {
+    test.hostname.clear();
+    test.user.clear();
+    test.password.clear();
 }
-
 
 describe('Verify Successful Login', function() {
 
@@ -15,43 +15,43 @@ describe('Verify Successful Login', function() {
     browser.get('http://localhost:8100/#/login'); 
     browser.ignoreSynchronization = true;
 
-    var test = new LoginPage();
-    var dataFile = require('./dataForSuccessfulLogin.json')
-    var data = new InputData(dataFile.hostname, dataFile.username, dataFile.password);
+    // Take elements
+    test = new LoginPage();
+    dash = new Dashboard();
+
     var EC = protractor.ExpectedConditions;
 
     test.hostname.clear();
     test.user.clear();
     test.password.clear();
 
-    test.hostname.sendKeys(data.hostname);
-    test.user.sendKeys(data.username);
-    test.password.sendKeys(data.password);
-    //test.rememberButton.click();
+    data = require('./dependencies/dataForUserRestrictedLogin.json');
+
+    //  Login
+    field_cleaner(test);
+    test.hostname.sendKeys(data.superAdminH);
+    test.user.sendKeys(data.superAdminU);
+    test.password.sendKeys(data.superAdminP);
     test.logbutton.click();
 
-    var success = element(by.xpath("//div[@class='dashboard']//h4[contains(.,'Your available products')]"));
-    browser.wait(EC.elementToBeClickable(success), 5000).then(function(){
-        expect(success.isPresent()).toBe(true);
+    browser.wait(EC.elementToBeClickable(dash.loginCheck), 5000).then(function(){
+        expect(dash.loginCheck.isPresent()).toBe(true);
     });
     
-    var menuButton = element(by.xpath("//ion-header-bar//button[contains(@class,'ion-navicon')]"));
-    browser.wait(EC.visibilityOf(menuButton), 5000).then(function(){
-       expect(menuButton.isPresent()).toBe(true);
-    });
-    //browser.sleep(800);
-    browser.wait(EC.elementToBeClickable(menuButton), 5000).then(function(){
-	   menuButton.click();
+    browser.wait(EC.visibilityOf(dash.leftButton), 5000).then(function(){
+        expect(dash.leftButton.isPresent()).toBe(true);
     });
 
-    var logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
-    browser.wait(EC.elementToBeClickable(logoutButton), 5000).then(function(){
-        logoutButton.click();
+    browser.wait(EC.elementToBeClickable(dash.leftButton), 5000).then(function(){
+	   dash.leftButton.click();
     });
 
-    var OKButton = element(by.xpath("//button[contains(.,'OK')]"));
-    browser.wait(EC.elementToBeClickable(OKButton), 5000).then(function(){
-        OKButton.click();
+    browser.wait(EC.elementToBeClickable(dash.logoutButton), 5000).then(function(){
+        dash.logoutButton.click();
+    });
+
+    browser.wait(EC.elementToBeClickable(dash.okButton), 5000).then(function(){
+        dash.okButton.click();
     });
 
     browser.wait(EC.visibilityOf(test.logbutton), 5000).then(function(){
@@ -59,7 +59,6 @@ describe('Verify Successful Login', function() {
         test.hostname.clear();
         test.user.clear();
         test.password.clear();
-        //test.rememberButton.click();
     });
 
   });

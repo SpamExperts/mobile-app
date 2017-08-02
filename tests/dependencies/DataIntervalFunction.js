@@ -109,4 +109,4 @@ function dataDifference(interval) {
     return outputDate;
 
 }
-module.exports=dataDifference;
+module.exports = dataDifference;

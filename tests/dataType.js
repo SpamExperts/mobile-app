@@ -1,4 +1,5 @@
 var LoginPage = require('./dependencies/LoginPageObject.js');
+var AlertPage = require('./dependencies/AlertLogPageObject.js');
 
 var InputData = function(hostname, username, password)  {
     this.hostname = hostname;
@@ -27,7 +28,10 @@ describe('Verify data type', function() {
         // it is ionic coupled with Angular, so ignore the angular load
         browser.ignoreSynchronization = true;
 
-        var test = new LoginPage();
+        // Take elements
+        test = new LoginPage();
+        alert = new AlertPage();
+
         var EC = protractor.ExpectedConditions;
         var data = add();
 
@@ -37,13 +41,11 @@ describe('Verify data type', function() {
             test.user.sendKeys(item.username);
             test.password.sendKeys(item.password);
             test.logbutton.click();
-            var alertButton = element(by.xpath("//button[contains(.,'OK')]"));
             // We need to wait for the element visibility before clicking on it;
             // guessing a pause is not very reliable
-            browser.wait(EC.visibilityOf(alertButton), 5000).then(function(){
-                var alert = element(by.xpath("//span[contains(.,'A record with the supplied identity could not be found.')]"));
-                expect(alert.getText()).toEqual('A record with the supplied identity could not be found.');
-                alertButton.click();
+            browser.wait(EC.visibilityOf(alert.alertButton), 5000).then(function(){
+                expect(alert.alertBody.getText()).toEqual('A record with the supplied identity could not be found.');
+                alert.alertButton.click();
                 browser.sleep(500);             // TO DO
                 test.hostname.clear();
                 test.user.clear();
