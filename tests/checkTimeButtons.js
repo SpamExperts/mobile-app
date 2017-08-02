@@ -163,7 +163,7 @@ describe('mobile app dash page', function() {
 
         browser.get('http://localhost:8100/#/login');
         field_cleaner(Obj);
-
+        
         var outputDate;
         addCredentials(Obj, data.superAdminH, data.superAdminU, data.superAdminP);
         Obj.logbutton.click();
@@ -172,13 +172,13 @@ describe('mobile app dash page', function() {
             .then(function() {
                 expect(logged.loginCheck.isPresent()).toBeTruthy();
             });
-
-        browser.wait(EC.visibilityOf(logged.bigIncoming), 20000)
-            .then(function() {
+           browser.sleep(1000);
+        // browser.wait(EC.visibilityOf(logged.bigIncoming), 20000)
+        //     .then(function() {
                 logged.bigIncoming.click();
-            });
+            // });
         //logged.suggestionMessageClose.click();
-      
+       browser.sleep(1000);
         search.isearchButton.click();
     
         browser.sleep(800);

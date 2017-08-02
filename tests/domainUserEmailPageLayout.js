@@ -1,6 +1,7 @@
 var LoginPage=require('./dependencies/LoginPageObject.js');
-var iSearchPanel=require('./dependencies/SearchPanelObject.js')
+var SearchPanel=require('./dependencies/SearchPanelObject.js')
 var AlertPop_up = require('./dependencies/AlertLogPageObject.js');
+var dashPage=require('./dependencies/DashPageObject.js');
 var dashPage = function() {
     this.leftButton = element(by.xpath("//button[contains(@class,'button button-icon icon ion-navicon')]"));
     this.logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
@@ -244,7 +245,7 @@ describe('mobile app login page', function() {
     var alert = new AlertPop_up(); //initialize the Popup//
     var logged = new dashPage();
     var dashA = new dashAlert();
-    var search = new iSearchPanel();
+    var search = new SearchPanel();
     var mailBtn = new imailButtons();
     var checkMail = new imailLayout();
     var data = require("./dataForUserRestrictedLogin");

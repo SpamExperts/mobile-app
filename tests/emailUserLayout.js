@@ -1,5 +1,5 @@
 var LoginPage=require('./dependencies/LoginPageObject.js');
-var iSearchPanel=require('./dependencies/SearchPanelObject.js')
+var SearchPanel=require('./dependencies/SearchPanelObject.js')
 var dashPage = function() {
     this.leftButton = element(by.xpath("//button[contains(@class,'button button-icon icon ion-navicon')]"));
     this.logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
@@ -66,7 +66,7 @@ describe('mobile app login page', function() {
     var Obj = new LoginPage(); // initialize an object//
     var alert = new dashAlert(); //initialize the Popup//
     var logged = new dashPage();
-    var search = new iSearchPanel();
+    var search = new SearchPanel();
     var EC = protractor.ExpectedConditions;
 
 

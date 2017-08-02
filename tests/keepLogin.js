@@ -1,19 +1,7 @@
 
 var LoginPage=require('./dependencies/LoginPageObject.js');
-var dashPage = function() {
-    this.leftButton = element(by.xpath("//button[contains(@class,'button button-icon icon ion-navicon')]"));
-    this.logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
-    this.loginCheck = element.all(by.xpath("//h4[contains(.,'Your available products')]")).get(0);
-};
-var dashAlert = function() {
-    this.alertButtonOk = element(by.xpath("//button[contains(@class,'button ng-binding button-positive')]"));
-};
-var AlertPop_up = function() {
-
-    this.alertBody = element(by.xpath("//div[contains(@class,'popup-body')]"));
-    this.alertButton = element(by.xpath("//button[contains(@ng-click,'event)')]"));
-};
-
+var dashPage=require('./dependencies/DashPageObject.js');
+var AlertPop_up=require('./dependencies/AlertLogPageObject.js');
 function log_check_close(Obj, alert) {
 
     Obj.logbutton.click();
@@ -49,7 +37,7 @@ describe('mobile app login page', function() {
     var Obj = new LoginPage(); // initialize an object//
     var alert = new AlertPop_up(); //initialize the Popup//
     var alreadyLogged = new dashPage();
-    var dashA = new dashAlert();
+//    var dashA = new dashAlert();
 
     it('should keep the user logged if the button is checked and not logged otherwise', function() {
 
@@ -75,7 +63,9 @@ describe('mobile app login page', function() {
         alreadyLogged.leftButton.click();
 
         alreadyLogged.logoutButton.click();
-        dashA.alertButtonOk.click();
+        alreadyLogged.cancelButton.click();
+        alreadyLogged.logoutButton.click();
+        alreadyLogged.okButton.click();
 
         browser.wait(EC.visibilityOf(Obj.logbutton), 20000)
             .then(function() {

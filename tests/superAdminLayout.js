@@ -1,6 +1,6 @@
 var LoginPage = require('./dependencies/LoginPageObject.js');
 var iSearchPanel = require('./dependencies/SearchPanelObject.js')
-
+var CategoryPage=require('./dependencies/CategoryPageObject.js');
 var dashPage = function() {
     this.leftButton = element(by.xpath("(//button[@class='button button-icon icon ion-navicon'])[1]"));
     this.logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
@@ -22,9 +22,7 @@ var dashPage = function() {
     this.copyRight=element(by.xpath("(//div[@class='col text-center ng-binding'])[1]"));
     this.notification=element(by.xpath("//div[@ng-bind-html='notice|trust']"));
 };
-var dashAlert = function() {
-    this.alertButtonOk = element(by.xpath("//button[contains(@class,'button ng-binding button-positive')]"));
-};
+
 
 function extract_data(formatedDate, currentDate) {
     formatedDate[0] = currentDate[8];
@@ -65,9 +63,10 @@ var data = require("./dataForUserRestrictedLogin.json");
 describe('mobile app login page', function() {
 
     var Obj = new LoginPage(); // initialize an object//
-    var alert = new dashAlert(); //initialize the Popup//
     var logged = new dashPage();
     var search = new iSearchPanel();
+    var category= new CategoryPage();
+
     var EC = protractor.ExpectedConditions;
 
 
@@ -130,19 +129,19 @@ describe('mobile app login page', function() {
   //           .then(function() {
   //       expect(logged.notification.isPresent()).toBeTruthy();
   // });
-        expect(logged.ibuttonMessage.isPresent()).toBeTruthy();
+        expect(category.iHeader.isPresent()).toBeTruthy();
 
 
-        expect(logged.isearchdate.isPresent()).toBeTruthy();
-        expect(logged.isearchdate.getText()).toEqual(formatedDate);
+        expect(category.itimeDate.isPresent()).toBeTruthy();
+        expect(category.itimeDate.getText()).toEqual(formatedDate);
 
-        browser.wait(EC.visibilityOf(logged.iRefresher), 20000)
+        browser.wait(EC.visibilityOf(category.iemptyContent), 20000)
             .then(function() {
-                expect(logged.iRefresher.isPresent()).toBeTruthy();
+                expect(category.iemptyContent.isPresent()).toBeTruthy();
             });
-        browser.wait(EC.visibilityOf(search.isearchButton), 20000)
+        browser.wait(EC.visibilityOf(category.isearchButton), 20000)
             .then(function() {
-                expect(search.isearchButton.isPresent()).toBeTruthy();
+                expect(category.isearchButton.isPresent()).toBeTruthy();
             });
 
         search.isearchButton.click();
