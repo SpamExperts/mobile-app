@@ -1,25 +1,26 @@
 var LoginPage=require('./dependencies/LoginPageObject.js');
 var iSearchPanel=require('./dependencies/SearchPanelObject.js')
-var dashPage = function() {
-    this.leftButton = element(by.xpath("//button[contains(@class,'button button-icon icon ion-navicon')]"));
-    this.logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
-    this.loginCheck = element.all(by.xpath("//h4[contains(.,'Your available products')]")).get(0);
-    this.incoming = element(by.xpath("//ion-list//a[contains(.,'Incoming Filtering Quarantine')]"));
-    this.outgoing = element(by.xpath("//ion-list//a[contains(.,'Outgoing Filtering Quarantine')]"));
-    this.bigIncoming = element(by.xpath("//a[@ui-sref='main.incomingLogSearch']"));
-    this.bigOutgoing = element(by.xpath("//a[@ui-sref='main.outgoingLogSearch']"));
-    this.right_arrow = element(by.xpath("//button[@class='button button-icon icon ion-ios-arrow-right']"));
-    this.left_arrow = element(by.xpath("//button[@class='button button-icon icon ion-ios-arrow-left']"));
-    this.ioleftButton = element(by.xpath("//button[@class='button button-icon icon ion-navicon disable-user-behavior']"));
-    this.ibuttonMessage = element(by.xpath("//div/div/div/div[contains(.,'Incoming spam messages')]"));
-    this.obuttonMessage = element(by.xpath("//div/div/div/div[contains(.,'Outgoing spam messages')]"));
-    this.iRefresher = element(by.xpath("(//ion-item[@ng-if='!loadingEntries && !messageEntries.length'])[1]"));
-    this.oRefresher = element(by.xpath("(//ion-item[@ng-if='!loadingEntries && !messageEntries.length'])[2]"));
-    this.isearchdate = element(by.xpath("(//div[contains(@class,'col col-30 col-center text-right top-date ng-binding')])[1]"));
-    this.osearchdate = element(by.xpath("(//div[@class='col col-30 col-center text-right top-date ng-binding'])[2]"));
-    this.suggestionMessageClose = element(by.xpath("html/body/ion-nav-view/ion-side-menus/ion-side-menu-content/ion-nav-view/ion-view/ion-content/div[1]/div[1]/div/div/div[1]/ion-slide/i"));
-    this.copyRight = element(by.xpath("(//div[@class='col text-center ng-binding'])[1]"));
-};
+var dashPage=require('./dependencies/DashPageObject.js');
+// var dashPage = function() {
+//     this.leftButton = element(by.xpath("//button[contains(@class,'button button-icon icon ion-navicon')]"));
+//     this.logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
+//     this.loginCheck = element.all(by.xpath("//h4[contains(.,'Your available products')]")).get(0);
+//     this.incoming = element(by.xpath("//ion-list//a[contains(.,'Incoming Filtering Quarantine')]"));
+//     this.outgoing = element(by.xpath("//ion-list//a[contains(.,'Outgoing Filtering Quarantine')]"));
+//     this.bigIncoming = element(by.xpath("//a[@ui-sref='main.incomingLogSearch']"));
+//     this.bigOutgoing = element(by.xpath("//a[@ui-sref='main.outgoingLogSearch']"));
+//     this.right_arrow = element(by.xpath("//button[@class='button button-icon icon ion-ios-arrow-right']"));
+//     this.left_arrow = element(by.xpath("//button[@class='button button-icon icon ion-ios-arrow-left']"));
+//     this.ioleftButton = element(by.xpath("//button[@class='button button-icon icon ion-navicon disable-user-behavior']"));
+//     this.ibuttonMessage = element(by.xpath("//div/div/div/div[contains(.,'Incoming spam messages')]"));
+//     this.obuttonMessage = element(by.xpath("//div/div/div/div[contains(.,'Outgoing spam messages')]"));
+//     this.iRefresher = element(by.xpath("(//ion-item[@ng-if='!loadingEntries && !messageEntries.length'])[1]"));
+//     this.oRefresher = element(by.xpath("(//ion-item[@ng-if='!loadingEntries && !messageEntries.length'])[2]"));
+//     this.isearchdate = element(by.xpath("(//div[contains(@class,'col col-30 col-center text-right top-date ng-binding')])[1]"));
+//     this.osearchdate = element(by.xpath("(//div[@class='col col-30 col-center text-right top-date ng-binding'])[2]"));
+//     this.suggestionMessageClose = element(by.xpath("html/body/ion-nav-view/ion-side-menus/ion-side-menu-content/ion-nav-view/ion-view/ion-content/div[1]/div[1]/div/div/div[1]/ion-slide/i"));
+//     this.copyRight = element(by.xpath("(//div[@class='col text-center ng-binding'])[1]"));
+// };
 
 var dashAlert = function() {
     this.alertButtonOk = element(by.xpath("//button[contains(@class,'button ng-binding button-positive')]"));
