@@ -201,9 +201,7 @@ function checkLayout(mailBtn, checkMail) {
     browser.navigate().back();
     browser.navigate().back();
 }
-var dashAlert = function() {
-    this.alertButtonOk = element(by.xpath("//button[contains(@class,'button ng-binding button-positive')]"));
-};
+
 
 function addCredentials(Obj, host, user, pwd) {
     //The three fields should be provided with valid data
@@ -222,11 +220,10 @@ describe('mobile app login page', function() {
     var Obj = new LoginPage(); // initialize an object//
     var alert = new AlertPop_up(); //initialize the Popup//
     var logged = new dashPage();
-    var dashA = new dashAlert();
     var search = new SearchPanel();
     var mailBtn = new imailButtons();
     var checkMail = new imailLayout();
-    var data = require("./dataForUserRestrictedLogin");
+    var data = require("./dependencies/dataForUserRestrictedLogin");
     var EC = protractor.ExpectedConditions;
     var omailBtn = new omailButtons();
     var ocheckMail = new omailLayout();
@@ -261,13 +258,7 @@ describe('mobile app login page', function() {
                 logged.bigOutgoing.click();
             });
         omailBtn.mailBody.click();
-        // browser.wait(EC.visibilityOf(omailBtn.accesNotPermited), 20000)
-        //     .then(function() {
-        //         expect(omailBtn.accesNotPermited.isPresent()).toBeTruthy();
-        //         expect(omailBtn.accesNotPermited.getText()).toEqual("blabla");
-
-        //     });
-
+  
 
         browser.refresh();
 

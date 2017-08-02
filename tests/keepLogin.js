@@ -25,7 +25,7 @@ function field_cleaner(Obj) {
     Obj.password.clear();
     Obj.user.clear();
 }
-var data = require("./dataForUserRestrictedLogin");
+var data = require("./dependencies/dataForUserRestrictedLogin");
 
 //The error message that is checked it's the one the application returns at the moment the test are written. 
 //If there will be an update the error message could be changed depending on the

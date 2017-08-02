@@ -2,29 +2,7 @@ var LoginPage = require('./dependencies/LoginPageObject.js');
 var iSearchPanel = require('./dependencies/SearchPanelObject.js')
 var CategoryPage=require('./dependencies/CategoryPageObject.js');
 var dashPage=require('./dependencies/DashPageObject.js');
-
-function extract_data(formatedDate, currentDate) {
-    formatedDate[0] = currentDate[8];
-    formatedDate[1] = currentDate[9];
-    formatedDate[2] = " ";
-    formatedDate[3] = currentDate[4];
-    formatedDate[4] = currentDate[5];
-    formatedDate[5] = currentDate[6];
-    formatedDate[6]=" ";
-    formatedDate[7]="-";
-    formatedDate[8]=" ";
-    formatedDate[9] = currentDate[8];
-    formatedDate[10] = currentDate[9];
-    formatedDate[11] = " ";
-    formatedDate[12] = currentDate[4];
-    formatedDate[13] = currentDate[5];
-    formatedDate[14] = currentDate[6];
-    formatedDate[15]= " ";
-    formatedDate[16]= currentDate[11];
-    formatedDate[17]= currentDate[12];
-    formatedDate[18]= currentDate[13];
-    formatedDate[19]= currentDate[14];
-}
+var extract_data=require('./dependencies/ExtractDataFunction.js');
 
 function field_cleaner(Obj) {
     Obj.hostname.clear();
@@ -38,7 +16,7 @@ function addCredentials(Obj, host, user, pwd) {
     Obj.user.sendKeys(user);
     Obj.password.sendKeys(pwd);
 }
-var data = require("./dataForUserRestrictedLogin.json");
+var data = require("./dependencies/dataForUserRestrictedLogin.json");
 describe('mobile app login page', function() {
 
     var Obj = new LoginPage(); // initialize an object//
