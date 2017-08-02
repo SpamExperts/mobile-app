@@ -11,6 +11,8 @@ exports.config = {
         'superAdminLayout.js',
   		  'emailUserLayout.js',
         'checkTimeButtons.js',
+        'domainUserEmailPageLayout.js',
+        'superAdminEmailPageLayout.js',
         //'domainUserLayout.js',
       
     ],
