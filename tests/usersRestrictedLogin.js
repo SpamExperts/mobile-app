@@ -1,4 +1,6 @@
 var LoginPage = require('./dependencies/LoginPageObject.js');
+var AlertPage = require('./dependencies/AlertLogPageObject.js');
+var Dashboard = require('./dependencies/DashPageObject');
 
 var InputData = function(hostname, username, password)  {
     this.hostname = hostname;
@@ -7,14 +9,14 @@ var InputData = function(hostname, username, password)  {
 }
 
 function field_cleaner(test) {
-    //browser.sleep(10000);
     test.hostname.clear();
     test.user.clear();
     test.password.clear();
 }
+
 /*
     Test should check that different type of users are allowed or not to use the app. 
-    If they are allowed, it tests that their role is displayed correctly and 
+    If they are allowed, it tests that their dash.role is displayed correctly and 
     they have access to the proper quarantine categories.
 */
 
@@ -25,15 +27,12 @@ describe('Verify User Restrictions', function() {
     // Open page
     browser.get('http://localhost:8100/#/login'); 
 
-    var role;
-    var incoming;
-    var outgoing;
-    var menuButton;
-    var logoutButton;
-    var OKButton;
+    //	Take elements
+    test = new LoginPage();
+    dash = new Dashboard();
+	alert = new AlertPage();
 
-    var test = new LoginPage();
-    var data = require('./dataForUserRestrictedLogin.json');
+    var data = require('./dependencies/dataForUserRestrictedLogin.json');
     var EC = protractor.ExpectedConditions;
     //browser.ignoreSynchronization = true;
     
@@ -50,32 +49,28 @@ describe('Verify User Restrictions', function() {
     test.password.sendKeys(superAdminData.password);
     test.logbutton.click();  
 
-    role = element(by.xpath("(//span[contains(.,'Super-Admin')])[1]"));
-    browser.wait(EC.visibilityOf(role), 5000).then(function(){
-        expect(role.getText()).toEqual("SUPER-ADMIN");
+    browser.wait(EC.visibilityOf(dash.bigRole), 5000).then(function(){
+        expect(dash.bigRole.getText()).toEqual("SUPER-ADMIN");
     });
 
-    incoming = element.all(by.xpath("//a[contains(.,'Incoming Filtering Quarantine')]"));
-    outgoing = element.all(by.xpath("//a[contains(.,'Outgoing Filtering Quarantine')]"));
-    expect(incoming.isPresent()).toBe(true);
-    expect(outgoing.isPresent()).toBe(true);
+    expect(dash.bigIncoming.isPresent()).toBe(true);
+    expect(dash.bigOutgoing.isPresent()).toBe(true);
  
-    menuButton = element(by.xpath("//ion-header-bar//button[contains(@class,'ion-navicon')]"));
-    browser.wait(EC.visibilityOf(menuButton), 5000).then(function(){
-       expect(menuButton.isPresent()).toBe(true);
+    browser.wait(EC.visibilityOf(dash.leftButton), 5000).then(function(){
+       expect(dash.leftButton.isPresent()).toBe(true);
     });
-    browser.wait(EC.elementToBeClickable(menuButton), 5000).then(function(){
-       menuButton.click();
-    });
-
-    logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
-    browser.wait(EC.elementToBeClickable(logoutButton), 5000).then(function(){
-        logoutButton.click();
+    browser.wait(EC.elementToBeClickable(dash.leftButton), 5000).then(function(){
+       dash.leftButton.click();
     });
 
-    OKButton = element(by.xpath("//button[contains(.,'OK')]"));
-    browser.wait(EC.elementToBeClickable(OKButton), 5000).then(function(){
-        OKButton.click();
+    dash.logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
+    browser.wait(EC.elementToBeClickable(dash.logoutButton), 5000).then(function(){
+        dash.logoutButton.click();
+    });
+
+    dash.okButton = element(by.xpath("//button[contains(.,'OK')]"));
+    browser.wait(EC.elementToBeClickable(dash.okButton), 5000).then(function(){
+        dash.okButton.click();
     });
  
     //  Test for Domain User 
@@ -85,30 +80,27 @@ describe('Verify User Restrictions', function() {
     test.password.sendKeys(domainData.password);
     test.logbutton.click();
 
-    role = element(by.xpath("(//span[contains(.,'Domain User')])[1]"));
-    browser.wait(EC.visibilityOf(role), 5000).then(function(){   
-        expect(role.getText()).toEqual("DOMAIN USER");
+    browser.wait(EC.visibilityOf(dash.bigRole), 5000).then(function(){   
+        expect(dash.bigRole.getText()).toEqual("DOMAIN USER");
     });
  
-    expect(incoming.isPresent()).toBe(true);
-    expect(outgoing.isPresent()).toBe(true);
+    expect(dash.bigIncoming.isPresent()).toBe(true);
+    expect(dash.bigOutgoing.isPresent()).toBe(true);
 
-    menuButton = element(by.xpath("//ion-header-bar//button[contains(@class,'ion-navicon')]"));
-    browser.wait(EC.visibilityOf(menuButton), 5000).then(function(){
-       expect(menuButton.isPresent()).toBe(true);
+    dash.leftButton = element(by.xpath("//ion-header-bar//button[contains(@class,'ion-navicon')]"));
+    browser.wait(EC.visibilityOf(dash.leftButton), 5000).then(function(){
+       expect(dash.leftButton.isPresent()).toBe(true);
     });
-    browser.wait(EC.elementToBeClickable(menuButton), 5000).then(function(){
-       menuButton.click();
-    });
-
-    logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
-    browser.wait(EC.elementToBeClickable(logoutButton), 5000).then(function(){
-        logoutButton.click();
+    browser.wait(EC.elementToBeClickable(dash.leftButton), 5000).then(function(){
+       dash.leftButton.click();
     });
 
-    OKButton = element(by.xpath("//button[contains(.,'OK')]"));
-    browser.wait(EC.elementToBeClickable(OKButton), 5000).then(function(){
-        OKButton.click();
+    browser.wait(EC.elementToBeClickable(dash.logoutButton), 5000).then(function(){
+        dash.logoutButton.click();
+    });
+
+    browser.wait(EC.elementToBeClickable(dash.okButton), 5000).then(function(){
+        dash.okButton.click();
     });
  
     //  Test for Email User
@@ -118,31 +110,26 @@ describe('Verify User Restrictions', function() {
     test.password.sendKeys(emailData.password);
     test.logbutton.click();
 
-
-    role = element(by.xpath("html/body/ion-nav-view/ion-side-menus/ion-side-menu-content/ion-nav-view/ion-view/div/div/div/span"));
-    browser.wait(EC.visibilityOf(role), 5000).then(function(){ 
-        expect(role.getText()).toEqual("EMAIL USER");
+    browser.wait(EC.visibilityOf(dash.bigRole), 5000).then(function(){ 
+        expect(dash.bigRole.getText()).toEqual("EMAIL USER");
     });
 
-    expect(incoming.isPresent()).toBe(true);
-    expect(outgoing.isPresent()).toBe(false);
+    expect(dash.bigIncoming.isPresent()).toBe(true);
+    expect(dash.bigOutgoing.isPresent()).toBe(false);
 
-    menuButton = element(by.xpath("//ion-header-bar//button[contains(@class,'ion-navicon')]"));
-    browser.wait(EC.visibilityOf(menuButton), 5000).then(function(){
-       expect(menuButton.isPresent()).toBe(true);
+    browser.wait(EC.visibilityOf(dash.leftButton), 5000).then(function(){
+       expect(dash.leftButton.isPresent()).toBe(true);
     });
-    browser.wait(EC.elementToBeClickable(menuButton), 5000).then(function(){
-       menuButton.click();
-    });
-
-    logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
-    browser.wait(EC.elementToBeClickable(logoutButton), 5000).then(function(){
-        logoutButton.click();
+    browser.wait(EC.elementToBeClickable(dash.leftButton), 5000).then(function(){
+       dash.leftButton.click();
     });
 
-    OKButton = element(by.xpath("//button[contains(.,'OK')]"));
-    browser.wait(EC.elementToBeClickable(OKButton), 5000).then(function(){
-        OKButton.click();
+    browser.wait(EC.elementToBeClickable(dash.logoutButton), 5000).then(function(){
+        dash.logoutButton.click();
+    });
+
+    browser.wait(EC.elementToBeClickable(dash.okButton), 5000).then(function(){
+        dash.okButton.click();
     });
  
     //  Test for AdminUser
@@ -152,21 +139,17 @@ describe('Verify User Restrictions', function() {
     test.password.sendKeys(adminData.password);
     test.logbutton.click();
 
-    var errorMessage = element(by.xpath('/html/body/div[3]/div/div[2]'));
-    browser.wait(EC.visibilityOf(errorMessage), 5000).then(function(){ 
-        expect(errorMessage.getText()).toEqual("Sorry, admin users are not able to use this app yet. Please log in as a domain or email user.");
+    browser.wait(EC.visibilityOf(alert.alertBody), 5000).then(function(){ 
+        expect(alert.alertBody.getText()).toEqual("Sorry, admin users are not able to use this app yet. Please log in as a domain or email user.");
     });
 
-    var closingButton = element(by.xpath('/html/body/div[3]/div/div[3]/button'));
-    browser.wait(EC.elementToBeClickable(closingButton), 5000).then(function(){ 
-        closingButton.click();
+    browser.wait(EC.elementToBeClickable(alert.alertButton), 5000).then(function(){ 
+        alert.alertButton.click();
     });
 
  
     browser.wait(EC.visibilityOf(test.logbutton), 5000).then(function(){
-        test.hostname.clear();
-        test.user.clear();
-        test.password.clear();
+		field_cleaner(test);
     });
 
   });
