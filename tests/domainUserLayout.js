@@ -1,10 +1,7 @@
 var LoginPage = require('./dependencies/LoginPageObject.js');
-
-var InputData = function(hostname, username, password)  {
-    this.hostname = hostname;
-    this.username = username;
-    this.password = password;
-}
+var SearchPanel = require('./dependencies/SearchPanelObject.js');
+var CategoryPanel = require('./dependencies/CategoryPageObject.js');
+var Dashboard = require('./dependencies/DashPageObject');
 
 function field_cleaner(test) {
     test.hostname.clear();
@@ -12,98 +9,51 @@ function field_cleaner(test) {
     test.password.clear();
 }
 
-function checkSetDatePopup(){
-	
-	var title = element(by.xpath("//h3[contains(.,'Pick a date and a time')]"));
-	var body = element(by.xpath("//div[contains(@class,'ion-datetime-picker')]"));
-	var OKButton = element(by.xpath("//button[contains(.,'OK')]"));
-	var cancelButton = element(by.xpath("//button[contains(.,'Cancel')]"));
-
-	expect(title.getText()).toEqual("Pick a date and a time");
-	expect(body.isPresent()).toBe(true);
-	expect(OKButton.getText()).toEqual("OK");
-	expect(cancelButton.getText()).toEqual("Cancel");
-
-	browser.wait(EC.elementToBeClickable(cancelButton), 5000).then(function(){
-        cancelButton.click();
-    });
-}
-
-function checkIncomingPage(){
-
-    var name = element(by.xpath("(//div[@ng-if='searchDomain'])[1]")); 
-    var content = element(by.xpath("(//ion-item[contains(.,'No entries. Pull to refresh...')])[1]"));
-    var menuButton = element(by.xpath("(//button[contains(@on-tap,'toggleLeftMenu($event)')])[1]"));
-    var timeDate = element(by.xpath("(//div[contains(@class,'col col-30 col-center text-right top-date ng-binding')])[1]"));
-
-    expect(name.getText()).toEqual(domainData.username);
-    expect(content.getText()).toEqual("No entries. Pull to refresh...");
-    expect(menuButton.isPresent()).toBe(true);
-    expect(timeDate.isPresent()).toBe(true);
-    expect(timeDate.getText()).toEqual(buildDate);
-}
-
-function checkOutgoingPage(){
-
-    var name = element(by.xpath("(//div[@ng-if='searchDomain'])[2]")); 
-    var content = element(by.xpath("(//ion-item[contains(.,'No entries. Pull to refresh...')])[2]"));
-    var menuButton = element(by.xpath("(//button[contains(@on-tap,'toggleLeftMenu($event)')])[2]"));
-    var timeDate = element(by.xpath("(//div[contains(@class,'col col-30 col-center text-right top-date ng-binding')])[2]"));
-
-    expect(name.getText()).toEqual(domainData.username);
-    expect(content.getText()).toEqual("No entries. Pull to refresh...");
-    expect(menuButton.isPresent()).toBe(true);
-    expect(timeDate.isPresent()).toBe(true);
-    expect(timeDate.getText()).toEqual(buildDate);
-}
-
 function checkSearchMenu(){
 
-    var backTitle = element(by.xpath("//div[contains(.,'Back to results')]"));  
-    var searchText = element(by.xpath("//h4[contains(.,'Search messages')]")); 
-    var sender = element(by.xpath("//input[contains(@placeholder,'Sender')]"));
-    var recipient = element(by.xpath("//input[contains(@placeholder,'Recipient')]"));
-    var dateTitle = element(by.xpath("//span[contains(@aria-label,'Sent')]"));
-    var p24HButton = element(by.xpath("//button[contains(@on-tap,'past24Hours()')]"));
-    var pWeekButton = element(by.xpath("//button[contains(@on-tap,'pastWeek()')]"));
-    var pMonthButton = element(by.xpath("//button[contains(@on-tap,'pastMonth()')]"));   
-    var customTitle = element(by.xpath("//span[contains(@aria-label,'Custom timeframe')]"));
-    var fromDateTitle = element(by.xpath("//span[contains(.,'From date')]"));
-    var toDateTitle = element(by.xpath("//span[contains(.,'To date')]"));
-    var fromDateField = element.all(by.xpath("//div[contains(@class,'time ng-binding')]")).get(0);
-    var toDateField = element.all(by.xpath("//div[contains(@class,'time ng-binding')]")).get(1);
-    var doSearch = element(by.xpath("//button[contains(@on-tap,'doSearch()')]"));
-    var doClear = element(by.xpath("//button[@on-tap='clearSearch()']"));
+    expect(search.backToResults.getText()).toEqual("Back to results");
+    expect(search.searchTitle.getText()).toEqual("Search messages");
+    expect(search.isenderSearch.isPresent()).toBe(true);
+    expect(search.irecipientSearch.isPresent()).toBe(true);
+    expect(search.dateTitle.isPresent()).toBe(true);
+    expect(search.ihourSearch.getText()).toEqual("Past 24H");
+    expect(search.iweekSearch.getText()).toEqual("Past Week");
+	expect(search.imonthSearch.getText()).toEqual("Past Month");
+	expect(search.customTitle.getText()).toEqual("Custom timeframe");
+	expect(search.fromdate.getText()).toEqual("From date");
+	expect(search.todate.getText()).toEqual("To date");
+    expect(search.from.isPresent()).toBe(true);
+    expect(search.to.isPresent()).toBe(true);
+    expect(search.istartSearch.isPresent()).toBe(true);
+    expect(search.iclearSearch.isPresent()).toBe(true);
+    expect(search.from.getText()).toEqual(fromDate);
+    expect(search.to.getText()).toEqual(toDate);
 
-    expect(backTitle.getText()).toEqual("Back to results");
-    expect(searchText.getText()).toEqual("Search messages");
-    expect(sender.isPresent()).toBe(true);
-    expect(recipient.isPresent()).toBe(true);
-    expect(dateTitle.isPresent()).toBe(true);
-    expect(p24HButton.getText()).toEqual("Past 24H");
-    expect(pWeekButton.getText()).toEqual("Past Week");
-	expect(pMonthButton.getText()).toEqual("Past Month");
-	expect(customTitle.getText()).toEqual("Custom timeframe");
-	expect(fromDateTitle.getText()).toEqual("From date");
-	expect(toDateTitle.getText()).toEqual("To date");
-    expect(fromDateField.isPresent()).toBe(true);
-    expect(toDateField.isPresent()).toBe(true);
-    expect(doSearch.isPresent()).toBe(true);
-    expect(doClear.isPresent()).toBe(true);
-    expect(fromDateField.getText()).toEqual(fromDate);
-    expect(toDateField.getText()).toEqual(toDate);
-
-    browser.wait(EC.elementToBeClickable(fromDateField), 5000).then(function(){
-        fromDateField.click();
+    browser.wait(EC.elementToBeClickable(search.from), 5000).then(function(){
+        search.from.click();
     });
 
-    checkSetDatePopup();
+    expect(search.calendarHead.getText()).toEqual("Pick a date and a time");
+    expect(search.calendar.isPresent()).toBe(true);
+    expect(search.calendarOkButton.getText()).toEqual("OK");
+    expect(search.calendarXButton.getText()).toEqual("Cancel");
 
-    browser.wait(EC.elementToBeClickable(toDateField), 5000).then(function(){
-        toDateField.click();
+    browser.wait(EC.elementToBeClickable(search.calendarXButton), 5000).then(function(){
+        search.calendarXButton.click();
     });
 
-    checkSetDatePopup();
+    browser.wait(EC.elementToBeClickable(search.to), 5000).then(function(){
+        search.to.click();
+    });
+
+    expect(search.calendarHead.getText()).toEqual("Pick a date and a time");
+    expect(search.calendar.isPresent()).toBe(true);
+    expect(search.calendarOkButton.getText()).toEqual("OK");
+    expect(search.calendarXButton.getText()).toEqual("Cancel");
+
+    browser.wait(EC.elementToBeClickable(search.calendarXButton), 5000).then(function(){
+        search.calendarXButton.click();
+    });
 }
 
 describe('Verify Domain User Layout', function() {
@@ -113,11 +63,15 @@ describe('Verify Domain User Layout', function() {
     //	Open page
     browser.get('http://localhost:8100/#/login');
 
-    var test = new LoginPage();
-    var data = require('./dataForUserRestrictedLogin.json');
     EC = protractor.ExpectedConditions;
-    domainData = new InputData(data.domainH, data.domainU, data.domainP);
-    var menuButton;
+
+    // Take elements
+    test = new LoginPage();
+    dash = new Dashboard();
+    search = new SearchPanel();
+    category = new CategoryPanel();
+
+    data = require('./dependencies/dataForUserRestrictedLogin.json');
     
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     var currentDate = new Date();
@@ -142,152 +96,129 @@ describe('Verify Domain User Layout', function() {
 	fromDate = ((year.concat("-", monthNumber)).concat("-",dayNumber)).concat(" ","00:00");
 	toDate = (((year.concat("-", monthNumber)).concat("-",dayNumber)).concat(" ",hourNumber)).concat(":", minuteNumber);
 
-    //	Login
+    //  Login
     field_cleaner(test);
-    test.hostname.sendKeys(domainData.hostname);
-    test.user.sendKeys(domainData.username);
-    test.password.sendKeys(domainData.password);
+    test.hostname.sendKeys(data.domainH);
+    test.user.sendKeys(data.domainU);
+    test.password.sendKeys(data.domainP);
     test.logbutton.click();
 
     //	Check Dashboard
-
-    var header = element(by.xpath("html/body/ion-nav-view/ion-side-menus/ion-side-menu-content/ion-nav-view/ion-view/div/div/h3"));
-    var role = element(by.xpath("(//span[contains(.,'Domain User')])[1]"));
- 	var incoming = element(by.xpath("//a[contains(@ui-sref,'main.incomingLogSearch')]"));
-    var outgoing = element(by.xpath("//a[contains(@ui-sref,'main.outgoingLogSearch')]"));
-    var title = element(by.xpath("//div[@class='dashboard']//h4[contains(.,'Your available products')]"));
- 	var credit = element.all(by.xpath("//div[@class='col text-center ng-binding']")).get(0);
+    var header = element.all(by.css('.text-center.ng-binding')).get(0);
 
  	//	Check Header
     browser.wait(EC.visibilityOf(header), 5000).then(function(){   
-        expect(header.getText()).toEqual("Hello".concat(" ", domainData.username));
+        expect(header.getText()).toEqual("Hello".concat(" ", data.domainU));
     });
     //	Check role 
-    expect(role.getText()).toEqual("DOMAIN USER");
+    expect(dash.bigRole.getText()).toEqual("DOMAIN USER");
  	// Check categories
-    expect(incoming.isPresent()).toBe(true);
-    expect(outgoing.isPresent()).toBe(true);
+    expect(dash.bigIncoming.isPresent()).toBe(true);
+    expect(dash.bigOutgoing.isPresent()).toBe(true);
     //	Check Title
-    expect(title.isPresent()).toBe(true);
+    expect(dash.bigLoginCheck.isPresent()).toBe(true);
     //	Check credit    
-    expect(credit.getText()).toEqual("© 2017 SpamExperts");
+    expect(dash.bigcopyRight.getText()).toEqual("© 2017 SpamExperts");
 
     //	Enter Incoming Menu
-
-    incoming.click();
-    //browser.ignoreSynchronization = true;
+    dash.bigIncoming.click();
 
     //	Check Incoming Page
-    var inHeader = element(by.xpath("//div/div/div/div[contains(.,'Incoming spam messages')]"));
-    browser.wait(EC.visibilityOf(inHeader), 5000).then(function(){   
-        expect(inHeader.getText()).toEqual("Incoming spam messages");
+    browser.wait(EC.visibilityOf(category.iHeader), 5000).then(function(){   
+        expect(category.iHeader.getText()).toEqual("Incoming spam messages");
     });
-    menuButton = element(by.xpath("(//ion-header-bar//button[contains(@class,'ion-navicon')])[2]"));
-    expect(menuButton.isPresent()).toBeTruthy();
+    expect(category.ileftButton.isPresent()).toBeTruthy();
+    expect(category.iName.getText()).toEqual(data.domainU);
+    //expect(category.iemptyContent.getText()).toEqual("No entries. Pull to refresh...");
+    expect(category.itimeDate.isPresent()).toBe(true);
+    expect(category.itimeDate.getText()).toEqual(buildDate);
 
-    checkIncomingPage();
-
-    //	Enter inSearch Menu
-    var searchInButton = element(by.xpath("(//button[contains(@on-tap,'toggleRightMenu($event)')])[1]"));
-    browser.wait(EC.visibilityOf(searchInButton), 5000).then(function(){
-       expect(searchInButton.isPresent()).toBe(true);
+    //	Enter iSearch Menu
+    browser.wait(EC.visibilityOf(category.isearchButton), 5000).then(function(){
+       expect(category.isearchButton.isPresent()).toBe(true);
     });
-    browser.wait(EC.elementToBeClickable(searchInButton), 5000).then(function(){
-        searchInButton.click();
+    browser.wait(EC.elementToBeClickable(category.isearchButton), 5000).then(function(){
+        category.isearchButton.click();
     });
 
     //	Check inSearch Menu
-    var backButton = element(by.xpath("//button[contains(@class,'button button-icon icon ion-ios-arrow-left')]"));
-    browser.wait(EC.visibilityOf(backButton), 5000).then(function(){
-       expect(backButton.isPresent()).toBe(true);
+    browser.wait(EC.visibilityOf(search.backButton), 5000).then(function(){
+       expect(search.backButton.isPresent()).toBe(true);
     });
+
     checkSearchMenu();
 
     //	Go back to Incoming Page
-    browser.wait(EC.elementToBeClickable(backButton), 5000).then(function(){
-        backButton.click();
+    browser.wait(EC.elementToBeClickable(search.backButton), 5000).then(function(){
+        search.backButton.click();
     });
 
     //	Go back to dashboard
     browser.navigate().back();
-    //browser.ignoreSynchronization = false;
 
      //	Enter Outgoing Menu
-
-    outgoing.click();
-    //browser.ignoreSynchronization = true;
+    dash.bigOutgoing.click();
 
     //	Check Outgoing Page
-    var outHeader = element(by.xpath("//div/div/div/div[contains(.,'Outgoing spam messages')]"));
-    browser.wait(EC.visibilityOf(outHeader), 5000).then(function(){   
-        expect(outHeader.getText()).toEqual("Outgoing spam messages");
+    browser.wait(EC.visibilityOf(category.oHeader), 5000).then(function(){   
+        expect(category.oHeader.getText()).toEqual("Outgoing spam messages");
     });
-    menuButton = element(by.xpath("(//ion-header-bar//button[contains(@class,'ion-navicon')])[3]"));
-    expect(menuButton.isPresent()).toBe(true);
-
-    checkOutgoingPage();
+    expect(category.oleftButton.isPresent()).toBeTruthy();
+    expect(category.oName.getText()).toEqual(data.domainU);
+    //expect(category.oemptyContent.getText()).toEqual("No entries. Pull to refresh...");
+    expect(category.otimeDate.isPresent()).toBe(true);
+    expect(category.otimeDate.getText()).toEqual(buildDate);
 
     //	Enter outSearch Menu
-    var searchOutButton = element(by.xpath("(//button[@on-tap='toggleRightMenu($event)'])[2]"));
-    browser.wait(EC.visibilityOf(searchOutButton), 5000).then(function(){
-       expect(searchOutButton.isPresent()).toBe(true);
+    browser.wait(EC.visibilityOf(category.osearchButton), 5000).then(function(){
+       expect(category.osearchButton.isPresent()).toBe(true);
     });
-    browser.wait(EC.elementToBeClickable(searchOutButton), 5000).then(function(){
-        searchOutButton.click();
+    browser.wait(EC.elementToBeClickable(category.osearchButton), 5000).then(function(){
+        category.osearchButton.click();
     });
 
     //	Check outSearch Menu
-    backButton = element(by.xpath("//button[contains(@class,'button button-icon icon ion-ios-arrow-left')]"));
-    browser.wait(EC.visibilityOf(backButton), 5000).then(function(){
-       expect(backButton.isPresent()).toBe(true);
+    browser.wait(EC.visibilityOf(search.backButton), 5000).then(function(){
+       expect(search.backButton.isPresent()).toBe(true);
     });
+
     checkSearchMenu();
 
     //	Go back to Outgoing Page
-    browser.wait(EC.elementToBeClickable(backButton), 5000).then(function(){
-        backButton.click();
+    browser.wait(EC.elementToBeClickable(search.backButton), 5000).then(function(){
+        search.backButton.click();
     });
 
     //	Go back to dashboard
-    browser.navigate().back();
-    //browser.ignoreSynchronization = false;	
-
+    browser.navigate().back();	
 
     //	Log out
-    menuButton = element(by.xpath("(//ion-header-bar//button[contains(@class,'ion-navicon')])[1]"));
-    browser.wait(EC.visibilityOf(menuButton), 5000).then(function(){
-       expect(menuButton.isPresent()).toBe(true);
+    browser.wait(EC.visibilityOf(dash.leftButton), 5000).then(function(){
+       expect(dash.leftButton.isPresent()).toBe(true);
     });
-    browser.wait(EC.elementToBeClickable(menuButton), 5000).then(function(){
-	   menuButton.click();
+    browser.wait(EC.elementToBeClickable(dash.leftButton), 5000).then(function(){
+	   dash.leftButton.click();
     });
 
-    var logArrow = element(by.xpath("//button[contains(@class,'button button-icon icon ion-ios-arrow-right')]"));
-    var logHead = element(by.xpath("html/body/ion-nav-view/ion-side-menus/ion-side-menu[1]/div/div/h3"));
-    var logRole = element(by.xpath("html/body/ion-nav-view/ion-side-menus/ion-side-menu[1]/div/div/div/span"));
-    var logTitle = element.all(by.xpath("//h4[contains(.,'Your available products')]")).get(1);
-    var logIncoming = element.all(by.xpath("//a[contains(@class,'item-content ng-binding')]")).get(0);
-    var logOutgoing = element.all(by.xpath("//a[contains(@class,'item-content ng-binding')]")).get(1);
-	var logCredit = element.all(by.xpath("//div[@class='col text-center ng-binding']")).get(1);
-	var logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
-	var OKButton = element(by.xpath("//button[contains(.,'OK')]"));
-
+    var logHead = element(by.css('.title.text-center.ng-binding'));
     browser.wait(EC.visibilityOf(logHead), 5000).then(function(){
-        expect(logHead.getText()).toEqual(domainData.username);
+        expect(logHead.getText()).toEqual(data.domainU);
     });
-    expect(logArrow.isPresent()).toBe(true);
-    expect(logRole.getText()).toEqual("DOMAIN USER");
-	expect(logTitle.getText()).toEqual("Your available products");
-	expect(logIncoming.isPresent()).toBe(true);
-	expect(logOutgoing.isPresent()).toBe(true);
-	expect(logCredit.getText()).toEqual("© 2017 SpamExperts");
+    expect(dash.right_arrow.isPresent()).toBe(true);
+    expect(dash.role.getText()).toEqual("DOMAIN USER");
+	expect(dash.loginCheck.getText()).toEqual("Your available products");
+	expect(dash.incoming.isPresent()).toBe(true);
+	expect(dash.outgoing.isPresent()).toBe(true);
+	expect(dash.copyRight.getText()).toEqual("© 2017 SpamExperts");
 
-    browser.wait(EC.elementToBeClickable(logoutButton), 5000).then(function(){
-        logoutButton.click();
+    browser.wait(EC.elementToBeClickable(dash.logoutButton), 5000).then(function(){
+        dash.logoutButton.click();
     });
-    browser.wait(EC.elementToBeClickable(OKButton), 5000).then(function(){
-        OKButton.click();
+
+    browser.wait(EC.elementToBeClickable(dash.okButton), 5000).then(function(){
+        dash.okButton.click();
     });
+
     browser.wait(EC.visibilityOf(test.logbutton), 5000).then(function(){
         browser.sleep(800);
         field_cleaner(test)

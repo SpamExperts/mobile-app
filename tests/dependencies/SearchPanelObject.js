@@ -13,6 +13,7 @@ var SearchPanel = function() {
     this.imonthSearch = element(by.css('[on-tap="pastMonth()"]'));
     this.iclearSearch = element(by.css('[on-tap="clearSearch()"]'));
     this.istartSearch = element(by.css('[on-tap="doSearch()"]'));
+    this.searchTitle = element(by.css('.scroll>h4'));
     this.backToResults = element.all(by.cssContainingText('.title', 'Back to results')).get(0);
     this.requirements = element.all(by.css('[ng-if="isSuperAdmin()"]')).get(0);
 
