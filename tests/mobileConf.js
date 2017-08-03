@@ -1,18 +1,19 @@
 exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     specs: [       
-         'keepLogin.js',
-         'alertCheck.js',
-         'inexistingUser.js',
-         'elementCheck.js', // border
+         'authScreenKeepLogin.js',
+         'authScreenUnsuccessfulAtempts_2.js',
+         'authScreenUnsuccessfulAtempts_3.js',
+         
+         'authScreenLayout.js', // border
         // 'usersRestrictedLogin.js',
          //'dataType.js',
          //'successfulLogin.js',
-        'superAdminLayout.js',
-  		  'emailUserLayout.js',
-        'checkTimeButtons.js',
-        'domainUserEmailPageLayout.js',
-        'superAdminEmailPageLayout.js',
+        'superAdminLevelLayout.js',
+  		'emailLevelLayout.js',
+        'searchPanelQuickSelect.js',
+        'domainLevelFunctionality.js',
+        'superAdminLevelFunctionality.js',
         //'domainUserLayout.js',
       
     ],
