@@ -64,6 +64,7 @@ describe('mobile app login page', function() {
 
         alreadyLogged.logoutButton.click();
         alreadyLogged.cancelButton.click();
+       
         alreadyLogged.logoutButton.click();
         alreadyLogged.okButton.click();
 

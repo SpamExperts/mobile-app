@@ -43,5 +43,7 @@ describe('mobile app login page', function() {
                 browser.ignoreSynchronization = true;
                 log_check_close(Obj, alert);
             });
+            field_cleaner(Obj);
+            browser.refresh();
     });
 });
