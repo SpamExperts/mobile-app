@@ -36,9 +36,9 @@ describe('mobile app dash page', function() {
         addCredentials(Obj, data.emailH, data.emailU, data.emailP);
         Obj.logbutton.click();
 
-        browser.wait(EC.visibilityOf(logged.loginCheck), 20000)
+        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 20000)
             .then(function() {
-                expect(logged.loginCheck.isPresent()).toBeTruthy();
+                expect(logged.bigLoginCheck.isPresent()).toBeTruthy();
             });
         browser.sleep(1000);
         logged.bigIncoming.click();

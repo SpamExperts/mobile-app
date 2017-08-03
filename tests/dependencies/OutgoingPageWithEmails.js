@@ -1,15 +1,15 @@
 var omailButtons = function() {
-    this.selectButton = element(by.xpath("//ion-view[3]/ion-content/div[1]/ion-list/div/div/ion-item[1]/div/div[2]/div[2]/label"));
-    this.releaseButton = element(by.xpath("(//div[@ng-repeat='action in barActions'])[1]"));
-    this.removeButton = element(by.xpath("(//div[@ng-repeat='action in barActions'])[2]"));
-    this.moreActButton = element(by.xpath("(//button[@class='button button-clear disable-user-behavior'])[1]"));
-    this.mabUnselect = element(by.xpath("(//button[@class='button button-clear disable-user-behavior'])[2]"));
-    this.mabRelease = element(by.xpath("(//li[@on-tap='processAction(action)'])[1]"));
-    this.mabRelAndTrain = element(by.xpath("(//li[@on-tap='processAction(action)'])[2]"));
-    this.mabRemove = element(by.xpath("(//li[@on-tap='processAction(action)'])[3]"));
-    this.mailBody = element(by.xpath("//ion-nav-view/ion-view[3]/ion-content/div[1]/ion-list/div/div/ion-item[1]/div/div[1]"));
-    this.category = element(by.xpath("(//ion-content/div[1]/ion-list/div/div/ion-item[1]/div/div[1]/div[1]/div[2]/span)[2]"));
-    this.mailDate = element(by.xpath("(//ion-content/div[1]/ion-list/div/div/ion-item[1]/div/div[1]/div[1]/div[1])[2]"));
-    this.accesNotPermited=element(by.xpath("//div[contains(@ng-bind-html,'info|trust')]"));
+    this.selectButton = element(by.css(".checkbox-square.checkbox-dark.no-border.item.item-checkbox.disable-user-behavior.ng-valid.ng-not-empty"));
+    this.releaseButton = element.all(by.css(".button.button-clear")).get(0);
+    this.removeButton = element.all(by.css(".button.button-clear")).get(1);
+    this.moreActButton = element.all(by.css(".button.button-clear.disable-user-behavior")).get(0);
+    this.mabUnselect = element.all(by.css(".button.button-clear.disable-user-behavior")).get(1);
+    this.mabRelease = element.all(by.cssContainingText(".item.ng-binding.disable-user-behavior","Release")).get(0);
+    this.mabRelAndTrain = element.all(by.cssContainingText(".item.ng-binding.disable-user-behavior","Release and train")).get(0)
+    this.mabRemove = element.all(by.cssContainingText(".item.ng-binding.disable-user-behavior","Remove")).get(0)
+    this.mailBody = element.all(by.css("ion-item.se-message.item.disable-user-behavior")).get(0);
+    this.category = element.all(by.css(".metallic-border.main-class.ng-binding")).get(0);
+    this.mailDate = element.all(by.css(".col.col-80.message-title.ng-binding")).get(0);
+    this.accesNotPermited=element(by.cssContainingText(".ng-binding",'You are not allowed to view this message'));
 };
 module.exports=omailButtons;

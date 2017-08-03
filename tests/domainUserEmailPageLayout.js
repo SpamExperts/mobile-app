@@ -169,9 +169,9 @@ describe('mobile app login page', function() {
         Obj.logbutton.click();
 
 
-        browser.wait(EC.visibilityOf(logged.loginCheck), 20000)
+        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 20000)
             .then(function() {
-                expect(logged.loginCheck.isPresent()).toBeTruthy();
+                expect(logged.bigLoginCheck.isPresent()).toBeTruthy();
 
             });
         browser.wait(EC.visibilityOf(logged.bigIncoming), 20000)
@@ -181,17 +181,19 @@ describe('mobile app login page', function() {
         browser.ignoreSynchronization = true;
         checkLayout(mailBtn, checkMail);
 
-        browser.wait(EC.visibilityOf(logged.loginCheck), 20000)
+        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 20000)
             .then(function() {
-                expect(logged.loginCheck.isPresent()).toBeTruthy();
+                expect(logged.bigLoginCheck.isPresent()).toBeTruthy();
 
             });
         browser.wait(EC.visibilityOf(logged.bigOutgoing), 20000)
             .then(function() {
                 logged.bigOutgoing.click();
             });
-        omailBtn.mailBody.click();
-  
+   //          browser.wait(EC.visibilityOf( omailBtn.mailBody), 20000)
+   //          .then(function() {
+   //      omailBtn.mailBody.click();
+   // });
 
         browser.refresh();
 
