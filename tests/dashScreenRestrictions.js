@@ -140,6 +140,7 @@ describe('Verify User Restrictions', function() {
     test.logbutton.click();
 
     browser.wait(EC.visibilityOf(alert.alertBody), 5000).then(function(){ 
+        expect(alert.alertHead.getText()).toEqual("Error logging in!");
         expect(alert.alertBody.getText()).toEqual("Sorry, admin users are not able to use this app yet. Please log in as a domain or email user.");
     });
 
@@ -147,7 +148,6 @@ describe('Verify User Restrictions', function() {
         alert.alertButton.click();
     });
 
- 
     browser.wait(EC.visibilityOf(test.logbutton), 5000).then(function(){
 		field_cleaner(test);
     });

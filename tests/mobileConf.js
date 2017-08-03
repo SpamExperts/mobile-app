@@ -6,8 +6,7 @@ exports.config = {
         'authScreenUnsuccessfulAtempts_2.js',
         'authScreenUnsuccessfulAtempts_3.js',   
         'authScreenSuccessfulAtempt.js', 
-        'authScreenUnsuccessfulAtempts.js',
-       
+        'authScreenUnsuccessfulAtempts.js',   
         //'dashScreenRestrictions.js',
         'superAdminLevelLayout.js',
         //'domainLevelLayout.js', 
