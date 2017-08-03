@@ -13,7 +13,7 @@ exports.config = {
         'emailLevelLayout.js',       
         'superAdminLevelFunctionality.js', 
         'domainLevelFunctionality.js',
-        // 'emailLevelFunctionality.js',
+        'emailLevelFunctionality.js',
         'searchPanelQuickSelect.js',
         // 'searchPanelCalendarSettings.js' 
     ],
