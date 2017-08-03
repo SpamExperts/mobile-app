@@ -49,16 +49,16 @@ describe('mobile app login page', function() {
         Obj.logbutton.click();
         var EC = protractor.ExpectedConditions;
 
-        browser.wait(EC.visibilityOf(alreadyLogged.loginCheck), 20000)
+        browser.wait(EC.visibilityOf(alreadyLogged.bigLoginCheck), 20000)
             .then(function() {
-                expect(alreadyLogged.loginCheck.isPresent()).toBeTruthy();
+                expect(alreadyLogged.bigLoginCheck.isPresent()).toBeTruthy();
 
             });
 
         browser.refresh();
-        browser.wait(EC.visibilityOf(alreadyLogged.loginCheck), 20000)
+        browser.wait(EC.visibilityOf(alreadyLogged.bigLoginCheck), 20000)
             .then(function() {
-                expect(alreadyLogged.loginCheck.isPresent()).toBeTruthy();
+                expect(alreadyLogged.bigLoginCheck.isPresent()).toBeTruthy();
             });
         alreadyLogged.leftButton.click();
 
@@ -75,13 +75,13 @@ describe('mobile app login page', function() {
         addCredentials(Obj, data.superAdminH, data.superAdminU, data.superAdminP);
 
         Obj.logbutton.click();
-        browser.wait(EC.visibilityOf(alreadyLogged.loginCheck), 20000)
+        browser.wait(EC.visibilityOf(alreadyLogged.bigLoginCheck), 20000)
             .then(function() {
-                expect(alreadyLogged.loginCheck.isPresent()).toBeTruthy();
+                expect(alreadyLogged.bigLoginCheck.isPresent()).toBeTruthy();
             });
         browser.refresh();
         field_cleaner(Obj);
-        expect(alreadyLogged.loginCheck.isPresent()).toBeFalsy();
+        expect(alreadyLogged.bigLoginCheck.isPresent()).toBeFalsy();
 
     });
 });

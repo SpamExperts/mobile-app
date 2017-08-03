@@ -39,9 +39,9 @@ describe('mobile app login page', function() {
         addCredentials(Obj, data.emailH, data.emailU, data.emailP);
         Obj.logbutton.click();
         //Incoming Layout Check
-        browser.wait(EC.visibilityOf(logged.loginCheck), 20000)
+        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 20000)
             .then(function() {
-                expect(logged.loginCheck.isPresent()).toBeTruthy();
+                expect(logged.bigLoginCheck.isPresent()).toBeTruthy();
             });
         browser.wait(EC.visibilityOf(logged.bigIncoming), 20000)
             .then(function() {
@@ -65,7 +65,9 @@ describe('mobile app login page', function() {
             .then(function() {
                 expect(logged.incoming.isPresent()).toBeTruthy();
             });
+
             expect(logged.outgoing.isPresent()).toBeFalsy();
+
         browser.wait(EC.visibilityOf(logged.logoutButton), 20000)
             .then(function() {
                 expect(logged.logoutButton.isPresent()).toBeTruthy();

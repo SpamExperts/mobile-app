@@ -39,9 +39,9 @@ describe('mobile app login page', function() {
         addCredentials(Obj, data.superAdminH, data.superAdminU, data.superAdminP);
         Obj.logbutton.click();
 //Firstpage's buttons 
-        browser.wait(EC.visibilityOf(logged.loginCheck), 20000)
+        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 20000)
             .then(function() {
-                expect(logged.loginCheck.isPresent()).toBeTruthy();
+                expect(logged.bigLoginCheck.isPresent()).toBeTruthy();
             });
         browser.wait(EC.visibilityOf(logged.bigIncoming), 20000)
             .then(function() {
