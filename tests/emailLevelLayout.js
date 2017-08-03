@@ -65,7 +65,9 @@ describe('mobile app login page', function() {
             .then(function() {
                 expect(logged.incoming.isPresent()).toBeTruthy();
             });
+
             expect(logged.outgoing.isPresent()).toBeFalsy();
+
         browser.wait(EC.visibilityOf(logged.logoutButton), 20000)
             .then(function() {
                 expect(logged.logoutButton.isPresent()).toBeTruthy();
