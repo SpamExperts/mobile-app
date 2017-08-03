@@ -5,8 +5,16 @@ var InputData = function(hostname, username, password)  {
     this.hostname = hostname;
     this.username = username;
     this.password = password;
-};
+}
+
+function field_cleaner(test) {
+    test.hostname.clear();
+    test.user.clear();
+    test.password.clear();
+}
+
 function add() {
+    
     var array = [];
     array.push(new InputData("test", "????", "qwe12"));               // Should say hostaname not correct
     array.push(new InputData("test", "????", "Qwer1234"));            // Should say hostname not correct
@@ -19,6 +27,7 @@ function add() {
     array.push(new InputData("example.com", "mobile-app", "Qwer1234"));           // Correct data type !
     return array;
 }
+
 describe('Verify data type', function() {
     it('Check:', function() {
 
@@ -46,10 +55,12 @@ describe('Verify data type', function() {
             browser.wait(EC.visibilityOf(alert.alertButton), 5000).then(function(){
                 expect(alert.alertBody.getText()).toEqual('A record with the supplied identity could not be found.');
                 alert.alertButton.click();
-                browser.sleep(500);             // TO DO
-                test.hostname.clear();
-                test.user.clear();
-                test.password.clear();
+
+                browser.sleep(500);
+
+                field_cleaner(test);
+
+                browser.refresh();
             });
         }
     });
