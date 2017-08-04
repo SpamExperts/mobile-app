@@ -142,7 +142,6 @@ describe('mobile app login page', function() {
     var omailBtn = new omailButtons();
     var ocheckMail = new omailLayout();
      var data = require("./dependencies/dataForUserRestrictedLogin");
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 50000;
     it('should check email page layout', function() {
         browser.get('http://localhost:8100/#/login');
         field_cleaner(Obj);

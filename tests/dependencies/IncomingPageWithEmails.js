@@ -14,5 +14,8 @@ var imailButtons = function() {
     this.mailBody = element(by.xpath("(//div[contains(@class,'col col-85')])[1]"));
     this.category = element.all(by.css(".metallic-border.main-class.ng-binding")).get(0);
     this.mailDate = element.all(by.css(".col.col-80.message-title.ng-binding")).get(0);
+    this.popup=element(by.cssContainingText(".ng-binding","Please filter the search using a domain"));
+    this.closePopup=element(by.xpath("//i[contains(@class,'icon ion-close-round icon-accessory disable-user-behavior')]"));
+
 };
 module.exports=imailButtons;
