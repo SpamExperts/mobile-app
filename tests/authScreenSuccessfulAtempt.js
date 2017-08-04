@@ -21,9 +21,7 @@ describe('Verify Successful Login', function() {
 
     var EC = protractor.ExpectedConditions;
 
-    test.hostname.clear();
-    test.user.clear();
-    test.password.clear();
+    field_cleaner(test)
 
     data = require('./dependencies/dataForUserRestrictedLogin.json');
 
@@ -52,13 +50,6 @@ describe('Verify Successful Login', function() {
 
     browser.wait(EC.elementToBeClickable(dash.okButton), 5000).then(function(){
         dash.okButton.click();
-    });
-
-    browser.wait(EC.visibilityOf(test.logbutton), 5000).then(function(){
-        browser.sleep(1000);
-        test.hostname.clear();
-        test.user.clear();
-        test.password.clear();
     });
 
   });

@@ -57,10 +57,7 @@ describe('Verify data type', function() {
                 alert.alertButton.click();
 
                 browser.sleep(500);
-
                 field_cleaner(test);
-
-                browser.refresh();
             });
         }
     });

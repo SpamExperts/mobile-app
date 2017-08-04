@@ -2,6 +2,7 @@
 var LoginPage=require('./dependencies/LoginPageObject.js');
 var dashPage=require('./dependencies/DashPageObject.js');
 var AlertPop_up=require('./dependencies/AlertLogPageObject.js');
+
 function log_check_close(Obj, alert) {
 
     Obj.logbutton.click();
