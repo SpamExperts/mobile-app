@@ -8,7 +8,7 @@ exports.config = {
         'authScreenUnsuccessfulAtempts.js'
     ],
     onPrepare: function() {
-        browser.driver.manage().window().setSize(1680, 1050);
+        browser.driver.manage().window().setSize(350, 780);
     },
     capabilities: {
         browserName: 'chrome',
