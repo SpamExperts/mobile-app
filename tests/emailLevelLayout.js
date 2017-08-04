@@ -1,8 +1,8 @@
-var LoginPage=require('./dependencies/LoginPageObject.js');
-var SearchPanel=require('./dependencies/SearchPanelObject.js');
-var dashPage=require('./dependencies/DashPageObject.js');
-var CategoryPage=require('./dependencies/CategoryPageObject.js');
-var extract_data=require('./dependencies/ExtractDataFunction.js');
+var LoginPage = require('./dependencies/LoginPageObject.js');
+var SearchPanel = require('./dependencies/SearchPanelObject.js');
+var dashPage = require('./dependencies/DashPageObject.js');
+var CategoryPage = require('./dependencies/CategoryPageObject.js');
+var extract_data = require('./dependencies/ExtractDataFunction.js');
 
 function field_cleaner(Obj) {
     Obj.hostname.clear();
@@ -34,7 +34,7 @@ describe('Verify Email User Layout', function() {
         var currentDate = Date();
         var formatedDate = new Array();
         extract_data(formatedDate, currentDate);
-        formatedDate=formatedDate.join("");
+        formatedDate = formatedDate.join("");
 
         addCredentials(Obj, data.emailH, data.emailU, data.emailP);
         Obj.logbutton.click();

@@ -39,8 +39,6 @@ function checkSearchMenu() {
         search.calendarXButton.click();
     });
 
-    browser.sleep(800);
-
     browser.wait(EC.elementToBeClickable(search.to), 10000).then(function() {
         search.to.click();
     });
