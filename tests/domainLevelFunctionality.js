@@ -190,10 +190,11 @@ describe('mobile app login page', function() {
             .then(function() {
                 logged.bigOutgoing.click();
             });
-   //          browser.wait(EC.visibilityOf( omailBtn.mailBody), 20000)
-   //          .then(function() {
-   //      omailBtn.mailBody.click();
-   // });
+            browser.wait(EC.visibilityOf( omailBtn.mailBody), 20000)
+            .then(function() {
+        omailBtn.mailBody.click();
+        browser.sleep(1000);
+   });
 
         browser.refresh();
 

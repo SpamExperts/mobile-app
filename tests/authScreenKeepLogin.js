@@ -64,7 +64,7 @@ describe('mobile app login page', function() {
 
         alreadyLogged.logoutButton.click();
         alreadyLogged.cancelButton.click();
-       
+
         alreadyLogged.logoutButton.click();
         alreadyLogged.okButton.click();
 
@@ -83,6 +83,5 @@ describe('mobile app login page', function() {
         browser.refresh();
         field_cleaner(Obj);
         expect(alreadyLogged.bigLoginCheck.isPresent()).toBeFalsy();
-
     });
 });

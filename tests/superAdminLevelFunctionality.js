@@ -147,7 +147,7 @@ describe('mobile app login page', function() {
         field_cleaner(Obj);
         //for being able to login, the .json file must have valid user, and password
         addCredentials(Obj, data.superAdminH, data.superAdminU, data.superAdminP);
-        Obj.logbutton.click();
+         Obj.logbutton.click();
 
 
         browser.wait(EC.visibilityOf(logged.bigLoginCheck), 20000)
@@ -199,7 +199,7 @@ describe('mobile app login page', function() {
             .then(function() {
                 search.istartSearch.click();
             });
-        //checkLayout(omailBtn, ocheckMail);
+        checkLayout(omailBtn, ocheckMail);
         browser.refresh();
 
 
