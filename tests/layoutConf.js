@@ -2,10 +2,10 @@ exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     specs: [  
         'dashScreenRestrictions.js',
-        'authScreenLayout.js', 
+        'authScreenLayout.js',
+        'domainLevelLayout.js',  
         'superAdminLevelLayout.js',
-        'domainLevelLayout.js', 
-        'emailLevelLayout.js',       
+        'emailLevelLayout.js'
     ],
     onPrepare: function() {
         browser.driver.manage().window().setSize(1680, 1050);

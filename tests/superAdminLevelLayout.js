@@ -1,8 +1,8 @@
 var LoginPage = require('./dependencies/LoginPageObject.js');
 var iSearchPanel = require('./dependencies/SearchPanelObject.js')
-var CategoryPage=require('./dependencies/CategoryPageObject.js');
-var dashPage=require('./dependencies/DashPageObject.js');
-var extract_data=require('./dependencies/ExtractDataFunction.js');
+var CategoryPage = require('./dependencies/CategoryPageObject.js');
+var dashPage = require('./dependencies/DashPageObject.js');
+var extract_data = require('./dependencies/ExtractDataFunction.js');
 
 function field_cleaner(Obj) {
     Obj.hostname.clear();
@@ -17,12 +17,13 @@ function addCredentials(Obj, host, user, pwd) {
     Obj.password.sendKeys(pwd);
 }
 var data = require("./dependencies/dataForUserRestrictedLogin.json");
-describe('mobile app login page', function() {
+
+describe('Verify Super Admin User Layout', function() {
 
     var Obj = new LoginPage(); // initialize an object//
     var logged = new dashPage();
     var search = new iSearchPanel();
-    var category= new CategoryPage();
+    var category = new CategoryPage();
 
     var EC = protractor.ExpectedConditions;
 
@@ -34,11 +35,13 @@ describe('mobile app login page', function() {
         var currentDate = Date();
         var formatedDate = new Array();
         extract_data(formatedDate, currentDate);
-        formatedDate=formatedDate.join("");
+        formatedDate = formatedDate.join("");
 
         addCredentials(Obj, data.superAdminH, data.superAdminU, data.superAdminP);
         Obj.logbutton.click();
-//Firstpage's buttons 
+
+        //Firstpage's buttons 
+
         browser.wait(EC.visibilityOf(logged.bigLoginCheck), 20000)
             .then(function() {
                 expect(logged.bigLoginCheck.isPresent()).toBeTruthy();
@@ -74,14 +77,13 @@ describe('mobile app login page', function() {
             .then(function() {
                 expect(logged.logoutButton.isPresent()).toBeTruthy();
             });
- //Incoming Layout Check
+
+        //Incoming Layout Check
         logged.incoming.click();
-        
+
         browser.ignoreSynchronization = true;
 
         expect(category.iHeader.isPresent()).toBeTruthy();
-
-
         expect(category.itimeDate.isPresent()).toBeTruthy();
         expect(category.itimeDate.getText()).toEqual(formatedDate);
 
@@ -102,8 +104,6 @@ describe('mobile app login page', function() {
         expect(search.idomainSearch.isPresent()).toBeTruthy();
         expect(search.isenderSearch.isPresent()).toBeTruthy();
         expect(search.irecipientSearch.isPresent()).toBeTruthy();
-
-
         expect(search.ihourSearch.isPresent()).toBeTruthy();
         expect(search.iweekSearch.isPresent()).toBeTruthy();
         expect(search.imonthSearch.isPresent()).toBeTruthy();
@@ -113,7 +113,6 @@ describe('mobile app login page', function() {
         expect(search.backToResults.isPresent()).toBeTruthy();
 
         search.fromdate.click();
-        
         expect(search.calendarHead.isPresent()).toBeTruthy();
         expect(search.calendar.isPresent()).toBeTruthy();
         expect(search.calendarXButton.isPresent()).toBeTruthy();
@@ -122,11 +121,11 @@ describe('mobile app login page', function() {
             .then(function() {
                 search.calendarXButton.click();
             });
-            
+
         browser.sleep(800);
         browser.wait(EC.elementToBeClickable(search.todate), 20000)
             .then(function() {
-        search.todate.click();
+                search.todate.click();
             });
         expect(search.calendarHead.isPresent()).toBeTruthy();
         expect(search.calendar.isPresent()).toBeTruthy();
@@ -136,20 +135,17 @@ describe('mobile app login page', function() {
             .then(function() {
                 search.calendarXButton.click();
             });
+
         browser.navigate().back();
         browser.ignoreSynchronization = false;
-//Outgoing Layout Check
 
- 	   logged.leftButton.click();
-       logged.outgoing.click();
-       browser.ignoreSynchronization = true;
-  //   browser.wait(EC.visibilityOf(logged.notification), 20000)
-  //           .then(function() {
-  //       expect(logged.notification.isPresent()).toBeTruthy();
-  // });
+        //Outgoing Layout Check
+
+        logged.leftButton.click();
+        logged.outgoing.click();
+        browser.ignoreSynchronization = true;
+
         expect(category.oHeader.isPresent()).toBeTruthy();
-
-
         expect(category.otimeDate.isPresent()).toBeTruthy();
         expect(category.otimeDate.getText()).toEqual(formatedDate);
         browser.wait(EC.visibilityOf(category.oemptyContent), 20000)
@@ -168,9 +164,6 @@ describe('mobile app login page', function() {
         expect(search.idomainSearch.isPresent()).toBeTruthy();
         expect(search.isenderSearch.isPresent()).toBeTruthy();
         expect(search.irecipientSearch.isPresent()).toBeTruthy();
-
-
-
         expect(search.ihourSearch.isPresent()).toBeTruthy();
         expect(search.iweekSearch.isPresent()).toBeTruthy();
         expect(search.imonthSearch.isPresent()).toBeTruthy();
@@ -178,8 +171,8 @@ describe('mobile app login page', function() {
         expect(search.istartSearch.isPresent()).toBeTruthy();
         expect(search.requirements.isPresent()).toBeTruthy();
         expect(search.backToResults.isPresent()).toBeTruthy();
+
         search.fromdate.click();
-        
         expect(search.calendarHead.isPresent()).toBeTruthy();
         expect(search.calendar.isPresent()).toBeTruthy();
         expect(search.calendarXButton.isPresent()).toBeTruthy();
@@ -188,11 +181,11 @@ describe('mobile app login page', function() {
             .then(function() {
                 search.calendarXButton.click();
             });
-            
+
         browser.sleep(800);
         browser.wait(EC.elementToBeClickable(search.todate), 20000)
             .then(function() {
-        search.todate.click();
+                search.todate.click();
             });
         expect(search.calendarHead.isPresent()).toBeTruthy();
         expect(search.calendar.isPresent()).toBeTruthy();

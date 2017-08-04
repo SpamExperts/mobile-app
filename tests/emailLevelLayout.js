@@ -17,7 +17,8 @@ function addCredentials(Obj, host, user, pwd) {
     Obj.password.sendKeys(pwd);
 }
 var data = require("./dependencies/dataForUserRestrictedLogin.json");
-describe('mobile app login page', function() {
+
+describe('Verify Email User Layout', function() {
 
     var Obj = new LoginPage(); // initialize an object//
     var logged = new dashPage();
@@ -34,10 +35,10 @@ describe('mobile app login page', function() {
         var formatedDate = new Array();
         extract_data(formatedDate, currentDate);
         formatedDate=formatedDate.join("");
-        // console.log(formatedDate);
 
         addCredentials(Obj, data.emailH, data.emailU, data.emailP);
         Obj.logbutton.click();
+
         //Incoming Layout Check
         browser.wait(EC.visibilityOf(logged.bigLoginCheck), 20000)
             .then(function() {
@@ -93,9 +94,6 @@ describe('mobile app login page', function() {
         expect(search.idomainSearch.isPresent()).toBeFalsy();
         expect(search.irecipientSearch.isPresent()).toBeFalsy();
         
-
-
-
         expect(search.ihourSearch.isPresent()).toBeTruthy();
         expect(search.iweekSearch.isPresent()).toBeTruthy();
         expect(search.imonthSearch.isPresent()).toBeTruthy();
