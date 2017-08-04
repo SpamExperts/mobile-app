@@ -24,8 +24,8 @@ function checkSearchMenu() {
     expect(search.todate.getText()).toEqual("To date");
     expect(search.istartSearch.isPresent()).toBe(true);
     expect(search.iclearSearch.isPresent()).toBe(true);
-    expect(search.from.getText()).toContain(fromDate.substring(0, 13));
-    expect(search.to.getText()).toContain(toDate.substring(0, 13));
+    expect(search.from.getText()).toContain(fromDate);
+    expect(search.to.getText()).toContain(toDate);
 
     browser.wait(EC.elementToBeClickable(search.from), 10000).then(function() {
         search.from.click();
@@ -84,13 +84,10 @@ describe('Verify Domain User Layout', function() {
         var hourNumber = currentDate.getHours().toString();
         if (currentDate.getHours() < 10)
             hourNumber = "0".concat("", hourNumber);
-        var minuteNumber = currentDate.getMinutes().toString();
-        if (currentDate.getMinutes() < 10)
-            minuteNumber = "0".concat("", minuteNumber);
 
         buildDate = (((dayNumber.concat(" ", month)).concat(" - ", dayNumber)).concat(" ", month)).concat(" ", year);
-        fromDate = ((year.concat("-", monthNumber)).concat("-", dayNumber)).concat(" ", "00:00");
-        toDate = (((year.concat("-", monthNumber)).concat("-", dayNumber)).concat(" ", hourNumber)).concat(":", minuteNumber);
+        fromDate = ((year.concat("-", monthNumber)).concat("-", dayNumber)).concat(" ", "00");
+        toDate = ((year.concat("-", monthNumber)).concat("-", dayNumber)).concat(" ", hourNumber);
 
         //  Login
         field_cleaner(test);

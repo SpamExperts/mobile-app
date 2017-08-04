@@ -2,12 +2,6 @@ var LoginPage = require('./dependencies/LoginPageObject.js');
 var AlertPage = require('./dependencies/AlertLogPageObject.js');
 var Dashboard = require('./dependencies/DashPageObject');
 
-var InputData = function(hostname, username, password)  {
-    this.hostname = hostname;
-    this.username = username;
-    this.password = password;
-}
-
 function field_cleaner(test) {
     test.hostname.clear();
     test.user.clear();
@@ -34,19 +28,12 @@ describe('Verify User Restrictions', function() {
 
     var data = require('./dependencies/dataForUserRestrictedLogin.json');
     var EC = protractor.ExpectedConditions;
-    //browser.ignoreSynchronization = true;
-    
-    var superAdminData = new InputData(data.superAdminH, data.superAdminU, data.superAdminP);
-    var adminData = new InputData(data.adminH, data.adminU, data.adminP);
-    var domainData = new InputData(data.domainH, data.domainU, data.domainP);
-    var emailData = new InputData(data.emailH, data.emailU, data.emailP);
-
 
     //  Test for SuperAdmin User   
     field_cleaner(test);   
-    test.hostname.sendKeys(superAdminData.hostname);
-    test.user.sendKeys(superAdminData.username);
-    test.password.sendKeys(superAdminData.password);
+    test.hostname.sendKeys(data.superAdminH);
+    test.user.sendKeys(data.superAdminU);
+    test.password.sendKeys(data.superAdminP);
     test.logbutton.click();  
 
     browser.wait(EC.visibilityOf(dash.bigRole), 5000).then(function(){
@@ -63,21 +50,19 @@ describe('Verify User Restrictions', function() {
        dash.leftButton.click();
     });
 
-    dash.logoutButton = element(by.xpath("//button[contains(@on-tap,'logout()')]"));
     browser.wait(EC.elementToBeClickable(dash.logoutButton), 5000).then(function(){
         dash.logoutButton.click();
     });
 
-    dash.okButton = element(by.xpath("//button[contains(.,'OK')]"));
     browser.wait(EC.elementToBeClickable(dash.okButton), 5000).then(function(){
         dash.okButton.click();
     });
  
     //  Test for Domain User 
     field_cleaner(test);
-    test.hostname.sendKeys(domainData.hostname);
-    test.user.sendKeys(domainData.username);
-    test.password.sendKeys(domainData.password);
+    test.hostname.sendKeys(data.domainH);
+    test.user.sendKeys(data.domainU);
+    test.password.sendKeys(data.domainP);
     test.logbutton.click();
 
     browser.wait(EC.visibilityOf(dash.bigRole), 5000).then(function(){   
@@ -87,7 +72,6 @@ describe('Verify User Restrictions', function() {
     expect(dash.bigIncoming.isPresent()).toBe(true);
     expect(dash.bigOutgoing.isPresent()).toBe(true);
 
-    dash.leftButton = element(by.xpath("//ion-header-bar//button[contains(@class,'ion-navicon')]"));
     browser.wait(EC.visibilityOf(dash.leftButton), 5000).then(function(){
        expect(dash.leftButton.isPresent()).toBe(true);
     });
@@ -105,9 +89,9 @@ describe('Verify User Restrictions', function() {
  
     //  Test for Email User
     field_cleaner(test);
-    test.hostname.sendKeys(emailData.hostname);
-    test.user.sendKeys(emailData.username);
-    test.password.sendKeys(emailData.password);
+    test.hostname.sendKeys(data.emailH);
+    test.user.sendKeys(data.emailU);
+    test.password.sendKeys(data.emailP);
     test.logbutton.click();
 
     browser.wait(EC.visibilityOf(dash.bigRole), 5000).then(function(){ 
@@ -134,9 +118,9 @@ describe('Verify User Restrictions', function() {
  
     //  Test for AdminUser
     field_cleaner(test);
-    test.hostname.sendKeys(adminData.hostname);
-    test.user.sendKeys(adminData.username);
-    test.password.sendKeys(adminData.password);
+    test.hostname.sendKeys(data.adminH);
+    test.user.sendKeys(data.adminU);
+    test.password.sendKeys(data.adminP);
     test.logbutton.click();
 
     browser.wait(EC.visibilityOf(alert.alertBody), 5000).then(function(){ 

@@ -79,8 +79,8 @@ describe('Verify Super Admin User Layout', function() {
             });
 
         //Incoming Layout Check
-        logged.incoming.click();
 
+        logged.incoming.click();
         browser.ignoreSynchronization = true;
 
         expect(category.iHeader.isPresent()).toBeTruthy();
@@ -97,7 +97,6 @@ describe('Verify Super Admin User Layout', function() {
             });
 
         search.isearchButton.click();
-
         expect(search.backButton.isPresent()).toBeTruthy();
         expect(search.fromdate.isPresent()).toBeTruthy();
         expect(search.todate.isPresent()).toBeTruthy();
@@ -111,7 +110,6 @@ describe('Verify Super Admin User Layout', function() {
         expect(search.istartSearch.isPresent()).toBeTruthy();
         expect(search.requirements.isPresent()).toBeTruthy();
         expect(search.backToResults.isPresent()).toBeTruthy();
-
         search.fromdate.click();
         expect(search.calendarHead.isPresent()).toBeTruthy();
         expect(search.calendar.isPresent()).toBeTruthy();
@@ -123,6 +121,7 @@ describe('Verify Super Admin User Layout', function() {
             });
 
         browser.sleep(800);
+
         browser.wait(EC.elementToBeClickable(search.todate), 20000)
             .then(function() {
                 search.todate.click();
@@ -171,7 +170,6 @@ describe('Verify Super Admin User Layout', function() {
         expect(search.istartSearch.isPresent()).toBeTruthy();
         expect(search.requirements.isPresent()).toBeTruthy();
         expect(search.backToResults.isPresent()).toBeTruthy();
-
         search.fromdate.click();
         expect(search.calendarHead.isPresent()).toBeTruthy();
         expect(search.calendar.isPresent()).toBeTruthy();
@@ -183,6 +181,7 @@ describe('Verify Super Admin User Layout', function() {
             });
 
         browser.sleep(800);
+
         browser.wait(EC.elementToBeClickable(search.todate), 20000)
             .then(function() {
                 search.todate.click();
