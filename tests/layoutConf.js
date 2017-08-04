@@ -1,21 +1,11 @@
 exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     specs: [  
+        'dashScreenRestrictions.js',
         'authScreenLayout.js', 
-        'authScreenKeepLogin.js',
-        'authScreenUnsuccessfulAtempts_2.js',
-        'authScreenUnsuccessfulAtempts_3.js',   
-        'authScreenSuccessfulAtempt.js', 
-        'authScreenUnsuccessfulAtempts.js',   
-        //'dashScreenRestrictions.js',
         'superAdminLevelLayout.js',
-        //'domainLevelLayout.js', 
+        'domainLevelLayout.js', 
         'emailLevelLayout.js',       
-        'superAdminLevelFunctionality.js', 
-        'domainLevelFunctionality.js',
-        'emailLevelFunctionality.js',
-        'searchPanelQuickSelect.js',
-        'searchPanelCalendarSettings.js' 
     ],
     onPrepare: function() {
         browser.driver.manage().window().setSize(1680, 1050);
