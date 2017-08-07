@@ -53,56 +53,55 @@ describe('Verify Email User Layout', function() {
         Obj.logbutton.click();
 
         //Incoming Layout Check
-        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 20000)
+        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 5000)
             .then(function() {
                 expect(logged.bigLoginCheck.isPresent()).toBeTruthy();
             });
 
-        browser.wait(EC.visibilityOf(logged.bigIncoming), 20000)
+        browser.wait(EC.visibilityOf(logged.bigIncoming), 5000)
             .then(function() {
                 expect(logged.bigIncoming.isPresent()).toBeTruthy();
             });
 
         expect(logged.bigOutgoing.isPresent()).toBeFalsy();
 
-        browser.wait(EC.visibilityOf(logged.leftButton), 20000)
+        browser.wait(EC.visibilityOf(logged.leftButton), 5000)
             .then(function() {
                 expect(logged.leftButton.isPresent()).toBeTruthy();
             });
 
         logged.leftButton.click();
 
-        browser.wait(EC.visibilityOf(logged.right_arrow), 20000)
+        browser.wait(EC.visibilityOf(logged.right_arrow), 5000)
             .then(function() {
                 expect(logged.right_arrow.isPresent()).toBeTruthy();
             });
 
-        browser.wait(EC.visibilityOf(logged.incoming), 20000)
+        browser.wait(EC.visibilityOf(logged.incoming), 5000)
             .then(function() {
                 expect(logged.incoming.isPresent()).toBeTruthy();
             });
 
         expect(logged.outgoing.isPresent()).toBeFalsy();
 
-        browser.wait(EC.visibilityOf(logged.logoutButton), 20000)
+        browser.wait(EC.visibilityOf(logged.logoutButton), 5000)
             .then(function() {
                 expect(logged.logoutButton.isPresent()).toBeTruthy();
             });
 
         logged.incoming.click();
 
-        browser.ignoreSynchronization = true;
+        browser.ignoreSynchronization = false;
 
        
         expect(category.itimeDate.isPresent()).toBeTruthy();
         expect(category.itimeDate.getText()).toEqual(buildDate);
 
-        browser.wait(EC.visibilityOf(search.isearchButton), 20000)
+        browser.wait(EC.visibilityOf(search.isearchButton), 5000)
             .then(function() {
                 expect(search.isearchButton.isPresent()).toBeTruthy();
+                search.isearchButton.click();
             });
-
-        search.isearchButton.click();
 
         expect(search.backButton.isPresent()).toBeTruthy();
         expect(search.fromdate.isPresent()).toBeTruthy();
@@ -121,14 +120,12 @@ describe('Verify Email User Layout', function() {
         expect(search.calendar.isPresent()).toBeTruthy();
         expect(search.calendarXButton.isPresent()).toBeTruthy();
         expect(search.calendarOkButton.isPresent()).toBeTruthy();
-        browser.wait(EC.visibilityOf(search.calendarXButton), 20000)
+        browser.wait(EC.visibilityOf(search.calendarXButton), 5000)
             .then(function() {
                 search.calendarXButton.click();
             });
-            
-        browser.sleep(800);
 
-        browser.wait(EC.elementToBeClickable(search.todate), 20000)
+        browser.wait(EC.elementToBeClickable(search.todate), 5000)
             .then(function() {
                 search.to.click();
             });
@@ -137,7 +134,7 @@ describe('Verify Email User Layout', function() {
         expect(search.calendar.isPresent()).toBeTruthy();
         expect(search.calendarXButton.isPresent()).toBeTruthy();
         expect(search.calendarOkButton.isPresent()).toBeTruthy();
-        browser.wait(EC.visibilityOf(search.calendarXButton), 20000)
+        browser.wait(EC.visibilityOf(search.calendarXButton), 5000)
             .then(function() {
                 search.calendarXButton.click();
             });

@@ -26,12 +26,15 @@ describe('Verify Super Admin User Layout', function() {
     var category = new CategoryPage();
 
     var EC = protractor.ExpectedConditions;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 40000;
 
 
     it('should display sugestive error messages', function() {
 
         browser.get('http://localhost:8100/#/login');
+
         field_cleaner(Obj);
+
         var currentDate = Date();
         var formatedDate = new Array();
         extract_data(formatedDate, currentDate);
@@ -42,38 +45,38 @@ describe('Verify Super Admin User Layout', function() {
 
         //Firstpage's buttons 
 
-        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 20000)
+        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 10000)
             .then(function() {
                 expect(logged.bigLoginCheck.isPresent()).toBeTruthy();
             });
-        browser.wait(EC.visibilityOf(logged.bigIncoming), 20000)
+        browser.wait(EC.visibilityOf(logged.bigIncoming), 10000)
             .then(function() {
                 expect(logged.bigIncoming.isPresent()).toBeTruthy();
             });
-        browser.wait(EC.visibilityOf(logged.bigOutgoing), 20000)
+        browser.wait(EC.visibilityOf(logged.bigOutgoing), 10000)
             .then(function() {
                 expect(logged.bigOutgoing.isPresent()).toBeTruthy();
             });
-        browser.wait(EC.visibilityOf(logged.leftButton), 20000)
+        browser.wait(EC.visibilityOf(logged.leftButton), 10000)
             .then(function() {
                 expect(logged.leftButton.isPresent()).toBeTruthy();
             });
         logged.leftButton.click();
 
-        browser.wait(EC.visibilityOf(logged.right_arrow), 20000)
+        browser.wait(EC.visibilityOf(logged.right_arrow), 10000)
             .then(function() {
                 expect(logged.right_arrow.isPresent()).toBeTruthy();
             });
 
-        browser.wait(EC.visibilityOf(logged.incoming), 20000)
+        browser.wait(EC.visibilityOf(logged.incoming), 10000)
             .then(function() {
                 expect(logged.incoming.isPresent()).toBeTruthy();
             });
-        browser.wait(EC.visibilityOf(logged.outgoing), 20000)
+        browser.wait(EC.visibilityOf(logged.outgoing), 10000)
             .then(function() {
                 expect(logged.outgoing.isPresent()).toBeTruthy();
             });
-        browser.wait(EC.visibilityOf(logged.logoutButton), 20000)
+        browser.wait(EC.visibilityOf(logged.logoutButton), 10000)
             .then(function() {
                 expect(logged.logoutButton.isPresent()).toBeTruthy();
             });
@@ -81,17 +84,17 @@ describe('Verify Super Admin User Layout', function() {
         //Incoming Layout Check
 
         logged.incoming.click();
-        browser.ignoreSynchronization = true;
+        browser.ignoreSynchronization = false;
 
         expect(category.iHeader.isPresent()).toBeTruthy();
         expect(category.itimeDate.isPresent()).toBeTruthy();
         expect(category.itimeDate.getText()).toEqual(formatedDate);
 
-        browser.wait(EC.visibilityOf(category.iemptyContent), 20000)
+        browser.wait(EC.visibilityOf(category.iemptyContent), 10000)
             .then(function() {
                 expect(category.iemptyContent.isPresent()).toBeTruthy();
             });
-        browser.wait(EC.visibilityOf(category.isearchButton), 20000)
+        browser.wait(EC.visibilityOf(category.isearchButton), 10000)
             .then(function() {
                 expect(category.isearchButton.isPresent()).toBeTruthy();
             });
@@ -115,14 +118,12 @@ describe('Verify Super Admin User Layout', function() {
         expect(search.calendar.isPresent()).toBeTruthy();
         expect(search.calendarXButton.isPresent()).toBeTruthy();
         expect(search.calendarOkButton.isPresent()).toBeTruthy();
-        browser.wait(EC.visibilityOf(search.calendarXButton), 20000)
+        browser.wait(EC.visibilityOf(search.calendarXButton), 10000)
             .then(function() {
                 search.calendarXButton.click();
             });
 
-        browser.sleep(800);
-
-        browser.wait(EC.elementToBeClickable(search.todate), 20000)
+        browser.wait(EC.elementToBeClickable(search.todate), 10000)
             .then(function() {
                 search.todate.click();
             });
@@ -130,28 +131,26 @@ describe('Verify Super Admin User Layout', function() {
         expect(search.calendar.isPresent()).toBeTruthy();
         expect(search.calendarXButton.isPresent()).toBeTruthy();
         expect(search.calendarOkButton.isPresent()).toBeTruthy();
-        browser.wait(EC.visibilityOf(search.calendarXButton), 20000)
+        browser.wait(EC.visibilityOf(search.calendarXButton), 10000)
             .then(function() {
                 search.calendarXButton.click();
             });
 
         browser.navigate().back();
-        browser.ignoreSynchronization = false;
 
         //Outgoing Layout Check
 
         logged.leftButton.click();
         logged.outgoing.click();
-        browser.ignoreSynchronization = true;
 
         expect(category.oHeader.isPresent()).toBeTruthy();
         expect(category.otimeDate.isPresent()).toBeTruthy();
         expect(category.otimeDate.getText()).toEqual(formatedDate);
-        browser.wait(EC.visibilityOf(category.oemptyContent), 20000)
+        browser.wait(EC.visibilityOf(category.oemptyContent), 10000)
             .then(function() {
                 expect(category.oemptyContent.isPresent()).toBeTruthy();
             });
-        browser.wait(EC.visibilityOf(category.osearchButton), 20000)
+        browser.wait(EC.visibilityOf(category.osearchButton), 10000)
             .then(function() {
                 expect(category.osearchButton.isPresent()).toBeTruthy();
             });
@@ -175,14 +174,12 @@ describe('Verify Super Admin User Layout', function() {
         expect(search.calendar.isPresent()).toBeTruthy();
         expect(search.calendarXButton.isPresent()).toBeTruthy();
         expect(search.calendarOkButton.isPresent()).toBeTruthy();
-        browser.wait(EC.visibilityOf(search.calendarXButton), 20000)
+        browser.wait(EC.visibilityOf(search.calendarXButton), 10000)
             .then(function() {
                 search.calendarXButton.click();
             });
 
-        browser.sleep(800);
-
-        browser.wait(EC.elementToBeClickable(search.todate), 20000)
+        browser.wait(EC.elementToBeClickable(search.todate), 10000)
             .then(function() {
                 search.todate.click();
             });
@@ -190,7 +187,7 @@ describe('Verify Super Admin User Layout', function() {
         expect(search.calendar.isPresent()).toBeTruthy();
         expect(search.calendarXButton.isPresent()).toBeTruthy();
         expect(search.calendarOkButton.isPresent()).toBeTruthy();
-        browser.wait(EC.visibilityOf(search.calendarXButton), 20000)
+        browser.wait(EC.visibilityOf(search.calendarXButton), 10000)
             .then(function() {
                 search.calendarXButton.click();
             });
