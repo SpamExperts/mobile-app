@@ -106,7 +106,8 @@ function dataDifference(interval) {
             outputDate = currentYear + "-" + currentMonth + "-" + currentDay + " " + currentHour + ":" + currentMin;
             break;
     }
-    return outputDate;
 
+    return outputDate;
 }
+
 module.exports = dataDifference;

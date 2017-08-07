@@ -43,7 +43,7 @@ describe('Verify Super Admin User Layout', function() {
         addCredentials(Obj, data.superAdminH, data.superAdminU, data.superAdminP);
         Obj.logbutton.click();
 
-        //Firstpage's buttons 
+        //Firstpage's buttons
 
         browser.wait(EC.visibilityOf(logged.bigLoginCheck), 10000)
             .then(function() {

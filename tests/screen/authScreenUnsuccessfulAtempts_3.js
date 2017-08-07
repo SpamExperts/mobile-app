@@ -1,4 +1,4 @@
-var LoginPage=require('.././dependencies/LoginPageObject.js');     
+var LoginPage=require('.././dependencies/LoginPageObject.js');
 var data = require(".././dependencies/dataForUserRestrictedLogin.json");
 var AlertPop_up=require('.././dependencies/AlertLogPageObject.js');
 

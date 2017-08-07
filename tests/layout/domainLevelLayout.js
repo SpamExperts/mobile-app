@@ -103,14 +103,14 @@ describe('Verify Domain User Layout', function() {
         browser.wait(EC.visibilityOf(header), 10000).then(function() {
             expect(header.getText()).toEqual("Hello".concat(" ", data.domainU));
         });
-        //  Check role 
+        //  Check role
         expect(dash.bigRole.getText()).toEqual("DOMAIN USER");
         // Check categories
         expect(dash.bigIncoming.isPresent()).toBe(true);
         expect(dash.bigOutgoing.isPresent()).toBe(true);
         //  Check Title
         expect(dash.bigLoginCheck.isPresent()).toBe(true);
-        //  Check copyRight    
+        //  Check copyRight
         expect(dash.bigcopyRight.getText()).toEqual("© 2017 SpamExperts");
 
         //  Enter Incoming Menu
@@ -207,5 +207,4 @@ describe('Verify Domain User Layout', function() {
         });
 
     });
-
 });

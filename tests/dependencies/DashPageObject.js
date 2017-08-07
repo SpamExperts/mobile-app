@@ -1,6 +1,4 @@
 var dashPage = function() {
-
-
     this.logoutButton = element(by.css('.button.button-block.button-light.metallic-border.log-out-button.disable-user-behavior'));
     this.incoming = element.all(by.css('.item-icon-right.menu-item.item.item-complex')).get(0);
     this.outgoing = element.all(by.css('.item-icon-right.menu-item.item.item-complex')).get(1);
@@ -17,7 +15,6 @@ var dashPage = function() {
     this.bigcopyRight = element.all(by.cssContainingText('.col.text-center.ng-binding','© 2017 SpamExperts')).get(0);
     this.bigRole = element.all(by.css('.role.ng-binding')).get(0);
     this.bigLoginCheck = element.all(by.cssContainingText('.col.text-center>h4','Your available products')).get(0);
-
-
 };
+
 module.exports = dashPage;

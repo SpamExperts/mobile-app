@@ -9,7 +9,6 @@ describe('mobile app login page', function() {
 
         browser.get('http://localhost:8100/#/login');
 
-
         expect(Obj.logo.isPresent()).toBeTruthy(); //checking the presence of the logo//
         expect(Obj.hostname.getText()).toEqual(''); //checking the hostname for being unfilled//
         expect(Obj.user.getText()).toEqual(''); //checking the username for being unfilled//

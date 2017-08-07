@@ -28,7 +28,7 @@ function field_cleaner(Obj) {
 }
 var data = require(".././dependencies/dataForUserRestrictedLogin");
 
-//The error message that is checked it's the one the application returns at the moment the test are written. 
+//The error message that is checked it's the one the application returns at the moment the test are written.
 //If there will be an update the error message could be changed depending on the
 //case it envolves.
 //Here should be a feature allowing the soft to detect an inexisting user
@@ -38,7 +38,7 @@ describe('mobile app login page', function() {
     var Obj = new LoginPage(); // initialize an object//
     var alert = new AlertPop_up(); //initialize the Popup//
     var alreadyLogged = new dashPage();
-//    var dashA = new dashAlert();
+    // var dashA = new dashAlert();
 
     it('should keep the user logged if the button is checked and not logged otherwise', function() {
 

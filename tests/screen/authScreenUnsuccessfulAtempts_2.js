@@ -1,5 +1,6 @@
 var LoginPage=require('.././dependencies/LoginPageObject.js');
 var AlertPop_up=require('.././dependencies/AlertLogPageObject.js');
+
 //At the moment the app returns just 1 type of message when the fields are empty
 //or inappropriate
 function field_cleaner(Obj) {
@@ -7,6 +8,7 @@ function field_cleaner(Obj) {
     Obj.password.clear();
     Obj.user.clear();
 }
+
 function test_error_messages(Obj,alert,msg)
 {
 	field_cleaner(Obj);
@@ -45,11 +47,10 @@ function test_error_messages(Obj,alert,msg)
         Obj.password.sendKeys('12345678');
 
         log_check_close(Obj, alert, msg);
-        
+
         field_cleaner(Obj);
-
-
 }
+
 function log_check_close(Obj, alert, message) {
 
     Obj.logbutton.click();
@@ -58,14 +59,14 @@ function log_check_close(Obj, alert, message) {
         .then(function() {
     expect(alert.alertBody.getText()).toEqual(message);
     alert.alertButton.click(); //close the alert
- });
-   field_cleaner(Obj);
+    });
+    field_cleaner(Obj);
 }
 
 //clear all the fields for assuring a clean and appropriate test
 
 
-//The error message that is checked it's the one the application returns at the moment the test are written. 
+//The error message that is checked it's the one the application returns at the moment the test are written.
 //If there will be an update the error message could be changed depending on the
 //case it envolves.
 
@@ -78,7 +79,5 @@ describe('mobile app login page', function() {
         browser.get('http://localhost:8100/#/login');
 
         test_error_messages(Obj,alert,msg);
-        
-
     });
 });

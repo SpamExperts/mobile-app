@@ -13,4 +13,5 @@ var omailButtons = function() {
     this.popup = element(by.xpath("//div[contains(.,'Please filter the search using a domain')]"));
     this.closePopup = element(by.xpath("//i[contains(@class,'icon ion-close-round icon-accessory disable-user-behavior')]"));
 };
+
 module.exports = omailButtons;

@@ -12,7 +12,7 @@ describe('Verify Successful Login', function() {
   it('Check:', function() {
 
     // Open page
-    browser.get('http://localhost:8100/#/login'); 
+    browser.get('http://localhost:8100/#/login');
     browser.ignoreSynchronization = true;
 
     // Take elements
@@ -35,7 +35,7 @@ describe('Verify Successful Login', function() {
     browser.wait(EC.elementToBeClickable(dash.loginCheck), 5000).then(function(){
         expect(dash.loginCheck.isPresent()).toBe(true);
     });
-    
+
     browser.wait(EC.visibilityOf(dash.leftButton), 5000).then(function(){
         expect(dash.leftButton.isPresent()).toBe(true);
     });
@@ -55,5 +55,4 @@ describe('Verify Successful Login', function() {
     browser.refresh();
 
   });
-
 });

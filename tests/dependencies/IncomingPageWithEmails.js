@@ -18,4 +18,5 @@ var imailButtons = function() {
     this.closePopup=element(by.xpath("//i[contains(@class,'icon ion-close-round icon-accessory disable-user-behavior')]"));
 
 };
+
 module.exports=imailButtons;

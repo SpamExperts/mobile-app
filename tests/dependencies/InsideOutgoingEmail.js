@@ -13,4 +13,5 @@ var omailLayout = function() {
     this.date = element(by.xpath("//h5[@class='ng-binding']"));
     this.mailContent = element(by.css(".scroll-view.ionic-scroll.scroll-y"));
 };
+
 module.exports=omailLayout;

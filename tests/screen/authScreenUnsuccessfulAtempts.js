@@ -14,7 +14,7 @@ function field_cleaner(test) {
 }
 
 function add() {
-    
+
     var array = [];
     array.push(new InputData("test", "????", "qwe12"));               // Should say hostaname not correct
     array.push(new InputData("test", "????", "Qwer1234"));            // Should say hostname not correct

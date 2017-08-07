@@ -28,7 +28,7 @@ var SearchPanel = function() {
     this.calendarXButton = element(by.css('.button.ng-binding.button-stable'));
     this.calendar = element(by.css('.popup-body'));
     this.calendaryearField = element(by.css('[ng-model="bind.year"]'));
-    this.calendarmonthButton = element(by.css('[ng-model="bind.month"]')); 
+    this.calendarmonthButton = element(by.css('[ng-model="bind.month"]'));
     this.calendarhourField = element(by.css('[ng-model="bind.hour"]'));
     this.calendarminuteField = element(by.css('[ng-model="bind.minute"]'));
 };

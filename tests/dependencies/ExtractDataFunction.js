@@ -20,4 +20,5 @@ function extract_data(formatedDate, currentDate) {
     formatedDate[18]= currentDate[13];
     formatedDate[19]= currentDate[14];
 }
+
 module.exports=extract_data;

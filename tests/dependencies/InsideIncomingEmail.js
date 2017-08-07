@@ -15,4 +15,5 @@ var imailLayout = function() {
     this.mabBlackAndRemove=element(by.cssContainingText(".item.ng-binding.disable-user-behavior",'Blacklist and remove'));
     this.mailContent = element(by.css(".scroll-view.ionic-scroll.scroll-y"));
 };
+
 module.exports=imailLayout;
