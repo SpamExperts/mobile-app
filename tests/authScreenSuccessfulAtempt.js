@@ -52,6 +52,8 @@ describe('Verify Successful Login', function() {
         dash.okButton.click();
     });
 
+    browser.refresh();
+
   });
 
 });
