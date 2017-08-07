@@ -148,7 +148,7 @@ function field_cleaner(Obj) {
     Obj.password.clear();
     Obj.user.clear();
 }
-describe('mobile app login page', function() {
+describe('Mobile app email page domainLevel', function() {
 
     var Obj = new LoginPage(); // initialize an object//
     var alert = new AlertPop_up(); //initialize the Popup//
@@ -161,7 +161,7 @@ describe('mobile app login page', function() {
     var omailBtn = new omailButtons();
     var ocheckMail = new omailLayout();
     var data = require("./dependencies/dataForUserRestrictedLogin");
-    it('should check email page layout', function() {
+    it('should check functionality and presence of the buttons', function() {
         browser.get('http://localhost:8100/#/login');
         field_cleaner(Obj);
         //for being able to login, the .json file must have valid user, and password

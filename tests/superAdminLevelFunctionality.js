@@ -129,7 +129,7 @@ function field_cleaner(Obj) {
     Obj.password.clear();
     Obj.user.clear();
 }
-describe('mobile app login page', function() {
+describe('Mobile app email page superAdminLevel', function() {
 
     var data = require("./dependencies/dataForUserRestrictedLogin");
     var Obj = new LoginPage(); // initialize an object//
@@ -142,10 +142,9 @@ describe('mobile app login page', function() {
     var omailBtn = new omailButtons();
     var ocheckMail = new omailLayout();
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 50000;
-    it('should check email page layout', function() {
+    it('should check functionality and presence of the buttons', function() {
         browser.get('http://localhost:8100/#/login');
         field_cleaner(Obj);
-        browser.ignoreSynchronization = true;
         //for being able to login, the .json file must have valid user, and password
         addCredentials(Obj, data.superAdminH, data.superAdminU, data.superAdminP);
         Obj.logbutton.click();
@@ -160,9 +159,6 @@ describe('mobile app login page', function() {
             .then(function() {
                 logged.bigIncoming.click();
             });
-        browser.sleep(2000);
-        expect(mailBtn.popup.isDisplayed()).toBeTruthy();
-        mailBtn.closePopup.click();
         browser.ignoreSynchronization = false;
         browser.wait(EC.visibilityOf(search.isearchButton), 5000)
             .then(function() {

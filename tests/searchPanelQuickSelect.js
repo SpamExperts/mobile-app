@@ -17,7 +17,7 @@ function addCredentials(Obj, host, user, pwd) {
     Obj.password.sendKeys(pwd);
 }
 
-describe('mobile app dash page', function() {
+describe('Mobile app search page', function() {
 
     var Obj = new LoginPage();
     var logged = new dashPage();
@@ -34,7 +34,7 @@ describe('mobile app dash page', function() {
         addCredentials(Obj, data.emailH, data.emailU, data.emailP);
         Obj.logbutton.click();
 
-        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 20000)
+        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 5000)
             .then(function() {
                 expect(logged.bigLoginCheck.isPresent()).toBeTruthy();
             });
