@@ -143,11 +143,13 @@ function addCredentials(Obj, host, user, pwd) {
     Obj.password.sendKeys(pwd);
 }
 
+
 function field_cleaner(Obj) {
     Obj.hostname.clear();
     Obj.password.clear();
     Obj.user.clear();
 }
+
 describe('Mobile app email page domainLevel', function() {
 
     var Obj = new LoginPage(); // initialize an object//
@@ -196,9 +198,5 @@ describe('Mobile app email page domainLevel', function() {
             });
 
         browser.refresh();
-
-
-
-
     });
 });

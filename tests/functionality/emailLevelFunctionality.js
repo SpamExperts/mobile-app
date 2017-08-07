@@ -6,6 +6,8 @@ var imailButtons=require('.././dependencies/IncomingPageWithEmails.js');
 var imailLayout=require('.././dependencies/InsideIncomingEmail.js');
 var omailButtons =require('.././dependencies/OutgoingPageWithEmails.js');
 var omailLayout =require('.././dependencies/InsideOutgoingEmail.js');
+
+
 function checkLayout(mailBtn, checkMail) {
     var EC = protractor.ExpectedConditions;
     browser.wait(EC.visibilityOf(mailBtn.selectButton), 5000)
@@ -117,6 +119,8 @@ function checkLayout(mailBtn, checkMail) {
     browser.navigate().back();
     browser.navigate().back();
 }
+
+
 function addCredentials(Obj, host, user, pwd) {
     //The three fields should be provided with valid data
     Obj.hostname.sendKeys(host);
@@ -124,11 +128,14 @@ function addCredentials(Obj, host, user, pwd) {
     Obj.password.sendKeys(pwd);
 }
 
+
 function field_cleaner(Obj) {
     Obj.hostname.clear();
     Obj.password.clear();
     Obj.user.clear();
 }
+
+
 describe('Mobile app email page emailLevel', function() {
 
     var Obj = new LoginPage(); // initialize an object//
@@ -137,7 +144,7 @@ describe('Mobile app email page emailLevel', function() {
     var search = new SearchPanel();
     var mailBtn = new imailButtons();
     var checkMail = new imailLayout();
-   
+
     var EC = protractor.ExpectedConditions;
     var omailBtn = new omailButtons();
     var ocheckMail = new omailLayout();

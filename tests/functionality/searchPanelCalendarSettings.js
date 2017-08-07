@@ -3,11 +3,13 @@ var SearchPanel = require('.././dependencies/SearchPanelObject.js');
 var CategoryPanel = require('.././dependencies/CategoryPageObject.js');
 var Dashboard = require('.././dependencies/DashPageObject');
 
+
 function field_cleaner(test) {
     test.hostname.clear();
     test.user.clear();
     test.password.clear();
 }
+
 
 function buildDate(date, byDefault, head) {
 
@@ -39,6 +41,7 @@ function buildDate(date, byDefault, head) {
 
     return stringDate;
 }
+
 
 function setDate(button, input) {
 
@@ -86,6 +89,7 @@ function setDate(button, input) {
         searchMenu.calendarOkButton.click();
     });
 }
+
 
 function buildHeadDate(fromDate, toDate) {
 
@@ -277,5 +281,4 @@ describe('Verify Calendar Setting', function() {
         checkDefault(3);
         browser.refresh();
     });
-
 });

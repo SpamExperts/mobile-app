@@ -2,11 +2,11 @@ var LoginPage = require('.././dependencies/LoginPageObject.js');
 var iSearchPanel = require('.././dependencies/SearchPanelObject.js');
 var AlertPop_up = require('.././dependencies/AlertLogPageObject.js');
 var dashPage = require('.././dependencies/DashPageObject.js');
-
 var imailButtons = require('.././dependencies/IncomingPageWithEmails.js');
 var imailLayout = require('.././dependencies/InsideIncomingEmail.js');
 var omailButtons = require('.././dependencies/OutgoingPageWithEmails.js');
 var omailLayout = require('.././dependencies/InsideOutgoingEmail.js');
+
 
 function checkLayout(mailBtn, checkMail) {
     var EC = protractor.ExpectedConditions;
@@ -117,6 +117,7 @@ function checkLayout(mailBtn, checkMail) {
     browser.navigate().back();
 }
 
+
 function addCredentials(Obj, host, user, pwd) {
     //The three fields should be provided with valid data
     Obj.hostname.sendKeys(host);
@@ -124,11 +125,14 @@ function addCredentials(Obj, host, user, pwd) {
     Obj.password.sendKeys(pwd);
 }
 
+
 function field_cleaner(Obj) {
     Obj.hostname.clear();
     Obj.password.clear();
     Obj.user.clear();
 }
+
+
 describe('Mobile app email page superAdminLevel', function() {
 
     var data = require(".././dependencies/dataForUserRestrictedLogin");
@@ -201,9 +205,5 @@ describe('Mobile app email page superAdminLevel', function() {
             });
         checkLayout(omailBtn, ocheckMail);
         browser.refresh();
-
-
-
-
     });
 });
