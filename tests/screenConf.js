@@ -1,11 +1,11 @@
 exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     specs: [
-        'authScreenKeepLogin.js',
-        'authScreenUnsuccessfulAtempts_2.js',
-        'authScreenUnsuccessfulAtempts_3.js',   
-        'authScreenSuccessfulAtempt.js', 
-        'authScreenUnsuccessfulAtempts.js'
+        './screen/authScreenKeepLogin.js',
+        './screen/authScreenUnsuccessfulAtempts_2.js',
+        './screen/authScreenUnsuccessfulAtempts_3.js',   
+        './screen/authScreenSuccessfulAtempt.js', 
+        './screen/authScreenUnsuccessfulAtempts.js'
     ],
     onPrepare: function() {
         browser.driver.manage().window().setSize(350, 780);
