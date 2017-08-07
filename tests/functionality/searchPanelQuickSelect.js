@@ -17,7 +17,7 @@ function addCredentials(Obj, host, user, pwd) {
     Obj.password.sendKeys(pwd);
 }
 
-describe('Mobile app search page', function() {
+describe('Mobile app search page', function () {
 
     var Obj = new LoginPage();
     var logged = new dashPage();
@@ -25,7 +25,7 @@ describe('Mobile app search page', function() {
     var EC = protractor.ExpectedConditions;
 
 
-    it('should return correct datetime depending on the button', function() {
+    it('should return correct datetime depending on the button', function () {
 
         browser.get('http://localhost:8100/#/login');
         field_cleaner(Obj);
@@ -35,20 +35,27 @@ describe('Mobile app search page', function() {
         Obj.logbutton.click();
 
         browser.wait(EC.visibilityOf(logged.bigLoginCheck), 5000)
-            .then(function() {
-                expect(logged.bigLoginCheck.isPresent()).toBeTruthy();
+            .then(function () {
+                expect(logged.bigLoginCheck.isPresent())
+                    .toBeTruthy();
             });
         logged.bigIncoming.click();
         search.isearchButton.click();
-        search.ihourSearch.click();
+        browser.wait(EC.visibilityOf(search.ihourSearch), 5000)
+            .then(function () {
+                search.ihourSearch.click();
+            });
         outputDate = dataDifference(1);
-        expect(search.from.getText()).toEqual(outputDate);
+        expect(search.from.getText())
+            .toEqual(outputDate);
         search.iweekSearch.click();
         outputDate = dataDifference(2);
-        expect(search.from.getText()).toEqual(outputDate);
+        expect(search.from.getText())
+            .toEqual(outputDate);
         search.imonthSearch.click();
         outputDate = dataDifference(3);
-        expect(search.from.getText()).toEqual(outputDate);
+        expect(search.from.getText())
+            .toEqual(outputDate);
         browser.refresh();
         field_cleaner(Obj);
         browser.refresh();
