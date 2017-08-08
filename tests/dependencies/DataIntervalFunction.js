@@ -16,15 +16,13 @@ function dataDifference(interval) {
                     currentYear--;
                     currentMonth = 12;
                 } else if (currentMonth == 2 || currentMonth == 4 || currentMonth == 6 || currentMonth == 8 ||
-                    currentMonth == 9 || currentMonth == 11)
-                    {
-                    	currentDay = 31;
-                    	currentMonth-=1;
-                    			}
-                else if (currentMonth == 5 || currentMonth == 7 || currentMonth == 10 || currentMonth == 12)
+                    currentMonth == 9 || currentMonth == 11) {
+                    currentDay = 31;
+                    currentMonth -= 1;
+                } else if (currentMonth == 5 || currentMonth == 7 || currentMonth == 10 || currentMonth == 12)
                     currentDay = 30;
                 else {
-                    if (currentMonth == 3 && currentYear % 4 == 0)
+                    if (currentMonth === 3 && currentYear % 4 === 0)
                         currentDay = 29;
                     else
                         currentDay = 28;
@@ -51,13 +49,13 @@ function dataDifference(interval) {
                     currentDay = 31 + currentDay - 7;
                     currentYear--;
                 } else if (currentMonth == 2 || currentMonth == 4 || currentMonth == 6 || currentMonth == 8 ||
-                    currentMonth == 9 || currentMonth == 11)
-                    {currentDay = 31 + currentDay - 7;
-                    currentMonth-=1;}
-                else if (currentMonth == 5 || currentMonth == 7 || currentMonth == 10 || currentMonth == 12)
+                    currentMonth == 9 || currentMonth == 11) {
+                    currentDay = 31 + currentDay - 7;
+                    currentMonth -= 1;
+                } else if (currentMonth == 5 || currentMonth == 7 || currentMonth == 10 || currentMonth == 12)
                     currentDay = 30 + currentDay - 7;
                 else {
-                    if (currentMonth == 3 && currentYear % 4 == 0)
+                    if (currentMonth == 3 && currentYear % 4 === 0)
                         currentDay = 29 + currentDay - 7;
                     else
                         currentDay = 28 + currentDay - 7;
@@ -84,12 +82,12 @@ function dataDifference(interval) {
                 currentMonth == 9 || currentMonth == 11) {
                 currentMonth -= 1;
             } else if (currentMonth == 5 || currentMonth == 7 || currentMonth == 10 || currentMonth == 12) {
-                if(currentDay==31)
-                    currentDay=1;
+                if (currentDay == 31)
+                    currentDay = 1;
                 else
                     currentMonth -= 1;
             } else {
-                if (currentMonth == 3 && currentYear % 4 == 0)
+                if (currentMonth == 3 && currentYear % 4 === 0)
                     currentDay = currentDay - 1;
                 else
                     currentDay = currentDay - 2;

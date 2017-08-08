@@ -1,4 +1,4 @@
-var PageData = function()   {
+var PageData = function() {
     this.logo = element(by.xpath("//img[contains(@src,'logo.svg')]"));
     this.hostname = element(by.xpath("//input[contains(@placeholder,'Hostname')]"));
     this.username = element(by.xpath("//input[contains(@placeholder,'User')]"));
@@ -7,7 +7,7 @@ var PageData = function()   {
     this.logButton = element(by.xpath("//button[contains(.,'Log in')]"));
 };
 
-var InputData = function(hostname, username, password)  {
+var InputData = function(hostname, username, password) {
     this.hostname = hostname;
     this.username = username;
     this.password = password;
@@ -38,9 +38,17 @@ describe('Verify Successful Login', function() {
     it('Check if popup if the user does not exist', function() {
         browser.ignoreSynchronization = true;
 
-        backend.whenGET('/rest/auth/token').respond(
-            {"success":true,"body":{"messageQueue":{"error":["A record with the supplied identity could not be found."],"notice":[],"success":[]}},"userData":[]}
-        );
+        backend.whenGET('/rest/auth/token').respond({
+            "success": true,
+            "body": {
+                "messageQueue": {
+                    "error": ["A record with the supplied identity could not be found."],
+                    "notice": [],
+                    "success": []
+                }
+            },
+            "userData": []
+        });
 
         // Open page
         browser.get('http://localhost:8100/#/login');
@@ -72,9 +80,30 @@ describe('Verify Successful Login', function() {
     it('Check login worked:', function() {
         browser.ignoreSynchronization = true;
 
-        backend.whenGET('/rest/auth/token').respond(
-            {"success":true,"body":{"messageQueue":[]},"userData":{"id":"5","username":"example.com","email":"test@example.com","role":"domain","internal":"0","status":"active","domainslimit":"0","permissions":"0","api_admin_id":null,"lastlogin":"2017-07-27 17:22:28","is_trial":"0","show_preview":"0","login_notification_type":null,"parentid":null,"is_using_mobile":true},"token":"27c34cd2286c1a5e9ac3dbc724b357403926ba43"}
-        );
+        backend.whenGET('/rest/auth/token').respond({
+            "success": true,
+            "body": {
+                "messageQueue": []
+            },
+            "userData": {
+                "id": "5",
+                "username": "example.com",
+                "email": "test@example.com",
+                "role": "domain",
+                "internal": "0",
+                "status": "active",
+                "domainslimit": "0",
+                "permissions": "0",
+                "api_admin_id": null,
+                "lastlogin": "2017-07-27 17:22:28",
+                "is_trial": "0",
+                "show_preview": "0",
+                "login_notification_type": null,
+                "parentid": null,
+                "is_using_mobile": true
+            },
+            "token": "27c34cd2286c1a5e9ac3dbc724b357403926ba43"
+        });
 
         // Open page
         browser.get('http://localhost:8100/#/login');

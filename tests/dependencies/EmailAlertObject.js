@@ -1,4 +1,4 @@
- var emailPopup = function () {
+ var emailPopup = function() {
 
      this.cancelButton = element(by.css('.button.ng-binding.button-default'));
      this.okButton = element(by.css('.button.ng-binding.button-positive'));

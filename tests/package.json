@@ -1,17 +1,18 @@
 {
-  "name": "tests",
-  "version": "1.0.0",
-  "scripts": {
-    "test": "protractor mobileConf.js --specs ",
-    "tests": "protractor mobileConf.js",
-    "services": "screen -d -m bash -c 'cd .. && ionic serve -b --address localhost' && webdriver-manager update",
-    "kill-proc": "pgrep ionic | xargs -r kill -9 && pgrep webdriver-manager | xargs -r kill -9",
-    "pretest": "npm run services",
-    "pretests": " npm run services",
-    "posttest": "npm run kill-proc",
-    "posttests": " npm run kill-proc"
-  },
-  "devDependencies": {
-    "httpbackend": "2.0.0"
-  }
+    "name": "tests",
+    "version": "1.0.0",
+    "scripts": {
+        "test": "protractor mobileConf.js --specs ",
+        "tests": "protractor mobileConf.js",
+        "services": "screen -d -m bash -c 'cd .. && ionic serve -b --address localhost' && webdriver-manager update",
+        "kill-proc": "pgrep ionic | xargs -r kill -9 && pgrep webdriver-manager | xargs -r kill -9",
+        "pretest": "npm run services",
+        "pretests": " npm run services",
+        "posttest": "npm run kill-proc",
+        "posttests": " npm run kill-proc"
+    },
+    "devDependencies": {
+        "httpbackend": "2.0.0",
+        "jshint": "^2.9.5"
+    }
 }

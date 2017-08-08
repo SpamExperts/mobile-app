@@ -13,7 +13,7 @@ function field_cleaner(test) {
 
 function buildDate(date, byDefault, head) {
 
-    var day = date.getDate().toString();
+
     var month = months[date.getMonth()];
     var year = date.getFullYear().toString();
 
@@ -50,7 +50,6 @@ function setDate(button, input) {
     });
 
     var day = input.getDate().toString();
-    var month = monthsLong[input.getMonth()];
     var year = input.getFullYear().toString();
     var hour = input.getHours().toString();
     var minute = input.getMinutes().toString();
@@ -76,9 +75,6 @@ function setDate(button, input) {
     browser.wait(EC.elementToBeClickable(dayField), 5000).then(function() {
         dayField.click();
     });
-
-    var hourField = element(by.css('[ng-model="bind.hour"]'));
-    var minuteField = element(by.css('[ng-model="bind.minute"]'));
 
     searchMenu.calendarhourField.clear();
     searchMenu.calendarhourField.sendKeys(hour);
@@ -123,7 +119,7 @@ function checkDefault(nr) {
     expect(searchMenu.from.getText()).toContain(fromDate.substring(0, 13));
     expect(searchMenu.to.getText()).toContain(toDate.substring(0, 13));
 
-    if (nr == 0)
+    if (nr === 0)
         browser.wait(EC.elementToBeClickable(searchMenu.backButton), 5000).then(function() {
             searchMenu.backButton.click();
         });

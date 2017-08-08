@@ -1,18 +1,18 @@
 {
-	"superAdminH":"server1.test15.simplyspamfree.com",	
-	"superAdminU":"intern",
-	"superAdminP":"1234",
+    "superAdminH": "server1.test15.simplyspamfree.com",
+    "superAdminU": "intern",
+    "superAdminP": "1234",
 
-	"adminH":"server1.test15.simplyspamfree.com",	
-	"adminU":"user",
-	"adminP":"12345",
+    "adminH": "server1.test15.simplyspamfree.com",
+    "adminU": "user",
+    "adminP": "12345",
 
-	"domainH":"server1.test15.simplyspamfree.com",	
-	"domainU":"example.com",
-	"domainP":"1234",
+    "domainH": "server1.test15.simplyspamfree.com",
+    "domainU": "example.com",
+    "domainP": "1234",
 
-	"emailH":"server1.test15.simplyspamfree.com",	
-	"emailU":"user@example.com",
-	"emailP":"1234",
-	"theDomain":"example.com"
+    "emailH": "server1.test15.simplyspamfree.com",
+    "emailU": "user@example.com",
+    "emailP": "1234",
+    "theDomain": "example.com"
 }

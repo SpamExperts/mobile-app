@@ -1,5 +1,5 @@
 var LoginPage = function() {
-//create an object with the 6 elements from the log in page, extracting their position. Will be useful in the future.
+    //create an object with the 6 elements from the log in page, extracting their position. Will be useful in the future.
 
     this.logo = element(by.css('.se-icon'));
     this.hostname = element(by.model('data.hostname'));
