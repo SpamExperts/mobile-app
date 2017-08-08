@@ -1,19 +1,33 @@
 var LoginPage = require('.././dependencies/LoginPageObject.js');
 
 
-describe('mobile app login page', function() {
+describe('Verify Login page Layout', function() {
 
-    var Obj = new LoginPage(); // initialize an object//
+    //  Initialize login page
+    var page = new LoginPage();
 
-    it('PageLayout checking', function() {
+    it('Login Page Layout checking', function() {
 
+        //  Open app
         browser.get('http://localhost:8100/#/login');
 
-        expect(Obj.logo.isPresent()).toBeTruthy(); //checking the presence of the logo//
-        expect(Obj.hostname.getText()).toEqual(''); //checking the hostname for being unfilled//
-        expect(Obj.user.getText()).toEqual(''); //checking the username for being unfilled//
-        expect(Obj.password.getText()).toEqual(''); //checking the password for being unfilled//
-        expect(Obj.reminder.isSelected()).toBeFalsy(); //checking the box for being unchecked//
-        expect(Obj.logbutton.isPresent()).toBeTruthy(); //checking the presence of the log in button
+        //  Checking the presence of the logo
+        expect(page.logo.isPresent()).toBeTruthy();
+
+        //  Checking the hostname for being unfilled
+        expect(page.hostname.getText()).toEqual('');
+
+        //  Checking the username for being unfilled
+        expect(page.user.getText()).toEqual('');
+
+        //  Checking the password for being unfilled
+        expect(page.password.getText()).toEqual('');
+
+        //  Checking the box for being unchecked
+        expect(page.reminder.isSelected()).toBeFalsy();
+
+        //  Checking the presence of the log in button 
+        expect(page.logbutton.isPresent()).toBeTruthy();
+
     });
 });

@@ -3,23 +3,25 @@ var SearchPanel = require('.././dependencies/SearchPanelObject.js');
 var dashPage = require('.././dependencies/DashPageObject.js');
 var CategoryPage = require('.././dependencies/CategoryPageObject.js');
 
-function field_cleaner(Obj) {
-    Obj.hostname.clear();
-    Obj.password.clear();
-    Obj.user.clear();
+function field_cleaner(page) {
+    page.hostname.clear();
+    page.password.clear();
+    page.user.clear();
 }
 
-function addCredentials(Obj, host, user, pwd) {
-    //The three fields should be provided with valid data
-    Obj.hostname.sendKeys(host);
-    Obj.user.sendKeys(user);
-    Obj.password.sendKeys(pwd);
+function addCredentials(page, host, user, pwd) {
+    //  The three fields should be provided with valid data
+    page.hostname.sendKeys(host);
+    page.user.sendKeys(user);
+    page.password.sendKeys(pwd);
 }
+
+//  Load user data
 var data = require(".././dependencies/dataForUserRestrictedLogin.json");
 
 describe('Verify Email User Layout', function() {
 
-    var Obj = new LoginPage(); // initialize an object//
+    var page = new LoginPage();
     var logged = new dashPage();
     var search = new SearchPanel();
     var category = new CategoryPage();
@@ -28,9 +30,13 @@ describe('Verify Email User Layout', function() {
 
     it('should display sugestive error messages', function() {
 
+        //  Open app
         browser.get('http://localhost:8100/#/login');
-        field_cleaner(Obj);
 
+        //  Clear fields
+        field_cleaner(page);
+
+        //  Set variables to build time date
         var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         var currentDate = new Date();
         var day = currentDate.getDate().toString();
@@ -47,97 +53,94 @@ describe('Verify Email User Layout', function() {
         if (currentDate.getHours() < 10)
             hourNumber = "0".concat("", hourNumber);
 
+        //  Build string time date
         var buildDate = (((dayNumber.concat(" ", month)).concat(" - ", dayNumber)).concat(" ", month)).concat(" ", year);
 
-        addCredentials(Obj, data.emailH, data.emailU, data.emailP);
-        Obj.logbutton.click();
+        //  Log in
+        addCredentials(page, data.emailH, data.emailU, data.emailP);
+        page.logbutton.click();
 
-        //Incoming Layout Check
-        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 5000)
-            .then(function() {
-                expect(logged.bigLoginCheck.isPresent()).toBeTruthy();
-            });
+        //  Check incoming page layout
 
-        browser.wait(EC.visibilityOf(logged.bigIncoming), 5000)
-            .then(function() {
-                expect(logged.bigIncoming.isPresent()).toBeTruthy();
-            });
+        //  Check main title
+        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 5000).then(function() {
+            expect(logged.bigLoginCheck.isPresent()).toBeTruthy();
+        });
 
+        //  Check main incoming button
+        browser.wait(EC.visibilityOf(logged.bigIncoming), 5000).then(function() {
+            expect(logged.bigIncoming.isPresent()).toBeTruthy();
+        });
+
+        //  Check main outgoing button is not present
         expect(logged.bigOutgoing.isPresent()).toBeFalsy();
 
-        browser.wait(EC.visibilityOf(logged.leftButton), 5000)
-            .then(function() {
-                expect(logged.leftButton.isPresent()).toBeTruthy();
-            });
+        //  Check dashboard left button
+        browser.wait(EC.visibilityOf(logged.leftButton), 5000).then(function() {
+            expect(logged.leftButton.isPresent()).toBeTruthy();
+        });
 
         logged.leftButton.click();
 
-        browser.wait(EC.visibilityOf(logged.right_arrow), 5000)
-            .then(function() {
-                expect(logged.right_arrow.isPresent()).toBeTruthy();
-            });
-
-        browser.wait(EC.visibilityOf(logged.incoming), 5000)
-            .then(function() {
-                expect(logged.incoming.isPresent()).toBeTruthy();
-            });
-
+        //  Check left dashboard page
+        browser.wait(EC.visibilityOf(logged.right_arrow), 5000).then(function() {
+            expect(logged.right_arrow.isPresent()).toBeTruthy();
+        });
+        expect(logged.incoming.isPresent()).toBeTruthy();
         expect(logged.outgoing.isPresent()).toBeFalsy();
+        expect(logged.logoutButton.isPresent()).toBeTruthy();
 
-        browser.wait(EC.visibilityOf(logged.logoutButton), 5000)
-            .then(function() {
-                expect(logged.logoutButton.isPresent()).toBeTruthy();
-            });
-
+        //  Enter Incoming menu page
         logged.incoming.click();
 
         browser.ignoreSynchronization = false;
 
-
+        //  Check time date
         expect(category.itimeDate.isPresent()).toBeTruthy();
         expect(category.itimeDate.getText()).toEqual(buildDate);
 
-        browser.wait(EC.visibilityOf(search.isearchButton), 5000)
-            .then(function() {
-                expect(search.isearchButton.isPresent()).toBeTruthy();
-                search.isearchButton.click();
-            });
+        browser.wait(EC.visibilityOf(search.isearchButton), 5000).then(function() {
+            expect(search.isearchButton.isPresent()).toBeTruthy();
+            search.isearchButton.click();
+        });
 
+        //  Check Search Menu panel
         expect(search.backButton.isPresent()).toBeTruthy();
         expect(search.fromdate.isPresent()).toBeTruthy();
         expect(search.todate.isPresent()).toBeTruthy();
-        expect(search.isenderSearch.isPresent()).toBeTruthy();
-        expect(search.idomainSearch.isPresent()).toBeFalsy();
-        expect(search.irecipientSearch.isPresent()).toBeFalsy();
-        expect(search.ihourSearch.isPresent()).toBeTruthy();
-        expect(search.iweekSearch.isPresent()).toBeTruthy();
-        expect(search.imonthSearch.isPresent()).toBeTruthy();
-        expect(search.iclearSearch.isPresent()).toBeTruthy();
-        expect(search.istartSearch.isPresent()).toBeTruthy();
+        expect(search.senderSearch.isPresent()).toBeTruthy();
+        expect(search.domainSearch.isPresent()).toBeFalsy();
+        expect(search.recipientSearch.isPresent()).toBeFalsy();
+        expect(search.hourSearch.isPresent()).toBeTruthy();
+        expect(search.weekSearch.isPresent()).toBeTruthy();
+        expect(search.monthSearch.isPresent()).toBeTruthy();
+        expect(search.clearSearch.isPresent()).toBeTruthy();
+        expect(search.startSearch.isPresent()).toBeTruthy();
         expect(search.backToResults.isPresent()).toBeTruthy();
+
         search.from.click();
+
+        //  Check calendar from From field
         expect(search.calendarHead.isPresent()).toBeTruthy();
         expect(search.calendar.isPresent()).toBeTruthy();
         expect(search.calendarXButton.isPresent()).toBeTruthy();
         expect(search.calendarOkButton.isPresent()).toBeTruthy();
-        browser.wait(EC.visibilityOf(search.calendarXButton), 5000)
-            .then(function() {
-                search.calendarXButton.click();
-            });
+        browser.wait(EC.visibilityOf(search.calendarXButton), 5000).then(function() {
+            search.calendarXButton.click();
+        });
 
-        browser.wait(EC.elementToBeClickable(search.todate), 5000)
-            .then(function() {
-                search.to.click();
-            });
+        browser.wait(EC.elementToBeClickable(search.todate), 5000).then(function() {
+            search.to.click();
+        });
 
+        //  Check calendar from Ton field
         expect(search.calendarHead.isPresent()).toBeTruthy();
         expect(search.calendar.isPresent()).toBeTruthy();
         expect(search.calendarXButton.isPresent()).toBeTruthy();
         expect(search.calendarOkButton.isPresent()).toBeTruthy();
-        browser.wait(EC.visibilityOf(search.calendarXButton), 5000)
-            .then(function() {
-                search.calendarXButton.click();
-            });
+        browser.wait(EC.visibilityOf(search.calendarXButton), 5000).then(function() {
+            search.calendarXButton.click();
+        });
 
         browser.refresh();
     });

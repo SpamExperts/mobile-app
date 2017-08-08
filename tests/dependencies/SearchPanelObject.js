@@ -3,16 +3,16 @@ var SearchPanel = function() {
     this.isearchButton = element.all(by.css('[on-tap="toggleRightMenu($event)"]')).get(0);
     this.osearchButton = element.all(by.css('[on-tap="toggleRightMenu($event)"]')).get(1);
     this.backButton = element(by.css('.button.button-icon.icon.ion-ios-arrow-left'));
-    this.idomainSearch = element(by.css('[placeholder="Domain"]'));
-    this.isenderSearch = element(by.css('[placeholder="Sender"]'));
-    this.irecipientSearch = element(by.css('[placeholder="Recipient"]'));
+    this.domainSearch = element(by.css('[placeholder="Domain"]'));
+    this.senderSearch = element(by.css('[placeholder="Sender"]'));
+    this.recipientSearch = element(by.css('[placeholder="Recipient"]'));
 
     this.dateTitle = element(by.css('[aria-label="Sent"]'));
-    this.ihourSearch = element(by.css('[on-tap="past24Hours()"]'));
-    this.iweekSearch = element(by.css('[on-tap="pastWeek()"]'));
-    this.imonthSearch = element(by.css('[on-tap="pastMonth()"]'));
-    this.iclearSearch = element(by.css('[on-tap="clearSearch()"]'));
-    this.istartSearch = element(by.css('[on-tap="doSearch()"]'));
+    this.hourSearch = element(by.css('[on-tap="past24Hours()"]'));
+    this.weekSearch = element(by.css('[on-tap="pastWeek()"]'));
+    this.monthSearch = element(by.css('[on-tap="pastMonth()"]'));
+    this.clearSearch = element(by.css('[on-tap="clearSearch()"]'));
+    this.startSearch = element(by.css('[on-tap="doSearch()"]'));
     this.searchTitle = element(by.css('.scroll>h4'));
     this.backToResults = element.all(by.cssContainingText('.title', 'Back to results')).get(0);
     this.requirements = element.all(by.css('[ng-if="isSuperAdmin()"]')).get(0);
