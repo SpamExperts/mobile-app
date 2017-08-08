@@ -1,5 +1,5 @@
-var LoginPage=require('.././dependencies/LoginPageObject.js');
-var AlertPop_up=require('.././dependencies/AlertLogPageObject.js');
+var LoginPage = require('.././dependencies/LoginPageObject.js');
+var AlertPop_up = require('.././dependencies/AlertLogPageObject.js');
 
 //At the moment the app returns just 1 type of message when the fields are empty
 //or inappropriate
@@ -9,46 +9,45 @@ function field_cleaner(Obj) {
     Obj.user.clear();
 }
 
-function test_error_messages(Obj,alert,msg)
-{
-	field_cleaner(Obj);
-        log_check_close(Obj, alert, msg);
-		//click the log in button just with the hostname field, filled
-        Obj.hostname.sendKeys('example.com');
-		log_check_close(Obj, alert, msg);
-        //click the log in button just with the user field, filled
-        Obj.user.sendKeys('adminTest');
-        log_check_close(Obj, alert, msg);
-		//click the log in button just with the password field, filled
-        Obj.password.sendKeys('qwertyuiop');
+function test_error_messages(Obj, alert, msg) {
+    field_cleaner(Obj);
+    log_check_close(Obj, alert, msg);
+    //click the log in button just with the hostname field, filled
+    Obj.hostname.sendKeys('example.com');
+    log_check_close(Obj, alert, msg);
+    //click the log in button just with the user field, filled
+    Obj.user.sendKeys('adminTest');
+    log_check_close(Obj, alert, msg);
+    //click the log in button just with the password field, filled
+    Obj.password.sendKeys('qwertyuiop');
 
-        log_check_close(Obj, alert, msg);
+    log_check_close(Obj, alert, msg);
 
-        field_cleaner(Obj);
+    field_cleaner(Obj);
 
-        //click the log in button just with the hostname and user field, filled
-        Obj.hostname.sendKeys('example.com');
-        Obj.user.sendKeys('adminTest');
-        log_check_close(Obj, alert, msg);
-
-
-        field_cleaner(Obj);
-
-        //click the log in button just with the password and user field, filled
-        Obj.password.sendKeys('12345678');
-        Obj.user.sendKeys('adminTest');
-        log_check_close(Obj, alert, msg);
+    //click the log in button just with the hostname and user field, filled
+    Obj.hostname.sendKeys('example.com');
+    Obj.user.sendKeys('adminTest');
+    log_check_close(Obj, alert, msg);
 
 
-        field_cleaner(Obj);
+    field_cleaner(Obj);
 
-        //click the log in button just with the hostname and password field, filled
-        Obj.hostname.sendKeys('example.com');
-        Obj.password.sendKeys('12345678');
+    //click the log in button just with the password and user field, filled
+    Obj.password.sendKeys('12345678');
+    Obj.user.sendKeys('adminTest');
+    log_check_close(Obj, alert, msg);
 
-        log_check_close(Obj, alert, msg);
 
-        field_cleaner(Obj);
+    field_cleaner(Obj);
+
+    //click the log in button just with the hostname and password field, filled
+    Obj.hostname.sendKeys('example.com');
+    Obj.password.sendKeys('12345678');
+
+    log_check_close(Obj, alert, msg);
+
+    field_cleaner(Obj);
 }
 
 function log_check_close(Obj, alert, message) {
@@ -57,9 +56,9 @@ function log_check_close(Obj, alert, message) {
     var EC = protractor.ExpectedConditions;
     browser.wait(EC.visibilityOf(alert.alertButton), 20000)
         .then(function() {
-    expect(alert.alertBody.getText()).toEqual(message);
-    alert.alertButton.click(); //close the alert
-    });
+            expect(alert.alertBody.getText()).toEqual(message);
+            alert.alertButton.click(); //close the alert
+        });
     field_cleaner(Obj);
 }
 
@@ -78,6 +77,6 @@ describe('mobile app login page', function() {
     it('should display sugestive error messages', function() {
         browser.get('http://localhost:8100/#/login');
 
-        test_error_messages(Obj,alert,msg);
+        test_error_messages(Obj, alert, msg);
     });
 });

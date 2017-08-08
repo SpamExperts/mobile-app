@@ -1,9 +1,9 @@
 exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
-    specs: [  
+    specs: [
         './layout/dashScreenRestrictions.js',
         './layout/authScreenLayout.js',
-        './layout/domainLevelLayout.js',  
+        './layout/domainLevelLayout.js',
         './layout/superAdminLevelLayout.js',
         './layout/emailLevelLayout.js'
     ],
@@ -22,4 +22,4 @@ exports.config = {
             }
         }
     },
-}
+};

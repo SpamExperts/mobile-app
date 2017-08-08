@@ -1,5 +1,5 @@
 var LoginPage = require('.././dependencies/LoginPageObject.js');
-var iSearchPanel = require('.././dependencies/SearchPanelObject.js')
+var iSearchPanel = require('.././dependencies/SearchPanelObject.js');
 var CategoryPage = require('.././dependencies/CategoryPageObject.js');
 var dashPage = require('.././dependencies/DashPageObject.js');
 var extract_data = require('.././dependencies/ExtractDataFunction.js');
@@ -36,7 +36,7 @@ describe('Verify Super Admin User Layout', function() {
         field_cleaner(Obj);
 
         var currentDate = Date();
-        var formatedDate = new Array();
+        var formatedDate = [];
         extract_data(formatedDate, currentDate);
         formatedDate = formatedDate.join("");
 

@@ -1,18 +1,5 @@
-
-var LoginPage=require('.././dependencies/LoginPageObject.js');
-var dashPage=require('.././dependencies/DashPageObject.js');
-var AlertPop_up=require('.././dependencies/AlertLogPageObject.js');
-
-function log_check_close(Obj, alert) {
-
-    Obj.logbutton.click();
-    var EC = protractor.ExpectedConditions;
-    browser.wait(EC.visibilityOf(alert.alertButton), 20000)
-        .then(function() {
-            expect(alert.alertBody.getText()).toEqual('Oops! Something went wrong! Please try again later!');
-            alert.alertButton.click(); //close the alert
-        });
-}
+var LoginPage = require('.././dependencies/LoginPageObject.js');
+var dashPage = require('.././dependencies/DashPageObject.js');
 
 function addCredentials(Obj, host, user, pwd) {
     //The three fields should be provided with valid data
@@ -36,7 +23,6 @@ var data = require(".././dependencies/dataForUserRestrictedLogin");
 describe('mobile app login page', function() {
 
     var Obj = new LoginPage(); // initialize an object//
-    var alert = new AlertPop_up(); //initialize the Popup//
     var alreadyLogged = new dashPage();
     // var dashA = new dashAlert();
 

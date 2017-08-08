@@ -3,8 +3,8 @@ exports.config = {
     specs: [
         './screen/authScreenKeepLogin.js',
         './screen/authScreenUnsuccessfulAtempts_2.js',
-        './screen/authScreenUnsuccessfulAtempts_3.js',   
-        './screen/authScreenSuccessfulAtempt.js', 
+        './screen/authScreenUnsuccessfulAtempts_3.js',
+        './screen/authScreenSuccessfulAtempt.js',
         './screen/authScreenUnsuccessfulAtempts.js'
     ],
     onPrepare: function() {
@@ -22,4 +22,4 @@ exports.config = {
             }
         }
     },
-}
+};

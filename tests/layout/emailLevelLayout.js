@@ -22,7 +22,7 @@ describe('Verify Email User Layout', function() {
     var Obj = new LoginPage(); // initialize an object//
     var logged = new dashPage();
     var search = new SearchPanel();
-    var category=new CategoryPage();
+    var category = new CategoryPage();
     var EC = protractor.ExpectedConditions;
 
 
@@ -93,7 +93,7 @@ describe('Verify Email User Layout', function() {
 
         browser.ignoreSynchronization = false;
 
-       
+
         expect(category.itimeDate.isPresent()).toBeTruthy();
         expect(category.itimeDate.getText()).toEqual(buildDate);
 
@@ -108,14 +108,14 @@ describe('Verify Email User Layout', function() {
         expect(search.todate.isPresent()).toBeTruthy();
         expect(search.isenderSearch.isPresent()).toBeTruthy();
         expect(search.idomainSearch.isPresent()).toBeFalsy();
-        expect(search.irecipientSearch.isPresent()).toBeFalsy();       
+        expect(search.irecipientSearch.isPresent()).toBeFalsy();
         expect(search.ihourSearch.isPresent()).toBeTruthy();
         expect(search.iweekSearch.isPresent()).toBeTruthy();
         expect(search.imonthSearch.isPresent()).toBeTruthy();
         expect(search.iclearSearch.isPresent()).toBeTruthy();
         expect(search.istartSearch.isPresent()).toBeTruthy();
         expect(search.backToResults.isPresent()).toBeTruthy();
-        search.from.click();       
+        search.from.click();
         expect(search.calendarHead.isPresent()).toBeTruthy();
         expect(search.calendar.isPresent()).toBeTruthy();
         expect(search.calendarXButton.isPresent()).toBeTruthy();

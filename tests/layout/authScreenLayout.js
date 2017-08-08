@@ -1,4 +1,4 @@
-var LoginPage=require('.././dependencies/LoginPageObject.js');
+var LoginPage = require('.././dependencies/LoginPageObject.js');
 
 
 describe('mobile app login page', function() {
