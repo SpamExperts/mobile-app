@@ -1,0 +1,39 @@
+<ion-content padding>
+    <div class="row">
+        <div class="col col-center">
+            <div class="se-spacer"></div>
+            <div class="text-center">
+                <img src="img/se_logo.svg" class="se-icon">
+            </div>
+
+            <ion-list>
+
+                <ion-item>
+                    <ion-label floating>Hostname</ion-label>
+                    <ion-input type="text" [(ngModel)]="hostname"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label floating>Username</ion-label>
+                    <ion-input type="text" [(ngModel)]="username"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label floating>Password</ion-label>
+                    <ion-input type="password" [(ngModel)]="password"></ion-input>
+                </ion-item>
+
+            </ion-list>
+
+            <ion-item>
+                <ion-label>Keep me logged in</ion-label>
+                <ion-checkbox [(ngModel)]="rememberPass"></ion-checkbox>
+            </ion-item>
+
+            <div class="se-spacer"></div>
+
+            <button ion-button (tap)="login()">Log in</button>
+
+        </div>
+    </div>
+</ion-content>
