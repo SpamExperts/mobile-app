@@ -98,7 +98,7 @@ function checkLayout(mailBtn, checkMail) {
         expect(mailBtn.category.isPresent()).toBeTruthy();
     });
 
-    //  check presence of mail time date 
+    //  Check presence of mail time date 
     browser.wait(EC.visibilityOf(mailBtn.mailDate), 5000).then(function() {
         expect(mailBtn.mailDate.isPresent()).toBeTruthy();
     });
@@ -164,7 +164,7 @@ function checkLayout(mailBtn, checkMail) {
         expect(checkMail.removeBtn.isPresent()).toBeTruthy();
     });
 
-    //  Enter moreActions button
+    //  Enter moreActions menu
     checkMail.moreActButton.click();
 
     //  Check release button

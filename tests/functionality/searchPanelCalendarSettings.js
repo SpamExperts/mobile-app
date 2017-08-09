@@ -14,7 +14,6 @@ function field_cleaner(test) {
  */
 function buildDate(date, byDefault, head) {
 
-
     var month = months[date.getMonth()];
     var year = date.getFullYear().toString();
 
