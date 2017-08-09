@@ -1,4 +1,5 @@
 var omailLayout = function() {
+
     this.sentLabel = element.all(by.cssContainingText(".header-name", "sent")).get(0);
     this.fromLabel = element.all(by.cssContainingText(".header-name", "from")).get(0);
     this.toLabel = element.all(by.cssContainingText(".header-name", "to")).get(0);
@@ -12,6 +13,7 @@ var omailLayout = function() {
     this.rawType = element.all(by.cssContainingText(".tab-item.disable-user-behavior", 'Raw')).get(0);
     this.date = element(by.xpath("//h5[@class='ng-binding']"));
     this.mailContent = element(by.css(".scroll-view.ionic-scroll.scroll-y"));
+
 };
 
 module.exports = omailLayout;

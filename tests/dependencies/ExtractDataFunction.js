@@ -1,4 +1,5 @@
 function extract_data(formatedDate, currentDate) {
+
     formatedDate[0] = currentDate[8];
     formatedDate[1] = currentDate[9];
     formatedDate[2] = " ";

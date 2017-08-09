@@ -1,4 +1,5 @@
 var imailLayout = function() {
+
     this.sentLabel = element.all(by.cssContainingText(".header-name", "sent")).get(0);
     this.fromLabel = element.all(by.cssContainingText(".header-name", "from")).get(0);
     this.toLabel = element.all(by.cssContainingText(".header-name", "to")).get(0);
@@ -14,6 +15,7 @@ var imailLayout = function() {
     this.mabRemove = element(by.cssContainingText(".item.ng-binding.disable-user-behavior", 'Remove'));
     this.mabBlackAndRemove = element(by.cssContainingText(".item.ng-binding.disable-user-behavior", 'Blacklist and remove'));
     this.mailContent = element(by.css(".scroll-view.ionic-scroll.scroll-y"));
+
 };
 
 module.exports = imailLayout;

@@ -1,4 +1,5 @@
 var CategoryPanel = function() {
+
     //	Incoming Page
     this.ileftButton = element.all(by.css('[on-tap="toggleLeftMenu($event)"]')).get(0);
     this.iHeader = element(by.cssContainingText('.ng-binding', 'Incoming spam messages'));
