@@ -1,5 +1,4 @@
 var LoginPage = require('.././dependencies/LoginPageObject.js');
-var data = require(".././dependencies/dataForUserRestrictedLogin.json");
 var AlertPop_up = require('.././dependencies/AlertLogPageObject.js');
 
 function log_check_close(page, alert) {
@@ -33,8 +32,11 @@ function addCredentials(page, host, user, pwd) {
 }
 describe('Auth with valid hostname but invalid username & password', function() {
 
-    var page = new LoginPage(); // initialize an pageect//
-    var alert = new AlertPop_up(); //initialize the Popup//
+    var page = new LoginPage();
+    var alert = new AlertPop_up();
+
+    //  Load user data
+    var data = require('.././dependencies/dataForUserRestrictedLogin.json');
 
     it('should not be able to login with an inexisting user', function() {
 
