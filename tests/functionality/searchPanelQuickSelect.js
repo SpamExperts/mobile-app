@@ -2,6 +2,8 @@ var LoginPage = require('.././dependencies/LoginPageObject.js');
 var iSearchPanel = require('.././dependencies/SearchPanelObject.js');
 var dashPage = require('.././dependencies/DashPageObject.js');
 var dataDifference = require('.././dependencies/DataIntervalFunction.js');
+
+//  Load user log in credentials
 var data = require(".././dependencies/dataForUserRestrictedLogin.json");
 
 function field_cleaner(Obj) {
@@ -47,7 +49,7 @@ describe('Mobile app search page', function() {
         logged.bigIncoming.click();
         search.isearchButton.click();
 
-        //  Clik "Past 24h" button
+        //  Click "Past 24h" button
         browser.wait(EC.visibilityOf(search.hourSearch), 5000).then(function() {
             search.hourSearch.click();
         });

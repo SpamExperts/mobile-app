@@ -8,161 +8,175 @@ var omailLayout = require('.././dependencies/InsideOutgoingEmail.js');
 var emailAlert = require('.././dependencies/EmailAlertObject.js');
 
 function checkLayout(mailBtn, checkMail) {
+
     var EC = protractor.ExpectedConditions;
     var emailPopup = new emailAlert();
-    browser.wait(EC.visibilityOf(mailBtn.selectButton), 5000)
-        .then(function() {
-            mailBtn.selectButton.click();
 
+    //  Select an email
+    browser.wait(EC.visibilityOf(mailBtn.selectButton), 5000).then(function() {
+        mailBtn.selectButton.click();
+    });
+
+    //  Try release an email
+    browser.wait(EC.visibilityOf(mailBtn.releaseButton), 5000).then(function() {
+
+        //  Check release button is present and click
+        expect(mailBtn.releaseButton.isPresent()).toBeTruthy();
+        mailBtn.releaseButton.click();
+
+        //  Check the pop-up message
+        browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000).then(function() {
+            expect(emailPopup.alertBody.getText()).toEqual("The email(s) that you have selected previously will be released.");
         });
-    browser.wait(EC.visibilityOf(mailBtn.releaseButton), 5000)
-        .then(function() {
-            expect(mailBtn.releaseButton.isPresent())
-                .toBeTruthy();
-            mailBtn.releaseButton.click();
-            browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000)
-                .then(function() {
-                    expect(emailPopup.alertBody.getText())
-                        .toEqual('The email(s) that you have selected previously will be released.');
-                });
-            emailPopup.cancelButton.click();
+
+        //  Close pop-up
+        emailPopup.cancelButton.click();
+    });
+
+    //  Try remove an email
+    browser.wait(EC.visibilityOf(mailBtn.removeButton), 5000).then(function() {
+
+        //  Check remove button and click
+        expect(mailBtn.removeButton.isPresent()).toBeTruthy();
+        mailBtn.removeButton.click();
+
+        //  Check the pop-up message
+        browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000).then(function() {
+            expect(emailPopup.alertBody.getText()).toEqual('The email(s) that you have selected will be removed.');
         });
-    browser.wait(EC.visibilityOf(mailBtn.removeButton), 5000)
-        .then(function() {
-            expect(mailBtn.removeButton.isPresent())
-                .toBeTruthy();
-            mailBtn.removeButton.click();
-            browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000)
-                .then(function() {
-                    expect(emailPopup.alertBody.getText())
-                        .toEqual('The email(s) that you have selected will be removed.');
-                });
-            emailPopup.cancelButton.click();
-        });
-    browser.wait(EC.visibilityOf(mailBtn.moreActButton), 5000)
-        .then(function() {
-            expect(mailBtn.moreActButton.isPresent())
-                .toBeTruthy();
-        });
-    browser.wait(EC.visibilityOf(mailBtn.mabUnselect), 5000)
-        .then(function() {
-            expect(mailBtn.mabUnselect.isPresent())
-                .toBeTruthy();
-        });
+
+        //  Close pop-up
+        emailPopup.cancelButton.click();
+    });
+
+    //  Check visibility of more Actions button
+    browser.wait(EC.visibilityOf(mailBtn.moreActButton), 5000).then(function() {
+        expect(mailBtn.moreActButton.isPresent()).toBeTruthy();
+    });
+
+    //  Check countSelectedMessage/Unselect button
+    browser.wait(EC.visibilityOf(mailBtn.mabUnselect), 5000).then(function() {
+        expect(mailBtn.mabUnselect.isPresent()).toBeTruthy();
+    });
+
+    //  Enter moreActions menu
     mailBtn.moreActButton.click();
 
-    browser.wait(EC.visibilityOf(mailBtn.mabRelease), 5000)
-        .then(function() {
-            expect(mailBtn.mabRelease.isPresent())
-                .toBeTruthy();
-        });
-    browser.wait(EC.visibilityOf(mailBtn.mabRelAndTrain), 5000)
-        .then(function() {
-            expect(mailBtn.mabRelAndTrain.isPresent())
-                .toBeTruthy();
-        });
-    browser.wait(EC.visibilityOf(mailBtn.mabRemove), 5000)
-        .then(function() {
-            expect(mailBtn.mabRemove.isPresent())
-                .toBeTruthy();
-        });
-    browser.actions()
-        .click()
-        .perform();
+    //  Check presence of release button
+    browser.wait(EC.visibilityOf(mailBtn.mabRelease), 5000).then(function() {
+        expect(mailBtn.mabRelease.isPresent()).toBeTruthy();
+    });
 
-    browser.wait(EC.visibilityOf(mailBtn.category), 5000)
-        .then(function() {
-            expect(mailBtn.category.isPresent())
-                .toBeTruthy();
-        });
-    browser.wait(EC.visibilityOf(mailBtn.mailDate), 5000)
-        .then(function() {
-            expect(mailBtn.mailDate.isPresent())
-                .toBeTruthy();
-        });
+    //  Check presence of Release and Train button
+    browser.wait(EC.visibilityOf(mailBtn.mabRelAndTrain), 5000).then(function() {
+        expect(mailBtn.mabRelAndTrain.isPresent()).toBeTruthy();
+    });
+
+    //  Check presence of remove button
+    browser.wait(EC.visibilityOf(mailBtn.mabRemove), 5000).then(function() {
+        expect(mailBtn.mabRemove.isPresent()).toBeTruthy();
+    });
+
+    //  Close moreActions button
+    browser.actions().click().perform();
+
+    //  Check category label
+    browser.wait(EC.visibilityOf(mailBtn.category), 5000).then(function() {
+        expect(mailBtn.category.isPresent()).toBeTruthy();
+    });
+
+    //  check presence of mail time date
+    browser.wait(EC.visibilityOf(mailBtn.mailDate), 5000).then(function() {
+        expect(mailBtn.mailDate.isPresent()).toBeTruthy();
+    });
+
+
     browser.ignoreSynchronization = false;
-    mailBtn.selectButton.click();
-    browser.wait(EC.visibilityOf(mailBtn.mailBody), 5000)
-        .then(function() {
-            mailBtn.mailBody.click();
-        });
-    browser.wait(EC.visibilityOf(checkMail.sentLabel), 5000)
-        .then(function() {
-            expect(checkMail.sentLabel.isPresent())
-                .toBeTruthy();
-        });
-    browser.wait(EC.visibilityOf(checkMail.fromLabel), 5000)
-        .then(function() {
-            expect(checkMail.fromLabel.isPresent())
-                .toBeTruthy();
-        });
-    browser.wait(EC.visibilityOf(checkMail.toLabel), 5000)
-        .then(function() {
-            expect(checkMail.toLabel.isPresent())
-                .toBeTruthy();
-        });
-    browser.wait(EC.visibilityOf(checkMail.plainType), 5000)
-        .then(function() {
-            expect(checkMail.plainType.isPresent())
-                .toBeTruthy();
-        });
-    browser.wait(EC.visibilityOf(checkMail.normalType), 5000)
-        .then(function() {
-            expect(checkMail.normalType.isPresent())
-                .toBeTruthy();
-        });
-    browser.wait(EC.visibilityOf(checkMail.rawType), 5000)
-        .then(function() {
-            expect(checkMail.rawType.isPresent())
-                .toBeTruthy();
-        });
-    browser.wait(EC.visibilityOf(checkMail.mailContent), 5000)
-        .then(function() {
-            expect(checkMail.mailContent.isPresent())
-                .toBeTruthy();
-            expect(checkMail.mailContent.getText())
-                .toEqual('XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X');
-        });
 
-    browser.wait(EC.visibilityOf(checkMail.moreActButton), 5000)
-        .then(function() {
-            expect(checkMail.moreActButton.isPresent())
-                .toBeTruthy();
-        });
-    browser.wait(EC.visibilityOf(checkMail.releaseBtn), 5000)
-        .then(function() {
-            expect(checkMail.releaseBtn.isPresent())
-                .toBeTruthy();
-        });
-    browser.wait(EC.visibilityOf(checkMail.removeBtn), 5000)
-        .then(function() {
-            expect(checkMail.removeBtn.isPresent())
-                .toBeTruthy();
-        });
+    //  Unselect email
+    mailBtn.selectButton.click();
+
+    //  Enter mail content page
+    browser.wait(EC.visibilityOf(mailBtn.mailBody), 5000).then(function() {
+        mailBtn.mailBody.click();
+    });
+
+    //  Check sent time date tag
+    browser.wait(EC.visibilityOf(checkMail.sentLabel), 5000).then(function() {
+        expect(checkMail.sentLabel.isPresent()).toBeTruthy();
+    });
+
+    //  Check from tag
+    browser.wait(EC.visibilityOf(checkMail.fromLabel), 5000).then(function() {
+        expect(checkMail.fromLabel.isPresent()).toBeTruthy();
+    });
+
+    //  Check to tag
+    browser.wait(EC.visibilityOf(checkMail.toLabel), 5000).then(function() {
+        expect(checkMail.toLabel.isPresent()).toBeTruthy();
+    });
+
+    //  Check plain button
+    browser.wait(EC.visibilityOf(checkMail.plainType), 5000).then(function() {
+        expect(checkMail.plainType.isPresent()).toBeTruthy();
+    });
+
+    //  Check normal button
+    browser.wait(EC.visibilityOf(checkMail.normalType), 5000).then(function() {
+        expect(checkMail.normalType.isPresent()).toBeTruthy();
+    });
+
+    //  Check raw type
+    browser.wait(EC.visibilityOf(checkMail.rawType), 5000).then(function() {
+        expect(checkMail.rawType.isPresent()).toBeTruthy();
+    });
+
+    //  Check mail content
+    browser.wait(EC.visibilityOf(checkMail.mailContent), 5000).then(function() {
+        expect(checkMail.mailContent.isPresent()).toBeTruthy();
+        expect(checkMail.mailContent.getText()).toEqual(spamMessage);
+    });
+
+    //  Check moreActions button
+    browser.wait(EC.visibilityOf(checkMail.moreActButton), 5000).then(function() {
+        expect(checkMail.moreActButton.isPresent()).toBeTruthy();
+    });
+
+    //  Check release button
+    browser.wait(EC.visibilityOf(checkMail.releaseBtn), 5000).then(function() {
+        expect(checkMail.releaseBtn.isPresent()).toBeTruthy();
+    });
+
+    //  Check remove button
+    browser.wait(EC.visibilityOf(checkMail.removeBtn), 5000).then(function() {
+        expect(checkMail.removeBtn.isPresent()).toBeTruthy();
+    });
+
+    //  Enter moreActions button
     checkMail.moreActButton.click();
 
-    browser.wait(EC.visibilityOf(checkMail.mabRelease), 5000)
-        .then(function() {
-            expect(checkMail.mabRelease.isPresent())
-                .toBeTruthy();
-        });
-    browser.wait(EC.visibilityOf(checkMail.mabRelAndTrain), 5000)
-        .then(function() {
-            expect(checkMail.mabRelAndTrain.isPresent())
-                .toBeTruthy();
-        });
-    browser.actions()
-        .click()
-        .perform();
-    browser.navigate()
-        .back();
-    browser.navigate()
-        .back();
+    //  Check release button
+    browser.wait(EC.visibilityOf(checkMail.mabRelease), 5000).then(function() {
+        expect(checkMail.mabRelease.isPresent()).toBeTruthy();
+    });
+
+    //  Check Release and Train button
+    browser.wait(EC.visibilityOf(checkMail.mabRelAndTrain), 5000).then(function() {
+        expect(checkMail.mabRelAndTrain.isPresent()).toBeTruthy();
+    });
+
+    //  Close moreActions menu
+    browser.actions().click().perform();
+
+    //  Go back to dashboard
+    browser.navigate().back();
+    browser.navigate().back();
 }
 
 
 function addCredentials(Obj, host, user, pwd) {
-    //The three fields should be provided with valid data
+
+    //  The three fields should be provided with valid data
     Obj.hostname.sendKeys(host);
     Obj.user.sendKeys(user);
     Obj.password.sendKeys(pwd);
@@ -170,6 +184,7 @@ function addCredentials(Obj, host, user, pwd) {
 
 
 function field_cleaner(Obj) {
+
     Obj.hostname.clear();
     Obj.password.clear();
     Obj.user.clear();
@@ -178,77 +193,95 @@ function field_cleaner(Obj) {
 
 describe('Mobile app email page superAdminLevel', function() {
 
+    //  Load user log in credentials
     var data = require(".././dependencies/dataForUserRestrictedLogin");
-    var Obj = new LoginPage(); // initialize an object//
+
+    var Obj = new LoginPage();
     var logged = new dashPage();
     var search = new iSearchPanel();
     var mailBtn = new imailButtons();
     var checkMail = new imailLayout();
-
-    var EC = protractor.ExpectedConditions;
     var omailBtn = new omailButtons();
     var ocheckMail = new omailLayout();
+
+    spamMessage = "XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X";
+
+    var EC = protractor.ExpectedConditions;
+
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 55000;
+
     it('should check functionality and presence of the buttons', function() {
+
+        //  Open app
         browser.get('http://localhost:8100/#/login');
+
+        //  Clear log in fields
         field_cleaner(Obj);
-        //for being able to login, the .json file must have valid user, and password
+
+        //  For being able to login, the .json file must have valid user, and password
         addCredentials(Obj, data.superAdminH, data.superAdminU, data.superAdminP);
         Obj.logbutton.click();
 
+        //  Check dashboard is visible
+        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 5000).then(function() {
+            expect(logged.bigLoginCheck.isPresent()).toBeTruthy();
+        });
 
-        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 5000)
-            .then(function() {
-                expect(logged.bigLoginCheck.isPresent())
-                    .toBeTruthy();
+        //  Enter Incoming page
+        browser.wait(EC.visibilityOf(logged.bigIncoming), 5000).then(function() {
+            logged.bigIncoming.click();
+        });
 
-            });
-        browser.wait(EC.visibilityOf(logged.bigIncoming), 5000)
-            .then(function() {
-                logged.bigIncoming.click();
-            });
         browser.ignoreSynchronization = false;
-        browser.wait(EC.visibilityOf(search.isearchButton), 5000)
-            .then(function() {
-                search.isearchButton.click();
-            });
-        browser.wait(EC.visibilityOf(search.domainSearch), 5000)
-            .then(function() {
-                search.domainSearch.sendKeys(data.theDomain);
-            });
 
-        browser.wait(EC.visibilityOf(search.startSearch), 5000)
-            .then(function() {
-                search.startSearch.click();
+        //  Enter Search Menu
+        browser.wait(EC.visibilityOf(search.isearchButton), 5000).then(function() {
+            search.isearchButton.click();
+        });
 
-            });
+        //  Set domain
+        browser.wait(EC.visibilityOf(search.domainSearch), 5000).then(function() {
+            search.domainSearch.sendKeys(data.theDomain);
+        });
 
+        //  Keep settings
+        browser.wait(EC.visibilityOf(search.startSearch), 5000).then(function() {
+            search.startSearch.click();
+        });
+
+        //  Check layout for Incoming Mail page
         checkLayout(mailBtn, checkMail);
-        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 5000)
-            .then(function() {
-                expect(logged.bigLoginCheck.isPresent())
-                    .toBeTruthy();
 
-            });
-        browser.wait(EC.visibilityOf(logged.bigOutgoing), 5000)
-            .then(function() {
-                logged.bigOutgoing.click();
-            });
-        browser.wait(EC.visibilityOf(search.osearchButton), 5000)
-            .then(function() {
-                search.osearchButton.click();
+        //  Check dashboard is visible
+        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 5000).then(function() {
+            expect(logged.bigLoginCheck.isPresent()).toBeTruthy();
+        });
 
-            });
+        //  Enter Outgoing page
+        browser.wait(EC.visibilityOf(logged.bigOutgoing), 5000).then(function() {
+            logged.bigOutgoing.click();
+        });
 
-        browser.wait(EC.visibilityOf(search.domainSearch), 5000)
-            .then(function() {
-                search.domainSearch.sendKeys(data.theDomain);
-            });
-        browser.wait(EC.visibilityOf(search.startSearch), 5000)
-            .then(function() {
-                search.startSearch.click();
-            });
+        //  Enter Search Menu
+        browser.wait(EC.visibilityOf(search.osearchButton), 5000).then(function() {
+            search.osearchButton.click();
+        });
+
+        //  Set domain
+        browser.wait(EC.visibilityOf(search.domainSearch), 5000).then(function() {
+            search.domainSearch.sendKeys(data.theDomain);
+        });
+
+        //  Keep settings
+        browser.wait(EC.visibilityOf(search.startSearch), 5000).then(function() {
+            search.startSearch.click();
+        });
+
+        //  Check layout for Outgoing Mail page
         checkLayout(omailBtn, ocheckMail);
+
         browser.refresh();
+
     });
+
 });

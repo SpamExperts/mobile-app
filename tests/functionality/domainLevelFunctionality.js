@@ -47,17 +47,17 @@ function checkLayout(mailBtn, checkMail) {
         emailPopup.cancelButton.click();
     });
 
-    //  Check visibility of more ACtion button
+    //  Check visibility of more Actions button
     browser.wait(EC.visibilityOf(mailBtn.moreActButton), 5000).then(function() {
         expect(mailBtn.moreActButton.isPresent()).toBeTruthy();
     });
 
-    //  Check countSelectedMessage/Unselect buttun
+    //  Check countSelectedMessage/Unselect button
     browser.wait(EC.visibilityOf(mailBtn.mabUnselect), 5000).then(function() {
         expect(mailBtn.mabUnselect.isPresent()).toBeTruthy();
     });
 
-    //  Enter moreACtion menu
+    //  Enter moreActions menu
     mailBtn.moreActButton.click();
 
     //  Check presence of release button
@@ -149,6 +149,7 @@ function checkLayout(mailBtn, checkMail) {
         expect(checkMail.mailContent.getText()).toEqual(spamMessage);
     });
 
+    //  Check moreActions button
     browser.wait(EC.visibilityOf(checkMail.moreActButton), 5000).then(function() {
         expect(checkMail.moreActButton.isPresent()).toBeTruthy();
     });
@@ -186,7 +187,7 @@ function checkLayout(mailBtn, checkMail) {
         expect(checkMail.mabBlackAndRemove.isPresent()).toBeTruthy();
     });
 
-    //  Close moreActions button
+    //  Close moreActions menu
     browser.actions().click().perform();
 
     //  Go back to dashboard
