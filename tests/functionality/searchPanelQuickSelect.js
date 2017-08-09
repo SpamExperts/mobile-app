@@ -11,7 +11,7 @@ function field_cleaner(Obj) {
 }
 
 function addCredentials(Obj, host, user, pwd) {
-    //The three fields should be provided with valid data
+    //  The three fields should be provided with valid data
     Obj.hostname.sendKeys(host);
     Obj.user.sendKeys(user);
     Obj.password.sendKeys(pwd);
@@ -25,39 +25,55 @@ describe('Mobile app search page', function() {
     var EC = protractor.ExpectedConditions;
 
 
-    it('should return correct datetime depending on the button', function() {
+    it('Should return correct datetime depending on the button', function() {
 
+        //  Open app
         browser.get('http://localhost:8100/#/login');
+
+        //  Clear login fields
         field_cleaner(Obj);
 
         var outputDate;
+
+        //  Log in
         addCredentials(Obj, data.emailH, data.emailU, data.emailP);
         Obj.logbutton.click();
 
-        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 5000)
-            .then(function() {
-                expect(logged.bigLoginCheck.isPresent())
-                    .toBeTruthy();
-            });
+        browser.wait(EC.visibilityOf(logged.bigLoginCheck), 5000).then(function() {
+            expect(logged.bigLoginCheck.isPresent()).toBeTruthy();
+        });
+
+        //  Enter Incoming Page
         logged.bigIncoming.click();
         search.isearchButton.click();
-        browser.wait(EC.visibilityOf(search.ihourSearch), 5000)
-            .then(function() {
-                search.ihourSearch.click();
-            });
+
+        //  Clik "Past 24h" button
+        browser.wait(EC.visibilityOf(search.hourSearch), 5000).then(function() {
+            search.hourSearch.click();
+        });
         outputDate = dataDifference(1);
-        expect(search.from.getText())
-            .toEqual(outputDate);
-        search.iweekSearch.click();
+
+        //  Check changes 
+        expect(search.from.getText()).toEqual(outputDate);
+
+        //  Click "Past week" button
+        search.weekSearch.click();
         outputDate = dataDifference(2);
-        expect(search.from.getText())
-            .toEqual(outputDate);
-        search.imonthSearch.click();
+
+        //  Check changes
+        expect(search.from.getText()).toEqual(outputDate);
+
+        //  Chick "Past month" button
+        search.monthSearch.click();
         outputDate = dataDifference(3);
-        expect(search.from.getText())
-            .toEqual(outputDate);
+
+        //  Check changes
+        expect(search.from.getText()).toEqual(outputDate);
+
         browser.refresh();
+
         field_cleaner(Obj);
+
         browser.refresh();
     });
 });

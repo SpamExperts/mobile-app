@@ -3,14 +3,15 @@ var SearchPanel = require('.././dependencies/SearchPanelObject.js');
 var CategoryPanel = require('.././dependencies/CategoryPageObject.js');
 var Dashboard = require('.././dependencies/DashPageObject');
 
-
 function field_cleaner(test) {
     test.hostname.clear();
     test.user.clear();
     test.password.clear();
 }
 
-
+/**
+ *  Build a time date in string format for Search Menu
+ */
 function buildDate(date, byDefault, head) {
 
 
@@ -42,6 +43,9 @@ function buildDate(date, byDefault, head) {
     return stringDate;
 }
 
+/**
+ *  Set date for from/to time date fields
+ */
 
 function setDate(button, input) {
 
@@ -86,7 +90,9 @@ function setDate(button, input) {
     });
 }
 
-
+/**
+ *  Build a time date in string format for incoming/outgoing head date
+ */
 function buildHeadDate(fromDate, toDate) {
 
     var from = fromDate;
@@ -110,6 +116,9 @@ function buildHeadDate(fromDate, toDate) {
     return stringDate;
 }
 
+/**
+ *  Check default after cleanSearch
+ */
 function checkDefault(nr) {
 
     fromDate = buildDate(new Date(), true, false);
@@ -131,9 +140,11 @@ describe('Verify Calendar Setting', function() {
 
     it('Check:', function() {
 
+        //  Test input date
         var inputFrom = new Date("2015-03-17T04:13:00Z");
         var inputTo = new Date("2016-10-07T18:05:00Z");
 
+        //  Time variables
         monthsLong = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         EC = protractor.ExpectedConditions;
@@ -149,10 +160,13 @@ describe('Verify Calendar Setting', function() {
         searchMenu = new SearchPanel();
         incomingPage = new CategoryPanel();
 
+        //  Load user data
         data = require('.././dependencies/dataForUserRestrictedLogin.json');
 
-        //  Login
+        //  Clear login fields
         field_cleaner(test);
+
+        //  Login
         test.hostname.sendKeys(data.domainH);
         test.user.sendKeys(data.domainU);
         test.password.sendKeys(data.domainP);
@@ -176,34 +190,47 @@ describe('Verify Calendar Setting', function() {
             incomingPage.isearchButton.click();
         });
 
+        //  Set date for From field
         setDate(searchMenu.from, inputFrom);
 
+        //  Build string date
         fromDate = buildDate(inputFrom, false, false);
+
+        //  Check from date without minutes
         expect(searchMenu.from.getText()).toContain(fromDate.substring(0, 13));
 
+        //  Build string date
         toDate = buildDate(new Date(), false, false);
+
+        //  Check date without minutes
         expect(searchMenu.to.getText()).toContain(toDate.substring(0, 13));
 
+        //  Keep settings
         browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function() {
-            searchMenu.istartSearch.click();
+            searchMenu.startSearch.click();
         });
 
+        //  Check changes made in the time date of incoming page
         browser.wait(EC.visibilityOf(incomingPage.itimeDate), 5000).then(function() {
             expect(incomingPage.itimeDate.getText()).toEqual(buildHeadDate(inputFrom, new Date()));
         });
 
+        //  Go back
         browser.wait(EC.elementToBeClickable(incomingPage.isearchButton), 10000).then(function() {
             incomingPage.isearchButton.click();
         });
 
+        //  Clear settings
         browser.wait(EC.elementToBeClickable(searchMenu.iclearSearch), 5000).then(function() {
-            searchMenu.iclearSearch.click();
+            searchMenu.clearSearch.click();
         });
 
+        //  Keep settings
         browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function() {
-            searchMenu.istartSearch.click();
+            searchMenu.startSearch.click();
         });
 
+        //  Check changes made in the time date of incoming page
         checkDefault(1);
 
         // Set To Calendar
@@ -211,34 +238,47 @@ describe('Verify Calendar Setting', function() {
             incomingPage.isearchButton.click();
         });
 
+        //  Set date for To field
         setDate(searchMenu.to, inputTo);
 
+        //  Build string date
         toDate = buildDate(inputTo, false, false);
+
+        //  Check to date without minutes        
         expect(searchMenu.to.getText()).toContain(toDate.substring(0, 13));
 
+        //  Build string date
         fromDate = buildDate(new Date(), true, false);
+
+        //  Check date without minutes
         expect(searchMenu.from.getText()).toContain(fromDate.substring(0, 13));
 
+        //  Keep settings
         browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function() {
-            searchMenu.istartSearch.click();
+            searchMenu.startSearch.click();
         });
 
+        //  Check changes made in the time date of incoming page
         browser.wait(EC.visibilityOf(incomingPage.itimeDate), 5000).then(function() {
             expect(incomingPage.itimeDate.getText()).toEqual(buildHeadDate(new Date(), inputTo));
         });
 
+        //  Go back
         browser.wait(EC.elementToBeClickable(incomingPage.isearchButton), 10000).then(function() {
-            incomingPage.isearchButton.click();
+            incomingPage.searchButton.click();
         });
 
+        //  Clear settings
         browser.wait(EC.elementToBeClickable(searchMenu.iclearSearch), 5000).then(function() {
-            searchMenu.iclearSearch.click();
+            searchMenu.clearSearch.click();
         });
 
+        //  Keep settings
         browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function() {
-            searchMenu.istartSearch.click();
+            searchMenu.startSearch.click();
         });
 
+        //  Check changes made in the time date of incoming page
         checkDefault(2);
 
         // Set From & To Calendar
@@ -246,35 +286,53 @@ describe('Verify Calendar Setting', function() {
             incomingPage.isearchButton.click();
         });
 
+        //  Set date for From field
         setDate(searchMenu.from, inputFrom);
+
+        //  Build string date
         fromDate = buildDate(inputFrom, false, false);
+
+        //  Check date without minutes
         expect(searchMenu.from.getText()).toContain(fromDate.substring(0, 13));
 
+        //  Set date for To field
         setDate(searchMenu.to, inputTo);
+
+        //  Build string date
         toDate = buildDate(inputTo, false, false);
+
+        //  Check date without minutes
         expect(searchMenu.to.getText()).toContain(toDate.substring(0, 13));
 
+        //  Keep settings
         browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function() {
-            searchMenu.istartSearch.click();
+            searchMenu.startSearch.click();
         });
 
+        //  Check changes made in the time date of incoming page
         browser.wait(EC.visibilityOf(incomingPage.itimeDate), 5000).then(function() {
             expect(incomingPage.itimeDate.getText()).toEqual(buildHeadDate(inputFrom, inputTo));
         });
 
+        //  Go back
         browser.wait(EC.elementToBeClickable(incomingPage.isearchButton), 10000).then(function() {
             incomingPage.isearchButton.click();
         });
 
+        //  Clear settings
         browser.wait(EC.elementToBeClickable(searchMenu.iclearSearch), 5000).then(function() {
-            searchMenu.iclearSearch.click();
+            searchMenu.clearSearch.click();
         });
 
+        //  Keep settings
         browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function() {
-            searchMenu.istartSearch.click();
+            searchMenu.startSearch.click();
         });
 
+        //  Check changes made in the time date of incoming page
         checkDefault(3);
+
         browser.refresh();
     });
+
 });
