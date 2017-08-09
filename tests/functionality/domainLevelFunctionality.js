@@ -4,6 +4,15 @@ var imailButtons = require('.././dependencies/IncomingPageWithEmails.js');
 var imailLayout = require('.././dependencies/InsideIncomingEmail.js');
 var omailButtons = require('.././dependencies/OutgoingPageWithEmails.js');
 var emailAlert = require('.././dependencies/EmailAlertObject.js');
+var msg1 = "Choosing 'Release and Train', for one or several messages, might adversely affect the ";
+var msg2 = "quality of filtering for all the existing users.Please avoid any mistakes in your selection!";
+var Rel_msg = msg1.concat(msg2);
+var msg3 = 'You have chosen to release the email and whitelist their senders.';
+var msg4 = " Please note, spammers generally use fake 'from' addresses trying to match whitelisted senders so their spam emails bypass the checks.";
+var White_msg = msg3.concat(msg4);
+var msg5 = 'You have chosen to remove the email and blacklist the sender.';
+var msg6 = 'Please note, emails from blacklisted senders are immediately discarded.';
+var Black_msg = msg5.concat(msg6);
 
 function checkLayout(mailBtn, checkMail) {
 
@@ -28,8 +37,14 @@ function checkLayout(mailBtn, checkMail) {
         });
 
         //  Close pop-up
-        emailPopup.cancelButton.click();
+        emailPopup.okButton.click();
     });
+    browser.sleep(1500);
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.selectButton), 5000)
+        .then(function() {
+            mailBtn.selectButton.click();
+        });
 
     //  Try remove an email
     browser.wait(EC.visibilityOf(mailBtn.removeButton), 5000).then(function() {
@@ -44,9 +59,16 @@ function checkLayout(mailBtn, checkMail) {
         });
 
         //  Close pop-up
-        emailPopup.cancelButton.click();
+        emailPopup.okButton.click();
     });
 
+    browser.sleep(1500);
+    browser.refresh();
+
+    browser.wait(EC.visibilityOf(mailBtn.selectButton), 5000)
+        .then(function() {
+            mailBtn.selectButton.click();
+        });
     //  Check visibility of more Actions button
     browser.wait(EC.visibilityOf(mailBtn.moreActButton), 5000).then(function() {
         expect(mailBtn.moreActButton.isPresent()).toBeTruthy();
@@ -63,31 +85,97 @@ function checkLayout(mailBtn, checkMail) {
     //  Check presence of release button
     browser.wait(EC.visibilityOf(mailBtn.mabRelease), 5000).then(function() {
         expect(mailBtn.mabRelease.isPresent()).toBeTruthy();
-    });
+        mailBtn.mabRelease.click();
+        expect(emailPopup.alertBody.getText())
+            .toEqual('The email(s) that you have selected previously will be released.');
+        emailPopup.okButton.click();
 
+    });
+    browser.sleep(1500);
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.selectButton), 5000)
+        .then(function() {
+            mailBtn.selectButton.click();
+        });
+    mailBtn.moreActButton.click();
     //  Check presence of Release and Train button
     browser.wait(EC.visibilityOf(mailBtn.mabRelAndTrain), 5000).then(function() {
         expect(mailBtn.mabRelAndTrain.isPresent()).toBeTruthy();
+        mailBtn.mabRelAndTrain.click();
+        expect(emailPopup.alertBody.getText())
+            .toEqual(Rel_msg);
+        emailPopup.okButton.click();
     });
-
+    browser.sleep(1500);
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.selectButton), 5000)
+        .then(function() {
+            mailBtn.selectButton.click();
+        });
+    mailBtn.moreActButton.click();
     //  Check presence of remove button
     browser.wait(EC.visibilityOf(mailBtn.mabRemove), 5000).then(function() {
         expect(mailBtn.mabRemove.isPresent()).toBeTruthy();
-    });
+        mailBtn.mabRemove.click();
+        browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000)
+            .then(function() {
+                expect(emailPopup.alertBody.getText())
+                    .toEqual('The email(s) that you have selected will be removed.');
+            });
+        emailPopup.okButton.click();
 
+    });
+    browser.sleep(1500);
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.selectButton), 5000)
+        .then(function() {
+            mailBtn.selectButton.click();
+        });
+    mailBtn.moreActButton.click();
     //  Check presence of White and Release button
     browser.wait(EC.visibilityOf(mailBtn.mabWhiteAndRelease), 5000).then(function() {
         expect(mailBtn.mabWhiteAndRelease.isPresent()).toBeTruthy();
+        mailBtn.mabWhiteAndRelease.click();
+        browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000)
+            .then(function() {
+                expect(emailPopup.alertBody.getText())
+                    .toEqual(White_msg);
+            });
+        emailPopup.okButton.click();
     });
 
+    browser.sleep(1500);
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.selectButton), 5000)
+        .then(function() {
+            mailBtn.selectButton.click();
+        });
+    mailBtn.moreActButton.click();
     //  Check presence of Black and Release button
     browser.wait(EC.visibilityOf(mailBtn.mabBlackAndRemove), 5000).then(function() {
         expect(mailBtn.mabBlackAndRemove.isPresent()).toBeTruthy();
+        mailBtn.mabBlackAndRemove.click();
+        browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000)
+            .then(function() {
+                expect(emailPopup.alertBody.getText())
+                    .toEqual(Black_msg);
+            });
+        emailPopup.okButton.click();
     });
-
+    browser.sleep(1500);
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.selectButton), 5000)
+        .then(function() {
+            mailBtn.selectButton.click();
+        });
+    mailBtn.moreActButton.click();
     //  Check presence of purge button
     browser.wait(EC.visibilityOf(mailBtn.mabPurgeQtn), 5000).then(function() {
         expect(mailBtn.mabPurgeQtn.isPresent()).toBeTruthy();
+        mailBtn.mabPurgeQtn.click();
+        expect(emailPopup.alertBody.getText())
+            .toEqual('You are going to empty your spam quarantine folder.');
+        emailPopup.cancelButton.click();
     });
 
     //  Close moreActions menu
@@ -157,34 +245,105 @@ function checkLayout(mailBtn, checkMail) {
     //  Check release button
     browser.wait(EC.visibilityOf(checkMail.releaseBtn), 5000).then(function() {
         expect(checkMail.releaseBtn.isPresent()).toBeTruthy();
+        checkMail.releaseBtn.click();
+        browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000)
+            .then(function() {
+                expect(emailPopup.alertBody.getText())
+                    .toEqual('The email(s) that you have selected previously will be released.');
+            });
+        emailPopup.okButton.click();
     });
-
+    browser.sleep(3000);
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.mailBody), 5000)
+        .then(function() {
+            mailBtn.mailBody.click();
+        });
     //  Check remove button
     browser.wait(EC.visibilityOf(checkMail.removeBtn), 5000).then(function() {
         expect(checkMail.removeBtn.isPresent()).toBeTruthy();
+        checkMail.removeBtn.click();
+        browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000)
+            .then(function() {
+                expect(emailPopup.alertBody.getText())
+                    .toEqual('The email(s) that you have selected will be removed.');
+            });
+        emailPopup.okButton.click();
     });
-
+    browser.sleep(3000);
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.mailBody), 5000)
+        .then(function() {
+            mailBtn.mailBody.click();
+        });
     //  Enter moreActions button
     checkMail.moreActButton.click();
 
     //  Check release button
     browser.wait(EC.visibilityOf(checkMail.mabRelease), 5000).then(function() {
         expect(checkMail.mabRelease.isPresent()).toBeTruthy();
+        checkMail.mabRelease.click();
+        browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000)
+            .then(function() {
+                expect(emailPopup.alertBody.getText())
+                    .toEqual('The email(s) that you have selected previously will be released.');
+            });
+        emailPopup.okButton.click();
     });
-
+    browser.sleep(3000);
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.mailBody), 5000)
+        .then(function() {
+            mailBtn.mailBody.click();
+        });
+    checkMail.moreActButton.click();
     //  Check Release and Train button
     browser.wait(EC.visibilityOf(checkMail.mabRelAndTrain), 5000).then(function() {
         expect(checkMail.mabRelAndTrain.isPresent()).toBeTruthy();
-    });
+        checkMail.mabRelAndTrain.click();
+        browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000)
+            .then(function() {
+                expect(emailPopup.alertBody.getText())
+                    .toEqual(Rel_msg);
+            });
+        emailPopup.okButton.click();
 
+    });
+    browser.sleep(3000);
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.mailBody), 5000)
+        .then(function() {
+            mailBtn.mailBody.click();
+        });
+    checkMail.moreActButton.click();
     //  Check White and Release button 
     browser.wait(EC.visibilityOf(checkMail.mabWhiteAndRelease), 5000).then(function() {
         expect(checkMail.mabWhiteAndRelease.isPresent()).toBeTruthy();
+        checkMail.mabWhiteAndRelease.click();
+        browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000)
+            .then(function() {
+                expect(emailPopup.alertBody.getText())
+                    .toEqual(White_msg);
+            });
+        emailPopup.okButton.click();
     });
-
+    browser.sleep(3000);
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.mailBody), 5000)
+        .then(function() {
+            mailBtn.mailBody.click();
+        });
+    checkMail.moreActButton.click();
     //  Check BLack and Remove button
     browser.wait(EC.visibilityOf(checkMail.mabBlackAndRemove), 5000).then(function() {
         expect(checkMail.mabBlackAndRemove.isPresent()).toBeTruthy();
+        checkMail.mabBlackAndRemove.click();
+        browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000)
+            .then(function() {
+                expect(emailPopup.alertBody.getText())
+                    .toEqual(Black_msg);
+            });
+        emailPopup.okButton.click();
     });
 
     //  Close moreActions menu
@@ -193,6 +352,7 @@ function checkLayout(mailBtn, checkMail) {
     //  Go back to dashboard
     browser.navigate().back();
     browser.navigate().back();
+
 }
 
 
@@ -230,6 +390,7 @@ describe('Mobile app email page domainLevel', function() {
 
     spamMessage = "XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X";
 
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 90000;
     it('should check functionality and presence of the buttons', function() {
 
         // Open app
@@ -243,6 +404,7 @@ describe('Mobile app email page domainLevel', function() {
         addCredentials(Obj, data.domainH, data.domainU, data.domainP);
 
         //  Log in
+        Obj.reminder.click();
         Obj.logbutton.click();
 
         //  Check dashboard is visible
@@ -274,7 +436,15 @@ describe('Mobile app email page domainLevel', function() {
         browser.wait(EC.visibilityOf(omailBtn.mailBody), 5000).then(function() {
             omailBtn.mailBody.click();
         });
-
+        browser.navigate().back();
+        browser.refresh();
+        browser.wait(EC.visibilityOf(logged.leftButton), 5000)
+            .then(function() {
+                logged.leftButton.click();
+                logged.logoutButton.click();
+                logged.okButton.click();
+            });
+        Obj.reminder.click();
         browser.refresh();
 
     });
