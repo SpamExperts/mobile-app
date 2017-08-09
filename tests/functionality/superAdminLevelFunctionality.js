@@ -35,6 +35,7 @@ function checkLayout(mailBtn, checkMail) {
         //  Close pop-up
         emailPopup.cancelButton.click();
     });
+
     //  Try remove an email
     browser.wait(EC.visibilityOf(mailBtn.removeButton), 5000).then(function() {
 
@@ -64,33 +65,52 @@ function checkLayout(mailBtn, checkMail) {
     //  Enter moreActions menu
     mailBtn.moreActButton.click();
 
-    //  Check presence of release button
+    //  Try release an email
     browser.wait(EC.visibilityOf(mailBtn.mabRelease), 5000).then(function() {
+
+        //  Check release button is present and click
         expect(mailBtn.mabRelease.isPresent()).toBeTruthy();
         mailBtn.mabRelease.click();
-        expect(emailPopup.alertBody.getText())
-            .toEqual('The email(s) that you have selected previously will be released.');
+
+        //  Check the pop-up message
+        expect(emailPopup.alertBody.getText()).toEqual('The email(s) that you have selected previously will be released.');
+
+        //  Close pop-up
         emailPopup.cancelButton.click();
     });
+
     //  Enter moreActions menu
     mailBtn.moreActButton.click();
-    //  Check presence of Release and Train button
+
+    //  Try Release and Train an email
     browser.wait(EC.visibilityOf(mailBtn.mabRelAndTrain), 5000).then(function() {
+
+        //  Check presence of Release and Train button and click
         expect(mailBtn.mabRelAndTrain.isPresent()).toBeTruthy();
         mailBtn.mabRelAndTrain.click();
-        expect(emailPopup.alertBody.getText())
-            .toEqual(msg);
+
+        //  Check the pop-up message
+        expect(emailPopup.alertBody.getText()).toEqual(msg);
+
+        //  Close pop-up
         emailPopup.cancelButton.click();
 
     });
+
     //  Enter moreActions menu
     mailBtn.moreActButton.click();
-    //  Check presence of remove button
+
+    //  Try remove an email
     browser.wait(EC.visibilityOf(mailBtn.mabRemove), 5000).then(function() {
+
+        //  Check presence of remove button
         expect(mailBtn.mabRemove.isPresent()).toBeTruthy();
         mailBtn.mabRemove.click();
-        expect(emailPopup.alertBody.getText())
-            .toEqual('The email(s) that you have selected will be removed.');
+
+        //  Check the pop-up message
+        expect(emailPopup.alertBody.getText()).toEqual('The email(s) that you have selected will be removed.');
+
+        //  Close pop-up
         emailPopup.cancelButton.click();
     });
 
@@ -107,7 +127,6 @@ function checkLayout(mailBtn, checkMail) {
         expect(mailBtn.mailDate.isPresent()).toBeTruthy();
     });
 
-
     browser.ignoreSynchronization = false;
 
     //  Unselect email
@@ -117,7 +136,7 @@ function checkLayout(mailBtn, checkMail) {
     browser.wait(EC.visibilityOf(mailBtn.mailBody), 5000).then(function() {
         mailBtn.mailBody.click();
     });
-    
+
     //  Check sent time date tag
     browser.wait(EC.visibilityOf(checkMail.sentLabel), 5000).then(function() {
         expect(checkMail.sentLabel.isPresent()).toBeTruthy();
@@ -159,8 +178,10 @@ function checkLayout(mailBtn, checkMail) {
         expect(checkMail.moreActButton.isPresent()).toBeTruthy();
     });
 
-    //  Check release button
+    //  Try release an email
     browser.wait(EC.visibilityOf(checkMail.releaseBtn), 5000).then(function() {
+
+        //  Check release button and click
         expect(checkMail.releaseBtn.isPresent()).toBeTruthy();
         checkMail.releaseBtn.click();
 
@@ -173,8 +194,10 @@ function checkLayout(mailBtn, checkMail) {
         emailPopup.cancelButton.click();
     });
 
-    //  Check remove button
+    //  Try remove an email
     browser.wait(EC.visibilityOf(checkMail.removeBtn), 5000).then(function() {
+
+        //  Check remove button        
         expect(checkMail.removeBtn.isPresent()).toBeTruthy();
         checkMail.removeBtn.click();
 
@@ -190,8 +213,10 @@ function checkLayout(mailBtn, checkMail) {
     //  Enter moreActions button
     checkMail.moreActButton.click();
 
-    //  Check release button
+    //  Try release an email
     browser.wait(EC.visibilityOf(checkMail.mabRelease), 5000).then(function() {
+
+        //  Check release button
         expect(checkMail.mabRelease.isPresent()).toBeTruthy();
         checkMail.mabRelease.click();
 
@@ -203,10 +228,14 @@ function checkLayout(mailBtn, checkMail) {
         //  Close pop-up
         emailPopup.cancelButton.click();
     });
+
     //  Enter moreActions menu
     checkMail.moreActButton.click();
-    //  Check Release and Train button
+
+    //  Try Release and Train email
     browser.wait(EC.visibilityOf(checkMail.mabRelAndTrain), 5000).then(function() {
+
+        //  Check Release and Train button
         expect(checkMail.mabRelAndTrain.isPresent()).toBeTruthy();
         checkMail.mabRelAndTrain.click();
 
@@ -335,12 +364,13 @@ describe('Mobile app email page superAdminLevel', function() {
         //  Check layout for Outgoing Mail page
         checkLayout(omailBtn, ocheckMail);
         browser.refresh();
-        browser.wait(EC.visibilityOf(logged.leftButton), 5000)
-            .then(function() {
-                logged.leftButton.click();
-                logged.logoutButton.click();
-                logged.okButton.click();
-            });
+
+
+        browser.wait(EC.visibilityOf(logged.leftButton), 5000).then(function() {
+            logged.leftButton.click();
+            logged.logoutButton.click();
+            logged.okButton.click();
+        });
         Obj.reminder.click();
         browser.refresh();
 
