@@ -2,7 +2,8 @@ var msg1="Choosing 'Release and Train', for one or several messages, might adver
 var msg2="quality of filtering for all the existing users.Please avoid any mistakes in your selection!";
 var msg=msg1.concat(msg2);
 var imailButtons = function() {
-    this.selectButton = element.all(by.model("message.isChecked")).get(0);
+
+    this.selectButton = element(by.xpath("(//label[@ng-change='selectEntry($index, true)'])[1]"));
     this.releaseButton = element.all(by.css(".button.button-clear")).get(0);
     this.removeButton = element.all(by.css(".button.button-clear")).get(1);
     this.moreActButton = element.all(by.css(".button.button-clear.disable-user-behavior")).get(0);

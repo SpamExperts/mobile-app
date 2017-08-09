@@ -16,13 +16,11 @@ var InputData = function(hostname, username, password) {
 var HttpBackend = require('httpbackend');
 var backend = null;
 
-var EC = protractor.ExpectedConditions;
 
 var test = new PageData();
 var dataFile = require('./dataForSuccessfulLogin.json');
 var data = new InputData(dataFile.hostname, dataFile.username, dataFile.password);
 
-var alertBody = element(by.xpath("//div[contains(@class,'popup-body')]"));
 
 describe('Verify Successful Login', function() {
 

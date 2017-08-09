@@ -22,4 +22,5 @@ exports.config = {
             }
         }
     },
+    allScriptsTimeout: 15000
 };

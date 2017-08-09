@@ -50,6 +50,7 @@ function checkLayout(mailBtn, checkMail) {
                 .toBeTruthy();
         });
     mailBtn.moreActButton.click();
+
     browser.wait(EC.visibilityOf(mailBtn.mabRelease), 5000)
         .then(function() {
             expect(mailBtn.mabRelease.isPresent())
@@ -211,14 +212,14 @@ describe('Mobile app email page superAdminLevel', function() {
             .then(function() {
                 search.isearchButton.click();
             });
-        browser.wait(EC.visibilityOf(search.idomainSearch), 5000)
+        browser.wait(EC.visibilityOf(search.domainSearch), 5000)
             .then(function() {
-                search.idomainSearch.sendKeys(data.theDomain);
+                search.domainSearch.sendKeys(data.theDomain);
             });
 
-        browser.wait(EC.visibilityOf(search.istartSearch), 5000)
+        browser.wait(EC.visibilityOf(search.startSearch), 5000)
             .then(function() {
-                search.istartSearch.click();
+                search.startSearch.click();
 
             });
 
@@ -239,13 +240,13 @@ describe('Mobile app email page superAdminLevel', function() {
 
             });
 
-        browser.wait(EC.visibilityOf(search.idomainSearch), 5000)
+        browser.wait(EC.visibilityOf(search.domainSearch), 5000)
             .then(function() {
-                search.idomainSearch.sendKeys(data.theDomain);
+                search.domainSearch.sendKeys(data.theDomain);
             });
-        browser.wait(EC.visibilityOf(search.istartSearch), 5000)
+        browser.wait(EC.visibilityOf(search.startSearch), 5000)
             .then(function() {
-                search.istartSearch.click();
+                search.startSearch.click();
             });
         checkLayout(omailBtn, ocheckMail);
         browser.refresh();

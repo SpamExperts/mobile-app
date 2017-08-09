@@ -3,6 +3,9 @@ var dashPage = require('.././dependencies/DashPageObject.js');
 var imailButtons = require('.././dependencies/IncomingPageWithEmails.js');
 var imailLayout = require('.././dependencies/InsideIncomingEmail.js');
 var emailAlert = require('.././dependencies/EmailAlertObject.js');
+var msg1 = "Choosing 'Release and Train', for one or several messages, might adversely affect the ";
+var msg2 = "quality of filtering for all the existing users.Please avoid any mistakes in your selection!";
+var msg = msg1.concat(msg2);
 
 function checkLayout(mailBtn, checkMail) {
     var EC = protractor.ExpectedConditions;
@@ -21,9 +24,16 @@ function checkLayout(mailBtn, checkMail) {
                     expect(emailPopup.alertBody.getText())
                         .toEqual('The email(s) that you have selected previously will be released.');
                 });
-            emailPopup.cancelButton.click();
+            emailPopup.okButton.click();
         });
-    browser.wait(EC.visibilityOf(mailBtn.removeButton), 5000)
+    
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.selectButton), 5000)
+        .then(function() {
+            mailBtn.selectButton.click();
+        });
+        
+    browser.wait(EC.visibilityOf(mailBtn.removeButton),15000)
         .then(function() {
             expect(mailBtn.removeButton.isPresent())
                 .toBeTruthy();
@@ -33,7 +43,14 @@ function checkLayout(mailBtn, checkMail) {
                     expect(emailPopup.alertBody.getText())
                         .toEqual('The email(s) that you have selected will be removed.');
                 });
-            emailPopup.cancelButton.click();
+            emailPopup.okButton.click();
+            
+        });
+    browser.refresh();
+
+    browser.wait(EC.visibilityOf(mailBtn.selectButton), 5000)
+        .then(function() {
+            mailBtn.selectButton.click();
         });
     browser.wait(EC.visibilityOf(mailBtn.moreActButton), 5000)
         .then(function() {
@@ -55,16 +72,27 @@ function checkLayout(mailBtn, checkMail) {
         .then(function() {
             expect(mailBtn.mabRelAndTrain.isPresent())
                 .toBeTruthy();
+            mailBtn.mabRelAndTrain.click();
+            expect(emailPopup.alertBody.getText())
+                .toEqual(msg);
+            emailPopup.cancelButton.click();
         });
+    mailBtn.moreActButton.click();
+
     browser.wait(EC.visibilityOf(mailBtn.mabRemove), 5000)
         .then(function() {
             expect(mailBtn.mabRemove.isPresent())
                 .toBeTruthy();
+
         });
     browser.wait(EC.visibilityOf(mailBtn.mabPurgeQtn), 5000)
         .then(function() {
             expect(mailBtn.mabPurgeQtn.isPresent())
                 .toBeTruthy();
+            mailBtn.mabPurgeQtn.click();
+            expect(emailPopup.alertBody.getText())
+                .toEqual('You are going to empty your spam quarantine folder.');
+            emailPopup.cancelButton.click();
         });
     browser.actions()
         .click()
@@ -185,11 +213,13 @@ describe('Mobile app email page emailLevel', function() {
     var EC = protractor.ExpectedConditions;
 
     var data = require(".././dependencies/dataForUserRestrictedLogin");
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 55000;
     it('should check functionality and presence of the buttons', function() {
         browser.get('http://localhost:8100/#/login');
         field_cleaner(Obj);
         //for being able to login, the .json file must have valid user, and password
         addCredentials(Obj, data.emailH, data.emailU, data.emailP);
+        Obj.reminder.click();
         Obj.logbutton.click();
 
 
