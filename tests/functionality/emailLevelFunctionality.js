@@ -26,14 +26,14 @@ function checkLayout(mailBtn, checkMail) {
                 });
             emailPopup.okButton.click();
         });
-    
+    browser.sleep(1500);
     browser.refresh();
     browser.wait(EC.visibilityOf(mailBtn.selectButton), 5000)
         .then(function() {
             mailBtn.selectButton.click();
         });
-        
-    browser.wait(EC.visibilityOf(mailBtn.removeButton),15000)
+
+    browser.wait(EC.visibilityOf(mailBtn.removeButton), 15000)
         .then(function() {
             expect(mailBtn.removeButton.isPresent())
                 .toBeTruthy();
@@ -44,8 +44,9 @@ function checkLayout(mailBtn, checkMail) {
                         .toEqual('The email(s) that you have selected will be removed.');
                 });
             emailPopup.okButton.click();
-            
+
         });
+    browser.sleep(1500);
     browser.refresh();
 
     browser.wait(EC.visibilityOf(mailBtn.selectButton), 5000)
@@ -56,18 +57,28 @@ function checkLayout(mailBtn, checkMail) {
         .then(function() {
             expect(mailBtn.moreActButton.isPresent())
                 .toBeTruthy();
+            mailBtn.moreActButton.click();
         });
-    browser.wait(EC.visibilityOf(mailBtn.mabUnselect), 5000)
-        .then(function() {
-            expect(mailBtn.mabUnselect.isPresent())
-                .toBeTruthy();
-        });
-    mailBtn.moreActButton.click();
+
+
     browser.wait(EC.visibilityOf(mailBtn.mabRelease), 5000)
         .then(function() {
             expect(mailBtn.mabRelease.isPresent())
                 .toBeTruthy();
+            mailBtn.mabRelease.click();
+            expect(emailPopup.alertBody.getText())
+                .toEqual('The email(s) that you have selected previously will be released.');
+            emailPopup.okButton.click();
         });
+    browser.sleep(1500);
+    browser.refresh();
+
+    browser.wait(EC.visibilityOf(mailBtn.selectButton), 5000)
+        .then(function() {
+            mailBtn.selectButton.click();
+        });
+    mailBtn.moreActButton.click();
+
     browser.wait(EC.visibilityOf(mailBtn.mabRelAndTrain), 5000)
         .then(function() {
             expect(mailBtn.mabRelAndTrain.isPresent())
@@ -75,7 +86,13 @@ function checkLayout(mailBtn, checkMail) {
             mailBtn.mabRelAndTrain.click();
             expect(emailPopup.alertBody.getText())
                 .toEqual(msg);
-            emailPopup.cancelButton.click();
+            emailPopup.okButton.click();
+        });
+    browser.sleep(1500);
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.selectButton), 5000)
+        .then(function() {
+            mailBtn.selectButton.click();
         });
     mailBtn.moreActButton.click();
 
@@ -83,8 +100,23 @@ function checkLayout(mailBtn, checkMail) {
         .then(function() {
             expect(mailBtn.mabRemove.isPresent())
                 .toBeTruthy();
+            mailBtn.mabRemove.click();
+            browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000)
+                .then(function() {
+                    expect(emailPopup.alertBody.getText())
+                        .toEqual('The email(s) that you have selected will be removed.');
+                });
+            emailPopup.okButton.click();
 
         });
+    browser.sleep(1500);
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.selectButton), 5000)
+        .then(function() {
+            mailBtn.selectButton.click();
+        });
+    mailBtn.moreActButton.click();
+
     browser.wait(EC.visibilityOf(mailBtn.mabPurgeQtn), 5000)
         .then(function() {
             expect(mailBtn.mabPurgeQtn.isPresent())
@@ -94,10 +126,12 @@ function checkLayout(mailBtn, checkMail) {
                 .toEqual('You are going to empty your spam quarantine folder.');
             emailPopup.cancelButton.click();
         });
-    browser.actions()
-        .click()
-        .perform();
+    browser.wait(EC.visibilityOf(mailBtn.mabUnselect), 5000)
+        .then(function() {
+            expect(mailBtn.mabUnselect.isPresent())
+                .toBeTruthy();
 
+        });
     browser.wait(EC.visibilityOf(mailBtn.category), 5000)
         .then(function() {
             expect(mailBtn.category.isPresent())
@@ -129,42 +163,74 @@ function checkLayout(mailBtn, checkMail) {
             expect(checkMail.toLabel.isPresent())
                 .toBeTruthy();
         });
-    browser.wait(EC.visibilityOf(checkMail.plainType), 5000)
-        .then(function() {
-            expect(checkMail.plainType.isPresent())
-                .toBeTruthy();
-        });
-    browser.wait(EC.visibilityOf(checkMail.normalType), 5000)
-        .then(function() {
-            expect(checkMail.normalType.isPresent())
-                .toBeTruthy();
-        });
-    browser.wait(EC.visibilityOf(checkMail.rawType), 5000)
-        .then(function() {
-            expect(checkMail.rawType.isPresent())
-                .toBeTruthy();
-        });
     browser.wait(EC.visibilityOf(checkMail.mailContent), 5000)
         .then(function() {
             expect(checkMail.mailContent.isPresent())
                 .toBeTruthy();
             expect(checkMail.mailContent.getText())
-                .toEqual('XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X');
+                .toEqual(spamMessage);
         });
+    browser.wait(EC.visibilityOf(checkMail.plainType), 5000)
+        .then(function() {
+            expect(checkMail.plainType.isPresent())
+                .toBeTruthy();
+            checkMail.plainType.click();
+        });
+    browser.wait(EC.visibilityOf(checkMail.normalType), 5000)
+        .then(function() {
+            expect(checkMail.normalType.isPresent())
+                .toBeTruthy();
+            checkMail.normalType.click();
+        });
+    browser.wait(EC.visibilityOf(checkMail.rawType), 5000)
+        .then(function() {
+            expect(checkMail.rawType.isPresent())
+                .toBeTruthy();
+            checkMail.rawType.click();
+        });
+
     browser.wait(EC.visibilityOf(checkMail.moreActButton), 5000)
         .then(function() {
             expect(checkMail.moreActButton.isPresent())
                 .toBeTruthy();
         });
+
     browser.wait(EC.visibilityOf(checkMail.releaseBtn), 5000)
         .then(function() {
             expect(checkMail.releaseBtn.isPresent())
                 .toBeTruthy();
+            checkMail.releaseBtn.click();
+            browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000)
+                .then(function() {
+                    expect(emailPopup.alertBody.getText())
+                        .toEqual('The email(s) that you have selected previously will be released.');
+                });
+            emailPopup.okButton.click();
+
+        });
+    browser.sleep(3000);
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.mailBody), 5000)
+        .then(function() {
+            mailBtn.mailBody.click();
         });
     browser.wait(EC.visibilityOf(checkMail.removeBtn), 5000)
         .then(function() {
             expect(checkMail.removeBtn.isPresent())
                 .toBeTruthy();
+            checkMail.removeBtn.click();
+            browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000)
+                .then(function() {
+                    expect(emailPopup.alertBody.getText())
+                        .toEqual('The email(s) that you have selected will be removed.');
+                });
+            emailPopup.okButton.click();
+        });
+    browser.sleep(3000);
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.mailBody), 5000)
+        .then(function() {
+            mailBtn.mailBody.click();
         });
     checkMail.moreActButton.click();
 
@@ -172,12 +238,56 @@ function checkLayout(mailBtn, checkMail) {
         .then(function() {
             expect(checkMail.mabRelease.isPresent())
                 .toBeTruthy();
+            checkMail.mabRelease.click();
+            browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000)
+                .then(function() {
+                    expect(emailPopup.alertBody.getText())
+                        .toEqual('The email(s) that you have selected previously will be released.');
+                });
+            emailPopup.okButton.click();
+
         });
+    browser.sleep(3000);
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.mailBody), 5000)
+        .then(function() {
+            mailBtn.mailBody.click();
+        });
+    checkMail.moreActButton.click();
     browser.wait(EC.visibilityOf(checkMail.mabRelAndTrain), 5000)
         .then(function() {
             expect(checkMail.mabRelAndTrain.isPresent())
                 .toBeTruthy();
+            checkMail.mabRelAndTrain.click();
+            browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000)
+                .then(function() {
+                    expect(emailPopup.alertBody.getText())
+                        .toEqual(msg);
+                });
+            emailPopup.okButton.click();
+
         });
+    browser.sleep(3000);
+    browser.refresh();
+    browser.wait(EC.visibilityOf(mailBtn.mailBody), 5000)
+        .then(function() {
+            mailBtn.mailBody.click();
+        });
+    checkMail.moreActButton.click();
+    browser.wait(EC.visibilityOf(checkMail.mabRemove), 5000)
+        .then(function() {
+            expect(checkMail.mabRemove.isPresent())
+                .toBeTruthy();
+            checkMail.mabRemove.click();
+            browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000)
+                .then(function() {
+                    expect(emailPopup.alertBody.getText())
+                        .toEqual('The email(s) that you have selected will be removed.');
+                });
+            emailPopup.okButton.click();
+
+        });
+
     browser.actions()
         .click()
         .perform();
@@ -213,7 +323,9 @@ describe('Mobile app email page emailLevel', function() {
     var EC = protractor.ExpectedConditions;
 
     var data = require(".././dependencies/dataForUserRestrictedLogin");
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 55000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 75000;
+    spamMessage = "XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X";
+
     it('should check functionality and presence of the buttons', function() {
         browser.get('http://localhost:8100/#/login');
         field_cleaner(Obj);

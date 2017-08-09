@@ -3,10 +3,10 @@ var imailLayout = function() {
     this.sentLabel = element.all(by.cssContainingText(".header-name", "sent")).get(0);
     this.fromLabel = element.all(by.cssContainingText(".header-name", "from")).get(0);
     this.toLabel = element.all(by.cssContainingText(".header-name", "to")).get(0);
-    this.releaseBtn = element.all(by.css(".button.button-clear")).get(0);
-    this.removeBtn = element.all(by.css(".button.button-clear")).get(1);
+    this.releaseBtn = element(by.xpath("(//div[@ng-repeat='action in barActions'])[1]"));
+    this.removeBtn = element(by.xpath("(//div[@ng-repeat='action in barActions'])[2]"));
     this.moreActButton = element(by.cssContainingText(".button.button-clear.disable-user-behavior", "More"));
-    this.mabRelease = element.all(by.cssContainingText(".item.ng-binding.disable-user-behavior", 'Release')).get(1);
+    this.mabRelease = element.all(by.cssContainingText(".item.ng-binding.disable-user-behavior", 'Release')).get(0);
     this.plainType = element.all(by.cssContainingText(".tab-item.disable-user-behavior", "Plain")).get(0);
     this.normalType = element.all(by.cssContainingText(".tab-item.disable-user-behavior", 'Normal')).get(0);
     this.rawType = element.all(by.cssContainingText(".tab-item.disable-user-behavior", 'Raw')).get(0);
