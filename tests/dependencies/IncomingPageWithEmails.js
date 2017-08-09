@@ -1,6 +1,7 @@
 var msg1 = "Choosing 'Release and Train', for one or several messages, might adversely affect the ";
 var msg2 = "quality of filtering for all the existing users.Please avoid any mistakes in your selection!";
 var msg = msg1.concat(msg2);
+
 var imailButtons = function() {
 
     this.selectButton = element(by.xpath("(//label[@ng-change='selectEntry($index, true)'])[1]"));
