@@ -206,7 +206,7 @@ describe('Verify Calendar Setting', function() {
         expect(searchMenu.to.getText()).toContain(toDate.substring(0, 13));
 
         //  Keep settings
-        browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function() {
+        browser.wait(EC.elementToBeClickable(searchMenu.startSearch), 5000).then(function() {
             searchMenu.startSearch.click();
         });
 
@@ -221,12 +221,12 @@ describe('Verify Calendar Setting', function() {
         });
 
         //  Clear settings
-        browser.wait(EC.elementToBeClickable(searchMenu.iclearSearch), 5000).then(function() {
+        browser.wait(EC.elementToBeClickable(searchMenu.clearSearch), 5000).then(function() {
             searchMenu.clearSearch.click();
         });
 
         //  Keep settings
-        browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function() {
+        browser.wait(EC.elementToBeClickable(searchMenu.startSearch), 5000).then(function() {
             searchMenu.startSearch.click();
         });
 
@@ -254,7 +254,7 @@ describe('Verify Calendar Setting', function() {
         expect(searchMenu.from.getText()).toContain(fromDate.substring(0, 13));
 
         //  Keep settings
-        browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function() {
+        browser.wait(EC.elementToBeClickable(searchMenu.startSearch), 5000).then(function() {
             searchMenu.startSearch.click();
         });
 
@@ -265,16 +265,16 @@ describe('Verify Calendar Setting', function() {
 
         //  Go back
         browser.wait(EC.elementToBeClickable(incomingPage.isearchButton), 10000).then(function() {
-            incomingPage.searchButton.click();
+            incomingPage.isearchButton.click();
         });
 
         //  Clear settings
-        browser.wait(EC.elementToBeClickable(searchMenu.iclearSearch), 5000).then(function() {
+        browser.wait(EC.elementToBeClickable(searchMenu.clearSearch), 5000).then(function() {
             searchMenu.clearSearch.click();
         });
 
         //  Keep settings
-        browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function() {
+        browser.wait(EC.elementToBeClickable(searchMenu.startSearch), 5000).then(function() {
             searchMenu.startSearch.click();
         });
 
@@ -305,7 +305,7 @@ describe('Verify Calendar Setting', function() {
         expect(searchMenu.to.getText()).toContain(toDate.substring(0, 13));
 
         //  Keep settings
-        browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function() {
+        browser.wait(EC.elementToBeClickable(searchMenu.startSearch), 5000).then(function() {
             searchMenu.startSearch.click();
         });
 
@@ -320,12 +320,12 @@ describe('Verify Calendar Setting', function() {
         });
 
         //  Clear settings
-        browser.wait(EC.elementToBeClickable(searchMenu.iclearSearch), 5000).then(function() {
+        browser.wait(EC.elementToBeClickable(searchMenu.clearSearch), 5000).then(function() {
             searchMenu.clearSearch.click();
         });
 
         //  Keep settings
-        browser.wait(EC.elementToBeClickable(searchMenu.istartSearch), 5000).then(function() {
+        browser.wait(EC.elementToBeClickable(searchMenu.startSearch), 5000).then(function() {
             searchMenu.startSearch.click();
         });
 

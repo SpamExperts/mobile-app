@@ -347,5 +347,12 @@ describe('Mobile app email page emailLevel', function() {
             });
         //browser.ignoreSynchronization = true;
         checkLayout(mailBtn, checkMail);
+        browser.wait(EC.visibilityOf(logged.leftButton), 5000)
+            .then(function() {
+                logged.leftButton.click();
+                logged.logoutButton.click();
+                logged.okButton.click();
+            });
+             Obj.reminder.click(); 
     });
 });
