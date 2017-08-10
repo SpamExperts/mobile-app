@@ -392,7 +392,7 @@ function checkLayout(mailBtn, checkMail) {
         browser.wait(EC.visibilityOf(emailPopup.alertBody), 5000).then(function() {
             expect(emailPopup.alertBody.getText()).toEqual(Rel_msg);
         });
-        
+
         //  Close pop-up
         emailPopup.okButton.click();
     });
@@ -432,7 +432,7 @@ function checkLayout(mailBtn, checkMail) {
 
     //  Enter mail content page
     browser.wait(EC.visibilityOf(mailBtn.mailBody), 5000).then(function() {
-            mailBtn.mailBody.click();
+        mailBtn.mailBody.click();
     });
 
     //  Enter moreActions menu
@@ -458,6 +458,7 @@ function checkLayout(mailBtn, checkMail) {
     browser.actions().click().perform();
 
     //  Go back to dashboard
+    browser.navigate().back();
     browser.navigate().back();
     browser.navigate().back();
 }
@@ -490,7 +491,7 @@ describe('Mobile app email page domainLevel', function() {
     var data = require(".././dependencies/dataForUserRestrictedLogin");
 
     spamMessage = "XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X";
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 90000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 105000;
 
     it('should check functionality and presence of the buttons', function() {
 
