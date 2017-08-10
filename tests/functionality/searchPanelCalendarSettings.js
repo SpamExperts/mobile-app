@@ -332,6 +332,7 @@ describe('Verify Calendar Setting', function() {
         checkDefault(3);
 
         browser.refresh();
+        field_cleaner(test);
     });
 
 });

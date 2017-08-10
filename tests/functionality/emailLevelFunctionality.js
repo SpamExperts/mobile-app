@@ -442,5 +442,6 @@ describe('Mobile app email page emailLevel', function() {
         });
 
         Obj.reminder.click();
+        field_cleaner(Obj);
     });
 });

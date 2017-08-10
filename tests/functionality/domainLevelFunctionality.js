@@ -548,6 +548,7 @@ describe('Mobile app email page domainLevel', function() {
             logged.okButton.click();
         });
         Obj.reminder.click();
+        field_cleaner(Obj);
         browser.refresh();
     });
 });
