@@ -45,7 +45,6 @@ function buildDate(date, byDefault, head) {
 /**
  *  Set date for from/to time date fields
  */
-
 function setDate(button, input) {
 
     browser.wait(EC.elementToBeClickable(button), 5000).then(function() {

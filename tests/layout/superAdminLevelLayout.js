@@ -2,7 +2,6 @@ var LoginPage = require('.././dependencies/LoginPageObject.js');
 var iSearchPanel = require('.././dependencies/SearchPanelObject.js');
 var CategoryPage = require('.././dependencies/CategoryPageObject.js');
 var dashPage = require('.././dependencies/DashPageObject.js');
-var extract_data = require('.././dependencies/ExtractDataFunction.js');
 
 function field_cleaner(page) {
     page.hostname.clear();
@@ -41,11 +40,25 @@ describe('Verify Super Admin User Layout', function() {
         //  Clear login page fields
         field_cleaner(page);
 
+        //  Set variables to build time date
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var currentDate = new Date();
+        var day = currentDate.getDate().toString();
+        var month = months[currentDate.getMonth()];
+        var year = currentDate.getFullYear().toString();
+
+        var monthNumber = (currentDate.getMonth() + 1).toString();
+        if (currentDate.getMonth() + 1 < 10)
+            monthNumber = "0".concat("", monthNumber);
+        var dayNumber = currentDate.getDate().toString();
+        if (currentDate.getDate() < 10)
+            dayNumber = "0".concat("", day);
+        var hourNumber = currentDate.getHours().toString();
+        if (currentDate.getHours() < 10)
+            hourNumber = "0".concat("", hourNumber);
+
         //  Build string time date
-        var currentDate = Date();
-        var formatedDate = [];
-        extract_data(formatedDate, currentDate);
-        formatedDate = formatedDate.join("");
+        formatedDate = (((dayNumber.concat(" ", month)).concat(" - ", dayNumber)).concat(" ", month)).concat(" ", year);
 
         //  Log in 
         addCredentials(page, data.superAdminH, data.superAdminU, data.superAdminP);

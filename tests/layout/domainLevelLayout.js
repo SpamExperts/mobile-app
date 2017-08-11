@@ -59,7 +59,6 @@ function checkSearchMenu() {
 /**
  *  Test checks domain user dashboard, incoming and outgoing layout.
  */
-
 describe('Verify Domain User Layout', function() {
 
     it('Check:', function() {

@@ -27,7 +27,6 @@ describe('Verify Email User Layout', function() {
     var category = new CategoryPage();
     var EC = protractor.ExpectedConditions;
 
-
     it('should display sugestive error messages', function() {
 
         //  Open app
