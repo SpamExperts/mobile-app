@@ -12,13 +12,18 @@ import { ListPage } from './pages/list/list';
 import { Http, HttpModule, RequestOptions, XHRBackend } from '@angular/http';
 import { Api } from './core/api.service';
 import { httpFactory } from './core/http.factory';
+import { SideMenu } from './pages/common/menus.component';
+import { IncomingService } from './core/incoming.service';
+import { MessageDetailsPage } from './pages/message-details/message-details.component';
 
 @NgModule({
     declarations: [
         MyApp,
         LoginPage,
         HomePage,
-        ListPage
+        ListPage,
+        SideMenu,
+        MessageDetailsPage
     ],
     imports: [
         BrowserModule,
@@ -31,11 +36,13 @@ import { httpFactory } from './core/http.factory';
         HomePage,
         ListPage,
         LoginPage,
+        MessageDetailsPage
     ],
     providers: [
         StatusBar,
         SplashScreen,
         Api,
+        IncomingService,
         {provide: ErrorHandler, useClass: IonicErrorHandler},
         {
             provide: Http,

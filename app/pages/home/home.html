@@ -12,11 +12,9 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+  <side-menu></side-menu>
+  <button ion-button (click)="getIncomingMessages()"> Incoming </button>
+  <button ion-button > Outgoing </button>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
 </ion-content>
