@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { Api } from '../../core/api.service';
 import { Headers } from '@angular/http';
 import { HomePage } from '../home/home';
+import { Env } from '../../core/env';
 
 @Component({
     selector: 'page-login',
@@ -12,26 +13,30 @@ export class LoginPage {
 
     readonly endpoint = '/rest/auth/token';
 
-    //private hostname: string = 'server1.test25.simplyspamfree.com';
-    private username: string = 'intern';
-    private password: string = 'qwe123';
+    private hostname: string = '';
+    private username: string = '';
+    private password: string = '';
 
     constructor(public navCtrl: NavController, private api: Api) {
 
     }
 
     login() {
-        let url = this.endpoint;
+        // this should be applied somewhere globally
+        let url = Env.DEV_PROXY
+            ? this.endpoint
+            : this.hostname + this.endpoint;
+
+        console.log(Env.DEV_PROXY);
 
         let headers = new Headers();
         let auth = btoa(decodeURIComponent(
             encodeURIComponent(this.username + ':' + this.password))
         );
 
-        headers.append('X-Requested-With','XMLHttpRequest');
+        headers.append('X-Requested-With', 'XMLHttpRequest');
         headers.append('Authorization', 'Basic ' + auth);
 
-        console.log(headers);
         let token: string = '';
 
         this.api.get(url, headers)

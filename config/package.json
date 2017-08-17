@@ -1,0 +1,24 @@
+{
+  "name": "SpamExpertsMobileApp",
+  "version": "1.0.0",
+  "description": "SpamExperts Mobile App",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SpamExperts/mobile-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SpamExperts/mobile-app/issues"
+  },
+  "homepage": "https://github.com/SpamExperts/mobile-app#readme",
+  "scripts": {
+    "clean": "ionic-app-scripts clean",
+    "build": "ionic-app-scripts build",
+    "lint": "ionic-app-scripts lint",
+    "ionic:build": "ionic-app-scripts build",
+    "ionic:serve": "ionic-app-scripts serve",
+    "toggleProxy": "node scripts/toggleProxy.js"
+  },
+  "config": {
+    "ionic_webpack": "./src/config/webpack.config.js"
+  }
+}
