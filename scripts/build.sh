@@ -95,6 +95,9 @@ ionic start spamexperts_mobile_app blank --cordova
 
 cd spamexperts_mobile_app
 
+# we don't need the default git repo
+rm -rf .git
+
 # clear default src folder
 rm -rf src
 
@@ -120,7 +123,6 @@ cp -f ./src/config/package.json .
 npm i
 
 if ! [ -z "${WEB_DEV}" ]; then
-
     if ! [ -z "${PROXY_SERVER}" ]; then
         npm run toggleProxy ${PROXY_SERVER}
     else
@@ -128,13 +130,11 @@ if ! [ -z "${WEB_DEV}" ]; then
         The proxy server can be manually added later using npm run toggleProxy <server_name>.
         "
     fi
-    echo "Open the project in your IDE and run the following command: npm run ionic:serve"
+    echo "Open the project in your IDE, register the proper VCS root and run the following command: npm run ionic:serve"
     exit;
 fi
 
-if ! [ -z "${VERSION}" ]; then
-    // need version script here
-fi
+npm run ionic:build
 
 # add platform
 ionic cordova platform add $PLATFORM
@@ -148,10 +148,16 @@ if ! [ -z "${DEBUG}" ]; then
 fi
 
 # add own config
-mv ./src/config/config.xml .
+cp ./src/config/config.xml .
+
+if ! [ -z "${VERSION}" ]; then
+    sed -i'' s/x\.y\.z/${VERSION}/g ./config.xml
+else
+    sed -i'' s/x\.y\.z/1.0.0/g ./config.xml
+fi
 
 rm -rf resources
-mv ./src/assets/resources .
+cp -rf ./src/assets/resources .
 
  # build resources
 ionic cordova resources ${PLATFORM}
