@@ -10,6 +10,12 @@ fi
 
 REPOSITORY="https://github.com/SpamExperts/mobile-app.git"
 
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+GREEN='\033[1;32m'
+BLUE='\033[0;36m'
+NOCOLOR='\033[0m' # No Color
+
 while getopts hp:k:v:wx:b:t:d option
 do
     case "${option}" in
@@ -32,50 +38,49 @@ do
         d) DEBUG=true;;
 
         h)
-          echo "Usage:
-$0 [ARG...]
+          printf "${YELLOW}
+- For development only ${GREEN}-p <platform>${YELLOW}, ${GREEN}-w${YELLOW} and ${GREEN}-x <server>${YELLOW} arguments are needed
+- For production build you need to specify ${GREEN}-p <platform> -v <version_no: x.y.z>${YELLOW} and additionally ${GREEN}-k <keystore file> ${YELLOW}
+- You can develop/build various remote or local versions of the app by using ${GREEN}-b <git_branch_name>${YELLOW} or ${GREEN}-t <path/to/local/src_folder>${YELLOW} for local versions.
+- When debugging a production app use ${GREEN}-d${YELLOW} flag to add the jshybugger plugin and enable remote debugging.
+${NOCOLOR}
+Usage:
+$0 [OPTIONS...]
 
-- For development only -p <platform> -w and -x <server> arguments are needed
-- For production build you need to specify -p <platform> -v <version_no: x.y.z> and additionally -k <keystore file>
-- You can develop/build various remote or local versions of the app by using -b <git_branch_name> or -t <path/to/local/src_folder> for local versions.
-- When debugging a production app use -d flag to add the jshybugger plugin and enable remote debugging.
+OPTIONS:${YELLOW}
 
-Options:
-
-    -h
+    ${GREEN}-h${YELLOW}
         display help
 
-    -p <android/ios> (always required)
+    ${GREEN}-p <android/ios> ${RED}(always required) ${YELLOW}
         Specify platform: android or ios
 
---------------------------- PROD ---------------------------------
+${BLUE}------------------------------------------- PROD -----------------------------------------------${YELLOW}
 
-    -k <path/to/android-keystore-file>
+    ${GREEN}-k <path/to/android-keystore-file>${YELLOW}
         specify keystore file for android signing (Android only, use Automatic sign from XCode for iOS)
 
-    -v <x.y.z>
+    ${GREEN}-v <x.y.z>${YELLOW}
         specify a new version number for the new build
 
----------------------------- DEV ----------------------------------
+${BLUE}-------------------------------------------- DEV -----------------------------------------------${YELLOW}
 
-    -w
+    ${GREEN}-w${YELLOW}
         specify this flag whether you want to get the sources for development.
         You may also want to specify a proxy server using -x <server_name> argument when working as dev.
 
-    -x <server_name>
+    ${GREEN}-x <server_name>${YELLOW}
         Specify the proxy server for development
         The proxy server can be manually added later using npm run toggleProxy <server_name>
 
--------------------------- TESTING ---------------------------------
-
-    -b <git_branch_name>
+    ${GREEN}-b <git_branch_name>${YELLOW}
         Specify branch name
 
-    -t <path/to/local/src_folder>
+    ${GREEN}-t <path/to/local/src_folder>${YELLOW}
         Specify path to local template src folder
 
-    -d
-        Specify this flag if you want to pack the app with cordova-plugin-jshybugger for remote debugging the production app
+    ${GREEN}-d${YELLOW}
+        Specify this flag if you want to pack the app with cordova-plugin-jshybugger for remote debugging the production app ${NOCOLOR}
 "
             exit 1
         ;;
@@ -126,11 +131,11 @@ if ! [ -z "${WEB_DEV}" ]; then
     if ! [ -z "${PROXY_SERVER}" ]; then
         npm run toggleProxy ${PROXY_SERVER}
     else
-        echo "You haven't added a proxy server when choosing the -w developer flag.
-        The proxy server can be manually added later using npm run toggleProxy <server_name>.
+        printf "You haven't added a proxy server when choosing the ${GREEN}-w${NOCOLOR} developer flag.
+        The proxy server can be manually added later using ${GREEN}npm run toggleProxy <server_name>.${NOCOLOR}
         "
     fi
-    echo "Open the project in your IDE, register the proper VCS root and run the following command: npm run ionic:serve"
+    echo "Open the project in your IDE, register the proper VCS root and run the following command: ${GREEN}npm run ionic:serve"${NOCOLOR}
     exit;
 fi
 
