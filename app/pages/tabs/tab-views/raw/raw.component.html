@@ -1,0 +1,9 @@
+<ion-content>
+    <div *ngIf="!incService.raw">
+        <div offset-5>
+            <ion-spinner name="ios"></ion-spinner> <br>
+        </div>
+        <span offset-3>This view is not available.</span>
+    </div>
+    {{incService.raw}}
+</ion-content>

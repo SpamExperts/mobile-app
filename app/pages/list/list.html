@@ -1,39 +1,40 @@
 <ion-header>
-    <ion-navbar>
-        <button ion-button menuToggle="left" left>
-            <ion-icon name="menu"></ion-icon>
-        </button>
-        <ion-title>List</ion-title>
+  <ion-navbar>
+    <button ion-button menuToggle="left" left>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>List</ion-title>
 
-        <button ion-button menuToggle="right" right>
-            <ion-icon name="menu"></ion-icon>
-        </button>
-    </ion-navbar>
+    <button ion-button menuToggle="right" right>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding>
 
-    <side-menu></side-menu>
-    <ion-list>
-        <button ion-button (click)="searchMessages()">Search messages</button>
-        <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-            Datetime: {{item.datetime}} <br>
-            Delivery_fqdn: {{item.delivery_fqdn}} <br>
-            Domain: {{item.domain}} <br>
-            Filering_host: {{item.filtering_host}} <br>
-            Main_class: {{item.main_class}} <br>
-            Message_id: {{item.message_id}} <br>
-            Recipient: {{item.recipient}} <br>
-            Sender: {{item.sender}} <br>
-            Status: {{item.status}} <br>
-            Subject_header: {{item.subject_header}}
-        </button>
-    </ion-list>
+  <ion-refresher (ionRefresh)="refresh($event)">
+    <ion-refresher-content pullingText="Release me" refreshingSpinner="ios"></ion-refresher-content>
+  </ion-refresher>
 
-
-    <div *ngIf="selectedItem" padding>
-        You navigated here from <b>{{selectedItem.title}}</b>
-    </div>
+  <ion-list>
+    <button ion-button (click)="searchMessages()">Search Messages</button>
+    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
+      <ion-row>
+        <ion-col col-10>
+          <span>{{item.date}}</span> <span>&nbsp;&nbsp;&nbsp;&nbsp;spam</span> <br><br>
+          <span>{{item.sender}}</span> <br>
+          <span>{{item.subject_header}}</span>
+        </ion-col>
+        <ion-col col-2>
+          <span>{{item.time}}</span>
+        </ion-col>
+      </ion-row>
+    </button>
+  </ion-list>
+  <div *ngIf="selectedItem" padding>
+    You navigated here from <b>{{selectedItem.title}}</b>
+  </div>
 
     <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfiniteScrolling())">
         <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">

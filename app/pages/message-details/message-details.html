@@ -1,21 +1,55 @@
 <ion-header>
     <ion-navbar>
-        <button ion-button menuToggle>
+        <button menuToggle *ngIf="!selectedItem">
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>Message</ion-title>
+        <ion-row>
+            <div col-9>
+                <span>Quarantined message</span> <br>
+                <span>{{selectedItem.domain}}</span>
+            </div>
+            <div>
+                <br>
+                <span>2.20 KiB  </span>
+                <span>&nbsp;&nbsp;spam</span>
+            </div>
+        </ion-row>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
-    Datetime: {{selectedItem.datetime}} <br>
-    Delivery_fqdn: {{selectedItem.delivery_fqdn}} <br>
-    Domain: {{selectedItem.domain}} <br>
-    Filering_host: {{selectedItem.filtering_host}} <br>
-    Main_class: {{selectedItem.main_class}} <br>
-    Message_id: {{selectedItem.message_id}} <br>
-    Recipient: {{selectedItem.recipient}} <br>
-    Sender: {{selectedItem.sender}} <br>
-    Status: {{selectedItem.status}} <br>
-    Subject_header: {{selectedItem.subject_header}}
+    <ion-row>
+        <div col-9>
+            <span>&nbsp;sent: {{date}}</span> <br>
+            {{day}}
+            <span>from: {{sender}}</span> <br>
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to: {{selectedItem.recipient}}@{{selectedItem.domain}} </span> <br>
+        </div>
+        <div col-3>
+    <span>{{time}}</span>
+        </div>
+    </ion-row>
+    <hr>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{{selectedItem.subject_header}}</span>
+    <br><br>
+    <app-tabs></app-tabs>
+
+
 </ion-content>
+
+<ion-footer>
+    <ion-row>
+        <button col-4>
+            <ion-icon name="checkmark"></ion-icon>
+            Release
+        </button>
+        <button col-4>
+            <ion-icon name="close"></ion-icon>
+            Remove
+        </button>
+        <button col-4 (click)="openPopover($event)" >
+            <ion-icon  name="more"></ion-icon>
+            More
+        </button>
+    </ion-row>
+</ion-footer>

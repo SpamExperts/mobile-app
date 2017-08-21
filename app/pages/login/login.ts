@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { MenuController, NavController } from 'ionic-angular';
 import { Api } from '../../core/api.service';
 import { Headers } from '@angular/http';
 import { HomePage } from '../home/home';
@@ -17,7 +17,10 @@ export class LoginPage {
     private username: string = '';
     private password: string = '';
 
-    constructor(public navCtrl: NavController, private api: Api) {
+    constructor(public navCtrl: NavController, private api: Api, public menu: MenuController) {
+
+        this.menu.enable(false, 'menu2');
+        this.menu.enable(false, 'menu1');
 
     }
 
@@ -45,10 +48,16 @@ export class LoginPage {
                 token = body.token;
                 console.log(token);
                 localStorage.setItem('token', token);
-                if(token != null)
-                    this.navCtrl.push(HomePage);
-
+                if(token != null) {
+                   // this.navCtrl.push(HomePage);
+                    //this way the arrow disappears and HomePage becomes the new root
+                  //  this.menu.enable(true);
+                    this.navCtrl.setRoot(HomePage);
+                }
             });
     }
 
+    ionViewDidLeave(){
+        this.menu.enable(true,'menu1');
+    }
 }

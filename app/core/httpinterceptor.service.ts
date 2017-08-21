@@ -20,7 +20,9 @@ export class HttpInterceptor extends Http {
         let token = localStorage.getItem('token');
         if(token != null) {
             options.headers.append('HTTP-X-AUTH-TOKEN', token);
-          //  options.headers.append('Authorization', 'Bearer ' + token);
+            //for the error with two tokens sent
+            options.headers.set('HTTP-X-AUTH-TOKEN', token);
+          //options.headers.append('Authorization', 'Bearer ' + token);
         }
 
         return options;

@@ -12,9 +12,14 @@ import { ListPage } from './pages/list/list';
 import { Http, HttpModule, RequestOptions, XHRBackend } from '@angular/http';
 import { Api } from './core/api.service';
 import { httpFactory } from './core/http.factory';
-import { SideMenu } from './pages/common/menus.component';
+import { SideMenu } from './pages/common/menus/menus.component';
 import { IncomingService } from './core/incoming.service';
 import { MessageDetailsPage } from './pages/message-details/message-details.component';
+import { TabsPage } from './pages/tabs/tabs.component';
+import { PlainPage } from './pages/tabs/tab-views/plain/plain.component';
+import { RawPage } from './pages/tabs/tab-views/raw/raw.component';
+import { NormalPage } from './pages/tabs/tab-views/normal/normal.component';
+import { PopoverPage } from './pages/common/popover/popover.component';
 import { SearchPage } from './pages/search/search.component';
 
 @NgModule({
@@ -25,12 +30,17 @@ import { SearchPage } from './pages/search/search.component';
         ListPage,
         SideMenu,
         MessageDetailsPage,
-        SearchPage
+        PlainPage,
+        TabsPage,
+        RawPage,
+        NormalPage,
+        PopoverPage,
+        SearchPage,
     ],
     imports: [
         BrowserModule,
         HttpModule,
-        IonicModule.forRoot(MyApp),
+        IonicModule.forRoot(MyApp, {tabsPlacement: 'top'}),
     ],
     bootstrap: [IonicApp],
     entryComponents: [
@@ -39,6 +49,11 @@ import { SearchPage } from './pages/search/search.component';
         ListPage,
         LoginPage,
         MessageDetailsPage,
+        TabsPage,
+        PlainPage,
+        RawPage,
+        NormalPage,
+        PopoverPage,
         SearchPage
     ],
     providers: [
