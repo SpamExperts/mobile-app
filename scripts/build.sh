@@ -50,23 +50,23 @@ $0 [OPTIONS...]
 OPTIONS:${YELLOW}
 
     ${GREEN}-h${YELLOW}
-        display help
+        Display help
 
     ${GREEN}-p <android/ios> ${RED}(always required) ${YELLOW}
         Specify platform: android or ios
 
 ${BLUE}------------------------------------------- PROD -----------------------------------------------${YELLOW}
 
-    ${GREEN}-k <path/to/android-keystore-file>${YELLOW}
-        specify keystore file for android signing (Android only, use Automatic sign from XCode for iOS)
+    ${GREEN}-k </full/path/to/local/src_folde>${YELLOW}
+        Specify the full keystore file path for android signing (Android only, use Automatic sign from XCode for iOS)
 
     ${GREEN}-v <x.y.z>${YELLOW}
-        specify a new version number for the new build
+        Specify a new version number for the new build
 
 ${BLUE}-------------------------------------------- DEV -----------------------------------------------${YELLOW}
 
     ${GREEN}-w${YELLOW}
-        specify this flag whether you want to get the sources for development.
+        Specify this flag whether you want to get the sources for development.
         You may also want to specify a proxy server using -x <server_name> argument when working as dev.
 
     ${GREEN}-x <server_name>${YELLOW}
@@ -76,8 +76,8 @@ ${BLUE}-------------------------------------------- DEV ------------------------
     ${GREEN}-b <git_branch_name>${YELLOW}
         Specify branch name
 
-    ${GREEN}-t <path/to/local/src_folder>${YELLOW}
-        Specify path to local template src folder
+    ${GREEN}-t </full/path/to/local/src_folder>${YELLOW}
+        Specify the full path to local template src folder
 
     ${GREEN}-d${YELLOW}
         Specify this flag if you want to pack the app with cordova-plugin-jshybugger for remote debugging the production app ${NOCOLOR}
@@ -139,19 +139,6 @@ if ! [ -z "${WEB_DEV}" ]; then
     exit;
 fi
 
-npm run ionic:build
-
-# add platform
-ionic cordova platform add $PLATFORM
-
-# add cordova plugins
-ionic cordova plugin add cordova-plugin-network-information
-
-# add jshybugger for debugging a production app
-if ! [ -z "${DEBUG}" ]; then
-    ionic cordova plugin add https://github.com/jsHybugger/cordova-plugin-jshybugger.git
-fi
-
 # add own config
 cp ./src/config/config.xml .
 
@@ -159,6 +146,17 @@ if ! [ -z "${VERSION}" ]; then
     sed -i'' s/x\.y\.z/${VERSION}/g ./config.xml
 else
     sed -i'' s/x\.y\.z/1.0.0/g ./config.xml
+fi
+
+# add platform
+ionic cordova platform add ${PLATFORM}
+
+# add cordova plugins
+ionic cordova plugin add cordova-plugin-network-information
+
+# add jshybugger for debugging a production app
+if ! [ -z "${DEBUG}" ]; then
+    ionic cordova plugin add https://github.com/jsHybugger/cordova-plugin-jshybugger.git
 fi
 
 rm -rf resources
@@ -176,8 +174,10 @@ rm -rf www/src
 if [ "${PLATFORM}" = "android" ]; then
     if [ -z "${KEYSTORE_FILE}" ]; then
         ionic cordova build android
+        echo "App build for debugging!"
     else
-        ionic cordova build android --prod --release --keystore=${KEYSTORE_FILE}--alias=spamexperts_app
+        ionic cordova build android --prod --release -- -- --keystore=${KEYSTORE_FILE} --alias=spamexperts_app
+        echo "App build for release!"
     fi
     exit;
 fi
