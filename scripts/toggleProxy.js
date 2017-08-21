@@ -10,10 +10,16 @@ var config = require('../config/ionic.config.json');
 var server = process.argv.slice(2)[0];
 
 if (server) {
-    config['proxies'] = [{
-        "path": "/rest",
-        "proxyUrl": "https://" + server + "/rest"
-    }];
+    config['proxies'] = [
+        {
+            "path": "/rest",
+            "proxyUrl": "https://" + server + "/rest"
+        },
+        {
+            "path": "/master",
+            "proxyUrl": "https://" + server + "/master"
+        }
+    ];
 }
 
 fs.writeFile(projectRoot + "/ionic.config.json", JSON.stringify(config, null, 2), function(err) {
