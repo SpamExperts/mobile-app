@@ -42,7 +42,7 @@ export class IncomingService {
         let days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         let datee = d.getDate()+1;
-        return days[d.getDay()] + ', ' +  datee + ' ' + months[d.getMonth() + 1] + ' ' + d.getFullYear();
+        return days[d.getDay()] + ', ' +  datee + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
     }
 
     public timeConvert(date: any) {
