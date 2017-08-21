@@ -1,0 +1,47 @@
+<ion-content padding>
+
+    <div class="row">
+        <div class="col col-center">
+            <div class="se-spacer"></div>
+
+            <ion-list>
+
+                <ion-item>
+                    <ion-label floating>Domain</ion-label>
+                    <ion-input type="text" [(ngModel)]="domain" name="domain" ></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label floating>Sender</ion-label>
+                    <ion-input type="text"  [(ngModel)]="sender" name="sender"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label floating>Recipient</ion-label>
+                    <ion-input type="text" [(ngModel)]="recipient" name="recipient"></ion-input>
+                </ion-item>
+
+            </ion-list>
+
+            <button ion-button (tap)="makeactive('pastDay')" [color]="selectedInterval == 'pastDay' ? 'dark' : 'light'" outline>Past 24H</button>
+            <button ion-button (tap)="makeactive('pastWeek')" [color]="selectedInterval == 'pastWeek' ? 'dark' : 'light'" outline>Past Week</button>
+            <button ion-button (tap)="makeactive('pastMonth')" [color]="selectedInterval == 'pastMonth' ? 'dark' : 'light'" outline>Past Month</button>
+
+            <div class="se-spacer"></div>
+
+            <ion-item>
+                <ion-label>From date</ion-label>
+                <ion-datetime displayFormat="MMM DD, YYYY HH:mm" [(ngModel)]="fromDate"></ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label>To date</ion-label>
+                <ion-datetime displayFormat="MMM DD, YYYY HH:mm" [(ngModel)]="toDate"></ion-datetime>
+            </ion-item>
+
+            <div class="se-spacer"></div>
+            <button ion-button (tap)="searchMessages()">Search messages</button>
+            <button ion-button>Clear search</button>
+
+        </div>
+    </div>
+</ion-content>

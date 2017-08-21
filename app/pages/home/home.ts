@@ -27,8 +27,9 @@ export class HomePage {
         return this.api.get(url, headers)
             .subscribe((data: any) => {
                 let messages: any = JSON.parse(data._body);
+                console.log(messages);
                 this.navCtrl.push(ListPage);
-                this.incService.incomingMessages = messages.objects;
+                //this.incService.incomingMessages = messages.objects;
             })
     }
 

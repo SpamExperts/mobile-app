@@ -15,6 +15,7 @@ import { httpFactory } from './core/http.factory';
 import { SideMenu } from './pages/common/menus.component';
 import { IncomingService } from './core/incoming.service';
 import { MessageDetailsPage } from './pages/message-details/message-details.component';
+import { SearchPage } from './pages/search/search.component';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import { MessageDetailsPage } from './pages/message-details/message-details.comp
         HomePage,
         ListPage,
         SideMenu,
-        MessageDetailsPage
+        MessageDetailsPage,
+        SearchPage
     ],
     imports: [
         BrowserModule,
@@ -36,7 +38,8 @@ import { MessageDetailsPage } from './pages/message-details/message-details.comp
         HomePage,
         ListPage,
         LoginPage,
-        MessageDetailsPage
+        MessageDetailsPage,
+        SearchPage
     ],
     providers: [
         StatusBar,
