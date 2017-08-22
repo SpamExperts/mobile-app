@@ -34,9 +34,6 @@ export class IncomingService {
                 });
     }
 
-    public getNormal(): any {
-    }
-
     public dateConvert(date: any) {
         let d = new Date(date);
         let days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];

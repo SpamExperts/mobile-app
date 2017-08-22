@@ -10,7 +10,6 @@ export class NormalPage {
     content: any ="none";
 
     constructor( public incService: IncomingService ) {
-        this.content = this.incService.getNormal();
     }
 
 }

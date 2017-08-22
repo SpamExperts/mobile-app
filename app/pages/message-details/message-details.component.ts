@@ -41,6 +41,9 @@ export class MessageDetailsPage {
             .subscribe((data: any) => {
                 let result = JSON.parse(data._body).result;
                 this.incService.plain = result.plain_body;
+                if(!result.html_body)
+                    this.incService.normal = "This view is not available.";
+                else this.incService.normal = result.html_body;
             });
 
         //makes the sender fit to the page
