@@ -5,7 +5,7 @@ const ionicConfig = require('../../ionic.config.json');
 
 var ENV = 'prod';
 
-if (ionicConfig.proxies.length) {
+if (ionicConfig.proxies && ionicConfig.proxies.length) {
     ENV = 'dev';
 }
 
