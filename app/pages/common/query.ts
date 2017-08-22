@@ -110,4 +110,21 @@ export class Query {
         return false;
     }
 
+    public createQuery(
+        filters: any[],
+        fields: any[],
+        orderBy: string,
+        count: boolean = false
+    ): Query {
+        let query = new Query();
+
+        query.andFilters(filters);
+        query.addFields(fields);
+        if(orderBy) {
+            query.addOrderBy(orderBy, 'asc');
+        }
+        query.addCount(count);
+
+        return query;
+    }
 }

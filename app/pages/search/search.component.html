@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col col-center">
             <div class="se-spacer"></div>
-
+            <ion-label>Search messages</ion-label>
             <ion-list>
 
                 <ion-item>
@@ -39,8 +39,8 @@
             </ion-item>
 
             <div class="se-spacer"></div>
-            <button ion-button (tap)="searchMessages()">Search messages</button>
-            <button ion-button>Clear search</button>
+            <button ion-button (tap)="searchMessages()" block><ion-icon name="search"></ion-icon> Search messages</button>
+            <button ion-button block>Clear search</button>
 
         </div>
     </div>

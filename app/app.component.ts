@@ -13,7 +13,6 @@ import { LoginPage } from './pages/login/login';
 export class MyApp {
     @ViewChild(Nav) nav: Nav;
 
-    // TODO: change with LoginPage
     rootPage: any = LoginPage;
 
     pages: Array<{title: string, component: any}>;

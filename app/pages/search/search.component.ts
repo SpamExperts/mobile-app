@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { Query } from './query';
+import { Query } from '../common/query';
 import { Api } from "../../core/api.service";
-// import { ListPage } from '../list/list';
 import { Headers } from '@angular/http';
 import { IncomingService } from "../../core/incoming.service";
 import { ListPage } from '../list/list';
@@ -20,27 +18,11 @@ export class SearchPage {
     public fromDate: string;
     public toDate: string;
     public selectedInterval: string;
+    public queryInstance: Query = new Query();
     readonly endpoint = '/master/log/delivery/?client_username=intern&page=1&page_size=500&q=';
 
-    constructor(public navCtrl: NavController, public api: Api, public incService: IncomingService) {
+    constructor(public api: Api, public incService: IncomingService) {
 
-    }
-
-    public createQuery(
-        filters: any[],
-        orderBy: string,
-        count: boolean = false
-    ): Query {
-        let query = new Query();
-
-        query.andFilters(filters);
-        query.addFields(this.populateFields());
-        if(orderBy) {
-            query.addOrderBy(orderBy, 'asc');
-        }
-        query.addCount(count);
-
-        return query;
     }
 
     public setSearchFilters(field: string, value: string){
@@ -152,7 +134,8 @@ export class SearchPage {
             }
         }
 
-        let query = JSON.stringify(this.createQuery(filterstring, 'message_id', false));
+        let fields = this.populateFields();
+        let query = JSON.stringify(this.queryInstance.createQuery(filterstring, fields,'message_id', false));
         let encodedQuery = encodeURI(query);
         let url = this.endpoint + encodedQuery;
 
@@ -164,8 +147,7 @@ export class SearchPage {
                 let messages: any = JSON.parse(data._body);
                 console.log(messages);
                 this.incService.incomingMessages = messages.objects;
-                this.navCtrl.pop(SearchPage);
-                this.navCtrl.push(ListPage);
             });
+
     }
 }

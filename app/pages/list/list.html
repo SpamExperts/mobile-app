@@ -3,10 +3,10 @@
     <button ion-button menuToggle="left" left>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>List</ion-title>
+    <ion-title>Incoming spam messages</ion-title>
 
     <button ion-button menuToggle="right" right>
-      <ion-icon name="menu"></ion-icon>
+      <ion-icon name="search"></ion-icon>
     </button>
   </ion-navbar>
 </ion-header>
@@ -18,7 +18,6 @@
   </ion-refresher>
 
   <ion-list>
-    <button ion-button (click)="searchMessages()">Search Messages</button>
     <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
       <ion-row>
         <ion-col col-10>
@@ -36,10 +35,10 @@
     You navigated here from <b>{{selectedItem.title}}</b>
   </div>
 
-    <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfiniteScrolling())">
-        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfiniteScrolling())">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
 
-        </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>
