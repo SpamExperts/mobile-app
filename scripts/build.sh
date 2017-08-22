@@ -22,8 +22,10 @@ do
         p)
             if [ "${OPTARG}" = "ios" ]; then
                 PLATFORM='ios'
+                BAKEXT=' '
             elif [ "${OPTARG}" = "android" ]; then
                 PLATFORM='android'
+                BAKEXT=''
             fi
         ;;
 
@@ -57,7 +59,7 @@ OPTIONS:${YELLOW}
 
 ${BLUE}------------------------------------------- PROD -----------------------------------------------${YELLOW}
 
-    ${GREEN}-k </full/path/to/local/src_folde>${YELLOW}
+    ${GREEN}-k </full/path/to/local/src_folder>${YELLOW}
         Specify the full keystore file path for android signing (Android only, use Automatic sign from XCode for iOS)
 
     ${GREEN}-v <x.y.z>${YELLOW}
@@ -139,13 +141,15 @@ if ! [ -z "${WEB_DEV}" ]; then
     exit;
 fi
 
+rm -rf ./src/.git
+
 # add own config
 cp ./src/config/config.xml .
 
 if ! [ -z "${VERSION}" ]; then
-    sed -i'' s/x\.y\.z/${VERSION}/g ./config.xml
+    sed -i"${BAKEXT}" s/x\.y\.z/${VERSION}/g ./config.xml
 else
-    sed -i'' s/x\.y\.z/1.0.0/g ./config.xml
+    sed -i"${BAKEXT}" s/x\.y\.z/1.0.0/g ./config.xml
 fi
 
 # add platform
