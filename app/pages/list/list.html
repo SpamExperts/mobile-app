@@ -17,8 +17,8 @@
     <ion-refresher-content pullingText="Release me" refreshingSpinner="ios"></ion-refresher-content>
   </ion-refresher>
 
-  <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
+  <ion-list [virtualScroll]="items">
+    <ion-item *virtualItem="let item" (click)="itemTapped($event, item)" >
       <ion-row>
         <ion-col col-10>
           <span>{{item.date}}</span> <span>&nbsp;&nbsp;&nbsp;&nbsp;spam</span> <br><br>
@@ -29,15 +29,13 @@
           <span>{{item.time}}</span>
         </ion-col>
       </ion-row>
-    </button>
+    </ion-item>
   </ion-list>
-  <div *ngIf="selectedItem" padding>
-    You navigated here from <b>{{selectedItem.title}}</b>
-  </div>
 
-  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfiniteScrolling())">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
-
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px">
+    <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="Loading more data...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 

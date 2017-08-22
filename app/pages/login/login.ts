@@ -14,8 +14,8 @@ export class LoginPage {
     readonly endpoint = '/rest/auth/api/token';
 
     private hostname: string = '';
-    private username: string = '';
-    private password: string = '';
+    private username: string = 'intern';
+    private password: string = 'qwe123';
 
     constructor(public navCtrl: NavController, private api: Api, public menu: MenuController) {
 
