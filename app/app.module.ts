@@ -12,7 +12,6 @@ import { ListPage } from './pages/list/list';
 import { Http, HttpModule, RequestOptions, XHRBackend } from '@angular/http';
 import { Api } from './core/api.service';
 import { httpFactory } from './core/http.factory';
-import { SideMenu } from './pages/common/menus/menus.component';
 import { IncomingService } from './core/incoming.service';
 import { MessageDetailsPage } from './pages/message-details/message-details.component';
 import { TabsPage } from './pages/tabs/tabs.component';
@@ -28,7 +27,6 @@ import { SearchPage } from './pages/search/search.component';
         LoginPage,
         HomePage,
         ListPage,
-        SideMenu,
         MessageDetailsPage,
         PlainPage,
         TabsPage,

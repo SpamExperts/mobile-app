@@ -11,7 +11,7 @@ import { Env } from '../../core/env';
 })
 export class LoginPage {
 
-    readonly endpoint = '/rest/auth/token';
+    readonly endpoint = '/rest/auth/api/token';
 
     private hostname: string = '';
     private username: string = '';

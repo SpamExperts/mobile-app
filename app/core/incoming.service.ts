@@ -12,6 +12,7 @@ export class IncomingService {
     public raw: any;
     public normal: any;
     public selectedItem: any;
+    public url: string;
 
     public getMessages(): any {
         return this.incomingMessages;

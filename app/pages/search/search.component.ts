@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Query } from '../common/query';
 import { Api } from "../../core/api.service";
 import { Headers } from '@angular/http';
 import { IncomingService } from "../../core/incoming.service";
-import { ListPage } from '../list/list';
-
+import { Events, Nav } from 'ionic-angular';
 
 @Component({
     selector: 'search-messages',
@@ -21,7 +20,11 @@ export class SearchPage {
     public queryInstance: Query = new Query();
     readonly endpoint = '/master/log/delivery/?client_username=intern&page=1&page_size=500&q=';
 
-    constructor(public api: Api, public incService: IncomingService) {
+    @ViewChild(Nav) nav: Nav;
+
+    constructor(public api: Api,
+                public incService: IncomingService,
+                public events: Events) {
 
     }
 
@@ -138,16 +141,16 @@ export class SearchPage {
         let query = JSON.stringify(this.queryInstance.createQuery(filterstring, fields,'message_id', false));
         let encodedQuery = encodeURI(query);
         let url = this.endpoint + encodedQuery;
-
         let headers = new Headers();
 
         return this.api.get(url, headers)
             .subscribe((data: any) => {
                 console.log(data);
                 let messages: any = JSON.parse(data._body);
-                console.log(messages);
+                console.log(messages.objects);
                 this.incService.incomingMessages = messages.objects;
+                this.events.publish('incomingMessages', messages.objects);
             });
-
     }
+
 }
