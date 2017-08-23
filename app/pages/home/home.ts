@@ -22,10 +22,10 @@ export class HomePage {
     }
 
     ionViewDidLeave(){
-        this.menu.enable(true,'menu2');
+        this.menu.enable(true,'searchMenu');
     }
 
     ionViewDidLoad(){
-        this.menu.enable(false,'menu2');
+        this.menu.enable(false,'searchMenu');
     }
 }

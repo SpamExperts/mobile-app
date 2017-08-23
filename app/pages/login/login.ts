@@ -19,8 +19,8 @@ export class LoginPage {
 
     constructor(public navCtrl: NavController, private api: Api, public menu: MenuController) {
 
-        this.menu.enable(false, 'menu2');
-        this.menu.enable(false, 'menu1');
+        this.menu.enable(false, 'searchMenu');
+        this.menu.enable(false, 'primaryMenu');
 
     }
 
@@ -58,6 +58,6 @@ export class LoginPage {
     }
 
     ionViewDidLeave(){
-        this.menu.enable(true,'menu1');
+        this.menu.enable(true,'primaryMenu');
     }
 }

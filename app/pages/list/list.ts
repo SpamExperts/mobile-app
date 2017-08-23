@@ -18,7 +18,6 @@ export class ListPage {
     slice: number = 15;
     page: number = 1;
 
-
   url_messages =  encodeURI('{ "filters": [ { "and": [ { "name": "datetime", "op": ">=", "val": "2017-08-03+07:45" } ] } ], "fields": [ { "field": "message_id" }, { "field": "domain" }, { "field": "datetime" }, { "field": "sender" }, { "field": "recipient" }, { "field": "main_class" }, { "field": "subject_header" }, { "field": "status" }, { "field": "filtering_host" }, { "field": "delivery_fqdn" } ], "order_by": [ { "field": "message_id", "direction": "asc" } ], "count": false }');
   readonly endpoint = '/master/log/delivery/?client_username=intern&page=1&page_size=50&q=' + this.url_messages ;
 
@@ -56,34 +55,51 @@ export class ListPage {
           this.page=1;
   };
 
-    refresh(refresher){
-        this.getMessages(this.incService.getMessages());
+   refresh(refresher){
 
-    setTimeout( function() {
+       this.page = 1;
+       this.incService.refreshed = 1;
+
+       let url = '/master/log/delivery/?client_username=intern&page='+this.page+'&page_size=' + this.slice + '&q=' + this.url_messages;
+       let headers = new Headers();
+
+        this.api.get(url,headers).subscribe((data: any) => {
+           let messages: any = JSON.parse(data._body).objects;
+           this.getMessages(messages);
+       })
+
+
+       setTimeout( function() {
       refresher.complete();
     }, 1000);
   }
 
     doInfinite(infiniteScroll: InfiniteScroll) {
-
+        
         this.page ++;
         let url = '/master/log/delivery/?client_username=intern&page='+this.page+'&page_size=' + this.slice + '&q=' + this.url_messages;
         let headers = new Headers();
 
-        this.api.get(url).subscribe((data: any) => {
+        this.api.get(url,headers).subscribe((data: any) => {
             let messages: any = JSON.parse(data._body);
-            let current_page = messages.total_pages;
+            let total_pages = messages.total_pages;
 
-                this.items = this.items.concat(messages.objects);
-
+            this.items = this.items.concat(messages.objects);
 
             infiniteScroll.complete();
 
-            if (this.page == current_page) {
-                infiniteScroll.enable(false);
+            if (this.page == total_pages) {
+               infiniteScroll.enable(false);
+               let self = this;
+               //continue infiniteScroll after refresh
+               let check = setInterval( function(){
+                       if(self.incService.refreshed == 1) {
+                           infiniteScroll.enable(true);
+                           self.incService.refreshed = 0 ;
+                           clearInterval(check);
+                       }
+                },500);
             }
-
-            infiniteScroll.enable(true);
         });
     }
 

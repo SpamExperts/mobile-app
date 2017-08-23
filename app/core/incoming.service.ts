@@ -13,6 +13,7 @@ export class IncomingService {
     public normal: any;
     public selectedItem: any;
     public url: string;
+    public refreshed: number = 0;
 
     public getMessages(): any {
         return this.incomingMessages;
