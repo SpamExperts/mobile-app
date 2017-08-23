@@ -164,7 +164,7 @@ if ! [ -z "${DEBUG}" ]; then
 fi
 
 rm -rf resources
-cp -rf ./src/assets/resources .
+mv ./src/assets/resources .
 
  # build resources
 ionic cordova resources ${PLATFORM}
