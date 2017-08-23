@@ -18,7 +18,7 @@ export class SearchPage {
     public toDate: string;
     public selectedInterval: string;
     public queryInstance: Query = new Query();
-    readonly endpoint = '/master/log/delivery/?client_username=intern&page=1&page_size=500&q=';
+    readonly endpoint = '/master/log/delivery/?client_username=intern&page=-1&page_size=20&q=';
 
     @ViewChild(Nav) nav: Nav;
 
@@ -141,6 +141,7 @@ export class SearchPage {
         let query = JSON.stringify(this.queryInstance.createQuery(filterstring, fields,'message_id', false));
         let encodedQuery = encodeURI(query);
         let url = this.endpoint + encodedQuery;
+        this.incService.encodedqueryurl = encodedQuery;
         let headers = new Headers();
 
         return this.api.get(url, headers)
@@ -148,6 +149,8 @@ export class SearchPage {
                 console.log(data);
                 let messages: any = JSON.parse(data._body);
                 console.log(messages.objects);
+                //number of messages in the incoming quarantine
+                this.incService.countFirst = messages.num_results;
                 this.incService.incomingMessages = messages.objects;
                 this.events.publish('incomingMessages', messages.objects);
             });

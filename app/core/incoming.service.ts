@@ -8,12 +8,13 @@ export class IncomingService {
     constructor( public api: Api ) {}
 
     public incomingMessages: any ;
-    public plain: any;
-    public raw: any;
-    public normal: any;
+    public plain: string;
+    public raw: string;
+    public normal: string;
     public selectedItem: any;
     public url: string;
-    public refreshed: number = 0;
+    public encodedqueryurl: string;
+    public countFirst: any;
 
     public getMessages(): any {
         return this.incomingMessages;
@@ -40,12 +41,16 @@ export class IncomingService {
         let d = new Date(date);
         let days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        let datee = d.getDate()+1;
-        return days[d.getDay()] + ', ' +  datee + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+        let datee = d.getDate();
+        return days[d.getDay()-1] + ', ' +  datee + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
     }
 
     public timeConvert(date: any) {
         let d = new Date(date);
-        return d.getHours()+':'+d.getMinutes();
+        console.log(d);
+        let minutes = '';
+        if(d.getMinutes()<10)
+            minutes = '0';
+        return d.getHours()+':'+minutes+d.getMinutes();
     }
 }
