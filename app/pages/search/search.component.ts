@@ -18,7 +18,7 @@ export class SearchPage {
     public toDate: string;
     public selectedInterval: string;
     public queryInstance: Query = new Query();
-    readonly endpoint = '/master/log/delivery/?client_username=intern&page=-1&page_size=20&q=';
+    readonly endpoint = '/master/log/delivery/?client_username=intern&page=-1&page_size=7&q=';
 
     @ViewChild(Nav) nav: Nav;
 
@@ -114,6 +114,9 @@ export class SearchPage {
         if (this.recipient != null) {
             filterList.push(this.setSearchFilters('recipient', this.recipient));
         }
+
+        filterList.push(this.setSearchFilters('status', 'quarantined'));
+
         if (this.selectedInterval != null) {
             if (this.selectedInterval == 'pastDay'){
                 filterList.push(this.pastDays(1).slice(0));
@@ -151,6 +154,7 @@ export class SearchPage {
                 console.log(messages.objects);
                 //number of messages in the incoming quarantine
                 this.incService.countFirst = messages.num_results;
+                this.incService.totalpagesFirst = messages.total_pages;
                 this.incService.incomingMessages = messages.objects;
                 this.events.publish('incomingMessages', messages.objects);
             });

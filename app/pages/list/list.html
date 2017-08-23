@@ -21,12 +21,12 @@
     <ion-item *virtualItem="let item" (click)="itemTapped($event, item)" >
       <ion-row>
         <ion-col col-10>
-          <span>{{item.date}}</span> <span>&nbsp;&nbsp;&nbsp;&nbsp;spam</span> <br><br>
+          <span>{{incService.dateConvert(item.datetime)}}</span> <span>&nbsp;&nbsp;&nbsp;&nbsp;spam</span> <br><br>
           <span>{{item.sender}}</span> <br>
           <span>{{item.subject_header}}</span>
         </ion-col>
         <ion-col col-2>
-          <span>{{item.time}}</span>
+          <span>{{incService.timeConvert(item.datetime)}}</span>
         </ion-col>
       </ion-row>
     </ion-item>

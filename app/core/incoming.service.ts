@@ -15,6 +15,7 @@ export class IncomingService {
     public url: string;
     public encodedqueryurl: string;
     public countFirst: any;
+    public totalpagesFirst: any;
 
     public getMessages(): any {
         return this.incomingMessages;
@@ -47,7 +48,6 @@ export class IncomingService {
 
     public timeConvert(date: any) {
         let d = new Date(date);
-        console.log(d);
         let minutes = '';
         if(d.getMinutes()<10)
             minutes = '0';
