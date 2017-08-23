@@ -20,6 +20,7 @@ import { RawPage } from './pages/tabs/tab-views/raw/raw.component';
 import { NormalPage } from './pages/tabs/tab-views/normal/normal.component';
 import { PopoverPage } from './pages/common/popover/popover.component';
 import { SearchPage } from './pages/search/search.component';
+import { StorageService } from './core/storage.service';
 
 @NgModule({
     declarations: [
@@ -59,6 +60,7 @@ import { SearchPage } from './pages/search/search.component';
         SplashScreen,
         Api,
         IncomingService,
+        StorageService,
         {provide: ErrorHandler, useClass: IonicErrorHandler},
         {
             provide: Http,

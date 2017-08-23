@@ -4,9 +4,6 @@ import { Http, RequestOptions, RequestOptionsArgs, Headers } from '@angular/http
 @Injectable()
 export class Api {
 
-    // static readonly PROTOCOL = 'https://';
-
-
     constructor(private http: Http) {
 
     }
