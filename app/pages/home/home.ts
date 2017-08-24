@@ -25,7 +25,7 @@ export class HomePage {
         this.menu.enable(true,'searchMenu');
     }
 
-    ionViewDidLoad(){
+    ionViewDidEnter(){
         this.menu.enable(false,'searchMenu');
     }
 }

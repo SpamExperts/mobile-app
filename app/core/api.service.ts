@@ -14,8 +14,6 @@ export class Api {
             headers: headers
         });
 
-        console.log(options);
-
         return this.http.get(url, options);
     }
 

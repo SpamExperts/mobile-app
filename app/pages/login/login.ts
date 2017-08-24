@@ -18,16 +18,18 @@ export class LoginPage {
     readonly endpoint = '/rest/auth/api/token';
 
     private hostname: string = '';
-    private username: string = 'intern';
-    private password: string = 'qwe123';
+    private username: string = '';
+    private password: string = '';
     public alert: Alert = new Alert(this.alertCtrl);
     private rememberMe: boolean = false;
 
-    constructor(public navCtrl: NavController,
-                private api: Api,
-                public menu: MenuController,
-                public alertCtrl: AlertController,
-                public storageService: StorageService) {
+    constructor(
+        public navCtrl: NavController,
+        private api: Api,
+        public menu: MenuController,
+        public alertCtrl: AlertController,
+        public storageService: StorageService
+    ){
 
         this.menu.enable(false, 'searchMenu');
         this.menu.enable(false, 'primaryMenu');

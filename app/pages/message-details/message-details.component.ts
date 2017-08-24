@@ -14,9 +14,6 @@ export class MessageDetailsPage {
     @ViewChild(Navbar) navBar: Navbar;
 
     selectedItem: any;
-    sender: any;
-    date: any;
-    time: any;
 
     constructor( public navCtrl: NavController,
                  public navParams: NavParams,
@@ -44,9 +41,12 @@ export class MessageDetailsPage {
             .subscribe((data: any) => {
                 let result = JSON.parse(data._body).result;
                 this.incService.plain = result.plain_body;
-                if (!result.html_body)
+                if (!result.html_body) {
                     this.incService.normal = "This view is not available.";
-                else this.incService.normal = result.html_body;
+                }
+                else {
+                    this.incService.normal = result.html_body;
+                }
             });
     }
 
@@ -67,7 +67,6 @@ export class MessageDetailsPage {
         this.menu.enable(true,'primaryMenu');
         this.menu.enable(true,'searchMenu');
     }
-
 
 }
 

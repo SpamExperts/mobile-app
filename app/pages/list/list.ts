@@ -16,7 +16,7 @@ export class ListPage {
     items: {}[] = [];
     slice: number = 20;
     page: number;
-    infiniteScroll: any;
+    infiniteScroll: any = null;
     count: number;
     last_count: number;
     total_pages: number;
@@ -26,12 +26,14 @@ export class ListPage {
 
     readonly  endpoint = '/master/log/delivery/';
 
-    constructor(public navCtrl: NavController,
+    constructor(
+        public navCtrl: NavController,
                 public navParams: NavParams,
                 public incService: IncomingService,
                 public api: Api,
                 public menu: MenuController,
-                public events: Events) {
+                public events: Events
+    ) {
 
         this.events.subscribe('incomingMessages', (data) => {
             this.handleMessages(data);
@@ -42,6 +44,9 @@ export class ListPage {
             this.count = this.incService.countFirst;
             this.total_pages = this.incService.totalpagesFirst;
             this.refresh_count  = this.count;
+            if(this.infiniteScroll != null) {
+                this.infiniteScroll.enable(true);
+            }
 
         });
     };
@@ -52,23 +57,17 @@ export class ListPage {
         });
     }
 
-    handleMessages(messages: {}[]=[]): void {
-        if(messages != null) {
-            messages.reverse();
-            this.items = [];
-            for (let i = 0; i < messages.length; i++) {
-                this.items.push(messages[i]);
-            }
-        }
+    handleMessages(messages: {}[] = []): void {
+        this.items = messages.reverse();
     };
 
     //when the first (-1) page doesn't have enough messages
     getMoreMessages(): void {
 
-        let url = this.endpoint + '?client_username=intern&page=-2&page_size=' + this.slice + '&q=' + this.incService.encodedqueryurl;
+        let url = this.endpoint + '?client_username=intern&page=-2&page_size=' + this.slice + '&q=' + this.incService.encodedQueryUrl;
         let headers = new Headers();
 
-        if(this.incService.encodedqueryurl) {
+        if(this.incService.encodedQueryUrl) {
             this.api.get(url, headers).subscribe((data: any) => {
                 let messages: any = JSON.parse(data._body).objects.reverse();
                 this.items = this.items.concat(messages);
@@ -81,23 +80,49 @@ export class ListPage {
 
     refresh(refresher){
 
-        if(this.infiniteScroll)
-            this.infiniteScroll.enable(true);
+        let last_page = this.page;
 
-        let url = this.endpoint + '?client_username=intern&page=-1&page_size=' + this.slice + '&q=' + this.incService.encodedqueryurl;
+        let url =  this.endpoint + '?client_username=intern&page=-1&page_size=' + this.slice + '&q=' + this.incService.encodedQueryUrl;;
+
+        if (this.incService.selectedInterval != null) {
+            let query =  this.incService.currentQuery;
+            let date = new Date();
+
+            for(let item of query.filters[0].and) {
+                if(item.name == 'datetime' && item.op == '<=') {
+                    item.val  = this.incService.formatDate(date);
+                    break;
+                }
+            }
+
+            query = encodeURI(JSON.stringify(query));
+            url = this.endpoint + '?client_username=intern&page=-1&page_size=' + this.slice + '&q=' + query;
+        }
+
         let headers = new Headers();
 
-        if(this.incService.encodedqueryurl) {
+        if(this.incService.encodedQueryUrl) {
             this.api.get(url, headers).subscribe((data: any) => {
                 let body = JSON.parse(data._body);
                 let messages: any = body.objects;
+
                 this.last_refresh_count = this.refresh_count;
                 this.refresh_count = body.num_results;
+
                 if(this.refresh_count != this.last_refresh_count) {
-                    this.handleMessages(messages);
+                    if(this.infiniteScroll) {
+                        console.log('asa');
+                        this.infiniteScroll.enable(true);
+                    }
                     this.page = -2;
+                    this.handleMessages(messages);
                     if (messages.length < 4)
                         this.getMoreMessages();
+                }
+                else {
+
+                    this.page = last_page;
+
                 }
             });
         }
@@ -111,7 +136,7 @@ export class ListPage {
 
         this.infiniteScroll = infiniteScroll;
 
-        let url = this.endpoint + '?client_username=intern&page=' + this.page + '&page_size=' + this.slice + '&q=' + this.incService.encodedqueryurl;
+        let url = this.endpoint + '?client_username=intern&page=' + this.page + '&page_size=' + this.slice + '&q=' + this.incService.encodedQueryUrl;
         let headers = new Headers();
 
         this.api.get(url,headers).subscribe((data: any) => {

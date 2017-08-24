@@ -55,16 +55,6 @@ export class SearchPage {
         this.selectedInterval = state;
     }
 
-    public formatDate(date: Date): string {
-
-        let nowString = date.getFullYear() + "-" +
-            (((date.getMonth() + 1) > 9) ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1)) + '-' +
-            ((date.getDate() > 9) ? date.getDate()  : '0' + date.getDate() ) + "T" +
-            date.getHours() + ":" + ((date.getMinutes() > 9) ? date.getMinutes()  : '0' + date.getMinutes());
-
-        return nowString;
-    }
-
     public pastDays(days: number) {
 
         let now = new Date();
@@ -72,7 +62,7 @@ export class SearchPage {
         let today = now.getDate();
         then.setSeconds(0);
         then.setDate(today - days);
-        return this.setDateFilters(this.formatDate(then), this.formatDate(now));
+        return this.setDateFilters(this.incService.formatDate(then), this.incService.formatDate(now));
     }
 
     public pastMonths(months: number) {
@@ -80,7 +70,7 @@ export class SearchPage {
         let then = new Date();
         then.setSeconds(0);
         then.setMonth(now.getMonth() - months);
-        return this.setDateFilters(this.formatDate(then), this.formatDate(now));
+        return this.setDateFilters(this.incService.formatDate(then), this.incService.formatDate(now));
     }
 
     public populateFields(): any[] {
@@ -128,13 +118,12 @@ export class SearchPage {
             }
         } else if (this.fromDate != null && this.toDate == null) {
             let date = new Date();
-            this.toDate = this.formatDate(date);
+            this.toDate = this.incService.formatDate(date);
             console.log(this.fromDate);
             filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
         } else if (this.fromDate != null && this.toDate != null) {
             filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
         }
-
 
         for (let i = 0; i < filterList.length; i++) {
             for (let j = 0; j < filterList[i].length; j++){
@@ -145,7 +134,11 @@ export class SearchPage {
         let query = JSON.stringify(this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false));
         let encodedQuery = encodeURI(query);
         let url = this.endpoint + encodedQuery;
-        this.incService.encodedqueryurl = encodedQuery;
+
+        this.incService.currentQuery = this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false);
+        this.incService.encodedQueryUrl = encodedQuery;
+
+        this.incService.selectedInterval = this.selectedInterval;
 
         return this.api.get(url, headers)
             .subscribe((data: any) => {
