@@ -129,8 +129,9 @@ export class SearchPage {
         } else if (this.fromDate != null && this.toDate == null) {
             let date = new Date();
             this.toDate = this.formatDate(date);
+            console.log(this.fromDate);
             filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
-        } else if (this.fromDate != null && this.toDate == null) {
+        } else if (this.fromDate != null && this.toDate != null) {
             filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
         }
 

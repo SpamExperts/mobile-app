@@ -39,7 +39,6 @@ export class LoginPage {
         let url = Env.DEV_PROXY
             ? this.endpoint
             : this.hostname + this.endpoint;
-
         let headers = new Headers();
 
         let auth = btoa(decodeURIComponent(
@@ -59,7 +58,7 @@ export class LoginPage {
 
                 if (isUndefined(token)) {
                     this.alert.showConfirm('Login failed!', ' Please check your credentials!');
-                } if(userRole == 'reseller'){
+                } else if(userRole == 'reseller'){
                     this.alert.showConfirm('Error logging in!', ' Sorry, admin users are not able to use this app yet. Please log in as a domain or email user.');
                 } else {
                     this.storageService.setToken(token);

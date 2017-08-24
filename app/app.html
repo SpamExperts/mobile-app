@@ -1,8 +1,11 @@
 <ion-menu side="left" [content]="content" id="primaryMenu">
     <ion-header>
         <ion-toolbar>
-            <ion-title>{{ username }}</ion-title>
-            <ion-label>{{ userRole }}</ion-label>
+            <button ion-button menuToggle="left" clear right> <ion-icon name="arrow-forward"></ion-icon></button>
+        </ion-toolbar>
+        <ion-toolbar padding="20px">
+            <ion-title class="userInfo" text-center>{{ username }}</ion-title>
+            <ion-label class="userInfo" text-center id="role">{{ userRole }}</ion-label>
         </ion-toolbar>
     </ion-header>
 
