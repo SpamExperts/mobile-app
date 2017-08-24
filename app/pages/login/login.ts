@@ -18,8 +18,8 @@ export class LoginPage {
     readonly endpoint = '/rest/auth/api/token';
 
     private hostname: string = '';
-    private username: string = '';
-    private password: string = '';
+    private username: string = 'intern';
+    private password: string = 'qwe123';
     public alert: Alert = new Alert(this.alertCtrl);
     private rememberMe: boolean = false;
 

@@ -18,7 +18,7 @@ export class SearchPage {
     public toDate: string;
     public selectedInterval: string;
     public queryInstance: Query = new Query();
-    readonly endpoint = '/master/log/delivery/?client_username=intern&page=-1&page_size=7&q=';
+    readonly endpoint = '/master/log/delivery/?client_username=intern&page=-1&page_size=20&q=';
 
     @ViewChild(Nav) nav: Nav;
 
