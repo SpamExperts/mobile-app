@@ -4,10 +4,10 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from './pages/home/home';
-import { ListPage } from './pages/list/list';
 import { LoginPage } from './pages/login/login';
 import { StorageService } from './core/storage.service';
 import { Alert } from './pages/common/alert';
+import { PermissionService } from './core/permissions.service';
 
 @Component({
     selector: 'my-app',
@@ -20,7 +20,8 @@ export class MyApp {
     userRole: string = '';
     username: string = '';
     public alert: Alert = new Alert(this.alertCtrl);
-
+    incomingButton: boolean = false;
+    outgoingButton: boolean = false;
 
     pages: Array<{title: string, component: any}>;
 
@@ -28,13 +29,10 @@ export class MyApp {
                 public statusBar: StatusBar,
                 public splashScreen: SplashScreen,
                 public storageService: StorageService,
-                public alertCtrl: AlertController) {
+                public alertCtrl: AlertController,
+                public permissionService: PermissionService) {
 
         this.initializeApp();
-        this.pages = [
-            { title: 'Incoming Filtering Quarantine', component: ListPage },
-            { title: 'Home', component: HomePage },
-        ];
     }
 
     initializeApp() {
@@ -43,8 +41,7 @@ export class MyApp {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
 
-            this.userRole = this.storageService.getUserRole();
-            this.username = this.storageService.getUsername();
+            console.log(this.username);
 
             if (this.storageService.getToken() != null && this.storageService.getRememberMe() == 'true') {
                 this.rootPage = HomePage;
@@ -53,14 +50,9 @@ export class MyApp {
     }
 
     openPage(page) {
-        this.nav.setRoot(page.component);
+        this.nav.setRoot(page);
     }
 
-    // gave it as a parameter, but didn't work! // ask why?..then erase it
-    public logoutFunction() {
-        this.storageService.clearStorage();
-        this.nav.setRoot(LoginPage);
-    }
 
     logout() {
         this.alert.logoutAlert('Confirm logout!', 'Are you sure you want to log out?', () => {

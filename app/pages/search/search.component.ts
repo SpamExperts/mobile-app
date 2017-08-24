@@ -147,7 +147,6 @@ export class SearchPage {
                 this.incService.countFirst = messages.num_results;
                 this.incService.totalpagesFirst = messages.total_pages;
                 this.incService.incomingMessages = messages.objects;
-
                 this.events.publish('incomingMessages', messages.objects);
             });
     }

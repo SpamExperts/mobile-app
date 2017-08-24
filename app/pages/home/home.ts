@@ -3,6 +3,7 @@ import { MenuController, NavController } from 'ionic-angular';
 import { Api } from '../../core/api.service';
 import { ListPage } from "../list/list";
 import { IncomingService } from '../../core/incoming.service';
+import { PermissionService } from '../../core/permissions.service';
 
 @Component({
     selector: 'page-home',
@@ -10,14 +11,20 @@ import { IncomingService } from '../../core/incoming.service';
 })
 export class HomePage {
 
-    constructor(public navCtrl: NavController, public api: Api, public incService: IncomingService, public menu: MenuController) {
+    incomingButton: boolean = false;
+    outgoingButton: boolean = false;
 
-
+    constructor(public navCtrl: NavController,
+                public api: Api,
+                public incService: IncomingService,
+                public menu: MenuController,
+                public permissionsService: PermissionService) {
+        this.incomingButton = this.permissionsService.messagesPages.incoming;
+        this.outgoingButton = this.permissionsService.messagesPages.outgoing;
 
     }
 
     public getIncomingMessages(): any {
-        //this.navCtrl.push(ListPage);
         this.navCtrl.setRoot(ListPage);
     }
 

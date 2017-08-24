@@ -21,6 +21,7 @@ import { NormalPage } from './pages/tabs/tab-views/normal/normal.component';
 import { PopoverPage } from './pages/common/popover/popover.component';
 import { SearchPage } from './pages/search/search.component';
 import { StorageService } from './core/storage.service';
+import { PermissionService } from './core/permissions.service';
 
 @NgModule({
     declarations: [
@@ -61,6 +62,7 @@ import { StorageService } from './core/storage.service';
         Api,
         IncomingService,
         StorageService,
+        PermissionService,
         {provide: ErrorHandler, useClass: IonicErrorHandler},
         {
             provide: Http,

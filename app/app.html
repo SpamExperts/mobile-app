@@ -4,16 +4,16 @@
             <button ion-button menuToggle="left" clear right> <ion-icon name="arrow-forward"></ion-icon></button>
         </ion-toolbar>
         <ion-toolbar padding="20px">
-            <ion-title class="userInfo" text-center>{{ username }}</ion-title>
-            <ion-label class="userInfo" text-center id="role">{{ userRole }}</ion-label>
+            <ion-title class="userInfo" text-center>{{ this.storageService.getUsername() }}</ion-title>
+            <ion-label class="userInfo" text-center id="role">{{ this.storageService.getUserRole() }}</ion-label>
         </ion-toolbar>
     </ion-header>
 
     <ion-content>
         <ion-list>
-            <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-                {{p.title}}
-            </button>
+            <button menuClose ion-item (click)="openPage(ListPage)" *ngIf="this.permissionService.messagesPages.incoming">Incoming Filtering Quarantine</button>
+            <button menuClose ion-item (click)="openPage(HomePage)" *ngIf="this.permissionService.messagesPages.outgoing">Outgoing Filtering Quarantine</button>
+
             <button ion-button (click)="logout()" outline> Logout</button>
         </ion-list>
 

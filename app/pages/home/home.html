@@ -13,7 +13,7 @@
 
 <ion-content padding>
 
-  <button ion-button (click)="getIncomingMessages()"> Incoming </button>
-  <button ion-button > Outgoing </button>
+  <button ion-button (click)="getIncomingMessages()" *ngIf="incomingButton"> Incoming </button>
+  <button ion-button *ngIf="outgoingButton"> Outgoing </button>
 
 </ion-content>

@@ -8,6 +8,7 @@ import { HomePage } from '../home/home';
 import { Env } from '../../core/env';
 import { Alert } from '../common/alert';
 import { StorageService } from '../../core/storage.service';
+import { PermissionService } from '../../core/permissions.service';
 
 @Component({
     selector: 'page-login',
@@ -23,13 +24,13 @@ export class LoginPage {
     public alert: Alert = new Alert(this.alertCtrl);
     private rememberMe: boolean = false;
 
-    constructor(
-        public navCtrl: NavController,
-        private api: Api,
-        public menu: MenuController,
-        public alertCtrl: AlertController,
-        public storageService: StorageService
-    ){
+    constructor(public navCtrl: NavController,
+                private api: Api,
+                public menu: MenuController,
+                public alertCtrl: AlertController,
+                public storageService: StorageService,
+                public permissionsService: PermissionService,
+                ) {
 
         this.menu.enable(false, 'searchMenu');
         this.menu.enable(false, 'primaryMenu');
@@ -65,6 +66,8 @@ export class LoginPage {
                 } else {
                     this.storageService.setToken(token);
                     this.storageService.setUserRole(body.userData.role);
+                    this.permissionsService.initializeUser(userRole);
+                    console.log(this.permissionsService);
                     this.storageService.setUsername(body.userData.username);
                     this.storageService.setRememberMe(this.rememberMe.toString());
                     this.navCtrl.setRoot(HomePage);
