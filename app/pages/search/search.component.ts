@@ -29,7 +29,6 @@ export class SearchPage {
     }
 
     public setSearchFilters(field: string, value: string){
-        // TODO: implement function
         let query = new Query();
         let filters = query.filterEquals(field, value);
         return filters.slice(0);
@@ -86,7 +85,7 @@ export class SearchPage {
 
     public populateFields(): any[] {
 
-        let fields = [
+        return [
             "message_id",
             "domain",
             "datetime",
@@ -99,11 +98,13 @@ export class SearchPage {
             "delivery_fqdn"
         ];
 
-        return fields;
     }
 
     public searchMessages() {
+
         let filterList = [];
+        let headers = new Headers();
+        let filterstring = [];
 
         if (this.domain != null) {
             filterList.push(this.setSearchFilters('domain', this.domain));
@@ -133,29 +134,26 @@ export class SearchPage {
             filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
         }
 
-        let filterstring = [];
+
         for (let i = 0; i < filterList.length; i++) {
             for (let j = 0; j < filterList[i].length; j++){
                 filterstring.push(filterList[i][j]);
             }
         }
 
-        let fields = this.populateFields();
-        let query = JSON.stringify(this.queryInstance.createQuery(filterstring, fields,'message_id', false));
+        let query = JSON.stringify(this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false));
         let encodedQuery = encodeURI(query);
         let url = this.endpoint + encodedQuery;
         this.incService.encodedqueryurl = encodedQuery;
-        let headers = new Headers();
 
         return this.api.get(url, headers)
             .subscribe((data: any) => {
-                console.log(data);
                 let messages: any = JSON.parse(data._body);
-                console.log(messages.objects);
-                //number of messages in the incoming quarantine
+
                 this.incService.countFirst = messages.num_results;
                 this.incService.totalpagesFirst = messages.total_pages;
                 this.incService.incomingMessages = messages.objects;
+
                 this.events.publish('incomingMessages', messages.objects);
             });
     }

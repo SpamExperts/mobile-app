@@ -16,3 +16,4 @@ export class Toast {
         toast.present();
     }
 }
+

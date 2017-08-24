@@ -4,8 +4,6 @@ export class Query {
     private orderBy: any[] =[];
     private count: boolean = false;
 
-    // -----------------
-
     public filterBy(name: string, op: string, val: string | number | string[] | number[]) {
         if(op == 'is_null') {
             this.filters.push({name: name, op: op});
@@ -15,7 +13,6 @@ export class Query {
 
         return this.filters;
     }
-
 
     public andFilters(filters){
         this.filters.push({and: filters})
@@ -37,8 +34,6 @@ export class Query {
     public toArrayFilters() {
         return this.filters.slice(0);
     }
-
-    // -----------------
 
     public getFields(): any[] {
         return this.fields;
@@ -106,7 +101,6 @@ export class Query {
             if(obj[key].length)
                 return true;
         }
-
         return false;
     }
 
@@ -116,6 +110,7 @@ export class Query {
         orderBy: string,
         count: boolean = false
     ): Query {
+
         let query = new Query();
 
         query.andFilters(filters);

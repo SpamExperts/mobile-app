@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { AlertController, Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -7,6 +7,7 @@ import { HomePage } from './pages/home/home';
 import { ListPage } from './pages/list/list';
 import { LoginPage } from './pages/login/login';
 import { StorageService } from './core/storage.service';
+import { Alert } from './pages/common/alert';
 
 @Component({
     selector: 'my-app',
@@ -16,31 +17,35 @@ export class MyApp {
     @ViewChild(Nav) nav: Nav;
 
     rootPage: any = LoginPage;
+    userRole: string = '';
+    username: string = '';
+    public alert: Alert = new Alert(this.alertCtrl);
+
 
     pages: Array<{title: string, component: any}>;
 
     constructor(public platform: Platform,
                 public statusBar: StatusBar,
                 public splashScreen: SplashScreen,
-                public storageService: StorageService) {
+                public storageService: StorageService,
+                public alertCtrl: AlertController) {
+
         this.initializeApp();
-
-        // used for an example of ngFor and navigation
         this.pages = [
+            { title: 'Incoming Filtering Quarantine', component: ListPage },
             { title: 'Home', component: HomePage },
-            { title: 'List', component: ListPage }
         ];
-
     }
 
     initializeApp() {
         this.platform.ready().then(() => {
-            // Okay, so the platform is ready and our plugins are available.
-            // Here you can do any higher level native things you might need.
+
             this.statusBar.styleDefault();
             this.splashScreen.hide();
-            console.log(this.storageService.getRememberMe() == 'true');
-            console.log(this.storageService.getToken() != null);
+
+            this.userRole = this.storageService.getUserRole();
+            this.username = this.storageService.getUsername();
+
             if (this.storageService.getToken() != null && this.storageService.getRememberMe() == 'true') {
                 this.rootPage = HomePage;
             }
@@ -48,13 +53,19 @@ export class MyApp {
     }
 
     openPage(page) {
-        // Reset the content nav to have just this page
-        // we wouldn't want the back button to show in this scenario
         this.nav.setRoot(page.component);
     }
 
-    logout() {
-        localStorage.clear();
+    // gave it as a parameter, but didn't work! // ask why?..then erase it
+    public logoutFunction() {
+        this.storageService.clearStorage();
         this.nav.setRoot(LoginPage);
+    }
+
+    logout() {
+        this.alert.logoutAlert('Confirm logout!', 'Are you sure you want to log out?', () => {
+            this.storageService.clearStorage();
+            this.nav.setRoot(LoginPage);
+        });
     }
 }
