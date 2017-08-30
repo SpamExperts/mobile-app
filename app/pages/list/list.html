@@ -17,16 +17,22 @@
     <ion-refresher-content pullingText="Release me" refreshingSpinner="ios"></ion-refresher-content>
   </ion-refresher>
 
+  <div *ngIf="!items.length"> No entries. Pull to refresh... </div>
   <ion-list [virtualScroll]="items">
     <ion-item *virtualItem="let item" (click)="itemTapped($event, item)" >
       <ion-row>
         <ion-col col-10>
-          <span>{{incService.dateConvert(item.datetime)}}</span> <span>&nbsp;&nbsp;&nbsp;&nbsp;spam</span> <br><br>
+          <span>{{incService.dateConvert(item.datetime)}}</span>&nbsp;&nbsp;
+          <ion-badge item-end outline color="light">spam</ion-badge>
+          <br><br>
           <span>{{item.sender}}</span> <br>
           <span>{{item.subject_header}}</span>
         </ion-col>
         <ion-col col-2>
           <span>{{incService.timeConvert(item.datetime)}}</span>
+          <ion-item>
+              <ion-checkbox [(ngModel)]="item.checked" (ionChange)="changeCheckedItems(item)"></ion-checkbox>
+          </ion-item>
         </ion-col>
       </ion-row>
     </ion-item>
@@ -40,3 +46,20 @@
   </ion-infinite-scroll>
 
 </ion-content>
+
+<ion-footer>
+    <ion-row>
+        <button col-4>
+            <ion-icon name="checkmark"></ion-icon>
+            Release
+        </button>
+        <button col-4>
+            <ion-icon name="close"></ion-icon>
+            Remove
+        </button>
+        <button col-4 >
+            <ion-icon  name="more" (click)="openPopover($event)"></ion-icon>
+            More
+        </button>
+    </ion-row>
+</ion-footer>

@@ -14,11 +14,13 @@ export class HomePage {
     incomingButton: boolean = false;
     outgoingButton: boolean = false;
 
-    constructor(public navCtrl: NavController,
-                public api: Api,
-                public incService: IncomingService,
-                public menu: MenuController,
-                public permissionsService: PermissionService) {
+    constructor(
+        public navCtrl: NavController,
+        public api: Api,
+        public incService: IncomingService,
+        public menu: MenuController,
+        public permissionsService: PermissionService
+    ){
         this.incomingButton = this.permissionsService.messagesPages.incoming;
         this.outgoingButton = this.permissionsService.messagesPages.outgoing;
 
@@ -28,11 +30,11 @@ export class HomePage {
         this.navCtrl.setRoot(ListPage);
     }
 
-    ionViewDidLeave(){
+    ionViewDidLeave() {
         this.menu.enable(true,'searchMenu');
     }
 
-    ionViewDidEnter(){
+    ionViewDidEnter() {
         this.menu.enable(false,'searchMenu');
     }
 }

@@ -14,9 +14,10 @@ export class TabsPage{
     tab2: any;
     tab3: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
-        // If we navigated to this page, we will have an item available as a nav param
-
+    constructor(
+        public navCtrl: NavController,
+        public navParams: NavParams
+    ) {
         this.tab1 = PlainPage;
         this.tab2 = RawPage;
         this.tab3 = NormalPage;

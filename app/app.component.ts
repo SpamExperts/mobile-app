@@ -25,13 +25,14 @@ export class MyApp {
 
     pages: Array<{title: string, component: any}>;
 
-    constructor(public platform: Platform,
-                public statusBar: StatusBar,
-                public splashScreen: SplashScreen,
-                public storageService: StorageService,
-                public alertCtrl: AlertController,
-                public permissionService: PermissionService) {
-
+    constructor(
+        public platform: Platform,
+        public statusBar: StatusBar,
+        public splashScreen: SplashScreen,
+        public storageService: StorageService,
+        public alertCtrl: AlertController,
+        public permissionService: PermissionService
+    ) {
         this.initializeApp();
     }
 
@@ -41,7 +42,8 @@ export class MyApp {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
 
-            console.log(this.username);
+            this.userRole = this.storageService.getUserRole();
+            this.username = this.storageService.getUsername();
 
             if (this.storageService.getToken() != null && this.storageService.getRememberMe() == 'true') {
                 this.rootPage = HomePage;

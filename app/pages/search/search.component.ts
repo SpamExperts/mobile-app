@@ -4,7 +4,6 @@ import { Api } from "../../core/api.service";
 import { Headers } from '@angular/http';
 import { IncomingService } from "../../core/incoming.service";
 import { Events, Nav } from 'ionic-angular';
-
 @Component({
     selector: 'search-messages',
     templateUrl: 'search.component.html'
@@ -22,11 +21,11 @@ export class SearchPage {
 
     @ViewChild(Nav) nav: Nav;
 
-    constructor(public api: Api,
-                public incService: IncomingService,
-                public events: Events) {
-
-    }
+    constructor(
+        public api: Api,
+        public incService: IncomingService,
+        public events: Events
+    ) {}
 
     public setSearchFilters(field: string, value: string){
         let query = new Query();

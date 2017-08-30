@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { Events, MenuController, NavController, NavParams } from 'ionic-angular';
+import { Events, MenuController, NavController, NavParams, PopoverController } from 'ionic-angular';
 import { InfiniteScroll } from 'ionic-angular';
 import { IncomingService } from '../../core/incoming.service';
 import { MessageDetailsPage } from '../message-details/message-details.component';
 import { Api } from '../../core/api.service';
 import { Headers } from '@angular/http';
+import { PopoverPage } from '../common/popover/popover.component';
+import { PopoverService } from '../common/popover/popover.service';
 
 @Component({
     selector: 'page-list',
@@ -23,23 +25,27 @@ export class ListPage {
     last_total_pages: number;
     last_refresh_count: number;
     refresh_count: number;
+    checked_items: {}[] = [];
 
     readonly  endpoint = '/master/log/delivery/';
 
     constructor(
         public navCtrl: NavController,
-                public navParams: NavParams,
-                public incService: IncomingService,
-                public api: Api,
-                public menu: MenuController,
-                public events: Events
+        public navParams: NavParams,
+        public incService: IncomingService,
+        public api: Api,
+        public menu: MenuController,
+        public events: Events,
+        public popService: PopoverService,
+        public popoverCtrl: PopoverController
     ) {
 
         this.events.subscribe('incomingMessages', (data) => {
             this.handleMessages(data);
             this.page = -2;
-            if( data.length < 4 )
+            if( data.length < 4 ) {
                 this.getMoreMessages();
+            }
 
             this.count = this.incService.countFirst;
             this.total_pages = this.incService.totalpagesFirst;
@@ -80,6 +86,7 @@ export class ListPage {
 
     refresh(refresher){
 
+        //TODO: check if it is needed
         let last_page = this.page;
 
         let url =  this.endpoint + '?client_username=intern&page=-1&page_size=' + this.slice + '&q=' + this.incService.encodedQueryUrl;;
@@ -106,18 +113,19 @@ export class ListPage {
                 let body = JSON.parse(data._body);
                 let messages: any = body.objects;
 
+                //refresh_count remembers the number of the pages when the last search or refresh was done
                 this.last_refresh_count = this.refresh_count;
                 this.refresh_count = body.num_results;
 
                 if(this.refresh_count != this.last_refresh_count) {
                     if(this.infiniteScroll) {
-                        console.log('asa');
                         this.infiniteScroll.enable(true);
                     }
                     this.page = -2;
                     this.handleMessages(messages);
-                    if (messages.length < 4)
+                    if (messages.length < 4) {
                         this.getMoreMessages();
+                    }
                 }
                 else {
 
@@ -167,6 +175,35 @@ export class ListPage {
             if (this.page == -this.total_pages-1) {
                 infiniteScroll.enable(false);
             }
+        });
+    }
+
+    changeCheckedItems(item): void {
+        if(item.checked) {
+            this.checked_items.push(item);
+        }
+        else {
+            for(let i = 0;  i < this.checked_items.length; i++)
+                if(item == this.checked_items[i]) {
+                    this.checked_items.splice(i, 1);
+                    break;
+                }
+        }
+
+        this.show();
+
+    }
+
+    show(): void {
+        for(let i = 0; i < this.checked_items.length; i++)
+            console.log(this.checked_items[i]);
+    }
+
+    openPopover(myEvent) {
+        this.popService.messageListPop = true;
+        let popover = this.popoverCtrl.create(PopoverPage);
+        popover.present({
+            ev: myEvent
         });
     }
 

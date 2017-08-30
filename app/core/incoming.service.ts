@@ -23,7 +23,7 @@ export class IncomingService {
         return this.incomingMessages;
     }
 
-    public getRaw(): any {
+    public getRaw(): void {
 
             let user_id = this.selectedItem.message_id;
             let filtering_host = this.selectedItem.filtering_host;
@@ -45,16 +45,16 @@ export class IncomingService {
         let d = new Date(date);
         let days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        let datee = d.getDate();
-        return days[d.getDay()-1] + ', ' +  datee + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+        return days[d.getDay()-1] + ', ' +  d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
     }
 
     //for the view
-    public timeConvert(date: any) {
+    public timeConvert(date: any): string {
         let d = new Date(date);
         let minutes = '';
-        if(d.getMinutes()<10)
+        if(d.getMinutes()<10) {
             minutes = '0';
+        }
         return d.getHours()+':'+minutes+d.getMinutes();
     }
 

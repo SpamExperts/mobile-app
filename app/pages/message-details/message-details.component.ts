@@ -4,6 +4,7 @@ import { Headers } from '@angular/http';
 import { Api } from '../../core/api.service';
 import { IncomingService } from '../../core/incoming.service';
 import { PopoverPage } from '../common/popover/popover.component';
+import { PopoverService } from '../common/popover/popover.service';
 
 @Component({
     selector: 'app-message-details',
@@ -20,7 +21,8 @@ export class MessageDetailsPage {
                  public api: Api,
                  public incService: IncomingService,
                  public popoverCtrl: PopoverController,
-                 public menu: MenuController ) {
+                 public menu: MenuController,
+                 public popService: PopoverService) {
 
         this.menu.enable(false, 'primaryMenu');
         this.menu.enable(false, 'searchMenu');
@@ -57,6 +59,7 @@ export class MessageDetailsPage {
     }
 
     openPopover(myEvent) {
+        this.popService.messageViewPop = true;
         let popover = this.popoverCtrl.create(PopoverPage);
         popover.present({
             ev: myEvent
