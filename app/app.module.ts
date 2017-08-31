@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-
+import { SecureStorage } from '@ionic-native/secure-storage';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -24,6 +24,7 @@ import { StorageService } from './core/storage.service';
 import { PopoverService } from './pages/common/popover/popover.service';
 import { PermissionService } from './core/permissions.service';
 import { ActionService } from './core/action.service';
+import { SecureStorageService } from './core/secureStorage.service';
 
 @NgModule({
     declarations: [
@@ -66,6 +67,8 @@ import { ActionService } from './core/action.service';
         StorageService,
         PermissionService,
         PopoverService,
+        SecureStorageService,
+        SecureStorage,
         ActionService,
         {provide: ErrorHandler, useClass: IonicErrorHandler},
         {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, MenuController, NavController } from 'ionic-angular';
+import { AlertController, MenuController, NavController, Platform } from 'ionic-angular';
 import { Api } from '../../core/api.service';
 import { Headers } from '@angular/http';
 import { isUndefined } from 'ionic-angular/util/util';
@@ -9,6 +9,7 @@ import { Env } from '../../core/env';
 import { Alert } from '../common/alert';
 import { StorageService } from '../../core/storage.service';
 import { PermissionService } from '../../core/permissions.service';
+import { SecureStorageService } from '../../core/secureStorage.service';
 
 @Component({
     selector: 'page-login',
@@ -19,8 +20,8 @@ export class LoginPage {
     readonly endpoint = '/rest/auth/api/token';
 
     private hostname: string = '';
-    private username: string = 'intern';
-    private password: string = 'Qwert123';
+    private username: string = '';
+    private password: string = '';
     public alert: Alert = new Alert(this.alertCtrl);
     private rememberMe: boolean = false;
 
@@ -30,6 +31,8 @@ export class LoginPage {
                 public alertCtrl: AlertController,
                 public storageService: StorageService,
                 public permissionsService: PermissionService,
+                public platform: Platform,
+                public secureStorage: SecureStorageService
                 ) {
 
         this.menu.enable(false, 'searchMenu');
@@ -64,16 +67,28 @@ export class LoginPage {
                 } else if(userRole == 'reseller'){
                     this.alert.showConfirm('Error logging in!', ' Sorry, admin users are not able to use this app yet. Please log in as a domain or email user.');
                 } else {
+                    if (this.platform.is('cordova')) {
+
+                        this.secureStorage.setStorageItem('token', token);
+                        this.secureStorage.setStorageItem('role', body.userData.role);
+                        this.permissionsService.initializeUser(userRole);
+                        this.secureStorage.setStorageItem('username', body.userData.username);
+                        this.secureStorage.setStorageItem('rememberMe', this.rememberMe.toString());
+                        this.navCtrl.setRoot(HomePage);
+
+                    } else {
+                    // // used to make things work on browser
                     this.storageService.setToken(token);
                     this.storageService.setUserRole(body.userData.role);
                     this.permissionsService.initializeUser(userRole);
                     this.storageService.setUsername(body.userData.username);
                     this.storageService.setRememberMe(this.rememberMe.toString());
                     this.navCtrl.setRoot(HomePage);
+                    }
                 }
 
             }, (error:any) => {
-                    this.alert.showConfirm('Login failed!','Please enter your credentials!');
+                    this.alert.showConfirm('Login failed!',error);
             });
     }
 

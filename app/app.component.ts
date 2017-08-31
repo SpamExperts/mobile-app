@@ -8,6 +8,9 @@ import { LoginPage } from './pages/login/login';
 import { StorageService } from './core/storage.service';
 import { Alert } from './pages/common/alert';
 import { PermissionService } from './core/permissions.service';
+import { SecureStorageService } from './core/secureStorage.service';
+import { ListPage } from './pages/list/list';
+declare var cordova: any;
 
 @Component({
     selector: 'my-app',
@@ -22,6 +25,7 @@ export class MyApp {
     public alert: Alert = new Alert(this.alertCtrl);
     incomingButton: boolean = false;
     outgoingButton: boolean = false;
+    public secure: any;
 
     pages: Array<{title: string, component: any}>;
 
@@ -31,7 +35,8 @@ export class MyApp {
         public splashScreen: SplashScreen,
         public storageService: StorageService,
         public alertCtrl: AlertController,
-        public permissionService: PermissionService
+        public permissionService: PermissionService,
+        public secureStorageService: SecureStorageService
     ) {
         this.initializeApp();
     }
@@ -45,14 +50,35 @@ export class MyApp {
             this.userRole = this.storageService.getUserRole();
             this.username = this.storageService.getUsername();
 
-            if (this.storageService.getToken() != null && this.storageService.getRememberMe() == 'true') {
-                this.rootPage = HomePage;
+            if(this.platform.is('cordova')) {
+                this.secureStorageService.CreateStorage();
+                this.secure = new cordova.plugins.SecureStorage(
+                    () => {
+
+                    },
+                    () => {
+                        // bring up Lock settings because secure storage doesn't work if the phone is not secure
+                        this.secureStorageService.bringUpLockSettings();
+                    },
+                    'mobileSecureStorage'
+                );
+            } else {
+                if (this.storageService.getToken() != null && this.storageService.getRememberMe() == 'true') {
+                    this.rootPage = HomePage;
+                }
             }
+
+
         });
     }
 
     openPage(page) {
-        this.nav.setRoot(page);
+        if (page == 'ListPage') {
+            this.nav.setRoot(ListPage);
+        } else if (page == 'HomePage') {
+            this.nav.setRoot(HomePage);
+        }
+
     }
 
 

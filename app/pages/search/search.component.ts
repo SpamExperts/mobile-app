@@ -150,4 +150,13 @@ export class SearchPage {
             });
     }
 
+    public clearSearch() {
+        this.domain = '';
+        this.sender = '';
+        this.recipient = '';
+        this.fromDate = '';
+        this.toDate = '';
+        this.selectedInterval = '';
+    }
+
 }
