@@ -7,6 +7,7 @@ import { Api } from '../../core/api.service';
 import { Headers } from '@angular/http';
 import { PopoverPage } from '../common/popover/popover.component';
 import { PopoverService } from '../common/popover/popover.service';
+import { ActionService } from '../../core/action.service';
 
 @Component({
     selector: 'page-list',
@@ -37,7 +38,8 @@ export class ListPage {
         public menu: MenuController,
         public events: Events,
         public popService: PopoverService,
-        public popoverCtrl: PopoverController
+        public popoverCtrl: PopoverController,
+        public actionService: ActionService
     ) {
 
         this.events.subscribe('incomingMessages', (data) => {
@@ -50,7 +52,7 @@ export class ListPage {
             this.count = this.incService.countFirst;
             this.total_pages = this.incService.totalpagesFirst;
             this.refresh_count  = this.count;
-            if(this.infiniteScroll != null) {
+            if(this.infiniteScroll) {
                 this.infiniteScroll.enable(true);
             }
 
@@ -86,6 +88,10 @@ export class ListPage {
 
     refresh(refresher){
 
+        if(this.checked_items.length > 0) {
+            refresher.complete();
+            return;
+        }
         //TODO: check if it is needed
         let last_page = this.page;
 
@@ -172,7 +178,7 @@ export class ListPage {
 
             infiniteScroll.complete();
 
-            if (this.page == -this.total_pages-1) {
+            if (this.page <= -this.total_pages-1) {
                 infiniteScroll.enable(false);
             }
         });
@@ -190,13 +196,7 @@ export class ListPage {
                 }
         }
 
-        this.show();
-
-    }
-
-    show(): void {
-        for(let i = 0; i < this.checked_items.length; i++)
-            console.log(this.checked_items[i]);
+        this.actionService.selectedMessages = this.checked_items;
     }
 
     openPopover(myEvent) {
@@ -206,5 +206,4 @@ export class ListPage {
             ev: myEvent
         });
     }
-
 }

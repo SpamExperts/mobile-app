@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ViewController } from 'ionic-angular';
 import { PopoverService } from './popover.service';
+import { ActionService } from '../../../core/action.service';
+import { IncomingService } from "../../../core/incoming.service";
 
 @Component({
     selector: 'app-popover',
@@ -10,7 +12,9 @@ export class PopoverPage {
 
     constructor (
         public viewCtrl: ViewController,
-        public popService: PopoverService
+        public popService: PopoverService,
+        public actionService: ActionService,
+        public incService: IncomingService
     ) {}
 
     close() {
@@ -19,20 +23,16 @@ export class PopoverPage {
         this.popService.messageViewPop = false;
     }
 
-    release_train() {
-        this.close();
-    }
+    doAction(method: string) {
 
-    whitelist_release() {
-        this.close();
-    }
+        if(this.popService.messageViewPop == true) {
+            this.actionService.selectedMessages = [];
+            this.actionService.selectedMessages.push(this.incService.selectedItem);
+        }
 
-    remove() {
+        this.actionService.action(method);
         this.close();
-    }
 
-    blacklist_remove() {
-        this.close();
     }
 
 }

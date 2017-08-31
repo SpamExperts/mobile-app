@@ -5,9 +5,14 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class HttpInterceptor extends Http {
 
-    constructor(backend: ConnectionBackend, defaultOptions: RequestOptions){
+    constructor(
+        backend: ConnectionBackend,
+        defaultOptions: RequestOptions
+    ){
         super(backend, defaultOptions);
     }
+
+    public action : any;
 
     public getRequestOptionsArgs(options?: RequestOptionsArgs): RequestOptionsArgs {
         if (options == null) {
@@ -32,10 +37,10 @@ export class HttpInterceptor extends Http {
         return super.get(url, this.getRequestOptionsArgs(options));
     }
 
-    public post(url: string, params?: {},  options?: RequestOptionsArgs): Observable<any>{
-        return super.post(url, {}, this.getRequestOptionsArgs(options));
+    public post( url: string, options?: RequestOptionsArgs , requestPayload?: any ): Observable<any>{
+
+            return super.post(url, requestPayload, this.getRequestOptionsArgs(options));
+
     }
-
-
 
 }

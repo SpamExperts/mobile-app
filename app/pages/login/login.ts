@@ -19,8 +19,8 @@ export class LoginPage {
     readonly endpoint = '/rest/auth/api/token';
 
     private hostname: string = '';
-    private username: string = '';
-    private password: string = '';
+    private username: string = 'intern';
+    private password: string = 'Qwert123';
     public alert: Alert = new Alert(this.alertCtrl);
     private rememberMe: boolean = false;
 
@@ -67,7 +67,6 @@ export class LoginPage {
                     this.storageService.setToken(token);
                     this.storageService.setUserRole(body.userData.role);
                     this.permissionsService.initializeUser(userRole);
-                    console.log(this.permissionsService);
                     this.storageService.setUsername(body.userData.username);
                     this.storageService.setRememberMe(this.rememberMe.toString());
                     this.navCtrl.setRoot(HomePage);

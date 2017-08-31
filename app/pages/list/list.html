@@ -47,18 +47,18 @@
 
 </ion-content>
 
-<ion-footer>
+<ion-footer *ngIf="this.checked_items.length > 0">
     <ion-row>
-        <button col-4>
+        <button col-4 (click)="this.actionService.action('release')">
             <ion-icon name="checkmark"></ion-icon>
             Release
         </button>
-        <button col-4>
+        <button col-4 (click)="this.actionService.action('remove_from_quarantine')">
             <ion-icon name="close"></ion-icon>
             Remove
         </button>
-        <button col-4 >
-            <ion-icon  name="more" (click)="openPopover($event)"></ion-icon>
+        <button col-4 (click)="openPopover($event)">
+            <ion-icon  name="more"></ion-icon>
             More
         </button>
     </ion-row>

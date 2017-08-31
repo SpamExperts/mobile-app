@@ -5,6 +5,7 @@ import { Api } from '../../core/api.service';
 import { IncomingService } from '../../core/incoming.service';
 import { PopoverPage } from '../common/popover/popover.component';
 import { PopoverService } from '../common/popover/popover.service';
+import { ActionService } from '../../core/action.service';
 
 @Component({
     selector: 'app-message-details',
@@ -16,13 +17,16 @@ export class MessageDetailsPage {
 
     selectedItem: any;
 
-    constructor( public navCtrl: NavController,
-                 public navParams: NavParams,
-                 public api: Api,
-                 public incService: IncomingService,
-                 public popoverCtrl: PopoverController,
-                 public menu: MenuController,
-                 public popService: PopoverService) {
+    constructor(
+        public navCtrl: NavController,
+        public navParams: NavParams,
+        public api: Api,
+        public incService: IncomingService,
+        public popoverCtrl: PopoverController,
+        public menu: MenuController,
+        public popService: PopoverService,
+        public actionService: ActionService
+    ) {
 
         this.menu.enable(false, 'primaryMenu');
         this.menu.enable(false, 'searchMenu');
@@ -64,6 +68,14 @@ export class MessageDetailsPage {
         popover.present({
             ev: myEvent
         });
+    }
+
+    doAction(method:string) {
+
+        this.actionService.selectedMessages = [];
+        this.actionService.selectedMessages.push(this.incService.selectedItem);
+
+        this.actionService.action(method);
     }
 
     ionViewDidLeave(){

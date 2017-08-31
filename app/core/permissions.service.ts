@@ -29,8 +29,6 @@ export class PermissionService {
 
     public initializeUser(userType: string): boolean{
 
-        console.log(userType);
-
         if (userType == 'admin') {
 
             this.userRoleString = 'Super-Admin';

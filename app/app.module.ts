@@ -23,6 +23,7 @@ import { SearchPage } from './pages/search/search.component';
 import { StorageService } from './core/storage.service';
 import { PopoverService } from './pages/common/popover/popover.service';
 import { PermissionService } from './core/permissions.service';
+import { ActionService } from './core/action.service';
 
 @NgModule({
     declarations: [
@@ -65,6 +66,7 @@ import { PermissionService } from './core/permissions.service';
         StorageService,
         PermissionService,
         PopoverService,
+        ActionService,
         {provide: ErrorHandler, useClass: IonicErrorHandler},
         {
             provide: Http,

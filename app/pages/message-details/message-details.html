@@ -39,11 +39,11 @@
 
 <ion-footer>
     <ion-row>
-        <button col-4>
+        <button col-4 (click)="doAction('release')">
             <ion-icon name="checkmark"></ion-icon>
             Release
         </button>
-        <button col-4>
+        <button col-4 (click)="doAction('remove_from_quarantine')">
             <ion-icon name="close"></ion-icon>
             Remove
         </button>

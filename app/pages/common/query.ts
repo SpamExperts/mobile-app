@@ -19,6 +19,11 @@ export class Query {
         return this;
     }
 
+    public orFilters(filters){
+        this.filters.push({or: filters})
+        return this;
+    }
+
     public filterEquals(name: string, val: string|number) {
         return this.filterBy(name, '==', val);
     }
@@ -119,6 +124,18 @@ export class Query {
             query.addOrderBy(orderBy, 'asc');
         }
         query.addCount(count);
+
+        return query;
+    }
+
+    public createRemoveQuery(
+        filters: any
+    ): Query {
+
+        let query = new Query();
+        delete query['fields']; delete query['orderBy']; delete query['count'];
+
+        query.orFilters(filters);
 
         return query;
     }
