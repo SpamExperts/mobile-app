@@ -15,8 +15,8 @@ export class IncomingService {
     public url: string;
     public currentQuery: any;
     public encodedQueryUrl: string;
-    public countFirst: number;
-    public totalpagesFirst: number;
+    public count: number;
+    public totalPages: number;
     public selectedInterval: any;
 
     public getMessages(): any {

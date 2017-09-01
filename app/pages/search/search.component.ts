@@ -17,6 +17,7 @@ export class SearchPage {
     public fromDate: string;
     public toDate: string;
     public selectedInterval: string;
+    public clearButton : boolean = true;
     public queryInstance: Query = new Query();
     readonly endpoint = '/master/log/delivery/?client_username=intern&page=-1&page_size=20&q=';
 
@@ -114,6 +115,7 @@ export class SearchPage {
                 filterList.push(this.pastDays(1).slice(0));
             } else if (this.selectedInterval == 'pastWeek') {
                 filterList.push(this.pastDays(7).slice(0));
+                console.log(this.pastDays(7).slice(0));
             } else if (this.selectedInterval == 'pastMonth') {
                 filterList.push(this.pastMonths(1).slice(0));
             }
@@ -132,11 +134,13 @@ export class SearchPage {
             }
         }
 
+        //this is the query used all the time
+        this.incService.currentQuery = this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false);
+
         let query = JSON.stringify(this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false));
         let encodedQuery = encodeURI(query);
         let url = this.endpoint + encodedQuery;
 
-        this.incService.currentQuery = this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false);
         this.incService.encodedQueryUrl = encodedQuery;
 
         this.incService.selectedInterval = this.selectedInterval;
@@ -145,8 +149,8 @@ export class SearchPage {
             .subscribe((data: any) => {
                 let messages: any = JSON.parse(data._body);
 
-                this.incService.countFirst = messages.num_results;
-                this.incService.totalpagesFirst = messages.total_pages;
+                this.incService.count = messages.num_results;
+                this.incService.totalPages = messages.total_pages;
                 this.incService.incomingMessages = messages.objects;
                 this.events.publish('incomingMessages', messages.objects);
             });

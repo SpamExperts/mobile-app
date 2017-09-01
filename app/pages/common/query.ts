@@ -133,7 +133,9 @@ export class Query {
     ): Query {
 
         let query = new Query();
-        delete query['fields']; delete query['orderBy']; delete query['count'];
+        delete query['fields'];
+        delete query['orderBy'];
+        delete query['count'];
 
         query.orFilters(filters);
 

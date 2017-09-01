@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Events, MenuController, NavController, NavParams, PopoverController } from 'ionic-angular';
+import { Events, MenuController, NavController, PopoverController } from 'ionic-angular';
 import { InfiniteScroll } from 'ionic-angular';
 import { IncomingService } from '../../core/incoming.service';
 import { MessageDetailsPage } from '../message-details/message-details.component';
@@ -23,16 +23,12 @@ export class ListPage {
     count: number;
     last_count: number;
     total_pages: number;
-    last_total_pages: number;
-    last_refresh_count: number;
-    refresh_count: number;
     checked_items: {}[] = [];
 
     readonly  endpoint = '/master/log/delivery/';
 
     constructor(
         public navCtrl: NavController,
-        public navParams: NavParams,
         public incService: IncomingService,
         public api: Api,
         public menu: MenuController,
@@ -44,26 +40,22 @@ export class ListPage {
 
         this.events.subscribe('incomingMessages', (data) => {
             this.handleMessages(data);
-            this.page = -2;
-            if( data.length < 4 ) {
-                this.getMoreMessages();
-            }
 
-            this.count = this.incService.countFirst;
-            this.total_pages = this.incService.totalpagesFirst;
-            this.refresh_count  = this.count;
+            //initialize with the number of pages and messages at the first search
+            this.count = this.incService.count;
+            this.total_pages = this.incService.totalPages;
+            this.page = -2;
+
             if(this.infiniteScroll) {
                 this.infiniteScroll.enable(true);
             }
 
+            if( data.length < 4 && this.count >= 4) {
+                this.getMoreMessages();
+            }
+
         });
     };
-
-    itemTapped(event, item) {
-        this.navCtrl.push(MessageDetailsPage, {
-            item: item
-        });
-    }
 
     handleMessages(messages: {}[] = []): void {
         this.items = messages.reverse();
@@ -72,71 +64,54 @@ export class ListPage {
     //when the first (-1) page doesn't have enough messages
     getMoreMessages(): void {
 
-        let url = this.endpoint + '?client_username=intern&page=-2&page_size=' + this.slice + '&q=' + this.incService.encodedQueryUrl;
+        let url = this.endpoint + '?client_username=intern&page=' + this.page + '&page_size=' + this.slice + '&q=' + this.incService.encodedQueryUrl;
         let headers = new Headers();
 
         if(this.incService.encodedQueryUrl) {
             this.api.get(url, headers).subscribe((data: any) => {
-                let messages: any = JSON.parse(data._body).objects.reverse();
-                this.items = this.items.concat(messages);
+
+                let body: any = JSON.parse(data._body);
+                this.items = this.items.concat(body.objects.reverse());
+                this.page--;
+
             });
         }
 
-        this.page = -3;
-
     }
 
-    refresh(refresher){
+    refresh(refresher) {
 
+        //not allowed when items are checked
         if(this.checked_items.length > 0) {
             refresher.complete();
             return;
         }
-        //TODO: check if it is needed
-        let last_page = this.page;
 
-        let url =  this.endpoint + '?client_username=intern&page=-1&page_size=' + this.slice + '&q=' + this.incService.encodedQueryUrl;;
+        this.refreshDate();
 
-        if (this.incService.selectedInterval != null) {
-            let query =  this.incService.currentQuery;
-            let date = new Date();
-
-            for(let item of query.filters[0].and) {
-                if(item.name == 'datetime' && item.op == '<=') {
-                    item.val  = this.incService.formatDate(date);
-                    break;
-                }
-            }
-
-            query = encodeURI(JSON.stringify(query));
-            url = this.endpoint + '?client_username=intern&page=-1&page_size=' + this.slice + '&q=' + query;
-        }
-
+        let url = this.endpoint + '?client_username=intern&page=-1&page_size=' + this.slice + '&q=' + this.incService.encodedQueryUrl;
         let headers = new Headers();
 
+        //if there is a query
         if(this.incService.encodedQueryUrl) {
             this.api.get(url, headers).subscribe((data: any) => {
                 let body = JSON.parse(data._body);
                 let messages: any = body.objects;
 
-                //refresh_count remembers the number of the pages when the last search or refresh was done
-                this.last_refresh_count = this.refresh_count;
-                this.refresh_count = body.num_results;
+                //last_count remembers the number of the messages when the last search or refresh was done
+                this.last_count = this.count;
+                this.count = body.num_results;
+                this.total_pages = body.total_pages;
 
-                if(this.refresh_count != this.last_refresh_count) {
+                if(this.count != this.last_count) {
                     if(this.infiniteScroll) {
                         this.infiniteScroll.enable(true);
                     }
                     this.page = -2;
                     this.handleMessages(messages);
-                    if (messages.length < 4) {
+                    if (messages.length < 4 && this.count >= 4) {
                         this.getMoreMessages();
                     }
-                }
-                else {
-
-                    this.page = last_page;
-
                 }
             });
         }
@@ -150,37 +125,47 @@ export class ListPage {
 
         this.infiniteScroll = infiniteScroll;
 
-        let url = this.endpoint + '?client_username=intern&page=' + this.page + '&page_size=' + this.slice + '&q=' + this.incService.encodedQueryUrl;
-        let headers = new Headers();
+        if(this.total_pages >= -this.page ) {
 
-        this.api.get(url,headers).subscribe((data: any) => {
-            let messages: any = JSON.parse(data._body);
+            let url = this.endpoint + '?client_username=intern&page=' + this.page + '&page_size=' + this.slice + '&q=' + this.incService.encodedQueryUrl;
+            let headers = new Headers();
 
-            this.last_count =  this.count;
-            this.count = messages.num_results;
-            this.last_total_pages = this.total_pages;
-            this.total_pages = messages.total_pages;
+            this.api.get(url, headers).subscribe((data: any) => {
 
-            if(this.last_count == this.count || this.total_pages == this.last_total_pages ) {
-
+                let messages: any = JSON.parse(data._body);
                 this.items = this.items.concat(messages.objects.reverse());
-                this.page -- ;
+                this.page--;
 
-            }
-            else if( this.last_count < this.count && this.last_total_pages < this.total_pages ) {
+                infiniteScroll.complete();
 
-                let page_difference = this.total_pages - this.last_total_pages;
-                if( page_difference > 1 ) {
-                    this.page = this.page - page_difference;
-                }
-
-            }
+            });
+        }
+        else {
 
             infiniteScroll.complete();
+            infiniteScroll.enable(false);
 
-            if (this.page <= -this.total_pages-1) {
-                infiniteScroll.enable(false);
+        }
+    }
+
+    refreshDate() {
+
+        let query =  this.incService.currentQuery;
+        let date = new Date();
+        for(let item of query.filters[0].and) {
+            if(item.name == 'datetime' && item.op == '<=') {
+                item.val = this.incService.formatDate(date);
+                break;
             }
+        }
+        this.incService.currentQuery = query;
+        this.incService.encodedQueryUrl = encodeURI(JSON.stringify(query));
+
+    }
+
+    itemTapped(event, item) {
+        this.navCtrl.push(MessageDetailsPage, {
+            item: item
         });
     }
 
