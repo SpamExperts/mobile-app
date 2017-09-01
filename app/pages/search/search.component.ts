@@ -28,7 +28,16 @@ export class SearchPage {
         public incService: IncomingService,
         public events: Events,
         public permissionService: PermissionService
-    ) {}
+    ) {
+        let now = new Date();
+        let today = new Date();
+        today.setSeconds(0);
+        today.setHours(0,0,0);
+        today.setHours(today.getHours() + 3);
+        now.setHours(now.getHours() + 3);
+        this.fromDate = this.incService.formatDate(today);
+        this.toDate = this.incService.formatDate(now);
+    }
 
     public setSearchFilters(field: string, value: string){
         let query = new Query();
@@ -55,6 +64,41 @@ export class SearchPage {
 
     public makeactive(state: string) {
         this.selectedInterval = state;
+        if (state == 'pastDay') {
+            let now = new Date();
+            let yesterday = new Date();
+            yesterday.setSeconds(0);
+            yesterday.setHours(yesterday.getHours() + 3);
+            now.setHours(now.getHours() + 3);
+            yesterday.setDate(now.getDate() - 1);
+            this.fromDate = this.incService.formatDate(yesterday);
+            this.toDate = this.incService.formatDate(now);
+        }else if (state == 'pastWeek') {
+            let now = new Date();
+            let yesterday = new Date();
+            yesterday.setSeconds(0);
+            yesterday.setDate(now.getDate() - 7);
+            yesterday.setHours(yesterday.getHours() + 3);
+            now.setHours(now.getHours() + 3);
+            this.fromDate = this.incService.formatDate(yesterday);
+            this.toDate = this.incService.formatDate(now);
+
+        } else if (state == 'pastMonth') {
+            let now = new Date();
+            let lastMonth = new Date();
+            lastMonth.setSeconds(0);
+            lastMonth.setMonth(now.getMonth() - 1);
+            lastMonth.setHours(lastMonth.getHours() + 3);
+            now.setHours(now.getHours() + 3);
+            this.fromDate = this.incService.formatDate(lastMonth);
+            this.toDate = this.incService.formatDate(now);
+        } else {
+            let now = new Date();
+            let today = new Date();
+            today.setSeconds(0);
+            this.fromDate = this.incService.formatDate(today);
+            this.toDate = this.incService.formatDate(now);
+        }
     }
 
     public pastDays(days: number) {
@@ -93,6 +137,7 @@ export class SearchPage {
     }
 
     public searchMessages() {
+
 
         let filterList = [];
         let headers = new Headers();
@@ -157,12 +202,12 @@ export class SearchPage {
     }
 
     public clearSearch() {
-        this.domain = '';
-        this.sender = '';
-        this.recipient = '';
-        this.fromDate = '';
-        this.toDate = '';
-        this.selectedInterval = '';
+        this.domain = null;
+        this.sender = null;
+        this.recipient = null;
+        this.fromDate = null;
+        this.toDate = null;
+        this.selectedInterval = null;
     }
 
 }

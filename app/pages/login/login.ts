@@ -46,9 +46,9 @@ export class LoginPage {
         // this should be applied somewhere globally
         let url = Env.DEV_PROXY
             ? this.endpoint
-            : this.hostname + this.endpoint;
+            : 'https://' +  this.hostname + this.endpoint;
         let headers = new Headers();
-
+        console.log(Env.DEV_PROXY);
         let auth = btoa(decodeURIComponent(
             encodeURIComponent(this.username + ':' + this.password))
         );

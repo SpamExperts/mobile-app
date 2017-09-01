@@ -54,7 +54,7 @@ export class MyApp {
                 this.secureStorageService.CreateStorage();
                 this.secure = new cordova.plugins.SecureStorage(
                     () => {
-
+                        console.log(this.secureStorageService.getStorageItem('rememberMe'));
                     },
                     () => {
                         // bring up Lock settings because secure storage doesn't work if the phone is not secure
