@@ -10,6 +10,7 @@ import { Alert } from '../common/alert';
 import { StorageService } from '../../core/storage.service';
 import { PermissionService } from '../../core/permissions.service';
 import { SecureStorageService } from '../../core/secureStorage.service';
+import { UserPermissions } from '../permissions/userPermission';
 
 @Component({
     selector: 'page-login',
@@ -24,6 +25,7 @@ export class LoginPage {
     private password: string = '';
     public alert: Alert = new Alert(this.alertCtrl);
     private rememberMe: boolean = false;
+    public permissions: UserPermissions;
 
     constructor(public navCtrl: NavController,
                 private api: Api,
@@ -71,16 +73,16 @@ export class LoginPage {
 
                         this.secureStorage.setStorageItem('token', token);
                         this.secureStorage.setStorageItem('role', body.userData.role);
-                        this.permissionsService.initializeUser(userRole);
                         this.secureStorage.setStorageItem('username', body.userData.username);
                         this.secureStorage.setStorageItem('rememberMe', this.rememberMe.toString());
+                        this.permissionsService.setPermissions(userRole);
                         this.navCtrl.setRoot(HomePage);
 
                     } else {
                     // // used to make things work on browser
                     this.storageService.setToken(token);
                     this.storageService.setUserRole(body.userData.role);
-                    this.permissionsService.initializeUser(userRole);
+                    this.permissionsService.setPermissions(userRole);
                     this.storageService.setUsername(body.userData.username);
                     this.storageService.setRememberMe(this.rememberMe.toString());
                     this.navCtrl.setRoot(HomePage);

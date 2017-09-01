@@ -28,7 +28,7 @@ export class IncomingService {
             let user_id = this.selectedItem.message_id;
             let filtering_host = this.selectedItem.filtering_host;
             let account = this.selectedItem.recipient+'@'+this.selectedItem.domain;
-            let url= '/master/quarantine/delivery/view/'+account+ '/' + filtering_host + '/' + user_id + '/';
+            let url= '/master/quarantine/delivery/view/'+ account + '/' + filtering_host + '/' + user_id + '/';
 
             let headers = new Headers();
 

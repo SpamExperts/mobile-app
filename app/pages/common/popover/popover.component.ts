@@ -3,6 +3,7 @@ import { ViewController } from 'ionic-angular';
 import { PopoverService } from './popover.service';
 import { ActionService } from '../../../core/action.service';
 import { IncomingService } from "../../../core/incoming.service";
+import { PermissionService } from '../../../core/permissions.service';
 
 @Component({
     selector: 'app-popover',
@@ -14,7 +15,8 @@ export class PopoverPage {
         public viewCtrl: ViewController,
         public popService: PopoverService,
         public actionService: ActionService,
-        public incService: IncomingService
+        public incService: IncomingService,
+        public permissionService: PermissionService
     ) {}
 
     close() {

@@ -6,6 +6,7 @@ import { IncomingService } from '../../core/incoming.service';
 import { PopoverPage } from '../common/popover/popover.component';
 import { PopoverService } from '../common/popover/popover.service';
 import { ActionService } from '../../core/action.service';
+import { PermissionService } from '../../core/permissions.service';
 
 @Component({
     selector: 'app-message-details',
@@ -25,7 +26,8 @@ export class MessageDetailsPage {
         public popoverCtrl: PopoverController,
         public menu: MenuController,
         public popService: PopoverService,
-        public actionService: ActionService
+        public actionService: ActionService,
+        public permissionService: PermissionService
     ) {
 
         this.menu.enable(false, 'primaryMenu');

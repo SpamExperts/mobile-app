@@ -20,7 +20,7 @@ export class SecureStorageService {
     }
 
     public getStorageItem(item) {
-        let result ='';
+        let result = '';
         this.storage.get(item)
             .then(
                 data => {

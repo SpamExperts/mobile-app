@@ -4,6 +4,7 @@ import { Api } from "../../core/api.service";
 import { Headers } from '@angular/http';
 import { IncomingService } from "../../core/incoming.service";
 import { Events, Nav } from 'ionic-angular';
+import { PermissionService } from '../../core/permissions.service';
 @Component({
     selector: 'search-messages',
     templateUrl: 'search.component.html'
@@ -24,7 +25,8 @@ export class SearchPage {
     constructor(
         public api: Api,
         public incService: IncomingService,
-        public events: Events
+        public events: Events,
+        public permissionService: PermissionService
     ) {}
 
     public setSearchFilters(field: string, value: string){

@@ -6,17 +6,17 @@
             <ion-label>Search messages</ion-label>
             <ion-list>
 
-                <ion-item>
+                <ion-item *ngIf="this.permissionService.permissions.searchFilter.domain">
                     <ion-label floating>Domain</ion-label>
                     <ion-input type="text" [(ngModel)]="domain" name="domain" ></ion-input>
                 </ion-item>
 
-                <ion-item>
+                <ion-item *ngIf="this.permissionService.permissions.searchFilter.sender">
                     <ion-label floating>Sender</ion-label>
                     <ion-input type="text"  [(ngModel)]="sender" name="sender"></ion-input>
                 </ion-item>
 
-                <ion-item>
+                <ion-item *ngIf="this.permissionService.permissions.searchFilter.recipient">
                     <ion-label floating>Recipient</ion-label>
                     <ion-input type="text" [(ngModel)]="recipient" name="recipient"></ion-input>
                 </ion-item>

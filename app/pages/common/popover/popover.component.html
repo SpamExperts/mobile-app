@@ -1,10 +1,9 @@
 <ion-list class="popover">
     <ion-list-header color="dark">Available actions</ion-list-header>
-    <!--<button ion-item (click)="whitelist_release()">Whitelist and release</button>-->
-    <button ion-item (click)="doAction('release')">Release</button>
-    <button ion-item (click)="doAction('release_and_train')">Release and train</button>
-    <!--<button ion-item (click)="blacklist_remove()">Blacklist and remove</button>-->
-    <hr>
-    <button ion-item (click)="doAction('remove_from_quarantine')">Remove</button>
-
+    <button ion-item (click)="close()" *ngIf="this.permissionService.permissions.actions.release">Release</button>
+    <button ion-item (click)="close()" *ngIf="this.permissionService.permissions.actions.whitelistAndRelease">Whitelist and release</button>
+    <button ion-item (click)="close()" *ngIf="this.permissionService.permissions.actions.releaseAndTrain">Release and train</button>
+    <button ion-item (click)="close()" *ngIf="this.permissionService.permissions.actions.remove">Remove</button>
+    <button ion-item (click)="close()" *ngIf="this.permissionService.permissions.actions.blacklistAndRemove">Blacklist and remove</button>
+    <button ion-item (click)="close()" *ngIf="this.permissionService.permissions.actions.purgeQuarantine">Purge Quarantine</button>
 </ion-list>

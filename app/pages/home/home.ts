@@ -21,8 +21,8 @@ export class HomePage {
         public menu: MenuController,
         public permissionsService: PermissionService
     ){
-        this.incomingButton = this.permissionsService.messagesPages.incoming;
-        this.outgoingButton = this.permissionsService.messagesPages.outgoing;
+        this.incomingButton = this.permissionsService.permissions.messagesPages.incoming;
+        this.outgoingButton = this.permissionsService.permissions.messagesPages.outgoing;
 
     }
 
