@@ -5,6 +5,7 @@ import { Headers } from '@angular/http';
 import { IncomingService } from "../../core/incoming.service";
 import { Events, Nav } from 'ionic-angular';
 import { PermissionService } from '../../core/permissions.service';
+
 @Component({
     selector: 'search-messages',
     templateUrl: 'search.component.html'
@@ -35,8 +36,8 @@ export class SearchPage {
         today.setHours(0,0,0);
         today.setHours(today.getHours() + 3);
         now.setHours(now.getHours() + 3);
-        this.fromDate = this.incService.formatDate(today);
-        this.toDate = this.incService.formatDate(now);
+        this.fromDate = today.toISOString();
+        this.toDate = now.toISOString();
     }
 
     public setSearchFilters(field: string, value: string){
@@ -65,39 +66,46 @@ export class SearchPage {
     public makeactive(state: string) {
         this.selectedInterval = state;
         if (state == 'pastDay') {
+
             let now = new Date();
             let yesterday = new Date();
             yesterday.setSeconds(0);
             yesterday.setHours(yesterday.getHours() + 3);
             now.setHours(now.getHours() + 3);
             yesterday.setDate(now.getDate() - 1);
-            this.fromDate = this.incService.formatDate(yesterday);
-            this.toDate = this.incService.formatDate(now);
-        }else if (state == 'pastWeek') {
+            this.fromDate = yesterday.toISOString();
+            this.toDate = now.toISOString();
+
+        } else if (state == 'pastWeek') {
+
             let now = new Date();
             let yesterday = new Date();
             yesterday.setSeconds(0);
             yesterday.setDate(now.getDate() - 7);
             yesterday.setHours(yesterday.getHours() + 3);
             now.setHours(now.getHours() + 3);
-            this.fromDate = this.incService.formatDate(yesterday);
-            this.toDate = this.incService.formatDate(now);
+            this.fromDate = yesterday.toISOString();
+            this.toDate = now.toISOString();
 
         } else if (state == 'pastMonth') {
+
             let now = new Date();
             let lastMonth = new Date();
             lastMonth.setSeconds(0);
             lastMonth.setMonth(now.getMonth() - 1);
             lastMonth.setHours(lastMonth.getHours() + 3);
             now.setHours(now.getHours() + 3);
-            this.fromDate = this.incService.formatDate(lastMonth);
-            this.toDate = this.incService.formatDate(now);
+            this.fromDate = lastMonth.toISOString();
+            this.toDate = now.toISOString();
+
         } else {
+
             let now = new Date();
             let today = new Date();
             today.setSeconds(0);
             this.fromDate = this.incService.formatDate(today);
             this.toDate = this.incService.formatDate(now);
+
         }
     }
 

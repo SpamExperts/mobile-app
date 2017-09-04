@@ -24,6 +24,8 @@ import { StorageService } from './core/storage.service';
 import { PopoverService } from './pages/common/popover/popover.service';
 import { PermissionService } from './core/permissions.service';
 import { ActionService } from './core/action.service';
+import { SecureStorageService } from './core/secureStorage.service';
+import { SecureStorage } from '@ionic-native/secure-storage';
 
 @NgModule({
     declarations: [
@@ -67,6 +69,8 @@ import { ActionService } from './core/action.service';
         PermissionService,
         PopoverService,
         ActionService,
+        SecureStorageService,
+        SecureStorage,
         {provide: ErrorHandler, useClass: IonicErrorHandler},
         {
             provide: Http,

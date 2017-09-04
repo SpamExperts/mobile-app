@@ -48,7 +48,6 @@ export class LoginPage {
             ? this.endpoint
             : 'https://' +  this.hostname + this.endpoint;
         let headers = new Headers();
-        console.log(Env.DEV_PROXY);
         let auth = btoa(decodeURIComponent(
             encodeURIComponent(this.username + ':' + this.password))
         );
@@ -80,12 +79,12 @@ export class LoginPage {
 
                     } else {
                     // // used to make things work on browser
-                    this.storageService.setToken(token);
-                    this.storageService.setUserRole(body.userData.role);
-                    this.permissionsService.setPermissions(userRole);
-                    this.storageService.setUsername(body.userData.username);
-                    this.storageService.setRememberMe(this.rememberMe.toString());
-                    this.navCtrl.setRoot(HomePage);
+                        this.storageService.setToken(token);
+                        this.storageService.setUserRole(body.userData.role);
+                        this.permissionsService.setPermissions(userRole);
+                        this.storageService.setUsername(body.userData.username);
+                        this.storageService.setRememberMe(this.rememberMe.toString());
+                        this.navCtrl.setRoot(HomePage);
                     }
                 }
 
