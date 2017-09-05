@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Events, MenuController, NavController, PopoverController } from 'ionic-angular';
 import { InfiniteScroll } from 'ionic-angular';
 import { IncomingService } from '../../core/incoming.service';
@@ -6,7 +6,6 @@ import { MessageDetailsPage } from '../message-details/message-details.component
 import { Api } from '../../core/api.service';
 import { Headers } from '@angular/http';
 import { PopoverPage } from '../common/popover/popover.component';
-import { PopoverService } from '../common/popover/popover.service';
 import { ActionService } from '../../core/action.service';
 
 @Component({
@@ -15,15 +14,19 @@ import { ActionService } from '../../core/action.service';
 })
 export class ListPage {
 
+    @ViewChild('list') list: any;
+
     selectedItem: any;
     items: {}[] = [];
     slice: number = 20;
     page: number;
     infiniteScroll: any = null;
+    refresher: any = null ;
     count: number;
     last_count: number;
     total_pages: number;
-    checked_items: {}[] = [];
+    allowActionRefresh: boolean = false;
+    noItems: boolean = false;
 
     readonly  endpoint = '/master/log/delivery/';
 
@@ -33,12 +36,19 @@ export class ListPage {
         public api: Api,
         public menu: MenuController,
         public events: Events,
-        public popService: PopoverService,
         public popoverCtrl: PopoverController,
-        public actionService: ActionService
+        public actionService: ActionService,
     ) {
 
+        this.events.subscribe('refresh', () => {
+            let thisList = this;
+            setTimeout( function () {
+                thisList.actionRefresh();
+            },2000);
+        });
+
         this.events.subscribe('incomingMessages', (data) => {
+
             this.handleMessages(data);
 
             //initialize with the number of pages and messages at the first search
@@ -46,19 +56,24 @@ export class ListPage {
             this.total_pages = this.incService.totalPages;
             this.page = -2;
 
-            if(this.infiniteScroll) {
-                this.infiniteScroll.enable(true);
+            if(this.infiniteScroll != null && this.infiniteScroll!=undefined && !this.infiniteScroll) {
+                    this.infiniteScroll.enable(true);
             }
 
             if( data.length < 4 && this.count >= 4) {
                 this.getMoreMessages();
             }
-
         });
     };
 
     handleMessages(messages: {}[] = []): void {
-        this.items = messages.reverse();
+        if(messages.length == 0) {
+            this.noItems = true;
+            this.items = [];
+        } else {
+            this.noItems = false;
+            this.items = messages.reverse();
+        }
     };
 
     //when the first (-1) page doesn't have enough messages
@@ -82,10 +97,47 @@ export class ListPage {
     refresh(refresher) {
 
         //not allowed when items are checked
-        if(this.checked_items.length > 0) {
+        if(this.incService.checkedNumber > 0 ) {
             refresher.complete();
             return;
         }
+
+        this.allowActionRefresh = false;
+        this.refreshDate();
+
+        let url = this.endpoint + '?client_username=intern&page=-1&page_size=' + this.slice + '&q=' + this.incService.encodedQueryUrl;
+        let headers = new Headers();
+
+        //if there is a query
+        if(this.incService.encodedQueryUrl ) {
+            this.api.get(url, headers).subscribe((data: any) => {
+                let body = JSON.parse(data._body);
+                let messages: any = body.objects;
+
+                //last_count remembers the number of the messages when the last search or refresh was done
+                this.last_count = this.count;
+                this.count = body.num_results;
+                this.total_pages = body.total_pages;
+
+                if(this.count != this.last_count ) {
+                    if(this.infiniteScroll!= undefined && this.infiniteScroll != null && !this.infiniteScroll) {
+                        this.infiniteScroll.enable(true);
+                    }
+                    this.page = -2;
+                    this.handleMessages(messages);
+                    if (messages.length < 4 && this.count >= 4) {
+                        this.getMoreMessages();
+                    }
+                }
+            });
+        }
+
+        setTimeout( function() {
+            refresher.complete();
+        }, 1000);
+    }
+
+    actionRefresh() {
 
         this.refreshDate();
 
@@ -93,7 +145,7 @@ export class ListPage {
         let headers = new Headers();
 
         //if there is a query
-        if(this.incService.encodedQueryUrl) {
+        if(this.incService.encodedQueryUrl ) {
             this.api.get(url, headers).subscribe((data: any) => {
                 let body = JSON.parse(data._body);
                 let messages: any = body.objects;
@@ -116,9 +168,6 @@ export class ListPage {
             });
         }
 
-        setTimeout( function() {
-            refresher.complete();
-        }, 1000);
     }
 
     doInfinite(infiniteScroll: InfiniteScroll) {
@@ -170,25 +219,25 @@ export class ListPage {
     }
 
     changeCheckedItems(item): void {
+
         if(item.checked) {
-            this.checked_items.push(item);
+            this.incService.checkedNumber ++;
         }
         else {
-            for(let i = 0;  i < this.checked_items.length; i++)
-                if(item == this.checked_items[i]) {
-                    this.checked_items.splice(i, 1);
-                    break;
-                }
+            this.incService.checkedNumber --;
         }
+        this.incService.allItems = this.items;
 
-        this.actionService.selectedMessages = this.checked_items;
     }
 
     openPopover(myEvent) {
-        this.popService.messageListPop = true;
         let popover = this.popoverCtrl.create(PopoverPage);
         popover.present({
             ev: myEvent
         });
+    }
+
+    public itemIdentity (index, item) {
+        return item;
     }
 }

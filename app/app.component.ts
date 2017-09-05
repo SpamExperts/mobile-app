@@ -71,7 +71,6 @@ export class MyApp implements OnInit {
                     this.rootPage = HomePage;
                 }
             } else {
-                console.log('localstorage');
                 this.userRole = this.storageService.getUserRole();
                 this.username = this.storageService.getUsername();
                 if (this.storageService.getToken() != null && this.storageService.getRememberMe() == 'true') {
@@ -85,13 +84,11 @@ export class MyApp implements OnInit {
 
 
     ngOnInit() {
-        console.log('wewe', this.secureStorageService.safeStorage);
         this.userRole = this.secureStorageService.safeStorage['role'];
         this.username = this.secureStorageService.safeStorage['username'];
     }
 
     ngAfterViewInit() {
-        console.log('wewe2', this.secureStorageService.safeStorage);
     }
 
     openPage(page) {

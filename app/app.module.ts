@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { MyApp } from './app.component';
@@ -21,7 +20,6 @@ import { NormalPage } from './pages/tabs/tab-views/normal/normal.component';
 import { PopoverPage } from './pages/common/popover/popover.component';
 import { SearchPage } from './pages/search/search.component';
 import { StorageService } from './core/storage.service';
-import { PopoverService } from './pages/common/popover/popover.service';
 import { PermissionService } from './core/permissions.service';
 import { ActionService } from './core/action.service';
 import { SecureStorageService } from './core/secureStorage.service';
@@ -67,7 +65,6 @@ import { SecureStorage } from '@ionic-native/secure-storage';
         IncomingService,
         StorageService,
         PermissionService,
-        PopoverService,
         ActionService,
         SecureStorageService,
         SecureStorage,

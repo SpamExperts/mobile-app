@@ -18,14 +18,15 @@
   </ion-refresher>
 
   <div *ngIf="!items.length"> No entries. Pull to refresh... </div>
-  <ion-list [virtualScroll]="items">
-    <ion-item *virtualItem="let item" (click)="itemTapped($event, item)" >
+  <ion-list [hidden]="noItems" [virtualScroll]="items" [approxItemHeight]="'150px'" [virtualTrackBy]="itemIdentity" >
+    <ion-item *virtualItem="let item " (click)="itemTapped($event, item)" >
       <ion-row>
         <ion-col col-10>
           <span>{{incService.dateConvert(item.datetime)}}</span>&nbsp;&nbsp;
           <ion-badge item-end outline color="light">spam</ion-badge>
           <br><br>
           <span>{{item.sender}}</span> <br>
+            items length: {{items.length}}
           <span>{{item.subject_header}}</span>
         </ion-col>
         <ion-col col-2>
@@ -47,7 +48,7 @@
 
 </ion-content>
 
-<ion-footer *ngIf="this.checked_items.length > 0">
+<ion-footer *ngIf="incService.checkedNumber> 0">
     <ion-row>
         <button col-4 (click)="this.actionService.action('release')">
             <ion-icon name="checkmark"></ion-icon>
@@ -60,6 +61,7 @@
         <button col-4 (click)="openPopover($event)">
             <ion-icon  name="more"></ion-icon>
             More
+            <ion-badge item-end>{{incService.checkedNumber}}</ion-badge>
         </button>
     </ion-row>
 </ion-footer>

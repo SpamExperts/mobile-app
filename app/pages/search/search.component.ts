@@ -19,7 +19,6 @@ export class SearchPage {
     public fromDate: string;
     public toDate: string;
     public selectedInterval: string;
-    public clearButton : boolean = true;
     public queryInstance: Query = new Query();
     readonly endpoint = '/master/log/delivery/?client_username=intern&page=-1&page_size=20&q=';
 
@@ -180,7 +179,6 @@ export class SearchPage {
         } else if (this.fromDate != null && this.toDate == null) {
             let date = new Date();
             this.toDate = this.incService.formatDate(date);
-            console.log(this.fromDate);
             filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
         } else if (this.fromDate != null && this.toDate != null) {
             filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
@@ -192,7 +190,6 @@ export class SearchPage {
             }
         }
 
-        //this is the query used all the time
         this.incService.currentQuery = this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false);
 
         let query = JSON.stringify(this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false));
@@ -210,6 +207,7 @@ export class SearchPage {
                 this.incService.count = messages.num_results;
                 this.incService.totalPages = messages.total_pages;
                 this.incService.incomingMessages = messages.objects;
+
                 this.events.publish('incomingMessages', messages.objects);
             });
     }

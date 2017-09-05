@@ -18,6 +18,8 @@ export class IncomingService {
     public count: number;
     public totalPages: number;
     public selectedInterval: any;
+    public allItems: any;
+    public checkedNumber: any = 0;
 
     public getMessages(): any {
         return this.incomingMessages;
@@ -60,8 +62,6 @@ export class IncomingService {
 
     //for the server
     public formatDate(date: Date): string {
-        //this is converted to Romania for testing
-        date.setHours(date.getHours() - 3);
         let nowString = date.toISOString();
         return nowString;
     }

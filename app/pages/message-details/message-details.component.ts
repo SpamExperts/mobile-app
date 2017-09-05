@@ -1,12 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { MenuController, Navbar, NavController, NavParams, PopoverController } from 'ionic-angular';
+import { MenuController, Navbar, NavController, NavParams, PopoverController, Events } from 'ionic-angular';
 import { Headers } from '@angular/http';
 import { Api } from '../../core/api.service';
 import { IncomingService } from '../../core/incoming.service';
 import { PopoverPage } from '../common/popover/popover.component';
-import { PopoverService } from '../common/popover/popover.service';
 import { ActionService } from '../../core/action.service';
 import { PermissionService } from '../../core/permissions.service';
+import { ListPage } from '../list/list';
 
 @Component({
     selector: 'app-message-details',
@@ -19,16 +19,24 @@ export class MessageDetailsPage {
     selectedItem: any;
 
     constructor(
-        public navCtrl: NavController,
         public navParams: NavParams,
         public api: Api,
         public incService: IncomingService,
         public popoverCtrl: PopoverController,
         public menu: MenuController,
-        public popService: PopoverService,
         public actionService: ActionService,
-        public permissionService: PermissionService
+        public permissionService: PermissionService,
+        public navCtrl: NavController,
+        public events: Events
     ) {
+
+        let self = this;
+        this.events.subscribe('move', function() {
+            self.navCtrl.setRoot(ListPage);
+            setTimeout(function() {
+                self.events.publish('refresh', "");
+            }, 2000);
+        })
 
         this.menu.enable(false, 'primaryMenu');
         this.menu.enable(false, 'searchMenu');
@@ -65,7 +73,6 @@ export class MessageDetailsPage {
     }
 
     openPopover(myEvent) {
-        this.popService.messageViewPop = true;
         let popover = this.popoverCtrl.create(PopoverPage);
         popover.present({
             ev: myEvent
@@ -74,8 +81,8 @@ export class MessageDetailsPage {
 
     doAction(method:string) {
 
-        this.actionService.selectedMessages = [];
-        this.actionService.selectedMessages.push(this.incService.selectedItem);
+        // this.actionService.selectedMessages = [];
+        // this.actionService.selectedMessages.push(this.incService.selectedItem);
 
         this.actionService.action(method);
     }
@@ -83,6 +90,7 @@ export class MessageDetailsPage {
     ionViewDidLeave(){
         this.menu.enable(true,'primaryMenu');
         this.menu.enable(true,'searchMenu');
+        this.incService.selectedItem = undefined;
     }
 
 }
