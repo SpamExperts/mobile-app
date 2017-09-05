@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+
 @Injectable()
 export class StorageService {
 
@@ -21,8 +22,12 @@ export class StorageService {
         this.storage.setItem('role', role);
     }
 
-    setUsername(username) {
+    public setUsername(username) {
         this.storage.setItem('username', username);
+    }
+
+    public setPermissions(permissions) {
+        this.storage.setItem('permissions', permissions);
     }
 
     public getToken() {
@@ -39,6 +44,10 @@ export class StorageService {
 
     public getUsername() {
         return this.storage.getItem('username');
+    }
+
+    public getPermissions() {
+        return this.storage.getItem('permissions');
     }
 
     public clearStorage() {

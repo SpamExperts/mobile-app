@@ -5,6 +5,9 @@ import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage
 export class SecureStorageService {
 
     public storage: SecureStorageObject;
+    public result: string;
+
+    public safeStorage: {} = {};
 
     constructor(public secureStorage: SecureStorage) {
 
@@ -12,33 +15,48 @@ export class SecureStorageService {
 
     public CreateStorage() {
         this.secureStorage.create('mobileSecureStorage')
-            .then((storageObject: SecureStorageObject) => {
-                this.storage = storageObject;
-                this.setStorageItem('token', '');
-                this.setStorageItem('rememberMe', 'false');
-            })
+            .then(
+                (storageObject: SecureStorageObject) => {
+                    this.storage = storageObject;
+                    console.log('secure storage created');
+                    this.setStorageItem('token', '');
+                    this.setStorageItem('rememberMe', 'false');
+                    this.getItem('rememberMe');
+                    this.getItem('token');
+                },
+                (error) => {
+                    this.storage.secureDevice().then(() => {}, () => {})
+                    console.log('error ' + error );
+                }
+            )
     }
 
-    public getStorageItem(item) {
-        let result = '';
+    public getItem(item) {
+        this.getStorageItem(item, (data) => {
+            this.safeStorage[item] = data;
+        })
+    }
+
+    public getStorageItem(item, callback) {
         this.storage.get(item)
             .then(
-                data => {
-                    result = data;
+                (data) => {
+                    // console.log('getting ' + data);
+                    if (callback && callback instanceof Function) {
+                        return callback(data);
+                    }
                 },
-                error => {}
+                (error) => {
+                    console.log('item error' + item);
+                }
             );
 
-        return result;
     }
 
     public setStorageItem(item, value) {
-
-        this.storage.set(item, value).then();
-    }
-
-    public checkLockScreen() {
-        this.storage.secureDevice().then();
+        this.storage.set(item, value).then(
+            data =>  console.log(item + " -- " + value)
+        );
     }
 
     public bringUpLockSettings() {

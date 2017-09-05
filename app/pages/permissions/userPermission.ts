@@ -1,4 +1,5 @@
 import { PermissionService } from '../../core/permissions.service';
+
 export class UserPermissions {
 
     userPermissions = {

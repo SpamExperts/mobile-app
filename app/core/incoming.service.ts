@@ -60,15 +60,11 @@ export class IncomingService {
 
     //for the server
     public formatDate(date: Date): string {
-
         //this is converted to Romania for testing
         date.setHours(date.getHours() - 3);
-
-        let nowString = date.getFullYear() + "-" +
-            (((date.getMonth() + 1) > 9) ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1)) + '-' +
-            ((date.getDate() > 9) ? date.getDate()  : '0' + date.getDate() ) + "T" +
-            date.getHours() + ":" + ((date.getMinutes() > 9) ? date.getMinutes()  : '0' + date.getMinutes());
-
+        let nowString = date.toISOString();
         return nowString;
     }
+
+
 }

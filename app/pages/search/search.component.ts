@@ -5,6 +5,7 @@ import { Headers } from '@angular/http';
 import { IncomingService } from "../../core/incoming.service";
 import { Events, Nav } from 'ionic-angular';
 import { PermissionService } from '../../core/permissions.service';
+import { Env } from '../../core/env';
 
 @Component({
     selector: 'search-messages',
@@ -21,6 +22,8 @@ export class SearchPage {
     public clearButton : boolean = true;
     public queryInstance: Query = new Query();
     readonly endpoint = '/master/log/delivery/?client_username=intern&page=-1&page_size=20&q=';
+
+
 
     @ViewChild(Nav) nav: Nav;
 
@@ -146,6 +149,9 @@ export class SearchPage {
 
     public searchMessages() {
 
+        let end = Env.DEV_PROXY
+            ? this.endpoint
+            : 'https://server1.test21.simplyspamfree.com' + this.endpoint;
 
         let filterList = [];
         let headers = new Headers();
@@ -168,7 +174,6 @@ export class SearchPage {
                 filterList.push(this.pastDays(1).slice(0));
             } else if (this.selectedInterval == 'pastWeek') {
                 filterList.push(this.pastDays(7).slice(0));
-                console.log(this.pastDays(7).slice(0));
             } else if (this.selectedInterval == 'pastMonth') {
                 filterList.push(this.pastMonths(1).slice(0));
             }
@@ -192,7 +197,7 @@ export class SearchPage {
 
         let query = JSON.stringify(this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false));
         let encodedQuery = encodeURI(query);
-        let url = this.endpoint + encodedQuery;
+        let url = end + encodedQuery;
 
         this.incService.encodedQueryUrl = encodedQuery;
 

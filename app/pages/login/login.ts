@@ -69,12 +69,14 @@ export class LoginPage {
                     this.alert.showConfirm('Error logging in!', ' Sorry, admin users are not able to use this app yet. Please log in as a domain or email user.');
                 } else {
                     if (this.platform.is('cordova')) {
+                        console.log('using secureStorage ' + token);
 
                         this.secureStorage.setStorageItem('token', token);
                         this.secureStorage.setStorageItem('role', body.userData.role);
                         this.secureStorage.setStorageItem('username', body.userData.username);
                         this.secureStorage.setStorageItem('rememberMe', this.rememberMe.toString());
                         this.permissionsService.setPermissions(userRole);
+                        console.log(" role -> " + this.secureStorage.safeStorage['role']);
                         this.navCtrl.setRoot(HomePage);
 
                     } else {
@@ -84,6 +86,7 @@ export class LoginPage {
                         this.permissionsService.setPermissions(userRole);
                         this.storageService.setUsername(body.userData.username);
                         this.storageService.setRememberMe(this.rememberMe.toString());
+                        this.storageService.setPermissions(this.permissionsService.setPermissions(userRole));
                         this.navCtrl.setRoot(HomePage);
                     }
                 }

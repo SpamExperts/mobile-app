@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserPermissions } from '../pages/permissions/userPermission';
+import { StorageService } from './storage.service';
 
 @Injectable()
 export class PermissionService {
@@ -27,7 +28,7 @@ export class PermissionService {
         }
     }
 
-    constructor() {
+    constructor(public storage: StorageService) {
 
     }
 

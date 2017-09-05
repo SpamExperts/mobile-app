@@ -158,7 +158,6 @@ ionic cordova platform add ${PLATFORM}
 # add cordova plugins
 ionic cordova plugin add cordova-plugin-network-information
 ionic cordova plugin add cordova-plugin-secure-storage
-npm install --save @ionic-native/secure-storage
 
 # add jshybugger for debugging a production app
 if ! [ -z "${DEBUG}" ]; then

@@ -4,6 +4,7 @@ import { Api } from '../../core/api.service';
 import { ListPage } from "../list/list";
 import { IncomingService } from '../../core/incoming.service';
 import { PermissionService } from '../../core/permissions.service';
+import { StorageService } from '../../core/storage.service';
 
 @Component({
     selector: 'page-home',
@@ -19,11 +20,14 @@ export class HomePage {
         public api: Api,
         public incService: IncomingService,
         public menu: MenuController,
-        public permissionsService: PermissionService
+        public permissionsService: PermissionService,
+        public storage: StorageService
     ){
+        if (this.storage.getRememberMe()) {
+            this.permissionsService.setPermissions(this.storage.getUserRole());
+        }
         this.incomingButton = this.permissionsService.permissions.messagesPages.incoming;
         this.outgoingButton = this.permissionsService.permissions.messagesPages.outgoing;
-
     }
 
     public getIncomingMessages(): any {

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -16,7 +16,7 @@ declare var cordova: any;
     selector: 'my-app',
     templateUrl: 'app.html'
 })
-export class MyApp {
+export class MyApp implements OnInit {
     @ViewChild(Nav) nav: Nav;
 
     rootPage: any = LoginPage;
@@ -47,22 +47,33 @@ export class MyApp {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
 
-            this.userRole = this.storageService.getUserRole();
-            this.username = this.storageService.getUsername();
 
             if(this.platform.is('cordova')) {
-                this.secureStorageService.CreateStorage();
-                this.secure = new cordova.plugins.SecureStorage(
+                this.platform.ready().then(
                     () => {
-                        console.log(this.secureStorageService.getStorageItem('rememberMe'));
-                    },
-                    () => {
-                        // bring up Lock settings because secure storage doesn't work if the phone is not secure
-                        this.secureStorageService.bringUpLockSettings();
-                    },
-                    'mobileSecureStorage'
+                        this.secureStorageService.CreateStorage();
+                        this.secure = new cordova.plugins.SecureStorage(
+                            () => {
+                                // console.log(this.secureStorageService.getStorageItem('rememberMe'));
+
+                            },
+                            () => {
+                                // bring up Lock settings because secure storage doesn't work if the phone is not secure
+                                this.secureStorageService.bringUpLockSettings();
+                            },
+                            'mobileSecureStorage'
+                        );
+                    }
+
                 );
+
+                if(this.secureStorageService.safeStorage['token'] != null && this.secureStorageService.safeStorage['rememberMe'] == 'true') {
+                    this.rootPage = HomePage;
+                }
             } else {
+                console.log('localstorage');
+                this.userRole = this.storageService.getUserRole();
+                this.username = this.storageService.getUsername();
                 if (this.storageService.getToken() != null && this.storageService.getRememberMe() == 'true') {
                     this.rootPage = HomePage;
                 }
@@ -70,6 +81,17 @@ export class MyApp {
 
 
         });
+    }
+
+
+    ngOnInit() {
+        console.log('wewe', this.secureStorageService.safeStorage);
+        this.userRole = this.secureStorageService.safeStorage['role'];
+        this.username = this.secureStorageService.safeStorage['username'];
+    }
+
+    ngAfterViewInit() {
+        console.log('wewe2', this.secureStorageService.safeStorage);
     }
 
     openPage(page) {
