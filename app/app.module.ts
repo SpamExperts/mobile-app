@@ -8,7 +8,7 @@ import { MyApp } from './app.component';
 import { LoginPage } from './pages/login/login';
 import { HomePage } from './pages/home/home';
 import { ListPage } from './pages/list/list';
-import { Http, HttpModule, RequestOptions, XHRBackend } from '@angular/http';
+import { ConnectionBackend, Http, HttpModule, RequestOptions, XHRBackend } from '@angular/http';
 import { Api } from './core/api.service';
 import { httpFactory } from './core/http.factory';
 import { IncomingService } from './core/incoming.service';
@@ -24,6 +24,7 @@ import { PermissionService } from './core/permissions.service';
 import { ActionService } from './core/action.service';
 import { SecureStorageService } from './core/secureStorage.service';
 import { SecureStorage } from '@ionic-native/secure-storage';
+import { HttpInterceptor } from './core/httpinterceptor.service';
 
 @NgModule({
     declarations: [

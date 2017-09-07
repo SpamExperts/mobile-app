@@ -20,6 +20,8 @@ export class IncomingService {
     public selectedInterval: any;
     public allItems: any;
     public checkedNumber: any = 0;
+    public username: string;
+    public role: string;
 
     public getMessages(): any {
         return this.incomingMessages;
@@ -47,6 +49,7 @@ export class IncomingService {
         let d = new Date(date);
         let days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
         return days[d.getDay()-1] + ', ' +  d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
     }
 
@@ -54,10 +57,10 @@ export class IncomingService {
     public timeConvert(date: any): string {
         let d = new Date(date);
         let minutes = '';
-        if(d.getMinutes()<10) {
+        if (d.getMinutes() < 10) {
             minutes = '0';
         }
-        return d.getHours()+':'+minutes+d.getMinutes();
+        return d.getHours() + ':' + minutes + d.getMinutes();
     }
 
     //for the server
@@ -66,5 +69,9 @@ export class IncomingService {
         return nowString;
     }
 
+    public setLoginUserInfo(name, role) {
+        this.username = name;
+        this.role = role;
+    }
 
 }

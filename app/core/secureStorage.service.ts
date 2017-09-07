@@ -18,22 +18,21 @@ export class SecureStorageService {
             .then(
                 (storageObject: SecureStorageObject) => {
                     this.storage = storageObject;
-                    console.log('secure storage created');
-                    this.setStorageItem('token', '');
-                    this.setStorageItem('rememberMe', 'false');
-                    this.getItem('rememberMe');
-                    this.getItem('token');
+                    console.log(this.safeStorage['rememberMe']);
+                    if (this.safeStorage['rememberMe'] == null ) {
+                        this.setStorageItem('token', '');
+                        this.setStorageItem('rememberMe', 'false');
+                    }
                 },
                 (error) => {
                     this.storage.secureDevice().then(() => {}, () => {})
-                    console.log('error ' + error );
                 }
             )
     }
 
     public getItem(item) {
         this.getStorageItem(item, (data) => {
-            this.safeStorage[item] = data;
+            return this.safeStorage[item];
         })
     }
 
@@ -41,13 +40,9 @@ export class SecureStorageService {
         this.storage.get(item)
             .then(
                 (data) => {
-                    // console.log('getting ' + data);
                     if (callback && callback instanceof Function) {
                         return callback(data);
                     }
-                },
-                (error) => {
-                    console.log('item error' + item);
                 }
             );
 
@@ -55,7 +50,7 @@ export class SecureStorageService {
 
     public setStorageItem(item, value) {
         this.storage.set(item, value).then(
-            data =>  console.log(item + " -- " + value)
+            this.safeStorage[item] = value
         );
     }
 

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Query } from '../common/query';
 import { Api } from "../../core/api.service";
 import { Headers } from '@angular/http';
@@ -6,6 +6,8 @@ import { IncomingService } from "../../core/incoming.service";
 import { Events, Nav } from 'ionic-angular';
 import { PermissionService } from '../../core/permissions.service';
 import { Env } from '../../core/env';
+import { SecureStorageService } from '../../core/secureStorage.service';
+import { StorageService } from '../../core/storage.service';
 
 @Component({
     selector: 'search-messages',
@@ -18,11 +20,10 @@ export class SearchPage {
     public recipient: string;
     public fromDate: string;
     public toDate: string;
+    public username: string;
     public selectedInterval: string;
     public queryInstance: Query = new Query();
-    readonly endpoint = '/master/log/delivery/?client_username=intern&page=-1&page_size=20&q=';
-
-
+    readonly endpoint = '/master/log/delivery/?client_username=' + this.username + '&page=-1&page_size=20&q=';
 
     @ViewChild(Nav) nav: Nav;
 
@@ -30,7 +31,9 @@ export class SearchPage {
         public api: Api,
         public incService: IncomingService,
         public events: Events,
-        public permissionService: PermissionService
+        public permissionService: PermissionService,
+        public secureStorage: SecureStorageService,
+        public storageService: StorageService
     ) {
         let now = new Date();
         let today = new Date();
@@ -41,6 +44,11 @@ export class SearchPage {
         this.fromDate = today.toISOString();
         this.toDate = now.toISOString();
     }
+
+    // ngAfterViewInit() {
+    //     this.username = this.incService.username;
+    //     console.log(this.username);
+    // }
 
     public setSearchFilters(field: string, value: string){
         let query = new Query();

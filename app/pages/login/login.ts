@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, MenuController, NavController, Platform } from 'ionic-angular';
+import { AlertController, Events, MenuController, NavController, Platform } from 'ionic-angular';
 import { Api } from '../../core/api.service';
 import { Headers } from '@angular/http';
 import { isUndefined } from 'ionic-angular/util/util';
@@ -11,6 +11,8 @@ import { StorageService } from '../../core/storage.service';
 import { PermissionService } from '../../core/permissions.service';
 import { SecureStorageService } from '../../core/secureStorage.service';
 import { UserPermissions } from '../permissions/userPermission';
+import { HttpInterceptor } from '../../core/httpinterceptor.service';
+import { IncomingService } from '../../core/incoming.service';
 
 @Component({
     selector: 'page-login',
@@ -34,7 +36,10 @@ export class LoginPage {
                 public storageService: StorageService,
                 public permissionsService: PermissionService,
                 public platform: Platform,
-                public secureStorage: SecureStorageService
+                public secureStorage: SecureStorageService,
+                public events: Events,
+                public incService: IncomingService
+                // public interceptor: HttpInterceptor
                 ) {
 
         this.menu.enable(false, 'searchMenu');
@@ -47,6 +52,8 @@ export class LoginPage {
         let url = Env.DEV_PROXY
             ? this.endpoint
             : 'https://' +  this.hostname + this.endpoint;
+
+        // let url = this.interceptor.getURL(this.endpoint, this.hostname);
         let headers = new Headers();
         let auth = btoa(decodeURIComponent(
             encodeURIComponent(this.username + ':' + this.password))
@@ -69,16 +76,13 @@ export class LoginPage {
                     this.alert.showConfirm('Error logging in!', ' Sorry, admin users are not able to use this app yet. Please log in as a domain or email user.');
                 } else {
                     if (this.platform.is('cordova')) {
-                        console.log('using secureStorage ' + token);
-
                         this.secureStorage.setStorageItem('token', token);
                         this.secureStorage.setStorageItem('role', body.userData.role);
                         this.secureStorage.setStorageItem('username', body.userData.username);
                         this.secureStorage.setStorageItem('rememberMe', this.rememberMe.toString());
-                        this.permissionsService.setPermissions(userRole);
-                        console.log(" role -> " + this.secureStorage.safeStorage['role']);
+                        // this.secureStorage.setStorageItem('permissions', this.permissionsService.setPermissions(userRole));
+                        console.log(this.permissionsService.setPermissions(userRole));
                         this.navCtrl.setRoot(HomePage);
-
                     } else {
                     // // used to make things work on browser
                         this.storageService.setToken(token);
@@ -87,6 +91,7 @@ export class LoginPage {
                         this.storageService.setUsername(body.userData.username);
                         this.storageService.setRememberMe(this.rememberMe.toString());
                         this.storageService.setPermissions(this.permissionsService.setPermissions(userRole));
+                        console.log(this.permissionsService.setPermissions(userRole));
                         this.navCtrl.setRoot(HomePage);
                     }
                 }
@@ -94,6 +99,7 @@ export class LoginPage {
             }, (error:any) => {
                     this.alert.showConfirm('Login failed!',error);
             });
+
     }
 
     ionViewDidLeave() {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, Nav, Platform } from 'ionic-angular';
+import { AlertController, Events, Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -10,6 +10,7 @@ import { Alert } from './pages/common/alert';
 import { PermissionService } from './core/permissions.service';
 import { SecureStorageService } from './core/secureStorage.service';
 import { ListPage } from './pages/list/list';
+import { IncomingService } from './core/incoming.service';
 declare var cordova: any;
 
 @Component({
@@ -36,7 +37,8 @@ export class MyApp implements OnInit {
         public storageService: StorageService,
         public alertCtrl: AlertController,
         public permissionService: PermissionService,
-        public secureStorageService: SecureStorageService
+        public secureStorageService: SecureStorageService,
+        public incService: IncomingService
     ) {
         this.initializeApp();
     }
@@ -47,7 +49,7 @@ export class MyApp implements OnInit {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
 
-
+            console.log('initializeapp', this.secureStorageService.safeStorage);
             if(this.platform.is('cordova')) {
                 this.platform.ready().then(
                     () => {
@@ -71,24 +73,19 @@ export class MyApp implements OnInit {
                     this.rootPage = HomePage;
                 }
             } else {
-                this.userRole = this.storageService.getUserRole();
-                this.username = this.storageService.getUsername();
                 if (this.storageService.getToken() != null && this.storageService.getRememberMe() == 'true') {
                     this.rootPage = HomePage;
                 }
             }
-
-
         });
     }
 
-
     ngOnInit() {
-        this.userRole = this.secureStorageService.safeStorage['role'];
-        this.username = this.secureStorageService.safeStorage['username'];
+
     }
 
     ngAfterViewInit() {
+
     }
 
     openPage(page) {
@@ -97,9 +94,7 @@ export class MyApp implements OnInit {
         } else if (page == 'HomePage') {
             this.nav.setRoot(HomePage);
         }
-
     }
-
 
     logout() {
         this.alert.logoutAlert('Confirm logout!', 'Are you sure you want to log out?', () => {
