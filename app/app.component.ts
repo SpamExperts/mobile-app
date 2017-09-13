@@ -99,6 +99,19 @@ export class MyApp implements OnInit {
     logout() {
         this.alert.logoutAlert('Confirm logout!', 'Are you sure you want to log out?', () => {
             this.storageService.clearStorage();
+            this.incService.incomingMessages = null ;
+            this.incService.plain ='';
+            this.incService.raw=''
+            this.incService.selectedItem = undefined;
+            this.incService.url ='';
+            this.incService.currentQuery = null;
+            this.incService.encodedQueryUrl = '';
+            this.incService.count = 0;
+            this.incService.totalPages = 0;
+            this.incService.selectedInterval = null;
+            this.incService.allItems = null;
+            this.incService.checkedNumber = 0;
+
             this.nav.setRoot(LoginPage);
         });
     }

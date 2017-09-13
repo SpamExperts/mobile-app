@@ -5,25 +5,27 @@ import { Headers } from '@angular/http';
 import { AlertController, Events } from 'ionic-angular';
 import { IncomingService } from './incoming.service';
 import { Alert } from '../pages/common/alert';
+import { PermissionService } from './permissions.service';
 
 @Injectable()
 export class ActionService {
 
     public selectedMessages: any = [];
     public alert: Alert = new Alert(this.alertCtrl);
+    public actionName: string;
 
     constructor (
         public api: Api,
         public events: Events,
         public incService: IncomingService,
-        public alertCtrl: AlertController
+        public alertCtrl: AlertController,
     ) {}
 
-    action(method: string) {
+    public action(method: string) {
 
         this.alert.actionAlert("Confirm action", this.alert.alertMessage[method] , () => {
 
-            this.api.action = method;
+            this.actionName = method;
 
             if (this.incService.selectedItem != undefined) {
                 this.selectedMessages[0] = this.incService.selectedItem;
@@ -71,10 +73,10 @@ export class ActionService {
             }
 
             let filters = encodeURI(JSON.stringify(query.createRemoveQuery(or)));
-            let url = '/master/bulk/delivery/?client_username=intern&q=' + filters;
+            let url = this.incService.createUrl("post", filters);
             let headers = new Headers();
 
-            this.api.post(url, headers)
+            this.api.post(url, headers, {"method": this.actionName })
                 .subscribe(() => {
                     this.selectedMessages = [];
                     this.incService.checkedNumber = 0;

@@ -4,8 +4,6 @@ import { Http, RequestOptions, RequestOptionsArgs, Headers } from '@angular/http
 @Injectable()
 export class Api {
 
-    public action: any;
-
     constructor(private http: Http) {
 
     }
@@ -19,13 +17,15 @@ export class Api {
         return this.http.get(url, options);
     }
 
-    public post( url: string, headers: Headers = null ) {
+    public post( url: string, headers: Headers = null, object: {} ) {
 
         let options = new RequestOptions(<RequestOptionsArgs>{
             headers: headers
         });
 
-        return this.http.post(url,  options, {"method": this.action});
+        console.log(object);
+
+        return this.http.post(url, options, object);
     }
 
 }

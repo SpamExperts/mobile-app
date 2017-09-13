@@ -23,7 +23,8 @@ export class SearchPage {
     public username: string;
     public selectedInterval: string;
     public queryInstance: Query = new Query();
-    readonly endpoint = '/master/log/delivery/?client_username=' + this.username + '&page=-1&page_size=20&q=';
+    readonly endpoint = '/master/log/delivery/?client_username=intern&page=-1&page_size=20&q=';
+
 
     @ViewChild(Nav) nav: Nav;
 
@@ -156,10 +157,6 @@ export class SearchPage {
 
     public searchMessages() {
 
-        let end = Env.DEV_PROXY
-            ? this.endpoint
-            : 'https://server1.test21.simplyspamfree.com' + this.endpoint;
-
         let filterList = [];
         let headers = new Headers();
         let filterstring = [];
@@ -202,7 +199,7 @@ export class SearchPage {
 
         let query = JSON.stringify(this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false));
         let encodedQuery = encodeURI(query);
-        let url = end + encodedQuery;
+        let url = this.incService.createUrl("get", encodedQuery, -1);
 
         this.incService.encodedQueryUrl = encodedQuery;
 

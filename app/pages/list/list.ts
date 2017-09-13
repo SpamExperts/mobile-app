@@ -57,7 +57,9 @@ export class ListPage {
             this.page = -2;
 
             if(this.infiniteScroll != null && this.infiniteScroll!=undefined && !this.infiniteScroll) {
+                if(this.infiniteScroll.state == 'disabled') {
                     this.infiniteScroll.enable(true);
+                }
             }
 
             if( data.length < 4 && this.count >= 4) {
@@ -79,7 +81,7 @@ export class ListPage {
     //when the first (-1) page doesn't have enough messages
     getMoreMessages(): void {
 
-        let url = this.endpoint + '?client_username=intern&page=' + this.page + '&page_size=' + this.slice + '&q=' + this.incService.encodedQueryUrl;
+        let url = this.incService.createUrl('get', this.incService.encodedQueryUrl, this.page);
         let headers = new Headers();
 
         if(this.incService.encodedQueryUrl) {
@@ -103,9 +105,11 @@ export class ListPage {
         }
 
         this.allowActionRefresh = false;
+
         this.refreshDate();
 
-        let url = this.endpoint + '?client_username=intern&page=-1&page_size=' + this.slice + '&q=' + this.incService.encodedQueryUrl;
+        let url = this.incService.createUrl('get', this.incService.encodedQueryUrl, -1);
+
         let headers = new Headers();
 
         //if there is a query
@@ -121,7 +125,9 @@ export class ListPage {
 
                 if(this.count != this.last_count ) {
                     if(this.infiniteScroll!= undefined && this.infiniteScroll != null && !this.infiniteScroll) {
-                        this.infiniteScroll.enable(true);
+                        if(this.infiniteScroll.state == 'disabled') {
+                            this.infiniteScroll.enable(true);
+                        }
                     }
                     this.page = -2;
                     this.handleMessages(messages);
@@ -141,7 +147,7 @@ export class ListPage {
 
         this.refreshDate();
 
-        let url = this.endpoint + '?client_username=intern&page=-1&page_size=' + this.slice + '&q=' + this.incService.encodedQueryUrl;
+        let url = this.incService.createUrl('get', this.incService.encodedQueryUrl, -1);
         let headers = new Headers();
 
         //if there is a query
@@ -156,8 +162,10 @@ export class ListPage {
                 this.total_pages = body.total_pages;
 
                 if(this.count != this.last_count) {
-                    if(this.infiniteScroll) {
-                        this.infiniteScroll.enable(true);
+                    if(this.infiniteScroll!= null && this.infiniteScroll!= undefined) {
+                        if(this.infiniteScroll.state == 'disabled') {
+                            this.infiniteScroll.enable(true);
+                        }
                     }
                     this.page = -2;
                     this.handleMessages(messages);
@@ -173,10 +181,12 @@ export class ListPage {
     doInfinite(infiniteScroll: InfiniteScroll) {
 
         this.infiniteScroll = infiniteScroll;
+        console.log('lala');
+        console.log(this.infiniteScroll);
 
         if(this.total_pages >= -this.page ) {
 
-            let url = this.endpoint + '?client_username=intern&page=' + this.page + '&page_size=' + this.slice + '&q=' + this.incService.encodedQueryUrl;
+            let url = this.incService.createUrl('get', this.incService.encodedQueryUrl, this.page);
             let headers = new Headers();
 
             this.api.get(url, headers).subscribe((data: any) => {
@@ -199,16 +209,19 @@ export class ListPage {
 
     refreshDate() {
 
-        let query =  this.incService.currentQuery;
-        let date = new Date();
-        for(let item of query.filters[0].and) {
-            if(item.name == 'datetime' && item.op == '<=') {
-                item.val = this.incService.formatDate(date);
-                break;
+        if(this.incService.currentQuery != undefined && this.incService.currentQuery != null) {
+            let query = this.incService.currentQuery;
+            let date = new Date();
+            for (let item of query.filters[0].and) {
+                if (item.name == 'datetime' && item.op == '<=') {
+                    item.val = this.incService.formatDate(date);
+                    break;
+                }
             }
+            this.incService.currentQuery = query;
+            this.incService.encodedQueryUrl = encodeURI(JSON.stringify(query));
+
         }
-        this.incService.currentQuery = query;
-        this.incService.encodedQueryUrl = encodeURI(JSON.stringify(query));
 
     }
 

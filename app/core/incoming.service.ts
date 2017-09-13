@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Api } from './api.service';
 import { Headers } from  '@angular/http';
+import { PermissionService } from './permissions.service';
+import { Env } from './env';
 
 @Injectable()
 export class IncomingService {
 
-    constructor( public api: Api ) {}
+    constructor(
+        public api: Api,
+        public permissionService: PermissionService
+    ) {}
 
     public incomingMessages: any ;
     public plain: string;
@@ -25,6 +30,33 @@ export class IncomingService {
 
     public getMessages(): any {
         return this.incomingMessages;
+    }
+
+    public createUrl(method: any, filters : any, page?: number) {
+
+        let url = Env.DEV_PROXY
+            ? ''
+            : 'https://server1.test21.simplyspamfree.com';
+
+        if(method == 'post') {
+            if (this.permissionService.permissions.userType == 'admin') {
+                url = url+ '/master/bulk/delivery/?client_username=' + this.username + '&q=' + filters;
+            }
+            else if (this.permissionService.permissions.userType == 'domain') {
+                url = url + '/master/bulk/delivery/' + this.username + '/?q=' + filters;
+            }
+        }
+
+        else if (method == 'get') {
+            if (this.permissionService.permissions.userType == 'admin') {
+                url = url + '/master/log/delivery/?client_username=' + this.username + '&page=' + page + '&page_size=20&q=' + filters;
+            }
+            else if (this.permissionService.permissions.userType == 'domain') {
+                url = url + '/master/log/delivery/' + this.username + '/?page=' + page + '&page_size=20&q=' + filters;
+            }
+        }
+
+        return url;
     }
 
     public getRaw(): void {

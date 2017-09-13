@@ -11,8 +11,9 @@ import { StorageService } from '../../core/storage.service';
 import { PermissionService } from '../../core/permissions.service';
 import { SecureStorageService } from '../../core/secureStorage.service';
 import { UserPermissions } from '../permissions/userPermission';
-import { HttpInterceptor } from '../../core/httpinterceptor.service';
+import { ActionService } from '../../core/action.service';
 import { IncomingService } from '../../core/incoming.service';
+import { HttpInterceptor } from '../../core/httpinterceptor.service';
 
 @Component({
     selector: 'page-login',
@@ -62,6 +63,8 @@ export class LoginPage {
         headers.append('X-Requested-With', 'XMLHttpRequest');
         headers.append('Authorization', 'Basic ' + auth);
         let token: string = '';
+
+        this.incService.username = this.username;
 
         this.api.get(url, headers)
             .subscribe((data: any) => {

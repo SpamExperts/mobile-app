@@ -1,4 +1,4 @@
-<ion-list class="popover">
+<ion-list class="popover" no-lines>
     <ion-list-header color="dark">Available actions</ion-list-header>
     <button ion-item (click)="doAction('release')" *ngIf="this.permissionService.permissions.actions.release">Release</button>
     <button ion-item (click)="close()" *ngIf="this.permissionService.permissions.actions.whitelistAndRelease">Whitelist and release</button>

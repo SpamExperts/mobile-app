@@ -18,7 +18,7 @@
   </ion-refresher>
 
   <div *ngIf="!items.length"> No entries. Pull to refresh... </div>
-  <ion-list [hidden]="noItems" [virtualScroll]="items" [approxItemHeight]="'150px'" [virtualTrackBy]="itemIdentity" >
+  <ion-list [hidden]="noItems" [virtualScroll]="items" [approxItemHeight]="'150px'" [virtualTrackBy]="itemIdentity" [bufferRatio]="3">
     <ion-item *virtualItem="let item " (click)="itemTapped($event, item)" >
       <ion-row>
         <ion-col col-10>
@@ -26,7 +26,6 @@
           <ion-badge item-end outline color="light">spam</ion-badge>
           <br><br>
           <span>{{item.sender}}</span> <br>
-            items length: {{items.length}}
           <span>{{item.subject_header}}</span>
         </ion-col>
         <ion-col col-2>
