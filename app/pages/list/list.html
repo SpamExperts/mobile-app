@@ -10,28 +10,27 @@
     </button>
   </ion-navbar>
 </ion-header>
-
 <ion-content padding>
 
-  <ion-refresher (ionRefresh)="refresh($event)">
+  <ion-refresher (ionRefresh)="this.listService.refresh($event)">
     <ion-refresher-content pullingText="Release me" refreshingSpinner="ios"></ion-refresher-content>
   </ion-refresher>
 
   <div *ngIf="!items.length"> No entries. Pull to refresh... </div>
-  <ion-list [hidden]="noItems" [virtualScroll]="items" [approxItemHeight]="'150px'" [virtualTrackBy]="itemIdentity" [bufferRatio]="3">
-    <ion-item *virtualItem="let item " (click)="itemTapped($event, item)" >
+  <ion-list [hidden]="noItems" [virtualScroll]="items" [approxItemHeight]="'150px'" [virtualTrackBy]="" [bufferRatio]="3">
+    <ion-item *virtualItem="let item;  let idx = index;" (click)="itemTapped($event, item)" >
       <ion-row>
         <ion-col col-10>
-          <span>{{incService.dateConvert(item.datetime)}}</span>&nbsp;&nbsp;
+          <span>{{listService.dateConvert(item.datetime)}}</span>&nbsp;&nbsp;
           <ion-badge item-end outline color="light">spam</ion-badge>
-          <br><br>
+          <br><br>{{ idx }}
           <span>{{item.sender}}</span> <br>
-          <span>{{item.subject_header}}</span>
+          <span>{{item.subject_header}}</span> <br>
         </ion-col>
         <ion-col col-2>
-          <span>{{incService.timeConvert(item.datetime)}}</span>
+          <span>{{listService.timeConvert(item.datetime)}}</span>
           <ion-item>
-              <ion-checkbox [(ngModel)]="item.checked" (ionChange)="changeCheckedItems(item)"></ion-checkbox>
+              <input type="checkbox" [(ngModel)]="item.checked" (click)="changeCheckedItems(item, $event)">
           </ion-item>
         </ion-col>
       </ion-row>
@@ -47,7 +46,7 @@
 
 </ion-content>
 
-<ion-footer *ngIf="incService.checkedNumber> 0">
+<ion-footer *ngIf="listService.checkedNumber> 0">
     <ion-row>
         <button col-4 (click)="this.actionService.action('release')">
             <ion-icon name="checkmark"></ion-icon>
@@ -60,7 +59,7 @@
         <button col-4 (click)="openPopover($event)">
             <ion-icon  name="more"></ion-icon>
             More
-            <ion-badge item-end>{{incService.checkedNumber}}</ion-badge>
+            <ion-badge item-end>{{listService.checkedNumber}}</ion-badge>
         </button>
     </ion-row>
 </ion-footer>

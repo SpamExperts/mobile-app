@@ -4,9 +4,9 @@ import { PermissionService } from './permissions.service';
 import { BaseService } from './base.service';
 
 @Injectable()
-export class IncomingService extends BaseService {
+export class OutgoingService extends BaseService {
 
-    endpoint = "/master/log/delivery/<domain>/";
+    endpoint = "/master/log/submission/<domain>/";
 
     constructor(
         public api: Api,
@@ -14,5 +14,4 @@ export class IncomingService extends BaseService {
     ) {
         super(api, permissionService);
     }
-
 }

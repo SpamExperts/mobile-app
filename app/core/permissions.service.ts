@@ -32,6 +32,14 @@ export class PermissionService {
 
     }
 
+    public isAdmin(): boolean {
+        return this.permissions.userType == 'admin';
+    }
+
+    public isDomain(): boolean {
+        return this.permissions.userType == 'domain';
+    }
+
     public setPermissions(userRole: string) {
         let permission = new UserPermissions(this);
         if (userRole == 'admin') {

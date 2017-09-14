@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { Events, MenuController, NavController, PopoverController } from 'ionic-angular';
-import { IncomingService } from '../../core/incoming.service';
 import { Api } from '../../core/api.service';
 import { ActionService } from '../../core/action.service';
 import { BaseListComponent } from './list.base.component';
+import { OutgoingService } from '../../core/outgoing.service';
 
 @Component({
     selector: 'page-list',
@@ -15,7 +15,7 @@ export class ListPage extends BaseListComponent {
 
     constructor(
         public navCtrl: NavController,
-        public listService: IncomingService,
+        public listService: OutgoingService,
         public api: Api,
         public menu: MenuController,
         public events: Events,

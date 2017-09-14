@@ -11,9 +11,7 @@ import { StorageService } from '../../core/storage.service';
 import { PermissionService } from '../../core/permissions.service';
 import { SecureStorageService } from '../../core/secureStorage.service';
 import { UserPermissions } from '../permissions/userPermission';
-import { ActionService } from '../../core/action.service';
 import { IncomingService } from '../../core/incoming.service';
-import { HttpInterceptor } from '../../core/httpinterceptor.service';
 
 @Component({
     selector: 'page-login',
@@ -40,7 +38,6 @@ export class LoginPage {
                 public secureStorage: SecureStorageService,
                 public events: Events,
                 public incService: IncomingService
-                // public interceptor: HttpInterceptor
                 ) {
 
         this.menu.enable(false, 'searchMenu');
@@ -84,7 +81,10 @@ export class LoginPage {
                         this.secureStorage.setStorageItem('username', body.userData.username);
                         this.secureStorage.setStorageItem('rememberMe', this.rememberMe.toString());
                         // this.secureStorage.setStorageItem('permissions', this.permissionsService.setPermissions(userRole));
-                        console.log(this.permissionsService.setPermissions(userRole));
+
+                        this.permissionsService.setPermissions(userRole);
+                        localStorage.setItem('token', token);  // this needs to be changed with http interceptor implementation for secure storage
+                        localStorage.setItem('rememberMe', this.rememberMe.toString());
                         this.navCtrl.setRoot(HomePage);
                     } else {
                     // // used to make things work on browser
@@ -94,7 +94,6 @@ export class LoginPage {
                         this.storageService.setUsername(body.userData.username);
                         this.storageService.setRememberMe(this.rememberMe.toString());
                         this.storageService.setPermissions(this.permissionsService.setPermissions(userRole));
-                        console.log(this.permissionsService.setPermissions(userRole));
                         this.navCtrl.setRoot(HomePage);
                     }
                 }
