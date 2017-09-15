@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { ConnectionBackend, Http, RequestOptions, RequestOptionsArgs, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { Env } from './env';
 
 @Injectable()
 export class HttpInterceptor extends Http {
+    public url: string;
 
     constructor(
         backend: ConnectionBackend,

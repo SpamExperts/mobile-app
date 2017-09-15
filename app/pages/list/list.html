@@ -46,7 +46,7 @@
 
 </ion-content>
 
-<ion-footer *ngIf="listService.checkedNumber> 0">
+<ion-footer *ngIf="this.listService.checkedNumber> 0">
     <ion-row>
         <button col-4 (click)="this.actionService.action('release')">
             <ion-icon name="checkmark"></ion-icon>

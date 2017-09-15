@@ -5,6 +5,7 @@ import { StorageService } from './storage.service';
 @Injectable()
 export class PermissionService {
 
+    username: string;
     permissions = {
         userType: '',
         userRole: '',
@@ -50,4 +51,9 @@ export class PermissionService {
             this.permissions = permission.userPermissions.email;
         }
     }
+
+    public setUsername(username) {
+        this.username = username;
+    }
+
 }

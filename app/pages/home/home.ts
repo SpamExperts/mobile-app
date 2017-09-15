@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MenuController, NavController, Platform } from 'ionic-angular';
 import { Api } from '../../core/api.service';
 import { ListPage } from "../list/list";
@@ -11,7 +11,7 @@ import { SecureStorageService } from '../../core/secureStorage.service';
     selector: 'page-home',
     templateUrl: 'home.html'
 })
-export class HomePage {
+export class HomePage implements OnInit{
 
     incomingButton: boolean = false;
     outgoingButton: boolean = false;
@@ -27,20 +27,6 @@ export class HomePage {
         public platform: Platform
     ){
 
-
-
-        if (this.platform.is('cordova')) {
-            if(this.secureStorage.safeStorage['rememberMe'] == 'true') {
-                this.permissionsService.setPermissions(this.secureStorage.safeStorage['role']);
-            }
-        } else {
-            if (this.storage.getRememberMe()) {
-                this.permissionsService.setPermissions(this.storage.getUserRole());
-            }
-        }
-
-        this.incomingButton = this.permissionsService.permissions.messagesPages.incoming;
-        this.outgoingButton = this.permissionsService.permissions.messagesPages.outgoing;
     }
 
     public getIncomingMessages(): any {
@@ -53,7 +39,6 @@ export class HomePage {
         } else {
             this.incService.setLoginUserInfo(this.storage.getUsername(), this.permissionsService.permissions.userRole);
         }
-        console.log(this.secureStorage.safeStorage);
     }
 
     ionViewDidLeave() {

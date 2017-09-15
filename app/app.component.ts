@@ -11,6 +11,8 @@ import { PermissionService } from './core/permissions.service';
 import { SecureStorageService } from './core/secureStorage.service';
 import { ListPage } from './pages/list/list';
 import { IncomingService } from './core/incoming.service';
+import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage';
+import { BaseService } from './core/base.service';
 declare var cordova: any;
 
 @Component({
@@ -27,7 +29,9 @@ export class MyApp implements OnInit {
     incomingButton: boolean = false;
     outgoingButton: boolean = false;
     public secure: any;
-
+    public token: string;
+    public rememberMe: any;
+    public storage: SecureStorageObject;
     pages: Array<{title: string, component: any}>;
 
     constructor(
@@ -38,7 +42,8 @@ export class MyApp implements OnInit {
         public alertCtrl: AlertController,
         public permissionService: PermissionService,
         public secureStorageService: SecureStorageService,
-        public incService: IncomingService
+        public incService: IncomingService,
+        public secureStorage: SecureStorage,
     ) {
         this.initializeApp();
     }
@@ -49,29 +54,19 @@ export class MyApp implements OnInit {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
 
-            console.log('initializeapp', this.secureStorageService.safeStorage);
             if(this.platform.is('cordova')) {
+
                 this.platform.ready().then(
                     () => {
                         this.secureStorageService.CreateStorage();
-                        this.secure = new cordova.plugins.SecureStorage(
-                            () => {
-                                // console.log(this.secureStorageService.getStorageItem('rememberMe'));
-
-                            },
-                            () => {
-                                // bring up Lock settings because secure storage doesn't work if the phone is not secure
-                                this.secureStorageService.bringUpLockSettings();
-                            },
-                            'mobileSecureStorage'
-                        );
+                        console.log(this.secureStorageService.movetoHome);
+                        if(localStorage.getItem('movetoHome') == 'true') {
+                            this.rootPage = HomePage;
+                        }
                     }
 
                 );
 
-                if(this.secureStorageService.safeStorage['token'] != null && this.secureStorageService.safeStorage['rememberMe'] == 'true') {
-                    this.rootPage = HomePage;
-                }
             } else {
                 if (this.storageService.getToken() != null && this.storageService.getRememberMe() == 'true') {
                     this.rootPage = HomePage;
@@ -100,7 +95,7 @@ export class MyApp implements OnInit {
         this.alert.logoutAlert('Confirm logout!', 'Are you sure you want to log out?', () => {
             this.storageService.clearStorage();
             this.incService.refreshData();
-
+            localStorage.setItem('auth', 'false');
             this.nav.setRoot(LoginPage);
         });
     }

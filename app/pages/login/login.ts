@@ -27,6 +27,7 @@ export class LoginPage {
     public alert: Alert = new Alert(this.alertCtrl);
     private rememberMe: boolean = false;
     public permissions: UserPermissions;
+    public auth: boolean;
 
     constructor(public navCtrl: NavController,
                 private api: Api,
@@ -80,14 +81,17 @@ export class LoginPage {
                         this.secureStorage.setStorageItem('role', body.userData.role);
                         this.secureStorage.setStorageItem('username', body.userData.username);
                         this.secureStorage.setStorageItem('rememberMe', this.rememberMe.toString());
-                        // this.secureStorage.setStorageItem('permissions', this.permissionsService.setPermissions(userRole));
-
+                        if(this.rememberMe == true) {
+                            localStorage.setItem('movetoHome', 'true');
+                        }
                         this.permissionsService.setPermissions(userRole);
+                        this.permissionsService.setUsername(body.userData.username);
                         localStorage.setItem('token', token);  // this needs to be changed with http interceptor implementation for secure storage
                         localStorage.setItem('rememberMe', this.rememberMe.toString());
                         this.navCtrl.setRoot(HomePage);
+
                     } else {
-                    // // used to make things work on browser
+                    // used to make things work on browser
                         this.storageService.setToken(token);
                         this.storageService.setUserRole(body.userData.role);
                         this.permissionsService.setPermissions(userRole);
@@ -99,7 +103,7 @@ export class LoginPage {
                 }
 
             }, (error:any) => {
-                    this.alert.showConfirm('Login failed!',error);
+                    this.alert.showConfirm('Login failed!', 'Please enter your credentials!');
             });
 
     }

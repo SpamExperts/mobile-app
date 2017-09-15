@@ -4,10 +4,8 @@
             <button ion-button menuToggle="left" clear right> <ion-icon name="arrow-forward"></ion-icon></button>
         </ion-toolbar>
         <ion-toolbar padding="20px">
-            <!--<ion-title class="userInfo" text-center>{{ this.secureStorageService.safeStorage['username'] }}</ion-title>-->
-            <!--<ion-label class="userInfo" text-center id="role">{{ this.secureStorageService.safeStorage['role']  }}</ion-label>-->
-            <ion-title class="userInfo" text-center>{{ this.incService.username }}</ion-title>
-            <ion-label class="userInfo" text-center id="role">{{ this.incService.role  }}</ion-label>
+            <ion-title class="userInfo" text-center>{{ this.permissionService.username }}</ion-title>
+            <ion-label class="userInfo" text-center id="role">{{ this.permissionService.permissions.userRole  }}</ion-label>
         </ion-toolbar>
     </ion-header>
 
