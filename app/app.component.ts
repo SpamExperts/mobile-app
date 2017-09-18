@@ -9,11 +9,11 @@ import { StorageService } from './core/storage.service';
 import { Alert } from './pages/common/alert';
 import { PermissionService } from './core/permissions.service';
 import { SecureStorageService } from './core/secureStorage.service';
-import { ListPage } from './pages/list/list';
 import { IncomingService } from './core/incoming.service';
+import { OutgoingService } from './core/outgoing.service';
+import { OutgoingPage } from './pages/list/list.outgoing';
+import { IncomingPage } from './pages/list/list.incoming';
 import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage';
-import { BaseService } from './core/base.service';
-declare var cordova: any;
 
 @Component({
     selector: 'my-app',
@@ -42,7 +42,8 @@ export class MyApp implements OnInit {
         public alertCtrl: AlertController,
         public permissionService: PermissionService,
         public secureStorageService: SecureStorageService,
-        public incService: IncomingService,
+        public incomingService: IncomingService,
+        public outgoingService: OutgoingService,
         public secureStorage: SecureStorage,
     ) {
         this.initializeApp();
@@ -59,7 +60,6 @@ export class MyApp implements OnInit {
                 this.platform.ready().then(
                     () => {
                         this.secureStorageService.CreateStorage();
-                        console.log(this.secureStorageService.movetoHome);
                         if(localStorage.getItem('movetoHome') == 'true') {
                             this.rootPage = HomePage;
                         }
@@ -84,8 +84,10 @@ export class MyApp implements OnInit {
     }
 
     openPage(page) {
-        if (page == 'ListPage') {
-            this.nav.setRoot(ListPage);
+        if (page == 'OutgoingPage') {
+            this.nav.setRoot(OutgoingPage);
+        } else if (page == 'IncomingPage') {
+            this.nav.setRoot(IncomingPage)
         } else if (page == 'HomePage') {
             this.nav.setRoot(HomePage);
         }
@@ -94,8 +96,10 @@ export class MyApp implements OnInit {
     logout() {
         this.alert.logoutAlert('Confirm logout!', 'Are you sure you want to log out?', () => {
             this.storageService.clearStorage();
-            this.incService.refreshData();
             localStorage.setItem('auth', 'false');
+            this.incomingService.refreshData();
+            this.outgoingService.refreshData();
+
             this.nav.setRoot(LoginPage);
         });
     }

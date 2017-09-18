@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ViewChild } from '@angular/core';
 import { Events, MenuController, NavController, PopoverController } from 'ionic-angular';
 import { InfiniteScroll } from 'ionic-angular';
 import { IncomingService } from '../../core/incoming.service';
@@ -24,10 +24,11 @@ export class BaseListComponent {
     allowActionRefresh: boolean = false;
     noItems: boolean = false;
     minItems: number = 4;
+    messageType: string = '';
 
     constructor(
         public navCtrl: NavController,
-        public listService: IncomingService,
+        public listService: IncomingService ,
         public api: Api,
         public menu: MenuController,
         public events: Events,
@@ -35,30 +36,37 @@ export class BaseListComponent {
         public actionService: ActionService,
     ) {
 
-        //refreshes after 2 seconds
-        this.events.subscribe('refresh', () => {
-            let thisList = this;
-            setTimeout( function () {
-                thisList.actionRefresh();
-            },2000);
-        });
+        //the items on the page do not refresh
+        if(this.listService.listLeft == true) {
+            this.items = this.listService.allItems;
+        }
 
-        this.events.subscribe('incomingMessages', (data) => {
+        else {
+            //refreshes after 2 seconds
+            this.events.subscribe('refresh', () => {
+                let thisList = this;
+                setTimeout(function () {
+                    thisList.actionRefresh();
+                }, 2000);
+            });
 
-            this.handleMessages(data);
+            this.events.subscribe('incomingMessages', (data) => {
 
-            //initialize with the number of pages and messages at the first search
-            this.count = this.listService.count;
-            this.total_pages = this.listService.totalPages;
-            //this has to be set this way because the first request already took place (for page -1)
-            this.page = -2;
+                this.handleMessages(data);
 
-            this.enableInfinite();
+                //initialize with the number of pages and messages at the first search
+                this.count = this.listService.count;
+                this.total_pages = this.listService.totalPages;
+                //this has to be set this way because the first request already took place (for page -1)
+                this.page = -2;
 
-            if( data.length < this.minItems && this.count >= this.minItems) {
-                this.getMoreMessages();
-            }
-        });
+                this.enableInfinite();
+
+                if (data.length < this.minItems && this.count >= this.minItems) {
+                    this.getMoreMessages();
+                }
+            });
+        }
     };
 
     handleMessages(messages: {}[] = []): void {
@@ -112,6 +120,7 @@ export class BaseListComponent {
         this.refreshDate();
 
         let url = this.listService.createUrl('get', this.listService.encodedQueryUrl, -1);
+        console.log('2'+ url);
         let headers = new Headers();
 
         //if there is a query
@@ -144,7 +153,15 @@ export class BaseListComponent {
         this.infiniteScroll = infiniteScroll;
 
         //if there are pages to be requested
+        if(this.listService.listLeft == true && this.listService.runInfinite == true) {
+            this.total_pages = this.listService.totalPages;
+            this.page = this.listService.page;
+            this.listService.runInfinite = false;
+        }
+
         if(this.total_pages >= -this.page ) {
+
+            console.log('sada');
 
             let url = this.listService.createUrl('get', this.listService.encodedQueryUrl, this.page);
             let headers = new Headers();
@@ -202,6 +219,7 @@ export class BaseListComponent {
 
     changeCheckedItems(item, $event): void {
         $event.stopPropagation();
+        item.checked = !item.checked;
 
         if(item.checked) {
             this.listService.checkedNumber ++;
@@ -211,6 +229,10 @@ export class BaseListComponent {
         }
 
         this.listService.allItems = this.items;
+
+        for (let item of this.listService.allItems)
+            if (item.checked == true)
+                console.log(item);
     }
 
     openPopover(myEvent) {
@@ -220,7 +242,11 @@ export class BaseListComponent {
         });
     }
 
-    public itemIdentity (index, item) {
-        return item;
-    }
+    ionViewWillLeave() {
+        this.listService.allItems = this.items;
+        this.listService.listLeft = true;
+        this.listService.totalPages = this.total_pages;
+        this.listService.page = this.page;
+        this.listService.runInfinite = true;
+     }
 }

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController, NavController, Platform } from 'ionic-angular';
 import { Api } from '../../core/api.service';
-import { ListPage } from "../list/list";
 import { IncomingService } from '../../core/incoming.service';
 import { PermissionService } from '../../core/permissions.service';
 import { StorageService } from '../../core/storage.service';
 import { SecureStorageService } from '../../core/secureStorage.service';
+import { IncomingPage } from '../list/list.incoming';
+import { OutgoingPage } from '../list/list.outgoing';
 
 @Component({
     selector: 'page-home',
@@ -19,7 +20,7 @@ export class HomePage implements OnInit{
     constructor(
         public navCtrl: NavController,
         public api: Api,
-        public incService: IncomingService,
+        public incomingService: IncomingService,
         public menu: MenuController,
         public permissionsService: PermissionService,
         public storage: StorageService,
@@ -29,15 +30,19 @@ export class HomePage implements OnInit{
 
     }
 
+    public getOutgoingMessages(): any {
+        this.navCtrl.setRoot(OutgoingPage);
+    }
+
     public getIncomingMessages(): any {
-        this.navCtrl.setRoot(ListPage);
+        this.navCtrl.setRoot(IncomingPage);
     }
 
     ngOnInit() {
         if (this.platform.is('cordova')) {
-            this.incService.setLoginUserInfo(this.secureStorage.safeStorage['username'], this.permissionsService.permissions.userRole);
+            this.incomingService.setLoginUserInfo(this.secureStorage.safeStorage['username'], this.permissionsService.permissions.userRole);
         } else {
-            this.incService.setLoginUserInfo(this.storage.getUsername(), this.permissionsService.permissions.userRole);
+            this.incomingService.setLoginUserInfo(this.storage.getUsername(), this.permissionsService.permissions.userRole);
         }
     }
 

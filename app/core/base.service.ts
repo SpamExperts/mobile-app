@@ -2,7 +2,9 @@ import { Headers } from  '@angular/http';
 import { Env } from './env';
 import { Api } from './api.service';
 import { PermissionService } from './permissions.service';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export abstract class BaseService {
 
     abstract endpoint: string = '';
@@ -22,22 +24,25 @@ export abstract class BaseService {
     public checkedNumber: any = 0;
     public username: string;
     public role: string;
-
+    public listLeft: boolean = false;
+    public page: number ;
+    public runInfinite: boolean = false;
+    public hostname: string ;
 
     constructor(
         public api: Api,
         public permissionService: PermissionService
     ) {}
 
-    public getMessages(): any {
-        return this.incomingMessages;
-    }
+    // public getMessages(): any {
+    //     return this.incomingMessages;
+    // }
 
     public createUrl(method: any, filters : any, page?: number) {
 
         let url = Env.DEV_PROXY
             ? ''
-            : 'https://server1.test21.simplyspamfree.com';
+            : 'https://' + this.hostname ;
 
         if(method == 'post') {
             if (this.permissionService.isAdmin()) {
@@ -129,19 +134,7 @@ export abstract class BaseService {
         this.selectedInterval = null;
         this.allItems = null;
         this.checkedNumber = 0;
-    }
-
-    refresh(refresher) {
-
-        //not allowed when items are checked
-        if(this.checkedNumber > 0 ) {
-            refresher.complete();
-            return;
-        }
-
-        setTimeout( function() {
-            refresher.complete();
-        }, 1000);
+        this.listLeft = false ;
     }
 
 }

@@ -12,6 +12,7 @@ import { PermissionService } from '../../core/permissions.service';
 import { SecureStorageService } from '../../core/secureStorage.service';
 import { UserPermissions } from '../permissions/userPermission';
 import { IncomingService } from '../../core/incoming.service';
+import { OutgoingService } from '../../core/outgoing.service';
 
 @Component({
     selector: 'page-login',
@@ -38,7 +39,8 @@ export class LoginPage {
                 public platform: Platform,
                 public secureStorage: SecureStorageService,
                 public events: Events,
-                public incService: IncomingService
+                public incomingService: IncomingService ,
+                public outgoingService: OutgoingService
                 ) {
 
         this.menu.enable(false, 'searchMenu');
@@ -52,6 +54,9 @@ export class LoginPage {
             ? this.endpoint
             : 'https://' +  this.hostname + this.endpoint;
 
+        this.incomingService.hostname = this.hostname;
+        this.outgoingService.hostname = this.hostname;
+
         // let url = this.interceptor.getURL(this.endpoint, this.hostname);
         let headers = new Headers();
         let auth = btoa(decodeURIComponent(
@@ -62,7 +67,8 @@ export class LoginPage {
         headers.append('Authorization', 'Basic ' + auth);
         let token: string = '';
 
-        this.incService.username = this.username;
+        this.incomingService.username = this.username;
+        this.outgoingService.username = this.username;
 
         this.api.get(url, headers)
             .subscribe((data: any) => {

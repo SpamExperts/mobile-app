@@ -11,8 +11,8 @@
 
     <ion-content>
         <ion-list>
-            <button menuClose ion-item (click)="openPage('ListPage')" *ngIf="this.permissionService.permissions.messagesPages.incoming">Incoming Filtering Quarantine</button>
-            <button menuClose ion-item (click)="openPage('HomePage')" *ngIf="this.permissionService.permissions.messagesPages.outgoing">Outgoing Filtering Quarantine</button>
+            <button menuClose ion-item (click)="openPage('IncomingPage')" *ngIf="this.permissionService.permissions.messagesPages.incoming">Incoming Filtering Quarantine</button>
+            <button menuClose ion-item (click)="openPage('OutgoingPage')" *ngIf="this.permissionService.permissions.messagesPages.outgoing">Outgoing Filtering Quarantine</button>
 
             <button ion-button (click)="logout()" outline> Logout</button>
         </ion-list>

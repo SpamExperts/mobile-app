@@ -9,7 +9,7 @@ import { BaseListComponent } from './list.base.component';
     selector: 'page-list',
     templateUrl: 'list.html'
 })
-export class ListPage extends BaseListComponent {
+export class IncomingPage extends BaseListComponent {
 
     @ViewChild('list') list: any;
 
@@ -23,6 +23,11 @@ export class ListPage extends BaseListComponent {
         public actionService: ActionService,
     ) {
         super(navCtrl, listService, api, menu, events, popoverCtrl, actionService);
+        this.messageType = 'Incoming';
+    }
+
+    ionViewDidEnter() {
+        this.actionService.type = 'incomingMessages';
     }
 
 }

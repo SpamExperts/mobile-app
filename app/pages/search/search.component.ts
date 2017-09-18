@@ -1,13 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Query } from '../common/query';
 import { Api } from "../../core/api.service";
 import { Headers } from '@angular/http';
 import { IncomingService } from "../../core/incoming.service";
 import { Events, Nav } from 'ionic-angular';
 import { PermissionService } from '../../core/permissions.service';
-import { Env } from '../../core/env';
 import { SecureStorageService } from '../../core/secureStorage.service';
-import { StorageService } from '../../core/storage.service';
+import { OutgoingService } from '../../core/outgoing.service';
+import { ActionService } from '../../core/action.service';
 
 @Component({
     selector: 'search-messages',
@@ -30,11 +30,12 @@ export class SearchPage {
 
     constructor(
         public api: Api,
-        public incService: IncomingService,
+        public incomingService: IncomingService,
+        public outgoingService: OutgoingService,
         public events: Events,
         public permissionService: PermissionService,
         public secureStorage: SecureStorageService,
-        public storageService: StorageService
+        public actionService : ActionService
     ) {
         let now = new Date();
         let today = new Date();
@@ -114,8 +115,8 @@ export class SearchPage {
             let now = new Date();
             let today = new Date();
             today.setSeconds(0);
-            this.fromDate = this.incService.formatDate(today);
-            this.toDate = this.incService.formatDate(now);
+            this.fromDate = this.incomingService.formatDate(today);
+            this.toDate = this.incomingService.formatDate(now);
 
         }
     }
@@ -127,7 +128,7 @@ export class SearchPage {
         let today = now.getDate();
         then.setSeconds(0);
         then.setDate(today - days);
-        return this.setDateFilters(this.incService.formatDate(then), this.incService.formatDate(now));
+        return this.setDateFilters(this.incomingService.formatDate(then), this.incomingService.formatDate(now));
     }
 
     public pastMonths(months: number) {
@@ -135,7 +136,7 @@ export class SearchPage {
         let then = new Date();
         then.setSeconds(0);
         then.setMonth(now.getMonth() - months);
-        return this.setDateFilters(this.incService.formatDate(then), this.incService.formatDate(now));
+        return this.setDateFilters(this.incomingService.formatDate(then), this.incomingService.formatDate(now));
     }
 
     public populateFields(): any[] {
@@ -156,6 +157,16 @@ export class SearchPage {
     }
 
     public searchMessages() {
+
+        let typeService: any = null;
+
+        console.log(this.actionService.type);
+
+        if(this.actionService.type == "incomingMessages") {
+            typeService = this.incomingService;
+        } else {
+            typeService = this.outgoingService;
+        }
 
         let filterList = [];
         let headers = new Headers();
@@ -183,7 +194,7 @@ export class SearchPage {
             }
         } else if (this.fromDate != null && this.toDate == null) {
             let date = new Date();
-            this.toDate = this.incService.formatDate(date);
+            this.toDate = typeService.formatDate(date);
             filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
         } else if (this.fromDate != null && this.toDate != null) {
             filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
@@ -195,23 +206,23 @@ export class SearchPage {
             }
         }
 
-        this.incService.currentQuery = this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false);
+        typeService.currentQuery = this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false);
 
         let query = JSON.stringify(this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false));
         let encodedQuery = encodeURI(query);
-        let url = this.incService.createUrl("get", encodedQuery, -1);
+        let url = typeService.createUrl("get", encodedQuery, -1);
 
-        this.incService.encodedQueryUrl = encodedQuery;
+        typeService.encodedQueryUrl = encodedQuery;
 
-        this.incService.selectedInterval = this.selectedInterval;
+        typeService.selectedInterval = this.selectedInterval;
 
         return this.api.get(url, headers)
             .subscribe((data: any) => {
                 let messages: any = JSON.parse(data._body);
 
-                this.incService.count = messages.num_results;
-                this.incService.totalPages = messages.total_pages;
-                this.incService.incomingMessages = messages.objects;
+                typeService.count = messages.num_results;
+                typeService.totalPages = messages.total_pages;
+                typeService.incomingMessages = messages.objects;
 
                 this.events.publish('incomingMessages', messages.objects);
             });

@@ -7,7 +7,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { MyApp } from './app.component';
 import { LoginPage } from './pages/login/login';
 import { HomePage } from './pages/home/home';
-import { ListPage } from './pages/list/list';
 import { Http, HttpModule, RequestOptions, XHRBackend } from '@angular/http';
 import { Api } from './core/api.service';
 import { httpFactory } from './core/http.factory';
@@ -24,13 +23,17 @@ import { PermissionService } from './core/permissions.service';
 import { ActionService } from './core/action.service';
 import { SecureStorageService } from './core/secureStorage.service';
 import { SecureStorage } from '@ionic-native/secure-storage';
+import { OutgoingPage } from './pages/list/list.outgoing';
+import { IncomingPage } from './pages/list/list.incoming';
+import { OutgoingService } from './core/outgoing.service';
 
 @NgModule({
     declarations: [
         MyApp,
         LoginPage,
         HomePage,
-        ListPage,
+        OutgoingPage,
+        IncomingPage,
         MessageDetailsPage,
         PlainPage,
         TabsPage,
@@ -48,7 +51,8 @@ import { SecureStorage } from '@ionic-native/secure-storage';
     entryComponents: [
         MyApp,
         HomePage,
-        ListPage,
+        OutgoingPage,
+        IncomingPage,
         LoginPage,
         MessageDetailsPage,
         TabsPage,
@@ -63,6 +67,7 @@ import { SecureStorage } from '@ionic-native/secure-storage';
         SplashScreen,
         Api,
         IncomingService,
+        OutgoingService,
         StorageService,
         PermissionService,
         ActionService,

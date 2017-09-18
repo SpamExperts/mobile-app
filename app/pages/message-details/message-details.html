@@ -20,13 +20,13 @@
 <ion-content>
     <ion-row>
         <div col-9>
-            <span>&nbsp;sent: {{incService.dateConvert(selectedItem.datetime)}}</span> <br>
+            <span>&nbsp;sent: {{incomingService.dateConvert(selectedItem.datetime)}}</span> <br>
             {{day}}
             <span>from: {{shorter(selectedItem.sender)}}</span> <br>
             <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to: {{selectedItem.recipient}}@{{selectedItem.domain}} </span> <br>
         </div>
         <div col-3>
-    <span>{{incService.timeConvert(selectedItem.datetime)}}</span>
+    <span>{{incomingService.timeConvert(selectedItem.datetime)}}</span>
         </div>
     </ion-row>
     <hr>

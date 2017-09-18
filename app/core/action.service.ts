@@ -5,7 +5,6 @@ import { Headers } from '@angular/http';
 import { AlertController, Events } from 'ionic-angular';
 import { IncomingService } from './incoming.service';
 import { Alert } from '../pages/common/alert';
-import { PermissionService } from './permissions.service';
 
 @Injectable()
 export class ActionService {
@@ -13,6 +12,7 @@ export class ActionService {
     public selectedMessages: any = [];
     public alert: Alert = new Alert(this.alertCtrl);
     public actionName: string;
+    public type: string = '';
 
     constructor (
         public api: Api,

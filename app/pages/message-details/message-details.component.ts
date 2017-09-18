@@ -6,7 +6,8 @@ import { IncomingService } from '../../core/incoming.service';
 import { PopoverPage } from '../common/popover/popover.component';
 import { ActionService } from '../../core/action.service';
 import { PermissionService } from '../../core/permissions.service';
-import { ListPage } from '../list/list';
+import { IncomingPage } from '../list/list.incoming';
+import { OutgoingService } from '../../core/outgoing.service';
 
 @Component({
     selector: 'app-message-details',
@@ -16,12 +17,14 @@ export class MessageDetailsPage {
 
     @ViewChild(Navbar) navBar: Navbar;
 
-    selectedItem: any;
+    public selectedItem: any;
+    //public currentService: any;
 
     constructor(
         public navParams: NavParams,
         public api: Api,
-        public incService: IncomingService,
+        public incomingService: IncomingService,
+        public outgoingService: OutgoingService,
         public popoverCtrl: PopoverController,
         public menu: MenuController,
         public actionService: ActionService,
@@ -32,7 +35,7 @@ export class MessageDetailsPage {
 
         let self = this;
         this.events.subscribe('move', function() {
-            self.navCtrl.setRoot(ListPage);
+            self.navCtrl.setRoot(IncomingPage);
             setTimeout(function() {
                 self.events.publish('refresh', "");
             }, 2000);
@@ -41,8 +44,16 @@ export class MessageDetailsPage {
         this.menu.enable(false, 'primaryMenu');
         this.menu.enable(false, 'searchMenu');
 
+        let currentService: any = '';
+
+        if(this.actionService.type = 'incomingMessages') {
+            currentService = this.incomingService;
+        } else {
+            currentService = this.outgoingService;
+        }
+
         this.selectedItem = navParams.get('item');
-        this.incService.selectedItem = this.selectedItem;
+        currentService.selectedItem = this.selectedItem;
 
         let user_id = this.selectedItem.message_id;
         let filtering_host = this.selectedItem.filtering_host;
@@ -51,17 +62,17 @@ export class MessageDetailsPage {
 
         let headers = new Headers();
 
-        this.incService.plain = '';
+        currentService.plain = '';
 
         this.api.get(url + '?message_format=parsed', headers)
             .subscribe((data: any) => {
                 let result = JSON.parse(data._body).result;
-                this.incService.plain = result.plain_body;
+                currentService.plain = result.plain_body;
                 if (!result.html_body) {
-                    this.incService.normal = "This view is not available.";
+                    currentService.normal = "This view is not available.";
                 }
                 else {
-                    this.incService.normal = result.html_body;
+                    currentService.normal = result.html_body;
                 }
             });
     }
@@ -90,7 +101,19 @@ export class MessageDetailsPage {
     ionViewDidLeave(){
         this.menu.enable(true,'primaryMenu');
         this.menu.enable(true,'searchMenu');
-        this.incService.selectedItem = undefined;
+
+        let currentService: any = '';
+
+        if(this.actionService.type = 'incomingMessages') {
+            currentService = this.incomingService;
+        } else {
+            currentService = this.outgoingService;
+        }
+        currentService.selectedItem = undefined;
+    }
+
+    ionViewDidEnter(){
+
     }
 
 }

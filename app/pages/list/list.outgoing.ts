@@ -9,7 +9,7 @@ import { OutgoingService } from '../../core/outgoing.service';
     selector: 'page-list',
     templateUrl: 'list.html'
 })
-export class ListPage extends BaseListComponent {
+export class OutgoingPage extends BaseListComponent {
 
     @ViewChild('list') list: any;
 
@@ -23,6 +23,11 @@ export class ListPage extends BaseListComponent {
         public actionService: ActionService,
     ) {
         super(navCtrl, listService, api, menu, events, popoverCtrl, actionService);
+        this.messageType = 'Outgoing';
+    }
+
+    ionViewDidEnter() {
+        this.actionService.type = 'outgoingMessages';
     }
 
 }
