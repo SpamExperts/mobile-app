@@ -47,20 +47,24 @@ export abstract class BaseService {
             : 'https://' + this.hostname ;
 
         if(method == 'post') {
+            let oldendpoint = this.endpoint;
+            this.endpoint = '/master/bulk/delivery/<domain>/<local>/';
+
             if (this.permissionService.isAdmin()) {
-                url = url + this.replaceUrlParts() +'?client_username=' + this.permissionService.username + '&q=' + filters;
+                url = url + this.replaceUrlParts() +'?client_username=' + this.username + '&q=' + filters;
             }
             else if (this.permissionService.isDomain()) {
-                url = url + this.replaceUrlParts() + '/?q=' + filters;
+                url = url + this.replaceUrlParts() + '?q=' + filters;
             }
             else if (this.permissionService.isEmail()) {
-                url = url + this.replaceUrlParts() + '/?q=' + filters;
+                url = url + this.replaceUrlParts() + '?q=' + filters;
             }
+            this.endpoint = oldendpoint;
         }
 
         else if (method == 'get') {
             if (this.permissionService.isAdmin()) {
-                url = url + this.replaceUrlParts() + '?client_username=' + this.permissionService.username + '&page=' + page + '&page_size=20&q=' + filters;
+                url = url + this.replaceUrlParts() + '?client_username=' + this.username + '&page=' + page + '&page_size=20&q=' + filters;
             }
             else if (this.permissionService.isDomain()) {
                 url = url + this.replaceUrlParts() + '?page=' + page + '&page_size=20&q=' + filters;
@@ -147,6 +151,8 @@ export abstract class BaseService {
         this.allItems = null;
         this.checkedNumber = 0;
         this.listLeft = false ;
+
+        console.log(this.listLeft);
     }
 
 }

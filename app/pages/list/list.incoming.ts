@@ -21,9 +21,8 @@ export class IncomingPage extends BaseListComponent {
         public events: Events,
         public popoverCtrl: PopoverController,
         public actionService: ActionService,
-        public incomingService: IncomingService
     ) {
-        super(navCtrl, listService, api, menu, events, popoverCtrl, actionService, incomingService);
+        super(navCtrl, listService, api, menu, events, popoverCtrl, actionService);
         this.messageType = 'Incoming';
     }
 

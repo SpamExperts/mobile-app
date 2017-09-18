@@ -34,7 +34,6 @@ export class BaseListComponent {
         public events: Events,
         public popoverCtrl: PopoverController,
         public actionService: ActionService,
-        public incomingService: IncomingService
     ) {
 
         //the items on the page do not refresh

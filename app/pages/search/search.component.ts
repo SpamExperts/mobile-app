@@ -48,11 +48,6 @@ export class SearchPage {
         this.toDate = now.toISOString();
     }
 
-    // ngAfterViewInit() {
-    //     this.username = this.incService.username;
-    //     console.log(this.username);
-    // }
-
     public setSearchFilters(field: string, value: string){
         let query = new Query();
         let filters = query.filterEquals(field, value);
@@ -159,18 +154,20 @@ export class SearchPage {
 
     public searchMessages() {
 
+
+        let typeService: any = null;
+        if(this.actionService.type == "incomingMessages") {
+            typeService = this.incomingService;
+        } else {
+            typeService = this.outgoingService;
+        }
+
         if(this.domain == null){
             // this.requiredMessage = this.incomingService.getRequiredMessage();
-            this.incomingService.requiredMessageShown = true;
+            typeService.requiredMessageShown = true;
         } else {
             this.requiredMessage = null;
-            this.incomingService.requiredMessageShown = false;
-            let typeService: any = null;
-            if(this.actionService.type == "incomingMessages") {
-                typeService = this.incomingService;
-            } else {
-                typeService = this.outgoingService;
-            }
+            typeService.requiredMessageShown = false;
 
             let filterList = [];
             let headers = new Headers();

@@ -49,6 +49,10 @@ export class LoginPage {
     }
 
     login() {
+
+        this.incomingService.refreshData();
+        this.outgoingService.refreshData();
+
         // this should be applied somewhere globally
         let url = Env.DEV_PROXY
             ? this.endpoint

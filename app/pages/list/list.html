@@ -16,8 +16,8 @@
         <ion-refresher-content pullingText="Release me" refreshingSpinner="ios"></ion-refresher-content>
     </ion-refresher>
 
-    <div *ngIf="this.incomingService.requiredMessageShown">
-        {{ this.incomingService.requiredMessage }}
+    <div *ngIf="this.listService.requiredMessageShown">
+        {{ this.listService.requiredMessage }}
     </div>
     <div *ngIf="!items.length"> No entries. Pull to refresh... </div>
     <ion-list [hidden]="noItems" [virtualScroll]="items" [approxItemHeight]="'150px'"  [bufferRatio]="3">
