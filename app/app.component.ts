@@ -64,11 +64,11 @@ export class MyApp implements OnInit {
                             this.rootPage = HomePage;
                         }
                     }
-
                 );
-
             } else {
                 if (this.storageService.getToken() != null && this.storageService.getRememberMe() == 'true') {
+                    this.permissionService.setPermissions(this.storageService.getUserRole());
+                    this.permissionService.setUsername(this.storageService.getUsername());
                     this.rootPage = HomePage;
                 }
             }

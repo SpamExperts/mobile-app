@@ -50,6 +50,7 @@ export class PermissionService {
         } else if (userRole == 'email') {
             this.permissions = permission.userPermissions.email;
         }
+        return this.permissions;
     }
 
     public setUsername(username) {

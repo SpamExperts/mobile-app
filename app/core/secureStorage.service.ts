@@ -27,18 +27,14 @@ export class SecureStorageService {
                 (storageObject: SecureStorageObject) => {
                     this.storage = storageObject;
                     this.storage.get('token').then(
-                        (data) => {
-                            console.log('token data: ', data);
+                        () => {
                             this.storage.get('rememberMe').then(
                                 (data) => {
-                                    console.log('remembermME, ', data);
                                     if(data == 'true') {
-                                        console.log('rememberMe in app: ', data);
                                         this.movetoHome = true;
                                         this.storage.get('role').then(
                                             (data) => {
                                                 this.permissionsService.setPermissions(data);
-                                                console.log('role after reload: ', data);
                                             }
                                         );
                                         this.storage.get('username').then(
@@ -50,28 +46,15 @@ export class SecureStorageService {
                                         localStorage.setItem('movetoHome', 'false');
                                     }
                                 },
-                                (error) => {
-                                    console.log(error);
-                                }
+                                () => {}
                             );
                         },
-                        (error) => {
-
-                        }
+                        () => {}
                     );
                 },
-                (error) => console.log(error)
+                () => {}
             );
     }
-
-    // public getItem(item) {
-    //     let currentItem = this.getStorageItem(item, (data) => {
-    //         return data;
-    //     });
-    //     let jsonObj = JSON.stringify(currentItem);
-    //
-    //     console.log('current item: ', currentItem);
-    // }
 
     public getStorageItem(item, callback) {
         console.log('storage object', this.storage);
@@ -83,21 +66,16 @@ export class SecureStorageService {
                     }
 
                 },
-                (error) => {
-                    console.log(error);
-                }
+                () => {}
             );
     }
 
     public setStorageItem(item, value) {
         this.storage.set(item, value).then(
-            (data) => {
-                console.log('set', data);
+            () => {
                 this.safeStorage[item] = value
             },
-            (error) => {
-
-            }
+            () => {}
         );
     }
 
@@ -108,6 +86,5 @@ export class SecureStorageService {
 
     public clearSecureStorage() {
         this.storage.clear().then();
-        this.safeStorage = {};
     }
 }

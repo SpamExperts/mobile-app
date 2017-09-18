@@ -160,8 +160,6 @@ export class SearchPage {
 
         let typeService: any = null;
 
-        console.log(this.actionService.type);
-
         if(this.actionService.type == "incomingMessages") {
             typeService = this.incomingService;
         } else {

@@ -120,7 +120,6 @@ export class BaseListComponent {
         this.refreshDate();
 
         let url = this.listService.createUrl('get', this.listService.encodedQueryUrl, -1);
-        console.log('2'+ url);
         let headers = new Headers();
 
         //if there is a query
@@ -160,8 +159,6 @@ export class BaseListComponent {
         }
 
         if(this.total_pages >= -this.page ) {
-
-            console.log('sada');
 
             let url = this.listService.createUrl('get', this.listService.encodedQueryUrl, this.page);
             let headers = new Headers();
@@ -230,9 +227,6 @@ export class BaseListComponent {
 
         this.listService.allItems = this.items;
 
-        for (let item of this.listService.allItems)
-            if (item.checked == true)
-                console.log(item);
     }
 
     openPopover(myEvent) {

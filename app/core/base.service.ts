@@ -46,7 +46,7 @@ export abstract class BaseService {
 
         if(method == 'post') {
             if (this.permissionService.isAdmin()) {
-                url = url + this.replaceUrlParts() +'?client_username=' + this.username + '&q=' + filters;
+                url = url + this.replaceUrlParts() +'?client_username=' + this.permissionService.username + '&q=' + filters;
             }
             else if (this.permissionService.isDomain()) {
                 url = url + this.replaceUrlParts() + '/?q=' + filters;
@@ -55,7 +55,7 @@ export abstract class BaseService {
 
         else if (method == 'get') {
             if (this.permissionService.isAdmin()) {
-                url = url + this.replaceUrlParts() + '?client_username=' + this.username + '&page=' + page + '&page_size=20&q=' + filters;
+                url = url + this.replaceUrlParts() + '?client_username=' + this.permissionService.username + '&page=' + page + '&page_size=20&q=' + filters;
             }
             else if (this.permissionService.isDomain()) {
                 url = url + this.replaceUrlParts() + '?page=' + page + '&page_size=20&q=' + filters;

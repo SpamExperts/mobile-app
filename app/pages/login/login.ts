@@ -101,9 +101,9 @@ export class LoginPage {
                         this.storageService.setToken(token);
                         this.storageService.setUserRole(body.userData.role);
                         this.permissionsService.setPermissions(userRole);
+                        this.permissionsService.setUsername(body.userData.username);
                         this.storageService.setUsername(body.userData.username);
                         this.storageService.setRememberMe(this.rememberMe.toString());
-                        this.storageService.setPermissions(this.permissionsService.setPermissions(userRole));
                         this.navCtrl.setRoot(HomePage);
                     }
                 }

@@ -27,6 +27,7 @@ export class StorageService {
     }
 
     public setPermissions(permissions) {
+        console.log(permissions);
         this.storage.setItem('permissions', permissions);
     }
 
