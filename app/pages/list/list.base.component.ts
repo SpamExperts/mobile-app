@@ -7,6 +7,7 @@ import { Api } from '../../core/api.service';
 import { Headers } from '@angular/http';
 import { PopoverPage } from '../common/popover/popover.component';
 import { ActionService } from '../../core/action.service';
+import { PermissionService } from '../../core/permissions.service';
 
 export class BaseListComponent {
 
@@ -34,6 +35,7 @@ export class BaseListComponent {
         public events: Events,
         public popoverCtrl: PopoverController,
         public actionService: ActionService,
+        public permissionService: PermissionService
     ) {
 
         //the items on the page do not refresh
@@ -242,5 +244,7 @@ export class BaseListComponent {
         this.listService.totalPages = this.total_pages;
         this.listService.page = this.page;
         this.listService.runInfinite = true;
-     }
+    }
+
+
 }

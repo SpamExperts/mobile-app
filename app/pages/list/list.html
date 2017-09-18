@@ -16,7 +16,7 @@
         <ion-refresher-content pullingText="Release me" refreshingSpinner="ios"></ion-refresher-content>
     </ion-refresher>
 
-    <div *ngIf="this.listService.requiredMessageShown">
+    <div *ngIf="this.listService.requiredMessageShown && this.permissionService.permissions.userType =='admin' ">
         {{ this.listService.requiredMessage }}
     </div>
     <div *ngIf="!items.length"> No entries. Pull to refresh... </div>

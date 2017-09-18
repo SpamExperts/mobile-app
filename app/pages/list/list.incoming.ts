@@ -4,6 +4,7 @@ import { IncomingService } from '../../core/incoming.service';
 import { Api } from '../../core/api.service';
 import { ActionService } from '../../core/action.service';
 import { BaseListComponent } from './list.base.component';
+import { PermissionService } from '../../core/permissions.service';
 
 @Component({
     selector: 'page-list',
@@ -21,8 +22,10 @@ export class IncomingPage extends BaseListComponent {
         public events: Events,
         public popoverCtrl: PopoverController,
         public actionService: ActionService,
+        public incomingService: IncomingService,
+        public permissionService: PermissionService
     ) {
-        super(navCtrl, listService, api, menu, events, popoverCtrl, actionService);
+        super(navCtrl, listService, api, menu, events, popoverCtrl, actionService, permissionService);
         this.messageType = 'Incoming';
     }
 

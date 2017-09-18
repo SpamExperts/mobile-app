@@ -173,7 +173,9 @@ export class SearchPage {
             let headers = new Headers();
             let filterstring = [];
 
-            if (this.domain != null) {
+
+            // TODO: do domain & admin stuff!!!
+            if (this.domain != null && this.permissionService.permissions.userType == 'admin') {
                 filterList.push(this.setSearchFilters('domain', this.domain));
             }
             if (this.sender != null) {
