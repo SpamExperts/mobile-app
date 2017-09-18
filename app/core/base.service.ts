@@ -34,10 +34,6 @@ export abstract class BaseService {
         public permissionService: PermissionService
     ) {}
 
-    // public getMessages(): any {
-    //     return this.incomingMessages;
-    // }
-
     public createUrl(method: any, filters : any, page?: number) {
 
         let url = Env.DEV_PROXY
@@ -51,6 +47,9 @@ export abstract class BaseService {
             else if (this.permissionService.isDomain()) {
                 url = url + this.replaceUrlParts() + '/?q=' + filters;
             }
+            else if (this.permissionService.isEmail()) {
+                url = url + this.replaceUrlParts() + '/?q=' + filters;
+            }
         }
 
         else if (method == 'get') {
@@ -60,6 +59,9 @@ export abstract class BaseService {
             else if (this.permissionService.isDomain()) {
                 url = url + this.replaceUrlParts() + '?page=' + page + '&page_size=20&q=' + filters;
             }
+            else if (this.permissionService.isEmail()) {
+                url = url + this.replaceUrlParts() + '?page=' + page + '&page_size=20&q=' + filters;
+            }
         }
 
         return url;
@@ -67,10 +69,14 @@ export abstract class BaseService {
 
     replaceUrlParts() {
         if (this.permissionService.isAdmin()) {
-            return this.endpoint.replace('<domain>/', '');
+            return this.endpoint.replace('<domain>/<local>/', '');
         }
         else if (this.permissionService.isDomain()) {
-            return this.endpoint.replace('<domain>', this.username);
+            return this.endpoint.replace('<domain>/<local>', this.username);
+        }
+        else if (this.permissionService.isEmail()) {
+            let sign = this.username.search('@');
+            return this.endpoint.replace('<domain>/<local>', this.username.slice(sign+1,this.username.length) + '/' + this.username.slice(0,sign));
         }
     }
 

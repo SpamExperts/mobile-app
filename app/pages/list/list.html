@@ -20,18 +20,19 @@
   <ion-list [hidden]="noItems" [virtualScroll]="items" [approxItemHeight]="'150px'"  [bufferRatio]="3">
     <ion-item *virtualItem="let item;  let idx = index;" (click)="itemTapped($event, item)" >
       <ion-row>
-        <ion-col col-9>
+        <ion-col col-10>
           <span>{{listService.dateConvert(item.datetime)}}</span>&nbsp;&nbsp;
           <ion-badge item-end outline color="light">spam</ion-badge>
           <br><br>
           <span>{{item.sender}}</span> <br>
           <span>{{item.subject_header}}</span> <br>
         </ion-col>
-        <ion-col col-3>
-          <span>{{listService.timeConvert(item.datetime)}}</span>
-          <ion-item>
-              <input type="checkbox" [(ngModel)]="item.checked" (click)="changeCheckedItems(item, $event)">
-          </ion-item>
+        <ion-col col-2>
+          <span>{{listService.timeConvert(item.datetime)}}</span> <br> <br> <br>
+              <!--<ion-checkbox [(ngModel)]="item.checked" (click)="changeCheckedItems(item, $event)"> </ion-checkbox>-->
+            <!--<div class="checkbox" *ngIf="!item.checked" (click)="changeCheckedItems(item,$event)">  </div>-->
+            <ion-icon *ngIf="!item.checked" name="square-outline" (click)="changeCheckedItems(item,$event)"></ion-icon>
+            <ion-icon *ngIf="item.checked" name="checkbox" (click)="changeCheckedItems(item,$event)"></ion-icon>
         </ion-col>
       </ion-row>
     </ion-item>

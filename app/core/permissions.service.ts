@@ -41,6 +41,10 @@ export class PermissionService {
         return this.permissions.userType == 'domain';
     }
 
+    public isEmail(): boolean {
+        return this.permissions.userType == 'email';
+    }
+
     public setPermissions(userRole: string) {
         let permission = new UserPermissions(this);
         if (userRole == 'admin') {

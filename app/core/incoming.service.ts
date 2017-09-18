@@ -6,7 +6,7 @@ import { BaseService } from './base.service';
 @Injectable()
 export class IncomingService extends BaseService {
 
-    endpoint = "/master/log/delivery/<domain>/";
+    endpoint = "/master/log/delivery/<domain>/<local>/";
 
     constructor(
         public api: Api,
