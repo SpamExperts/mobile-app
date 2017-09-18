@@ -2,13 +2,14 @@
 
     <div class="row">
         <div class="col col-center">
+        <!--<form name="myForm">-->
             <div class="se-spacer"></div>
             <ion-label>Search messages</ion-label>
             <ion-list>
 
                 <ion-item *ngIf="this.permissionService.permissions.searchFilter.domain">
                     <ion-label floating>Domain</ion-label>
-                    <ion-input type="text" [(ngModel)]="domain" name="domain" ></ion-input>
+                    <ion-input type="text" [(ngModel)]="domain" name="domain" class="required"></ion-input>
                 </ion-item>
 
                 <ion-item *ngIf="this.permissionService.permissions.searchFilter.sender">
@@ -41,7 +42,7 @@
             <div class="se-spacer"></div>
             <button ion-button (tap)="searchMessages()" menuToggle="right" block><ion-icon name="search"></ion-icon> Search messages</button>
             <button ion-button block (tap)="clearSearch()">Clear search</button>
-
+        <!--</form>-->
         </div>
     </div>
 </ion-content>

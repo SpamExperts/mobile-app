@@ -24,6 +24,7 @@ export class SearchPage {
     public selectedInterval: string;
     public queryInstance: Query = new Query();
     readonly endpoint = '/master/log/delivery/?client_username=intern&page=-1&page_size=20&q=';
+    public requiredMessage: string;
 
 
     @ViewChild(Nav) nav: Nav;
@@ -158,72 +159,79 @@ export class SearchPage {
 
     public searchMessages() {
 
-        let typeService: any = null;
-
-        if(this.actionService.type == "incomingMessages") {
-            typeService = this.incomingService;
+        if(this.domain == null){
+            // this.requiredMessage = this.incomingService.getRequiredMessage();
+            this.incomingService.requiredMessageShown = true;
         } else {
-            typeService = this.outgoingService;
-        }
-
-        let filterList = [];
-        let headers = new Headers();
-        let filterstring = [];
-
-        if (this.domain != null) {
-            filterList.push(this.setSearchFilters('domain', this.domain));
-        }
-        if (this.sender != null) {
-            filterList.push(this.setSearchFilters('sender', this.sender));
-        }
-        if (this.recipient != null) {
-            filterList.push(this.setSearchFilters('recipient', this.recipient));
-        }
-
-        filterList.push(this.setSearchFilters('status', 'quarantined'));
-
-        if (this.selectedInterval != null) {
-            if (this.selectedInterval == 'pastDay'){
-                filterList.push(this.pastDays(1).slice(0));
-            } else if (this.selectedInterval == 'pastWeek') {
-                filterList.push(this.pastDays(7).slice(0));
-            } else if (this.selectedInterval == 'pastMonth') {
-                filterList.push(this.pastMonths(1).slice(0));
+            this.requiredMessage = null;
+            this.incomingService.requiredMessageShown = false;
+            let typeService: any = null;
+            if(this.actionService.type == "incomingMessages") {
+                typeService = this.incomingService;
+            } else {
+                typeService = this.outgoingService;
             }
-        } else if (this.fromDate != null && this.toDate == null) {
-            let date = new Date();
-            this.toDate = typeService.formatDate(date);
-            filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
-        } else if (this.fromDate != null && this.toDate != null) {
-            filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
-        }
 
-        for (let i = 0; i < filterList.length; i++) {
-            for (let j = 0; j < filterList[i].length; j++){
-                filterstring.push(filterList[i][j]);
+            let filterList = [];
+            let headers = new Headers();
+            let filterstring = [];
+
+            if (this.domain != null) {
+                filterList.push(this.setSearchFilters('domain', this.domain));
             }
+            if (this.sender != null) {
+                filterList.push(this.setSearchFilters('sender', this.sender));
+            }
+            if (this.recipient != null) {
+                filterList.push(this.setSearchFilters('recipient', this.recipient));
+            }
+
+            filterList.push(this.setSearchFilters('status', 'quarantined'));
+
+            if (this.selectedInterval != null) {
+                if (this.selectedInterval == 'pastDay'){
+                    filterList.push(this.pastDays(1).slice(0));
+                } else if (this.selectedInterval == 'pastWeek') {
+                    filterList.push(this.pastDays(7).slice(0));
+                } else if (this.selectedInterval == 'pastMonth') {
+                    filterList.push(this.pastMonths(1).slice(0));
+                }
+            } else if (this.fromDate != null && this.toDate == null) {
+                let date = new Date();
+                this.toDate = typeService.formatDate(date);
+                filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
+            } else if (this.fromDate != null && this.toDate != null) {
+                filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
+            }
+
+            for (let i = 0; i < filterList.length; i++) {
+                for (let j = 0; j < filterList[i].length; j++){
+                    filterstring.push(filterList[i][j]);
+                }
+            }
+
+            typeService.currentQuery = this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false);
+
+            let query = JSON.stringify(this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false));
+            let encodedQuery = encodeURI(query);
+            let url = typeService.createUrl("get", encodedQuery, -1);
+
+            typeService.encodedQueryUrl = encodedQuery;
+
+            typeService.selectedInterval = this.selectedInterval;
+
+            return this.api.get(url, headers)
+                .subscribe((data: any) => {
+                    let messages: any = JSON.parse(data._body);
+
+                    typeService.count = messages.num_results;
+                    typeService.totalPages = messages.total_pages;
+                    typeService.incomingMessages = messages.objects;
+
+                    this.events.publish('incomingMessages', messages.objects);
+                });
         }
 
-        typeService.currentQuery = this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false);
-
-        let query = JSON.stringify(this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false));
-        let encodedQuery = encodeURI(query);
-        let url = typeService.createUrl("get", encodedQuery, -1);
-
-        typeService.encodedQueryUrl = encodedQuery;
-
-        typeService.selectedInterval = this.selectedInterval;
-
-        return this.api.get(url, headers)
-            .subscribe((data: any) => {
-                let messages: any = JSON.parse(data._body);
-
-                typeService.count = messages.num_results;
-                typeService.totalPages = messages.total_pages;
-                typeService.incomingMessages = messages.objects;
-
-                this.events.publish('incomingMessages', messages.objects);
-            });
     }
 
     public clearSearch() {

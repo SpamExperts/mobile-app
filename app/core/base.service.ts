@@ -28,11 +28,17 @@ export abstract class BaseService {
     public page: number ;
     public runInfinite: boolean = false;
     public hostname: string ;
+    public requiredMessage: string = 'Please filter the search using a domain';
+    public requiredMessageShown: boolean = true;
 
     constructor(
-        public api: Api ,
+        public api: Api,
         public permissionService: PermissionService
     ) {}
+
+    public getRequiredMessage() {
+        return this.requiredMessage;
+    }
 
     public createUrl(method: any, filters : any, page?: number) {
 

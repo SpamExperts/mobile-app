@@ -1,49 +1,50 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle="left" left>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>{{messageType}} spam messages</ion-title>
+    <ion-navbar>
+        <button ion-button menuToggle="left" left>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>{{messageType}} spam messages</ion-title>
 
-    <button ion-button menuToggle="right" right>
-      <ion-icon name="search"></ion-icon>
-    </button>
-  </ion-navbar>
+        <button ion-button menuToggle="right" right>
+            <ion-icon name="search"></ion-icon>
+        </button>
+    </ion-navbar>
 </ion-header>
 <ion-content padding>
 
-  <ion-refresher (ionRefresh)="refresh($event)">
-    <ion-refresher-content pullingText="Release me" refreshingSpinner="ios"></ion-refresher-content>
-  </ion-refresher>
+    <ion-refresher (ionRefresh)="refresh($event)">
+        <ion-refresher-content pullingText="Release me" refreshingSpinner="ios"></ion-refresher-content>
+    </ion-refresher>
 
-  <div *ngIf="!items.length"> No entries. Pull to refresh... </div>
-  <ion-list [hidden]="noItems" [virtualScroll]="items" [approxItemHeight]="'150px'"  [bufferRatio]="3">
-    <ion-item *virtualItem="let item;  let idx = index;" (click)="itemTapped($event, item)" >
-      <ion-row>
-        <ion-col col-10>
-          <span>{{listService.dateConvert(item.datetime)}}</span>&nbsp;&nbsp;
-          <ion-badge item-end outline color="light">spam</ion-badge>
-          <br><br>
-          <span>{{item.sender}}</span> <br>
-          <span>{{item.subject_header}}</span> <br>
-        </ion-col>
-        <ion-col col-2>
-          <span>{{listService.timeConvert(item.datetime)}}</span> <br> <br> <br>
-              <!--<ion-checkbox [(ngModel)]="item.checked" (click)="changeCheckedItems(item, $event)"> </ion-checkbox>-->
-            <!--<div class="checkbox" *ngIf="!item.checked" (click)="changeCheckedItems(item,$event)">  </div>-->
-            <ion-icon *ngIf="!item.checked" name="square-outline" (click)="changeCheckedItems(item,$event)"></ion-icon>
-            <ion-icon *ngIf="item.checked" name="checkbox" (click)="changeCheckedItems(item,$event)"></ion-icon>
-        </ion-col>
-      </ion-row>
-    </ion-item>
-  </ion-list>
+    <div *ngIf="this.incomingService.requiredMessageShown">
+        {{ this.incomingService.requiredMessage }}
+    </div>
+    <div *ngIf="!items.length"> No entries. Pull to refresh... </div>
+    <ion-list [hidden]="noItems" [virtualScroll]="items" [approxItemHeight]="'150px'"  [bufferRatio]="3">
+        <ion-item *virtualItem="let item;  let idx = index;" (click)="itemTapped($event, item)" >
+            <ion-row>
+                <ion-col col-10>
+                    <span>{{listService.dateConvert(item.datetime)}}</span>&nbsp;&nbsp;
+                    <ion-badge item-end outline color="light">spam</ion-badge>
+                    <br><br>
+                    <span>{{item.sender}}</span> <br>
+                    <span>{{item.subject_header}}</span> <br>
+                </ion-col>
+                <ion-col col-2>
+                    <span>{{listService.timeConvert(item.datetime)}}</span> <br> <br> <br>
+                    <ion-icon *ngIf="!item.checked" name="square-outline" (click)="changeCheckedItems(item,$event)"></ion-icon>
+                    <ion-icon *ngIf="item.checked" name="checkbox" (click)="changeCheckedItems(item,$event)"></ion-icon>
+                </ion-col>
+            </ion-row>
+        </ion-item>
+    </ion-list>
 
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px">
-    <ion-infinite-scroll-content
-            loadingSpinner="bubbles"
-            loadingText="Loading more data...">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px">
+        <ion-infinite-scroll-content
+                loadingSpinner="bubbles"
+                loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
 </ion-content>
 
