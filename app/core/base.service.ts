@@ -30,7 +30,7 @@ export abstract class BaseService {
     public hostname: string ;
 
     constructor(
-        public api: Api,
+        public api: Api ,
         public permissionService: PermissionService
     ) {}
 
