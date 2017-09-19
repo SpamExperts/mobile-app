@@ -30,6 +30,7 @@ export abstract class BaseService {
     public hostname: string ;
     public requiredMessage: string = 'Please filter the search using a domain';
     public requiredMessageShown: boolean = true;
+    public datesInterval: string = '';
 
     constructor(
         public api: Api,

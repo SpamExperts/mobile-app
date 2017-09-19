@@ -3,7 +3,9 @@
         <button ion-button menuToggle="left" left>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>{{messageType}} spam messages</ion-title>
+        <ion-title >
+            <span style="font-size: 11px !important;">{{ messageType}} spam messages {{ this.listService.datesInterval }}</span>
+        </ion-title>
 
         <button ion-button menuToggle="right" right>
             <ion-icon name="search"></ion-icon>

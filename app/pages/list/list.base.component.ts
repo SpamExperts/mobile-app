@@ -27,10 +27,11 @@ export class BaseListComponent {
     noItems: boolean = true;
     minItems: number = 4;
     messageType: string = '';
+    datesInterval: string = '';
 
     constructor(
         public navCtrl: NavController,
-        public listService: IncomingService ,
+        public listService: IncomingService,
         public api: Api,
         public menu: MenuController,
         public events: Events,
@@ -42,6 +43,11 @@ export class BaseListComponent {
         setTimeout(function () {
             listService.requiredMessageShown = false;
         }, 15000);
+
+        let now = new Date();
+        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        this.listService.datesInterval = now.getDate() + ' ' + months[now.getMonth()] + ' - ' + now.getDate() + ' ' + months[now.getMonth()] +  ' ' +  now.getFullYear();
 
         //the items on the page do not refresh
         if(this.listService.listLeft == true) {
@@ -106,12 +112,15 @@ export class BaseListComponent {
 
     refresh(refresher) {
 
-        this.listService.requiredMessageShown = true;
-        var thisRoot = this;
+        if(this.noItems) {
+            this.listService.requiredMessageShown = true;
+            var thisRoot = this;
 
-        setTimeout(function () {
-            thisRoot.listService.requiredMessageShown = false;
-        }, 15000);
+            setTimeout(function () {
+                thisRoot.listService.requiredMessageShown = false;
+            }, 15000);
+        }
+
         //not allowed when items are checked
         if(this.listService.checkedNumber > 0 ) {
             refresher.complete();

@@ -36,7 +36,8 @@ export class SearchPage {
         public events: Events,
         public permissionService: PermissionService,
         public secureStorage: SecureStorageService,
-        public actionService : ActionService
+        public actionService : ActionService,
+        public listService: IncomingService
     ) {
         let now = new Date();
         let today = new Date();
@@ -173,6 +174,13 @@ export class SearchPage {
             let filterList = [];
             let headers = new Headers();
             let filterstring = [];
+            let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+            let fromDate = new Date(this.fromDate);
+            let toDate = new Date(this.toDate);
+            let fromDateString= fromDate.getDate() + " " + months[fromDate.getMonth()];
+            let toDateString = toDate.getDate() + " " + months[toDate.getMonth()];
+            this.listService.datesInterval = fromDateString + ' - ' + toDateString + ' ' +  toDate.getFullYear();
 
             if (this.domain != null && this.permissionService.permissions.userType == 'admin') {
                 filterList.push(this.setSearchFilters('domain', this.domain));
