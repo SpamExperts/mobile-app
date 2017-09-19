@@ -14,6 +14,7 @@ import { OutgoingService } from './core/outgoing.service';
 import { OutgoingPage } from './pages/list/list.outgoing';
 import { IncomingPage } from './pages/list/list.incoming';
 import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage';
+import { ActionService } from './core/action.service';
 
 @Component({
     selector: 'my-app',
@@ -45,6 +46,7 @@ export class MyApp implements OnInit {
         public incomingService: IncomingService,
         public outgoingService: OutgoingService,
         public secureStorage: SecureStorage,
+        public actionService: ActionService
     ) {
         this.initializeApp();
     }
@@ -85,8 +87,10 @@ export class MyApp implements OnInit {
 
     openPage(page) {
         if (page == 'OutgoingPage' && this.nav.getActive().component.name != 'OutgoingPage' ) {
+            this.actionService.type = 'outgoingMessages';
             this.nav.setRoot(OutgoingPage);
         } else if (page == 'IncomingPage' && this.nav.getActive().component.name != 'IncomingPage' ) {
+            this.actionService.type = 'outgoingMessages';
             this.nav.setRoot(IncomingPage);
         }
     }

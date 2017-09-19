@@ -1,13 +1,13 @@
 import { ElementRef, ViewChild } from '@angular/core';
 import { Events, MenuController, NavController, PopoverController } from 'ionic-angular';
 import { InfiniteScroll } from 'ionic-angular';
-import { IncomingService } from '../../core/incoming.service';
 import { MessageDetailsPage } from '../message-details/message-details.component';
 import { Api } from '../../core/api.service';
 import { Headers } from '@angular/http';
 import { PopoverPage } from '../common/popover/popover.component';
 import { ActionService } from '../../core/action.service';
 import { PermissionService } from '../../core/permissions.service';
+import { OutgoingService } from '../../core/outgoing.service';
 
 export class BaseListComponent {
 
@@ -31,7 +31,7 @@ export class BaseListComponent {
 
     constructor(
         public navCtrl: NavController,
-        public listService: IncomingService,
+        public listService: OutgoingService,
         public api: Api,
         public menu: MenuController,
         public events: Events,
@@ -65,9 +65,8 @@ export class BaseListComponent {
         }
 
         else {
-
-            this.events.subscribe('incomingMessages', (data) => {
-
+            let name = this.actionService.type;
+            this.events.subscribe(name, (data) => {
                 this.handleMessages(data);
 
                 //initialize with the number of pages and messages at the first search
@@ -83,6 +82,7 @@ export class BaseListComponent {
                 }
             });
         }
+
     };
 
     handleMessages(messages: {}[] = []): void {

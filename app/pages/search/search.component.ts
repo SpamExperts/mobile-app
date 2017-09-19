@@ -234,7 +234,11 @@ export class SearchPage {
                     typeService.totalPages = messages.total_pages;
                     typeService.incomingMessages = messages.objects;
 
-                    this.events.publish('incomingMessages', messages.objects);
+                    if(typeService == this.incomingService) {
+                        this.events.publish('incomingMessages', messages.objects);
+                    } else {
+                        this.events.publish('outgoingMessages', messages.objects);
+                    }
                 });
         }
 

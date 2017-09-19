@@ -7,6 +7,7 @@ import { StorageService } from '../../core/storage.service';
 import { SecureStorageService } from '../../core/secureStorage.service';
 import { IncomingPage } from '../list/list.incoming';
 import { OutgoingPage } from '../list/list.outgoing';
+import { ActionService } from '../../core/action.service';
 
 @Component({
     selector: 'page-home',
@@ -25,16 +26,19 @@ export class HomePage implements OnInit{
         public permissionsService: PermissionService,
         public storage: StorageService,
         public secureStorage: SecureStorageService,
-        public platform: Platform
+        public platform: Platform,
+        public actionService: ActionService
     ){
 
     }
 
     public getOutgoingMessages(): any {
+        this.actionService.type = 'outgoingMessages';
         this.navCtrl.setRoot(OutgoingPage);
     }
 
     public getIncomingMessages(): any {
+        this.actionService.type = 'incomingMessages';
         this.navCtrl.setRoot(IncomingPage);
     }
 
