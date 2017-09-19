@@ -18,7 +18,6 @@ export class MessageDetailsPage {
     @ViewChild(Navbar) navBar: Navbar;
 
     public selectedItem: any;
-    //public currentService: any;
 
     constructor(
         public navParams: NavParams,
@@ -39,7 +38,7 @@ export class MessageDetailsPage {
             setTimeout(function() {
                 self.events.publish('refresh', "");
             }, 2000);
-        })
+        });
 
         this.menu.enable(false, 'primaryMenu');
         this.menu.enable(false, 'searchMenu');

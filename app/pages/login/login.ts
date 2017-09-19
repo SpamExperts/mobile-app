@@ -71,9 +71,6 @@ export class LoginPage {
         headers.append('Authorization', 'Basic ' + auth);
         let token: string = '';
 
-        this.incomingService.username = this.username;
-        this.outgoingService.username = this.username;
-
         this.api.get(url, headers)
             .subscribe((data: any) => {
 

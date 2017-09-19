@@ -84,12 +84,10 @@ export class MyApp implements OnInit {
     }
 
     openPage(page) {
-        if (page == 'OutgoingPage') {
+        if (page == 'OutgoingPage' && this.nav.getActive().component.name != 'OutgoingPage' ) {
             this.nav.setRoot(OutgoingPage);
-        } else if (page == 'IncomingPage') {
+        } else if (page == 'IncomingPage' && this.nav.getActive().component.name != 'IncomingPage' ) {
             this.nav.setRoot(IncomingPage)
-        } else if (page == 'HomePage') {
-            this.nav.setRoot(HomePage);
         }
     }
 

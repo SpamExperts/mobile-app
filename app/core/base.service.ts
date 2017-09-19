@@ -47,7 +47,7 @@ export abstract class BaseService {
             : 'https://' + this.hostname ;
 
         if(method == 'post') {
-            let oldendpoint = this.endpoint;
+            let oldEndpoint = this.endpoint;
             this.endpoint = '/master/bulk/delivery/<domain>/<local>/';
 
             if (this.permissionService.isAdmin()) {
@@ -59,7 +59,7 @@ export abstract class BaseService {
             else if (this.permissionService.isEmail()) {
                 url = url + this.replaceUrlParts() + '?q=' + filters;
             }
-            this.endpoint = oldendpoint;
+            this.endpoint = oldEndpoint;
         }
 
         else if (method == 'get') {
@@ -114,7 +114,7 @@ export abstract class BaseService {
         let days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-        return days[d.getDay()-1] + ', ' +  d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+        return days[ d.getDay()- 1 ] + ', ' +  d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
     }
 
     //for the view
@@ -152,6 +152,11 @@ export abstract class BaseService {
         this.allItems = null;
         this.checkedNumber = 0;
         this.listLeft = false ;
+        this.username = '';
+        this.role = '';
+        this.runInfinite = false;
+        this.hostname = '';
+        this.requiredMessageShown = true;
     }
 
 }

@@ -5,6 +5,7 @@ import { Headers } from '@angular/http';
 import { AlertController, Events } from 'ionic-angular';
 import { IncomingService } from './incoming.service';
 import { Alert } from '../pages/common/alert';
+import { OutgoingService } from './outgoing.service';
 
 @Injectable()
 export class ActionService {
@@ -17,21 +18,29 @@ export class ActionService {
     constructor (
         public api: Api,
         public events: Events,
-        public incService: IncomingService,
+        public incomingService: IncomingService,
         public alertCtrl: AlertController,
+        public outgoingService: OutgoingService
     ) {}
 
     public action(method: string) {
+
+        let typeService: any = null;
+        if (this.type == 'incomingMessages') {
+            typeService = this.incomingService;
+        } else if (this.type == 'outgoingMessages') {
+            typeService = this.outgoingService;
+        }
 
         this.alert.actionAlert("Confirm action", this.alert.alertMessage[method] , () => {
 
             this.actionName = method;
 
-            if (this.incService.selectedItem != undefined) {
-                this.selectedMessages[0] = this.incService.selectedItem;
+            if (typeService.selectedItem != undefined) {
+                this.selectedMessages[0] = typeService.selectedItem;
             }
             else {
-                for (let item of this.incService.allItems) {
+                for (let item of typeService.allItems) {
                     if (item.checked == true) {
                         this.selectedMessages.push(item);
                     }
@@ -73,15 +82,15 @@ export class ActionService {
             }
 
             let filters = encodeURI(JSON.stringify(query.createRemoveQuery(or)));
-            let url = this.incService.createUrl("post", filters);
+            let url = typeService.createUrl("post", filters);
             let headers = new Headers();
 
             this.api.post(url, headers, {"method": this.actionName })
                 .subscribe(() => {
                     this.selectedMessages = [];
-                    this.incService.checkedNumber = 0;
+                    typeService.checkedNumber = 0;
                     this.events.publish('refresh', "");
-                    if (this.incService.selectedItem)
+                    if (typeService.selectedItem)
                         this.events.publish('move', "");
                 });
 

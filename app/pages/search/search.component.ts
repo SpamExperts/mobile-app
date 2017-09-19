@@ -154,11 +154,10 @@ export class SearchPage {
 
     public searchMessages() {
 
-
         let typeService: any = null;
         if(this.actionService.type == "incomingMessages") {
             typeService = this.incomingService;
-        } else {
+        } else if(this.actionService.type == "outgoingMessages") {
             typeService = this.outgoingService;
         }
 

@@ -24,7 +24,7 @@ export class BaseListComponent {
     last_count: number;
     total_pages: number;
     allowActionRefresh: boolean = false;
-    noItems: boolean = false;
+    noItems: boolean = true;
     minItems: number = 4;
     messageType: string = '';
 
