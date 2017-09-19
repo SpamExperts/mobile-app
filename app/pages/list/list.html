@@ -26,6 +26,7 @@
             </button>
         </ion-card-content>
     </div>
+
     <div *ngIf="!items.length"> No entries. Pull to refresh... </div>
     <ion-list [hidden]="noItems" [virtualScroll]="items" [approxItemHeight]="'150px'"  [bufferRatio]="3">
         <ion-item *virtualItem="let item;  let idx = index;" (click)="itemTapped($event, item)" >

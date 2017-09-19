@@ -23,8 +23,6 @@ export class Api {
             headers: headers
         });
 
-        console.log(object);
-
         return this.http.post(url, options, object);
     }
 

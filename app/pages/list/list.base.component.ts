@@ -49,19 +49,21 @@ export class BaseListComponent {
 
         this.listService.datesInterval = now.getDate() + ' ' + months[now.getMonth()] + ' - ' + now.getDate() + ' ' + months[now.getMonth()] +  ' ' +  now.getFullYear();
 
+        //refreshes after 2 seconds
+        this.events.subscribe('refresh', () => {
+            let thisList = this;
+            setTimeout(function () {
+                thisList.actionRefresh();
+            }, 2000);
+        });
+
         //the items on the page do not refresh
         if(this.listService.listLeft == true) {
+            this.noItems = false;
             this.items = this.listService.allItems;
         }
 
         else {
-            //refreshes after 2 seconds
-            this.events.subscribe('refresh', () => {
-                let thisList = this;
-                setTimeout(function () {
-                    thisList.actionRefresh();
-                }, 2000);
-            });
 
             this.events.subscribe('incomingMessages', (data) => {
 
