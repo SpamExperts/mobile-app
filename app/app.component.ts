@@ -87,7 +87,7 @@ export class MyApp implements OnInit {
         if (page == 'OutgoingPage' && this.nav.getActive().component.name != 'OutgoingPage' ) {
             this.nav.setRoot(OutgoingPage);
         } else if (page == 'IncomingPage' && this.nav.getActive().component.name != 'IncomingPage' ) {
-            this.nav.setRoot(IncomingPage)
+            this.nav.setRoot(IncomingPage);
         }
     }
 

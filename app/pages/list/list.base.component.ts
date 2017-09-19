@@ -44,10 +44,11 @@ export class BaseListComponent {
             listService.requiredMessageShown = false;
         }, 15000);
 
-        let now = new Date();
-        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-        this.listService.datesInterval = now.getDate() + ' ' + months[now.getMonth()] + ' - ' + now.getDate() + ' ' + months[now.getMonth()] +  ' ' +  now.getFullYear();
+        if(this.listService.datesInterval == null) {
+            let now = new Date();
+            let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            this.listService.datesInterval = now.getDate() + ' ' + months[now.getMonth()] + ' - ' + now.getDate() + ' ' + months[now.getMonth()] +  ' ' +  now.getFullYear();
+        }
 
         //refreshes after 2 seconds
         this.events.subscribe('refresh', () => {
@@ -142,6 +143,7 @@ export class BaseListComponent {
     actionRefresh() {
 
         this.refreshDate();
+
 
         let url = this.listService.createUrl('get', this.listService.encodedQueryUrl, -1);
         let headers = new Headers();
