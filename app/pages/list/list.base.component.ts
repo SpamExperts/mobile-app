@@ -107,7 +107,6 @@ export class BaseListComponent {
     refresh(refresher) {
 
         this.listService.requiredMessageShown = true;
-        console.log('before: ', this.listService.requiredMessageShown);
         var thisRoot = this;
 
         setTimeout(function () {
