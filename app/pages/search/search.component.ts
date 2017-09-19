@@ -162,9 +162,11 @@ export class SearchPage {
             typeService = this.outgoingService;
         }
 
-        if(this.domain == null){
-            // this.requiredMessage = this.incomingService.getRequiredMessage();
+        if(this.domain == null && this.permissionService.permissions.userType == 'admin'){
             typeService.requiredMessageShown = true;
+            setTimeout(function () {
+                typeService.requiredMessageShown = false;
+            }, 15000);
         } else {
             this.requiredMessage = null;
             typeService.requiredMessageShown = false;
@@ -173,8 +175,6 @@ export class SearchPage {
             let headers = new Headers();
             let filterstring = [];
 
-
-            // TODO: do domain & admin stuff!!!
             if (this.domain != null && this.permissionService.permissions.userType == 'admin') {
                 filterList.push(this.setSearchFilters('domain', this.domain));
             }

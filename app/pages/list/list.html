@@ -16,8 +16,13 @@
         <ion-refresher-content pullingText="Release me" refreshingSpinner="ios"></ion-refresher-content>
     </ion-refresher>
 
-    <div *ngIf="this.listService.requiredMessageShown && this.permissionService.permissions.userType =='admin' ">
-        {{ this.listService.requiredMessage }}
+    <div *ngIf="this.listService.requiredMessageShown">
+        <ion-card-content *ngIf="this.listService.requiredMessageShown && this.permissionService.permissions.userType =='admin' " style="background-color: antiquewhite">
+            {{ this.listService.requiredMessage }}
+            <button ion-button #alertButton (click)="closeAlert()" clear>
+                <ion-icon ios="ios-close" md="md-close" float-right></ion-icon>
+            </button>
+        </ion-card-content>
     </div>
     <div *ngIf="!items.length"> No entries. Pull to refresh... </div>
     <ion-list [hidden]="noItems" [virtualScroll]="items" [approxItemHeight]="'150px'"  [bufferRatio]="3">

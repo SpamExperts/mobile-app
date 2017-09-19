@@ -51,7 +51,7 @@ export abstract class BaseService {
             this.endpoint = '/master/bulk/delivery/<domain>/<local>/';
 
             if (this.permissionService.isAdmin()) {
-                url = url + this.replaceUrlParts() +'?client_username=' + this.username + '&q=' + filters;
+                url = url + this.replaceUrlParts() +'?client_username=' + this.permissionService.username + '&q=' + filters;
             }
             else if (this.permissionService.isDomain()) {
                 url = url + this.replaceUrlParts() + '?q=' + filters;
@@ -64,7 +64,7 @@ export abstract class BaseService {
 
         else if (method == 'get') {
             if (this.permissionService.isAdmin()) {
-                url = url + this.replaceUrlParts() + '?client_username=' + this.username + '&page=' + page + '&page_size=20&q=' + filters;
+                url = url + this.replaceUrlParts() + '?client_username=' + this.permissionService.username + '&page=' + page + '&page_size=20&q=' + filters;
             }
             else if (this.permissionService.isDomain()) {
                 url = url + this.replaceUrlParts() + '?page=' + page + '&page_size=20&q=' + filters;
@@ -82,11 +82,12 @@ export abstract class BaseService {
             return this.endpoint.replace('<domain>/<local>/', '');
         }
         else if (this.permissionService.isDomain()) {
-            return this.endpoint.replace('<domain>/<local>', this.username);
+            return this.endpoint.replace('<domain>/<local>', this.permissionService.username);
         }
         else if (this.permissionService.isEmail()) {
             let sign = this.username.search('@');
-            return this.endpoint.replace('<domain>/<local>', this.username.slice(sign+1,this.username.length) + '/' + this.username.slice(0,sign));
+            return this.endpoint.replace('<domain>/<local>',
+                this.permissionService.username.slice(sign+1,this.permissionService.username.length) + '/' + this.permissionService.username.slice(0,sign));
         }
     }
 
@@ -151,8 +152,6 @@ export abstract class BaseService {
         this.allItems = null;
         this.checkedNumber = 0;
         this.listLeft = false ;
-
-        console.log(this.listLeft);
     }
 
 }

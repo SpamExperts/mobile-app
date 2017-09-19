@@ -1,4 +1,4 @@
-import { ViewChild } from '@angular/core';
+import { ElementRef, ViewChild } from '@angular/core';
 import { Events, MenuController, NavController, PopoverController } from 'ionic-angular';
 import { InfiniteScroll } from 'ionic-angular';
 import { IncomingService } from '../../core/incoming.service';
@@ -12,6 +12,7 @@ import { PermissionService } from '../../core/permissions.service';
 export class BaseListComponent {
 
     @ViewChild('list') list: any;
+    @ViewChild('alertButton') alertButton: ElementRef;
 
     selectedItem: any;
     items: {}[] = [];
@@ -35,8 +36,12 @@ export class BaseListComponent {
         public events: Events,
         public popoverCtrl: PopoverController,
         public actionService: ActionService,
-        public permissionService: PermissionService
+        public permissionService: PermissionService,
     ) {
+
+        setTimeout(function () {
+            listService.requiredMessageShown = false;
+        }, 15000);
 
         //the items on the page do not refresh
         if(this.listService.listLeft == true) {
@@ -101,6 +106,13 @@ export class BaseListComponent {
 
     refresh(refresher) {
 
+        this.listService.requiredMessageShown = true;
+        console.log('before: ', this.listService.requiredMessageShown);
+        var thisRoot = this;
+
+        setTimeout(function () {
+            thisRoot.listService.requiredMessageShown = false;
+        }, 15000);
         //not allowed when items are checked
         if(this.listService.checkedNumber > 0 ) {
             refresher.complete();
@@ -246,5 +258,8 @@ export class BaseListComponent {
         this.listService.runInfinite = true;
     }
 
+    closeAlert() {
+        this.listService.requiredMessageShown = false;
+    }
 
 }
