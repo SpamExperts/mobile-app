@@ -1,12 +1,41 @@
+<style>
+    .required:after {
+        content: '*';
+        color: #39B0DA;
+        font-size: 20px;
+        position: absolute;
+        top: 50%;
+        right: 0;
+    }
+
+    .timeButtons {
+        margin: 2px;
+    }
+
+    ion-label {
+        margin: 0px;
+    }
+
+    .se-spacer {
+        height: 10px;
+    }
+
+    #info {
+        position: fixed;
+        bottom: 0;
+        color: #39B0DA;
+        padding: 5px;
+    }
+
+</style>
+
 <ion-content padding>
 
     <div class="row">
         <div class="col col-center">
-        <!--<form name="myForm">-->
             <div class="se-spacer"></div>
             <ion-label>Search messages</ion-label>
             <ion-list>
-
                 <ion-item *ngIf="this.permissionService.permissions.searchFilter.domain">
                     <ion-label floating>Domain</ion-label>
                     <ion-input type="text" [(ngModel)]="domain" name="domain" class="required"></ion-input>
@@ -24,12 +53,24 @@
 
             </ion-list>
 
-            <button ion-button (tap)="makeactive('pastDay')" [color]="selectedInterval == 'pastDay' ? 'dark' : 'light'" outline>Past 24H</button>
-            <button ion-button (tap)="makeactive('pastWeek')" [color]="selectedInterval == 'pastWeek' ? 'dark' : 'light'" outline>Past Week</button>
-            <button ion-button (tap)="makeactive('pastMonth')" [color]="selectedInterval == 'pastMonth' ? 'dark' : 'light'" outline>Past Month</button>
+            <div class="se-spacer"></div>
+            <ion-label>Sent</ion-label>
+            <ion-grid>
+                <ion-row>
+                    <ion-col ion-button class="timeButtons" (tap)="makeactive('pastDay')" [color]="selectedInterval == 'pastDay' ? 'dark' : 'light'" outline style="font-size: 10px;">
+                        Past 24H
+                    </ion-col>
+                    <ion-col ion-button class="timeButtons" (tap)="makeactive('pastWeek')" [color]="selectedInterval == 'pastWeek' ? 'dark' : 'light'" outline style="font-size: 10px;">
+                        Past Week
+                    </ion-col>
+                    <ion-col ion-button class="timeButtons" (tap)="makeactive('pastMonth')" [color]="selectedInterval == 'pastMonth' ? 'dark' : 'light'" outline style="font-size: 10px;">
+                        Past Month
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
 
             <div class="se-spacer"></div>
-
+            <ion-label>Custom timeframe</ion-label>
             <ion-item>
                 <ion-label>From date</ion-label>
                 <ion-datetime displayFormat="MMM DD, YYYY HH:mm" [(ngModel)]="fromDate"></ion-datetime>
@@ -41,8 +82,10 @@
 
             <div class="se-spacer"></div>
             <button ion-button (tap)="searchMessages()" menuToggle="right" block><ion-icon name="search"></ion-icon> Search messages</button>
-            <button ion-button block (tap)="clearSearch()">Clear search</button>
-        <!--</form>-->
+            <button ion-button block (tap)="clearSearch()" outline block>Clear search</button>
+
+            <div class="se-spacer"></div>
+            <ion-label text-center id="info"> Fields marked with * are required </ion-label>
         </div>
     </div>
 </ion-content>

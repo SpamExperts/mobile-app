@@ -1,22 +1,29 @@
 <ion-menu side="left" [content]="content" id="primaryMenu">
     <ion-header>
         <ion-toolbar>
-            <button ion-button menuToggle="left" clear right> <ion-icon name="arrow-forward"></ion-icon></button>
+            <button ion-button menuToggle="left" clear right> <ion-icon name="ios-arrow-forward"></ion-icon></button>
         </ion-toolbar>
         <ion-toolbar padding="20px">
             <ion-title class="userInfo" text-center>{{ this.permissionService.username }}</ion-title>
-            <ion-label class="userInfo" text-center id="role">{{ this.permissionService.permissions.userRole  }}</ion-label>
+            <ion-label class="userInfo" text-center id="role">{{ this.permissionService.permissions.userRole.toUpperCase()  }}</ion-label>
         </ion-toolbar>
     </ion-header>
 
     <ion-content>
         <ion-list>
-            <button menuClose ion-item (click)="openPage('IncomingPage')" *ngIf="this.permissionService.permissions.messagesPages.incoming">Incoming Filtering Quarantine</button>
-            <button menuClose ion-item (click)="openPage('OutgoingPage')" *ngIf="this.permissionService.permissions.messagesPages.outgoing">Outgoing Filtering Quarantine</button>
-
-            <button ion-button (click)="logout()" outline> Logout</button>
+            <ion-label>Your available products</ion-label>
+            <button menuClose ion-item (click)="openPage('IncomingPage')" *ngIf="this.permissionService.permissions.messagesPages.incoming">
+                Incoming Filtering Quarantine
+                <ion-icon name="ios-cloud-upload-outline"></ion-icon>
+            </button>
+            <button menuClose ion-item (click)="openPage('OutgoingPage')" *ngIf="this.permissionService.permissions.messagesPages.outgoing">
+                Outgoing Filtering Quarantine
+                <ion-icon name="ios-cloud-download-outline"></ion-icon>
+            </button>
         </ion-list>
 
+        <button ion-button (click)="logout()" outline block style="font-size: 15px;"> <ion-icon name="ios-exit-outline"></ion-icon> Logout</button>
+        <ion-label text-center>&copy; 2017 SpamExperts</ion-label>
     </ion-content>
 
 </ion-menu>
@@ -24,7 +31,7 @@
 <ion-menu side="right" [content]="content" id="searchMenu">
     <ion-header>
         <ion-toolbar>
-            <button ion-button menuToggle="right"> <ion-icon name="arrow-back"></ion-icon></button>
+            <button ion-button menuToggle="right"> <ion-icon name="ios-arrow-back"></ion-icon></button>
             <ion-title>Back to results</ion-title>
         </ion-toolbar>
     </ion-header>

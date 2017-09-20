@@ -27,7 +27,8 @@ export class HomePage implements OnInit{
         public storage: StorageService,
         public secureStorage: SecureStorageService,
         public platform: Platform,
-        public actionService: ActionService
+        public actionService: ActionService,
+        public permissionService: PermissionService
     ){
 
     }
