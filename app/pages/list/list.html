@@ -5,6 +5,7 @@
         </button>
         <ion-title >
             <span style="font-size: 11px !important;">{{ messageType}} spam messages {{ this.listService.datesInterval }}</span>
+            <span>{{ this.listService.currentDomain }}</span>
         </ion-title>
 
         <button ion-button menuToggle="right" right>
@@ -18,9 +19,9 @@
         <ion-refresher-content pullingText="Release me" refreshingSpinner="ios"></ion-refresher-content>
     </ion-refresher>
 
-    <div *ngIf="this.listService.requiredMessageShown">
-        <ion-card-content *ngIf="this.listService.requiredMessageShown && this.permissionService.permissions.userType =='admin' " style="background-color: antiquewhite">
-            {{ this.listService.requiredMessage }}
+    <div *ngIf="this.listService.infoMessageShown">
+        <ion-card-content *ngIf="this.listService.infoMessageShown && this.permissionService.permissions.userType =='admin' " style="background-color: antiquewhite">
+            {{ this.listService.infoMessage }}
             <button ion-button #alertButton (click)="closeAlert()" clear>
                 <ion-icon ios="ios-close" md="md-close" float-right></ion-icon>
             </button>

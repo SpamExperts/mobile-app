@@ -29,17 +29,32 @@ export abstract class BaseService {
     public page: number ;
     public runInfinite: boolean = false;
     public hostname: string ;
-    public requiredMessage: string = 'Please filter the search using a domain';
-    public requiredMessageShown: boolean = true;
+    public infoMessage: string = 'Please filter the search using a domain.';
+    public infoMessageShown: boolean = true;
     public datesInterval: string = null;
+    public currentDomain: string = '';
 
     constructor(
         public api: Api,
         public permissionService: PermissionService
     ) {}
 
-    public getRequiredMessage() {
-        return this.requiredMessage;
+    public setInfoMessage(condition, domainName?) {
+
+        switch(condition) {
+            case 'requiredDomain':
+                this.infoMessage = 'Please filter the search using a domain.';
+                break;
+            case 'domainNotRegistered':
+                this.infoMessage = 'Domain ' + domainName + ' is not registered on this cluster. Please search using an existing domain.';
+                break;
+        }
+
+        // return message;
+    }
+
+    public getInfoMessage() {
+        return this.infoMessage;
     }
 
     public createUrl(method: any, filters : any, page?: number) {
@@ -158,7 +173,7 @@ export abstract class BaseService {
         this.role = '';
         this.runInfinite = false;
         this.hostname = '';
-        this.requiredMessageShown = true;
+        this.infoMessageShown = true;
     }
 
 }

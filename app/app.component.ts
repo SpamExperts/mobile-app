@@ -104,6 +104,7 @@ export class MyApp implements OnInit {
 
     logout() {
         this.alert.logoutAlert('Confirm logout!', 'Are you sure you want to log out?', () => {
+
             this.storageService.clearStorage();
             localStorage.setItem('auth', 'false');
             this.incomingService.refreshData();

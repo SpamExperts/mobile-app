@@ -41,10 +41,11 @@ export class BaseListComponent {
     ) {
 
         setTimeout(function () {
-            listService.requiredMessageShown = false;
+            listService.infoMessageShown = false;
         }, 15000);
 
         if(this.listService.datesInterval == null) {
+
             let now = new Date();
             let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             this.listService.datesInterval = now.getDate() + ' ' + months[now.getMonth()] + ' - ' + now.getDate() + ' ' + months[now.getMonth()] +  ' ' +  now.getFullYear();
@@ -120,12 +121,12 @@ export class BaseListComponent {
 
     refresh(refresher) {
 
-        if(this.noItems) {
-            this.listService.requiredMessageShown = true;
-            var thisRoot = this;
+        if(this.noItems && this.listService.currentDomain == null) {
+            this.listService.infoMessageShown = true;
+            let thisRoot = this;
 
             setTimeout(function () {
-                thisRoot.listService.requiredMessageShown = false;
+                thisRoot.listService.infoMessageShown = false;
             }, 15000);
         }
 
@@ -155,6 +156,7 @@ export class BaseListComponent {
 
         //if there is a query
         if(this.listService.encodedQueryUrl ) {
+
             this.api.get(url, headers).subscribe((data: any) => {
                 let body = JSON.parse(data._body);
                 let messages: any = body.objects;
@@ -276,6 +278,6 @@ export class BaseListComponent {
     }
 
     closeAlert() {
-        this.listService.requiredMessageShown = false;
+        this.listService.infoMessageShown = false;
     }
 }

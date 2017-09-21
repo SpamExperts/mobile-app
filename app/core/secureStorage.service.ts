@@ -31,6 +31,7 @@ export class SecureStorageService {
                             this.storage.get('rememberMe').then(
                                 (data) => {
                                     if(data == 'true') {
+
                                         this.movetoHome = true;
                                         this.storage.get('role').then(
                                             (data) => {
@@ -57,7 +58,6 @@ export class SecureStorageService {
     }
 
     public getStorageItem(item, callback) {
-        console.log('storage object', this.storage);
         return this.storage.get(item)
             .then(
                 (data) => {

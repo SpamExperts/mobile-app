@@ -78,10 +78,12 @@ export class SearchPage {
 
             let now = new Date();
             let yesterday = new Date();
+
             yesterday.setSeconds(0);
             yesterday.setHours(yesterday.getHours() + 3);
             now.setHours(now.getHours() + 3);
             yesterday.setDate(now.getDate() - 1);
+
             this.fromDate = yesterday.toISOString();
             this.toDate = now.toISOString();
 
@@ -89,10 +91,12 @@ export class SearchPage {
 
             let now = new Date();
             let yesterday = new Date();
+
             yesterday.setSeconds(0);
             yesterday.setDate(now.getDate() - 7);
             yesterday.setHours(yesterday.getHours() + 3);
             now.setHours(now.getHours() + 3);
+
             this.fromDate = yesterday.toISOString();
             this.toDate = now.toISOString();
 
@@ -100,10 +104,12 @@ export class SearchPage {
 
             let now = new Date();
             let lastMonth = new Date();
+
             lastMonth.setSeconds(0);
             lastMonth.setMonth(now.getMonth() - 1);
             lastMonth.setHours(lastMonth.getHours() + 3);
             now.setHours(now.getHours() + 3);
+
             this.fromDate = lastMonth.toISOString();
             this.toDate = now.toISOString();
 
@@ -111,6 +117,7 @@ export class SearchPage {
 
             let now = new Date();
             let today = new Date();
+
             today.setSeconds(0);
             this.fromDate = this.incomingService.formatDate(today);
             this.toDate = this.incomingService.formatDate(now);
@@ -122,17 +129,21 @@ export class SearchPage {
 
         let now = new Date();
         let then = new Date();
+
         let today = now.getDate();
         then.setSeconds(0);
         then.setDate(today - days);
+
         return this.setDateFilters(this.incomingService.formatDate(then), this.incomingService.formatDate(now));
     }
 
     public pastMonths(months: number) {
         let now = new Date();
         let then = new Date();
+
         then.setSeconds(0);
         then.setMonth(now.getMonth() - months);
+
         return this.setDateFilters(this.incomingService.formatDate(then), this.incomingService.formatDate(now));
     }
 
@@ -156,90 +167,126 @@ export class SearchPage {
     public searchMessages() {
 
         let typeService: any = null;
-        if(this.actionService.type == "incomingMessages") {
+        if (this.actionService.type == "incomingMessages") {
             typeService = this.incomingService;
-        } else if(this.actionService.type == "outgoingMessages") {
+        } else if (this.actionService.type == "outgoingMessages") {
             typeService = this.outgoingService;
         }
 
-        if(this.domain == null && this.permissionService.permissions.userType == 'admin'){
-            typeService.requiredMessageShown = true;
+        if (this.domain == null && this.permissionService.permissions.userType == 'admin') {
+
+            typeService.setInfoMessage('requiredDomain');
+            typeService.infoMessageShown = true;
             setTimeout(function () {
-                typeService.requiredMessageShown = false;
+                typeService.infoMessageShown = false;
             }, 15000);
-        } else {
-            this.requiredMessage = null;
-            typeService.requiredMessageShown = false;
 
-            let filterList = [];
+        }
+
+        if (this.domain != null){
+            let url =  '/master/relays/' + this.domain + '/domain';
             let headers = new Headers();
-            let filterstring = [];
-            let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-            let fromDate = new Date(this.fromDate);
-            let toDate = new Date(this.toDate);
-            let fromDateString= fromDate.getDate() + " " + months[fromDate.getMonth()];
-            let toDateString = toDate.getDate() + " " + months[toDate.getMonth()];
-            this.listService.datesInterval = fromDateString + ' - ' + toDateString + ' ' +  toDate.getFullYear();
+            this.api.get(url, headers)
+                .subscribe(
+                    (data) => {
+                        let filterList = [];
+                        let headers = new Headers();
+                        let filterstring = [];
+                        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                        let fromDate = new Date(this.fromDate);
+                        let toDate = new Date(this.toDate);
+                        let fromDateString= fromDate.getDate() + " " + months[fromDate.getMonth()];
+                        let toDateString = toDate.getDate() + " " + months[toDate.getMonth()];
 
-            if (this.domain != null && this.permissionService.permissions.userType == 'admin') {
-                filterList.push(this.setSearchFilters('domain', this.domain));
-            }
-            if (this.sender != null) {
-                filterList.push(this.setSearchFilters('sender', this.sender));
-            }
-            if (this.recipient != null) {
-                filterList.push(this.setSearchFilters('recipient', this.recipient));
-            }
+                        typeService.currentDomain = this.domain;
+                        this.requiredMessage = null;
+                        typeService.infoMessageShown = false;
+                        typeService.setInfoMessage('requiredDomain', this.domain);
 
-            filterList.push(this.setSearchFilters('status', 'quarantined'));
+                        this.listService.datesInterval = fromDateString + ' - ' + toDateString + ' ' +  toDate.getFullYear();
 
-            if (this.selectedInterval != null) {
-                if (this.selectedInterval == 'pastDay'){
-                    filterList.push(this.pastDays(1).slice(0));
-                } else if (this.selectedInterval == 'pastWeek') {
-                    filterList.push(this.pastDays(7).slice(0));
-                } else if (this.selectedInterval == 'pastMonth') {
-                    filterList.push(this.pastMonths(1).slice(0));
-                }
-            } else if (this.fromDate != null && this.toDate == null) {
-                let date = new Date();
-                this.toDate = typeService.formatDate(date);
-                filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
-            } else if (this.fromDate != null && this.toDate != null) {
-                filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
-            }
+                        if (this.domain != null && this.permissionService.permissions.userType == 'admin') {
+                            filterList.push(this.setSearchFilters('domain', this.domain));
+                        }
+                        if (this.sender != null) {
+                            filterList.push(this.setSearchFilters('sender', this.sender));
+                        }
+                        if (this.recipient != null) {
+                            filterList.push(this.setSearchFilters('recipient', this.recipient));
+                        }
 
-            for (let i = 0; i < filterList.length; i++) {
-                for (let j = 0; j < filterList[i].length; j++){
-                    filterstring.push(filterList[i][j]);
-                }
-            }
+                        filterList.push(this.setSearchFilters('status', 'quarantined'));
 
-            typeService.currentQuery = this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false);
+                        if (this.selectedInterval != null) {
 
-            let query = JSON.stringify(this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false));
-            let encodedQuery = encodeURI(query);
-            let url = typeService.createUrl("get", encodedQuery, -1);
+                            if (this.selectedInterval == 'pastDay'){
+                                filterList.push(this.pastDays(1).slice(0));
+                            } else if (this.selectedInterval == 'pastWeek') {
+                                filterList.push(this.pastDays(7).slice(0));
+                            } else if (this.selectedInterval == 'pastMonth') {
+                                filterList.push(this.pastMonths(1).slice(0));
+                            }
 
-            typeService.encodedQueryUrl = encodedQuery;
+                        } else if (this.fromDate != null && this.toDate == null) {
 
-            typeService.selectedInterval = this.selectedInterval;
+                            let date = new Date();
 
-            return this.api.get(url, headers)
-                .subscribe((data: any) => {
-                    let messages: any = JSON.parse(data._body);
+                            this.toDate = typeService.formatDate(date);
+                            filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
 
-                    typeService.count = messages.num_results;
-                    typeService.totalPages = messages.total_pages;
-                    typeService.incomingMessages = messages.objects;
+                        } else if (this.fromDate != null && this.toDate != null) {
 
-                    if(typeService == this.incomingService) {
-                        this.events.publish('incomingMessages', messages.objects);
-                    } else {
-                        this.events.publish('outgoingMessages', messages.objects);
+                            filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
+                        }
+
+                        for (let i = 0; i < filterList.length; i++) {
+                            for (let j = 0; j < filterList[i].length; j++){
+                                filterstring.push(filterList[i][j]);
+                            }
+                        }
+
+                        typeService.currentQuery = this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false);
+
+                        let query = JSON.stringify(this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false));
+                        let encodedQuery = encodeURI(query);
+                        let url = typeService.createUrl("get", encodedQuery, -1);
+
+                        typeService.encodedQueryUrl = encodedQuery;
+
+                        typeService.selectedInterval = this.selectedInterval;
+
+                        return this.api.get(url, headers)
+                            .subscribe((data: any) => {
+                                let messages: any = JSON.parse(data._body);
+
+                                typeService.count = messages.num_results;
+                                typeService.totalPages = messages.total_pages;
+                                typeService.incomingMessages = messages.objects;
+
+                                if (typeService == this.incomingService) {
+                                    this.events.publish('incomingMessages', messages.objects);
+                                } else {
+                                    this.events.publish('outgoingMessages', messages.objects);
+                                }
+                            });
+                    },
+                    (error) => {
+                        typeService.setInfoMessage('domainNotRegistered', this.domain);
+                        typeService.infoMessageShown = true;
+                        typeService.currentDomain = this.domain;
+
+                        setTimeout(function () {
+                            typeService.infoMessageShown = false;
+                        }, 15000);
+                        if (typeService == this.incomingService) {
+                            this.events.publish('incomingMessages', []);
+                        } else {
+                            this.events.publish('outgoingMessages', []);
+                        }
+
                     }
-                });
+                );
         }
 
     }
@@ -252,5 +299,4 @@ export class SearchPage {
         this.toDate = null;
         this.selectedInterval = null;
     }
-
 }

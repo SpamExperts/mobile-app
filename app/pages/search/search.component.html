@@ -21,7 +21,7 @@
     }
 
     #info {
-        position: fixed;
+        /*position: absolute;*/
         bottom: 0;
         color: #39B0DA;
         padding: 5px;
@@ -35,6 +35,8 @@
         <div class="col col-center">
             <div class="se-spacer"></div>
             <ion-label>Search messages</ion-label>
+            <div class="se-spacer"></div>
+
             <ion-list>
                 <ion-item *ngIf="this.permissionService.permissions.searchFilter.domain">
                     <ion-label floating>Domain</ion-label>
@@ -50,7 +52,6 @@
                     <ion-label floating>Recipient</ion-label>
                     <ion-input type="text" [(ngModel)]="recipient" name="recipient"></ion-input>
                 </ion-item>
-
             </ion-list>
 
             <div class="se-spacer"></div>
