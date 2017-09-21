@@ -40,8 +40,8 @@
                 </ion-col>
                 <ion-col col-2>
                     <span>{{listService.timeConvert(item.datetime)}}</span> <br> <br> <br>
-                    <ion-icon *ngIf="!item.checked" name="square-outline" (click)="changeCheckedItems(item,$event)"></ion-icon>
-                    <ion-icon *ngIf="item.checked" name="checkbox" (click)="changeCheckedItems(item,$event)"></ion-icon>
+                    <ion-icon *ngIf="!item.checked" name="square-outline" class="checkbox1" (click)="changeCheckedItems(item,$event)"></ion-icon>
+                    <ion-icon *ngIf="item.checked" name="checkbox" class="checkbox1" (click)="changeCheckedItems(item,$event)"></ion-icon>
                 </ion-col>
             </ion-row>
         </ion-item>

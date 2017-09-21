@@ -11,7 +11,7 @@ import { ActionService } from '../../core/action.service';
 
 @Component({
     selector: 'page-home',
-    templateUrl: 'home.html'
+    templateUrl: 'home.html',
 })
 export class HomePage implements OnInit{
 
@@ -29,9 +29,7 @@ export class HomePage implements OnInit{
         public platform: Platform,
         public actionService: ActionService,
         public permissionService: PermissionService
-    ){
-
-    }
+    ){}
 
     public getOutgoingMessages(): any {
         this.actionService.type = 'outgoingMessages';

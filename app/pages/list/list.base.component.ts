@@ -1,5 +1,5 @@
 import { ElementRef, ViewChild } from '@angular/core';
-import { Events, MenuController, NavController, PopoverController } from 'ionic-angular';
+import { Events, MenuController, NavController, PopoverController} from 'ionic-angular';
 import { InfiniteScroll } from 'ionic-angular';
 import { MessageDetailsPage } from '../message-details/message-details.component';
 import { Api } from '../../core/api.service';
@@ -25,7 +25,7 @@ export class BaseListComponent {
     total_pages: number;
     allowActionRefresh: boolean = false;
     noItems: boolean = true;
-    minItems: number = 4;
+    minItems: number = 7;
     messageType: string = '';
     datesInterval: string = '';
 
@@ -50,23 +50,28 @@ export class BaseListComponent {
             this.listService.datesInterval = now.getDate() + ' ' + months[now.getMonth()] + ' - ' + now.getDate() + ' ' + months[now.getMonth()] +  ' ' +  now.getFullYear();
         }
 
+        //when the view is no longer needed
+        this.events.subscribe('unsubscribeAll', () => {
+           this.events.unsubscribe('refresh');
+           this.events.unsubscribe(this.listService.messageType);
+        });
+
         //refreshes after 2 seconds
         this.events.subscribe('refresh', () => {
-            let thisList = this;
+            let self = this;
             setTimeout(function () {
-                thisList.actionRefresh();
+                self.actionRefresh();
             }, 2000);
         });
 
-        //the items on the page do not refresh
+        //so that the other view will know to keep the old messages
         if(this.listService.listLeft == true) {
             this.noItems = false;
             this.items = this.listService.allItems;
         }
 
         else {
-            let name = this.actionService.type;
-            this.events.subscribe(name, (data) => {
+            this.events.subscribe(this.listService.messageType, (data) => {
                 this.handleMessages(data);
 
                 //initialize with the number of pages and messages at the first search
@@ -273,5 +278,4 @@ export class BaseListComponent {
     closeAlert() {
         this.listService.requiredMessageShown = false;
     }
-
 }

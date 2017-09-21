@@ -89,9 +89,14 @@ export class ActionService {
                 .subscribe(() => {
                     this.selectedMessages = [];
                     typeService.checkedNumber = 0;
-                    this.events.publish('refresh', "");
-                    if (typeService.selectedItem)
+                    if (typeService.selectedItem) {
                         this.events.publish('move', "");
+                    } else {
+                        let self = this;
+                        setTimeout(function () {
+                            self.events.publish('refresh', "");
+                        }, 1000);
+                    }
                 });
 
         });

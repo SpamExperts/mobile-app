@@ -6,7 +6,6 @@ import { IncomingService } from '../../core/incoming.service';
 import { PopoverPage } from '../common/popover/popover.component';
 import { ActionService } from '../../core/action.service';
 import { PermissionService } from '../../core/permissions.service';
-import { IncomingPage } from '../list/list.incoming';
 import { OutgoingService } from '../../core/outgoing.service';
 
 @Component({
@@ -34,9 +33,12 @@ export class MessageDetailsPage {
 
         let self = this;
         this.events.subscribe('move', function() {
-            self.navCtrl.setRoot(IncomingPage);
             setTimeout(function() {
-                self.events.publish('refresh', "");
+                console.log('messagedetails');
+                if(self.actionService.type == 'incomingMessages') {
+                    self.navCtrl.pop();
+                    self.events.publish('refresh', "");
+                }
             }, 2000);
         });
 
@@ -91,9 +93,6 @@ export class MessageDetailsPage {
 
     doAction(method:string) {
 
-        // this.actionService.selectedMessages = [];
-        // this.actionService.selectedMessages.push(this.incService.selectedItem);
-
         this.actionService.action(method);
     }
 
@@ -109,10 +108,8 @@ export class MessageDetailsPage {
             currentService = this.outgoingService;
         }
         currentService.selectedItem = undefined;
-    }
 
-    ionViewDidEnter(){
-
+        this.events.unsubscribe('move');
     }
 
 }

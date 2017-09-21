@@ -15,6 +15,7 @@ import { OutgoingPage } from './pages/list/list.outgoing';
 import { IncomingPage } from './pages/list/list.incoming';
 import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage';
 import { ActionService } from './core/action.service';
+import { Events } from 'ionic-angular';
 
 @Component({
     selector: 'my-app',
@@ -46,7 +47,8 @@ export class MyApp implements OnInit {
         public incomingService: IncomingService,
         public outgoingService: OutgoingService,
         public secureStorage: SecureStorage,
-        public actionService: ActionService
+        public actionService: ActionService,
+        public events: Events
     ) {
         this.initializeApp();
     }
@@ -86,13 +88,18 @@ export class MyApp implements OnInit {
     }
 
     openPage(page) {
-        if (page == 'OutgoingPage' && this.nav.getActive().component.name != 'OutgoingPage' ) {
-            this.actionService.type = 'outgoingMessages';
-            this.nav.setRoot(OutgoingPage);
-        } else if (page == 'IncomingPage' && this.nav.getActive().component.name != 'IncomingPage' ) {
-            this.actionService.type = 'outgoingMessages';
-            this.nav.setRoot(IncomingPage);
-        }
+        //this event helps unsibscribe from the events, because some of the components don't get destroyed
+        this.events.publish('unsubscribeAll', '');
+        let self = this;
+        setTimeout( () => {
+            if (page == 'OutgoingPage' && this.nav.getActive().component.name != 'OutgoingPage') {
+                self.actionService.type = 'outgoingMessages';
+                self.nav.setRoot(OutgoingPage);
+            } else if (page == 'IncomingPage' && this.nav.getActive().component.name != 'IncomingPage') {
+                self.actionService.type = 'incomingMessages';
+                self.nav.setRoot(IncomingPage);
+            }
+        },1000);
     }
 
     logout() {

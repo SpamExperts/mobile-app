@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 export abstract class BaseService {
 
     abstract endpoint: string = '';
+    abstract messageType: string = '';
 
     public incomingMessages: any ;
     public plain: string;

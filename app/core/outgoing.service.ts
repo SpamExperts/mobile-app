@@ -7,6 +7,7 @@ import { BaseService } from './base.service';
 export class OutgoingService extends BaseService {
 
     endpoint = "/master/log/submission/<domain>/<local>/";
+    messageType = 'outgoingMessage';
 
     constructor(
         public api: Api,
