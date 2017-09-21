@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AlertController, Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -16,6 +16,7 @@ import { IncomingPage } from './pages/list/list.incoming';
 import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage';
 import { ActionService } from './core/action.service';
 import { Events } from 'ionic-angular';
+import { SearchPage } from './pages/search/search.component';
 
 @Component({
     selector: 'my-app',
@@ -23,6 +24,7 @@ import { Events } from 'ionic-angular';
 })
 export class MyApp implements OnInit {
     @ViewChild(Nav) nav: Nav;
+    @ViewChild(SearchPage) searchRef: SearchPage;
 
     rootPage: any = LoginPage;
     userRole: string = '';
@@ -35,6 +37,8 @@ export class MyApp implements OnInit {
     public rememberMe: any;
     public storage: SecureStorageObject;
     pages: Array<{title: string, component: any}>;
+
+
 
     constructor(
         public platform: Platform,
@@ -93,9 +97,11 @@ export class MyApp implements OnInit {
         let self = this;
         setTimeout( () => {
             if (page == 'OutgoingPage' && this.nav.getActive().component.name != 'OutgoingPage') {
+                this.searchRef.clearSearch();
                 self.actionService.type = 'outgoingMessages';
                 self.nav.setRoot(OutgoingPage);
             } else if (page == 'IncomingPage' && this.nav.getActive().component.name != 'IncomingPage') {
+                this.searchRef.clearSearch();
                 self.actionService.type = 'incomingMessages';
                 self.nav.setRoot(IncomingPage);
             }

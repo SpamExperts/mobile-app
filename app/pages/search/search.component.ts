@@ -39,6 +39,10 @@ export class SearchPage {
         public actionService : ActionService,
         public listService: IncomingService
     ) {
+        this.setThisMomentDates();
+    }
+
+    public setThisMomentDates() {
         let now = new Date();
         let today = new Date();
         today.setSeconds(0);
@@ -307,8 +311,7 @@ export class SearchPage {
         this.domain = null;
         this.sender = null;
         this.recipient = null;
-        this.fromDate = null;
-        this.toDate = null;
+        this.setThisMomentDates();
         this.selectedInterval = null;
     }
 }
