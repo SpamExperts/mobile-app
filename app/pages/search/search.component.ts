@@ -164,6 +164,95 @@ export class SearchPage {
 
     }
 
+    public getMessagesFromSearchFilters() {
+        let typeService: any = null;
+        if (this.actionService.type == "incomingMessages") {
+            typeService = this.incomingService;
+        } else if (this.actionService.type == "outgoingMessages") {
+            typeService = this.outgoingService;
+        }
+        let filterList = [];
+        let headers = new Headers();
+        let filterstring = [];
+        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        let fromDate = new Date(this.fromDate);
+        let toDate = new Date(this.toDate);
+        let fromDateString= fromDate.getDate() + " " + months[fromDate.getMonth()];
+        let toDateString = toDate.getDate() + " " + months[toDate.getMonth()];
+
+        typeService.currentDomain = this.domain;
+        this.requiredMessage = null;
+        typeService.infoMessageShown = false;
+        typeService.setInfoMessage('requiredDomain', this.domain);
+
+        this.listService.datesInterval = fromDateString + ' - ' + toDateString + ' ' +  toDate.getFullYear();
+
+        if (this.domain != null && this.permissionService.permissions.userType == 'admin') {
+            filterList.push(this.setSearchFilters('domain', this.domain));
+        }
+        if (this.sender != null) {
+            filterList.push(this.setSearchFilters('sender', this.sender));
+        }
+        if (this.recipient != null) {
+            filterList.push(this.setSearchFilters('recipient', this.recipient));
+        }
+
+        filterList.push(this.setSearchFilters('status', 'quarantined'));
+
+        if (this.selectedInterval != null) {
+
+            if (this.selectedInterval == 'pastDay'){
+                filterList.push(this.pastDays(1).slice(0));
+            } else if (this.selectedInterval == 'pastWeek') {
+                filterList.push(this.pastDays(7).slice(0));
+            } else if (this.selectedInterval == 'pastMonth') {
+                filterList.push(this.pastMonths(1).slice(0));
+            }
+
+        } else if (this.fromDate != null && this.toDate == null) {
+
+            let date = new Date();
+
+            this.toDate = typeService.formatDate(date);
+            filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
+
+        } else if (this.fromDate != null && this.toDate != null) {
+
+            filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
+        }
+
+        for (let i = 0; i < filterList.length; i++) {
+            for (let j = 0; j < filterList[i].length; j++){
+                filterstring.push(filterList[i][j]);
+            }
+        }
+
+        typeService.currentQuery = this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false);
+
+        let query = JSON.stringify(this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false));
+        let encodedQuery = encodeURI(query);
+        let url = typeService.createUrl("get", encodedQuery, -1);
+
+        typeService.encodedQueryUrl = encodedQuery;
+
+        typeService.selectedInterval = this.selectedInterval;
+
+        return this.api.get(url, headers)
+            .subscribe((data: any) => {
+                let messages: any = JSON.parse(data._body);
+
+                typeService.count = messages.num_results;
+                typeService.totalPages = messages.total_pages;
+                typeService.incomingMessages = messages.objects;
+
+                if (typeService == this.incomingService) {
+                    this.events.publish('incomingMessages', messages.objects);
+                } else {
+                    this.events.publish('outgoingMessages', messages.objects);
+                }
+            });
+    }
+
     public searchMessages() {
 
         let typeService: any = null;
@@ -183,93 +272,14 @@ export class SearchPage {
 
         }
 
-        if (this.domain != null){
+        if (this.domain != null && this.permissionService.isAdmin()){
             let url =  '/master/relays/' + this.domain + '/domain';
             let headers = new Headers();
 
             this.api.get(url, headers)
                 .subscribe(
                     (data) => {
-                        let filterList = [];
-                        let headers = new Headers();
-                        let filterstring = [];
-                        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                        let fromDate = new Date(this.fromDate);
-                        let toDate = new Date(this.toDate);
-                        let fromDateString= fromDate.getDate() + " " + months[fromDate.getMonth()];
-                        let toDateString = toDate.getDate() + " " + months[toDate.getMonth()];
-
-                        typeService.currentDomain = this.domain;
-                        this.requiredMessage = null;
-                        typeService.infoMessageShown = false;
-                        typeService.setInfoMessage('requiredDomain', this.domain);
-
-                        this.listService.datesInterval = fromDateString + ' - ' + toDateString + ' ' +  toDate.getFullYear();
-
-                        if (this.domain != null && this.permissionService.permissions.userType == 'admin') {
-                            filterList.push(this.setSearchFilters('domain', this.domain));
-                        }
-                        if (this.sender != null) {
-                            filterList.push(this.setSearchFilters('sender', this.sender));
-                        }
-                        if (this.recipient != null) {
-                            filterList.push(this.setSearchFilters('recipient', this.recipient));
-                        }
-
-                        filterList.push(this.setSearchFilters('status', 'quarantined'));
-
-                        if (this.selectedInterval != null) {
-
-                            if (this.selectedInterval == 'pastDay'){
-                                filterList.push(this.pastDays(1).slice(0));
-                            } else if (this.selectedInterval == 'pastWeek') {
-                                filterList.push(this.pastDays(7).slice(0));
-                            } else if (this.selectedInterval == 'pastMonth') {
-                                filterList.push(this.pastMonths(1).slice(0));
-                            }
-
-                        } else if (this.fromDate != null && this.toDate == null) {
-
-                            let date = new Date();
-
-                            this.toDate = typeService.formatDate(date);
-                            filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
-
-                        } else if (this.fromDate != null && this.toDate != null) {
-
-                            filterList.push(this.setDateFilters(this.fromDate, this.toDate).slice(0));
-                        }
-
-                        for (let i = 0; i < filterList.length; i++) {
-                            for (let j = 0; j < filterList[i].length; j++){
-                                filterstring.push(filterList[i][j]);
-                            }
-                        }
-
-                        typeService.currentQuery = this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false);
-
-                        let query = JSON.stringify(this.queryInstance.createQuery(filterstring, this.populateFields(),'message_id', false));
-                        let encodedQuery = encodeURI(query);
-                        let url = typeService.createUrl("get", encodedQuery, -1);
-
-                        typeService.encodedQueryUrl = encodedQuery;
-
-                        typeService.selectedInterval = this.selectedInterval;
-
-                        return this.api.get(url, headers)
-                            .subscribe((data: any) => {
-                                let messages: any = JSON.parse(data._body);
-
-                                typeService.count = messages.num_results;
-                                typeService.totalPages = messages.total_pages;
-                                typeService.incomingMessages = messages.objects;
-
-                                if (typeService == this.incomingService) {
-                                    this.events.publish('incomingMessages', messages.objects);
-                                } else {
-                                    this.events.publish('outgoingMessages', messages.objects);
-                                }
-                            });
+                        this.getMessagesFromSearchFilters();
                     },
                     (error) => {
                         typeService.setInfoMessage('domainNotRegistered', this.domain);
@@ -287,6 +297,8 @@ export class SearchPage {
 
                     }
                 );
+        } else {
+            this.getMessagesFromSearchFilters();
         }
 
     }
