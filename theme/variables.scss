@@ -34,12 +34,14 @@ $app-direction: ltr;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #488aff,
-  secondary:  #32db64,
-  danger:     #f53d3d,
-  light:      #f4f4f4,
-  dark:       #222,
-  se-theme-color: #39B0DA
+    primary:    #488aff,
+    secondary:  #32db64,
+    danger:     #f53d3d,
+    light:      #f4f4f4,
+    dark:       #222,
+    se-theme-color: #39B0DA,
+    metallic-gray: #F8F8F8,
+    dark-gray: #404040
 );
 
 
@@ -93,3 +95,19 @@ $popover-ios-width: 215px !important;
 $popover-wp-width: 215px !important;
 
 $toolbar-md-height: 56px !important;
+
+
+// login page
+$checkbox-md-icon-size: 30px !important;
+$checkbox-md-border-bottom-style: none !important;
+$checkbox-md-border-bottom-color: #fff4fb;
+$checkbox-md-icon-border-style: none;
+$checkbox-md-icon-background-color-off: #F8F8F8;
+$checkbox-md-icon-background-color-on: #404040;
+$checkbox-md-transition-duration: 0ms;
+$checkbox-md-transition-easing: linear;
+$checkbox-md-item-start-margin-end: 10px;
+
+
+$button-md-height: 4.5rem !important;
+$button-md-text-transform: capitalize !important;

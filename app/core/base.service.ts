@@ -53,8 +53,9 @@ export abstract class BaseService {
         // return message;
     }
 
-    public getInfoMessage() {
-        return this.infoMessage;
+    public getCurrentYear() {
+        let date = new Date()
+        return date.getFullYear();
     }
 
     public createUrl(method: any, filters : any, page?: number) {

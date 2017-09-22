@@ -274,9 +274,7 @@ export class SearchPage {
                 typeService.infoMessageShown = false;
             }, 15000);
 
-        }
-
-        if (this.domain != null && this.permissionService.isAdmin()){
+        } else if (this.domain != null && this.permissionService.isAdmin()){
             let url =  '/master/relays/' + this.domain + '/domain';
             let headers = new Headers();
 

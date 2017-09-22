@@ -23,7 +23,7 @@
         </ion-list>
 
         <button ion-button (click)="logout()" outline block style="font-size: 15px;"> <ion-icon name="ios-exit-outline"></ion-icon> Logout</button>
-        <ion-label text-center>&copy; 2017 SpamExperts</ion-label>
+        <ion-label text-center>&copy; {{ this.incomingService.getCurrentYear() }} SpamExperts</ion-label>
     </ion-content>
 
 </ion-menu>

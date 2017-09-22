@@ -8,31 +8,32 @@
 
             <ion-list>
 
-                <ion-item>
-                    <ion-label floating>Hostname</ion-label>
+                <ion-item class="list-item">
+                    <ion-label floating class="item-floating-label">Hostname</ion-label>
                     <ion-input type="text" [(ngModel)]="hostname"></ion-input>
                 </ion-item>
 
-                <ion-item>
-                    <ion-label floating>Username</ion-label>
+                <ion-item class="list-item">
+                    <ion-label floating class="item-floating-label">Username</ion-label>
                     <ion-input type="text" [(ngModel)]="username"></ion-input>
                 </ion-item>
 
-                <ion-item>
-                    <ion-label floating>Password</ion-label>
+                <ion-item class="list-item">
+                    <ion-label floating class="item-floating-label">Password</ion-label>
                     <ion-input type="password" [(ngModel)]="password"></ion-input>
                 </ion-item>
 
             </ion-list>
 
-            <ion-item>
-                <ion-label>Keep me logged in</ion-label>
-                <ion-checkbox [(ngModel)]="rememberMe"></ion-checkbox>
+            <ion-item class="rememberMe">
+                <ion-label class="keepMeText"><strong>Keep me logged in</strong></ion-label>
+                <ion-checkbox class="remember-me-checkbox" [(ngModel)]="rememberMe" color="dark-gray" ></ion-checkbox>
             </ion-item>
+
 
             <div class="se-spacer"></div>
 
-            <button ion-button (tap)="login()">Log in</button>
+            <button ion-button (tap)="login()" block color="dark-gray"><strong>Log in</strong></button>
 
         </div>
     </div>
