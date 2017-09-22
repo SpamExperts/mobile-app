@@ -3,9 +3,16 @@
         <button ion-button menuToggle="left" left>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title >
-            <span style="font-size: 11px !important;">{{ messageType}} spam messages {{ this.listService.datesInterval }}</span><br>
-            <span>{{ this.listService.currentDomain }}</span>
+        <ion-title>
+            <ion-row>
+                <ion-col col-6>
+                    <span>{{ messageType}} spam messages </span> <br>
+                    <span class="domain-span" *ngIf="this.listService.currentDomain"> {{ this.listService.currentDomain }} </span>
+                </ion-col>
+                <ion-col col-6 class="date-span">
+                    <span> &nbsp;&nbsp;&nbsp;&nbsp;{{ this.listService.datesInterval }} </span>
+                </ion-col>
+            </ion-row>
         </ion-title>
 
         <button ion-button menuToggle="right" right>
@@ -30,17 +37,17 @@
 
     <div *ngIf="!items.length"> No entries. Pull to refresh... </div>
     <ion-list [hidden]="noItems" [virtualScroll]="items" [approxItemHeight]="'150px'"  [bufferRatio]="3">
-        <ion-item *virtualItem="let item;  let idx = index;" (click)="itemTapped($event, item)" >
+        <ion-item class="listitem" *virtualItem="let item;  let idx = index;" (click)="itemTapped($event, item)" >
             <ion-row>
                 <ion-col col-10>
                     <span>{{listService.dateConvert(item.datetime)}}</span>&nbsp;&nbsp;
                     <ion-badge item-end outline color="light">spam</ion-badge>
-                    <br><br>
-                    <span>{{item.sender}}</span> <br>
+                    <br>
+                    <span class="sender-span">{{item.sender}}</span> <br>
                     <span>{{item.subject_header}}</span> <br>
                 </ion-col>
                 <ion-col col-2>
-                    <span>{{listService.timeConvert(item.datetime)}}</span> <br> <br> <br>
+                    <span>{{listService.timeConvert(item.datetime)}}</span> <br> <br>
                     <ion-icon *ngIf="!item.checked" name="square-outline" class="checkbox1" (click)="changeCheckedItems(item,$event)"></ion-icon>
                     <ion-icon *ngIf="item.checked" name="checkbox" class="checkbox1" (click)="changeCheckedItems(item,$event)"></ion-icon>
                 </ion-col>
