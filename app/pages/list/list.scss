@@ -8,4 +8,20 @@ page-list {
     font-size: 30px;
   }
 
+  ion-footer.footer {
+    font-size: 224px  !important;
+  }
+
+  .rotate {
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+
+  ion-navbar.toolbar-md, ion-navbar.toolbar {
+  }
+
+
 }

@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar color="se-theme-color">
         <button menuToggle *ngIf="!selectedItem">
             <ion-icon name="menu"></ion-icon>
         </button>
@@ -48,8 +48,8 @@
             Remove
         </button>
         <button col-4 (click)="openPopover($event)" >
-            <ion-icon  name="more"></ion-icon>
-            More
+            <ion-icon  class="rotate" name="more"></ion-icon>
+            &nbsp;More
         </button>
     </ion-row>
 </ion-footer>

@@ -38,7 +38,8 @@ $colors: (
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
-  dark:       #222
+  dark:       #222,
+  se-theme-color: #39B0DA
 );
 
 
@@ -86,3 +87,9 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+
+$popover-md-width: 215px !important;
+$popover-ios-width: 215px !important;
+$popover-wp-width: 215px !important;
+
+$toolbar-md-height: 56px !important;

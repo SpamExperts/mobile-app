@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar color="se-theme-color">
         <button ion-button menuToggle="left" left>
             <ion-icon name="menu"></ion-icon>
         </button>
@@ -57,20 +57,22 @@
 
 </ion-content>
 
-<ion-footer *ngIf="this.listService.checkedNumber> 0">
-    <ion-row>
-        <button col-4 (click)="this.actionService.action('release')">
-            <ion-icon name="checkmark"></ion-icon>
-            Release
-        </button>
-        <button col-4 (click)="this.actionService.action('remove_from_quarantine')">
-            <ion-icon name="close"></ion-icon>
-            Remove
-        </button>
-        <button col-4 (click)="openPopover($event)">
-            <ion-icon  name="more"></ion-icon>
-            More
-            <ion-badge item-end>{{listService.checkedNumber}}</ion-badge>
-        </button>
-    </ion-row>
+<ion-footer class="footer" *ngIf="this.listService.checkedNumber> 0">
+    <ion-toolbar class="toolbar">
+        <ion-row>
+            <button col-4 (click)="this.actionService.action('release')">
+                <ion-icon name="checkmark"></ion-icon>
+                Release
+            </button>
+            <button col-4 (click)="this.actionService.action('remove_from_quarantine')">
+                <ion-icon name="close"></ion-icon>
+                Remove
+            </button>
+            <button col-4 (click)="openPopover($event)">
+                <ion-icon  class="rotate" name="more"></ion-icon>
+                &nbsp;More
+                <ion-badge item-end>{{listService.checkedNumber}}</ion-badge>
+            </button>
+        </ion-row>
+    </ion-toolbar>
 </ion-footer>

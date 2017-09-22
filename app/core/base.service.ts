@@ -104,7 +104,7 @@ export abstract class BaseService {
         else if (this.permissionService.isEmail()) {
             let sign = this.username.search('@');
             return this.endpoint.replace('<domain>/<local>',
-                this.permissionService.username.slice(sign+1,this.permissionService.username.length) + '/' + this.permissionService.username.slice(0,sign));
+                    this.permissionService.username.slice(sign+1,this.permissionService.username.length) + '/' + this.permissionService.username.slice(0,sign));
         }
     }
 
