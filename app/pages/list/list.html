@@ -5,8 +5,8 @@
         </button>
         <ion-title>
             <ion-row>
-                <ion-col col-6>
-                    <span>{{ messageType}} spam messages </span> <br>
+                <ion-col col-6 class = "col1" >
+                    <span> {{ messageType}} spam messages </span> <br>
                     <span class="domain-span" *ngIf="this.listService.currentDomain"> {{ this.listService.currentDomain }} </span>
                 </ion-col>
                 <ion-col col-6 class="date-span">
@@ -26,16 +26,20 @@
         <ion-refresher-content pullingText="Release me" refreshingSpinner="ios"></ion-refresher-content>
     </ion-refresher>
 
-    <div *ngIf="this.listService.infoMessageShown">
-        <ion-card-content *ngIf="this.listService.infoMessageShown && this.permissionService.permissions.userType =='admin' " style="background-color: antiquewhite">
-            {{ this.listService.infoMessage }}
-            <button ion-button #alertButton (click)="closeAlert()" clear>
-                <ion-icon ios="ios-close" md="md-close" float-right></ion-icon>
-            </button>
+    <div>
+        <ion-card-content *ngIf="this.listService.infoMessageShown && this.permissionService.permissions.userType =='admin' " >
+          {{ this.listService.infoMessage }}
         </ion-card-content>
     </div>
 
-    <div *ngIf="!items.length"> No entries. Pull to refresh... </div>
+    <button *ngIf="this.listService.infoMessageShown && this.permissionService.permissions.userType =='admin' " class="card" #alertButton (click)="closeAlert()" clear>
+        <ion-icon ios="ios-close" md="md-close" float-right></ion-icon>
+    </button>
+
+    <div class="refresh-div" *ngIf="!items.length">
+        <span> No entries. Pull to refresh... </span>
+    </div>
+
     <ion-list [hidden]="noItems" [virtualScroll]="items" [approxItemHeight]="'150px'"  [bufferRatio]="3">
         <ion-item class="listitem" *virtualItem="let item;  let idx = index;" (click)="itemTapped($event, item)" >
             <ion-row>
@@ -65,7 +69,7 @@
 </ion-content>
 
 <ion-footer class="footer" *ngIf="this.listService.checkedNumber> 0">
-    <ion-toolbar class="toolbar">
+    <ion-toolbar color="metalic-gray" class="toolbar">
         <ion-row>
             <button col-4 (click)="this.actionService.action('release')">
                 <ion-icon name="checkmark"></ion-icon>
@@ -75,9 +79,11 @@
                 <ion-icon name="close"></ion-icon>
                 Remove
             </button>
-            <button col-4 (click)="openPopover($event)">
+            <button col-2 (click)="openPopover($event)">
                 <ion-icon  class="rotate" name="more"></ion-icon>
                 &nbsp;More
+            </button>
+            <button col-2 color="dark" outline ion-button small>
                 <ion-badge item-end>{{listService.checkedNumber}}</ion-badge>
             </button>
         </ion-row>

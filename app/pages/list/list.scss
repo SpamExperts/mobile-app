@@ -27,7 +27,23 @@ page-list {
 
   ion-navbar.toolbar-md, ion-navbar.toolbar {
     padding: 0px !important;
-    height: 37px !important;
+    [col-6] {
+      padding-top: 0px !important;
+    }
+    .col1 {
+      margin-top:-15px;
+      position:absolute;
+      .domain-span {
+        margin-top: -5px !important;
+        position: absolute;
+
+      }
+    }
+    .date-span {
+      margin-top: -15px;
+      padding-left: 144px !important;
+      position: absolute;
+    }
   }
 
   .listitem {
@@ -65,19 +81,47 @@ page-list {
     padding-top: 0px !important;
   }
 
-  .date-span {
-    padding-left: 10px !important;
-  }
-
-  [col-6] {
-    padding-top: 0px !important;
-  }
-
   .card-content-md, .card-content-ios {
+    background-color: antiquewhite;
     font-size: 1.2rem;
-    padding: 0px;
-    height: 37px !important;
-    color: saddlebrown;
+    //padding-top: 20px;
+    //height: 57px !important;
+    color: #8a6d3b;
+    span.text {
+      font-size: 14px;
+      padding: 8px;
+      margin-top: 14px !important;
+      margin-left: 10px !important;
+      position: absolute;
+    }
   }
 
+  button.card {
+    color: grey;
+    background-color: antiquewhite;
+    padding-top: 0px;
+    margin-top: -30px;
+    margin-left: 315px;
+    position: absolute;
+  }
+
+  .refresh-div {
+    padding-top: 17px;
+    height: 57px !important;
+    text-align: center;
+    border-top: 1px solid #d6d6da !important;
+    border-bottom: 1px solid #d6d6da !important;
+    span {
+      position: relative;
+      font-size: 15px;
+    }
+  }
+
+  button {
+    background-color: #F8F8F8;
+  }
+
+  .badge1{
+    width: 10px;
+  }
 }

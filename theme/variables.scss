@@ -90,6 +90,7 @@ $colors: (
 @import "roboto";
 @import "noto-sans";
 
+// popover page
 $popover-md-width: 215px !important;
 $popover-ios-width: 215px !important;
 $popover-wp-width: 215px !important;
@@ -112,3 +113,8 @@ $checkbox-md-item-start-margin-end: 10px;
 
 $button-md-height: 4.5rem !important;
 $button-md-text-transform: capitalize !important;
+
+// list page
+
+$badge-ios-background-color: #F8F8F8;
+$badge-md-background-color: #F8F8F8;
