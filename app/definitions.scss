@@ -1,0 +1,45 @@
+$metallic-gray: #F8F8F8;
+$border-gray: #b0b0b0;
+$dark-gray: #444444;
+
+$bar-header-height: 55px;
+$footerBarHeight: 55px;
+
+$detailHeadersHeight: 80px;
+$detailTabsHeight: 40px;
+$scrollPadding: 15px;
+
+$custom-header-height: 40%;
+$custom-header-min-height: 85px;
+$custom-header-max-height: 190px;
+
+$custom-header-spacer-height: $custom-header-height - 8%;
+$custom-header-spacer-min-height: $custom-header-min-height - $bar-header-height;
+$custom-header-spacer-max-height: $custom-header-max-height - $bar-header-height;
+
+$custom-header-height-landscape: 25%;
+$custom-header-min-height-landscape: 85px;
+$custom-header-max-height-landscape: 190px;
+
+$custom-header-spacer-height-landscape: $custom-header-height-landscape - 10%;
+$custom-header-spacer-min-height-landscape: $custom-header-min-height-landscape - $bar-header-height;
+$custom-header-spacer-max-height-landscape: $custom-header-max-height-landscape - $bar-header-height;
+
+$se-theme-color: #39B0DA;
+
+@mixin rotate($deg) {
+    -ms-transform: rotate($deg);
+    -webkit-transform: rotate($deg);
+    transform: rotate($deg);
+}
+
+@mixin stick-to-bottom($selector, $bottom: 15px, $minHeight: 438px, $minWidth: 0px) {
+  @media (min-height: $minHeight) and (min-width: $minWidth) {
+    #{$selector} {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: $bottom;
+    }
+  }
+}

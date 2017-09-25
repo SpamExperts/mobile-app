@@ -8,11 +8,138 @@
 // to import other Sass files to be included in the output CSS.
 //
 // Shared Sass variables, which can be used to adjust Ionic's
-// default Sass variables, belong in "theme/variables.scss".
+// default Sass variables, belong in "theme/variables.styles".
 //
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
-#role {
+@import "../theme/variables";
+@import "definitions";
 
+#primaryMenu {
+
+    height: 100%;
+    border-right: 1px $metallic-gray solid;
+
+    .back-icon {
+        color: $border-gray;
+    }
+
+    .userInfo {
+        padding-bottom: 20px;
+        width: 100%;
+        height: $custom-header-height;
+        min-height: $custom-header-min-height;
+        max-height: $custom-header-max-height;
+
+        * {
+            color: $dark-gray;
+        }
+
+        .username {
+            padding-bottom: 20px;
+            word-break: break-all;
+        }
+
+        div {
+            #role {
+                width: 110px;
+                display: inline-block;
+                border-radius: 2px;
+                padding: 4px 6px 2px;
+                margin-top: 5px;
+                border: 1px #b0b0b0 solid;
+                text-transform: uppercase;
+                font-size: 13px;
+                font-weight: bold;
+            }
+        }
+    }
+
+    ion-content {
+        #leftMenuText {
+            font-size: 18px;
+            color: $dark-gray;
+            margin-left: 16px;
+            padding-bottom: 20px;
+        }
+
+        .button-list {
+            .list-item {
+
+                padding-left: 16px;
+                height: 20px;
+                width: 94%;
+
+                .filteringButtons {
+                    border: none;
+                    margin-top: 1px;
+                    font-size: 16px;
+                    border: 0;
+                    padding-right: 5px;
+                    padding-left: 0px;
+                    color: $dark-gray;
+                    text-align: left;
+
+                    ion-label {
+                        padding: 0px;
+                    }
+
+                    .button-icon {
+                        margin-top: 0px;
+                    }
+
+                    .button-inner{
+                        justify-content:flex-start;
+                    }
+
+                    .button-icon::before {
+                        right: 5px;
+                        font-size: 30px;
+                        margin-left: 7px;
+                        color: $se-theme-color;
+                    }
+                }
+            }
+        }
+    }
+
+    .log-out-button {
+        font-size: 15px;
+        margin: 0 10px 10px 15px;
+    }
+
+    ion-content{
+        ion-list {
+            .filteringButtons {
+                width: 100%;
+            }
+        }
+    }
+
+
+    @include stick-to-bottom('.log-out-button', ($custom-header-spacer-max-height - 100px), 540px);
+    .log-out-button {
+        margin: 0 10px 20px 10px;
+        font-size: 15px;
+        width: 94%;
+        border: 1px $border-gray solid;
+        color: $dark-gray;
+        border-radius: 5px;
+
+        .icon {
+            margin-top: 0px;
+        }
+
+        .icon::before {
+            font-size: 32px;
+            line-height: 38px;
+            margin-right: 7px;
+        }
+    }
+
+    @include stick-to-bottom('.se-copyright', ($custom-header-spacer-max-height - 140px), 540px);
+    .se-copyright {
+        font-size: 13px;
+    }
 }

@@ -18,7 +18,7 @@ $app-direction: ltr;
 // Shared Variables
 // --------------------------------------------------
 // To customize the look and feel of this app, you can override
-// the Sass variables found in Ionic's source scss files.
+// the Sass variables found in Ionic's source styles files.
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
 
@@ -74,7 +74,7 @@ $colors: (
 // default are overridden.
 
 @import "ionic.theme.default";
-
+//
 
 // Ionicons
 // --------------------------------------------------
@@ -86,7 +86,7 @@ $colors: (
 
 // Fonts
 // --------------------------------------------------
-
+//
 @import "roboto";
 @import "noto-sans";
 
@@ -106,9 +106,10 @@ $checkbox-md-border-bottom-color: #fff4fb;
 $checkbox-md-icon-border-style: none;
 $checkbox-md-icon-background-color-off: #F8F8F8;
 $checkbox-md-icon-background-color-on: #404040;
-$checkbox-md-transition-duration: 0ms;
-$checkbox-md-transition-easing: linear;
 $checkbox-md-item-start-margin-end: 10px;
+$checkbox-md-icon-checkmark-width: 2px;
+//$checkbox-md-border-bottom-color: red !important;
+
 
 
 $button-md-height: 4.5rem !important;

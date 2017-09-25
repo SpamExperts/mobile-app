@@ -1,9 +1,8 @@
-ion-content{
-  .text-center {
-    margin-left: 130px;
-    margin-right: 130px;
-    margin-top: 40px;
+@import "../../../theme/variables.scss";
 
+ion-content{
+  .icon {
+    margin-top: 40px;
   }
 
   .se-icon {
@@ -24,14 +23,16 @@ ion-content{
 
     .keepMeText {
       color: #404040;
-
     }
 
     .remember-me-checkbox {
       padding-right: 0;
     }
 
-  }
+    .checkbox-inner {
+      margin: 9px 7px 7px 9px ;
+    }
 
+  }
 }
 
