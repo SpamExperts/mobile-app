@@ -1,38 +1,38 @@
 @import "../../../theme/variables.scss";
 
 ion-content{
-  .icon {
-    margin-top: 40px;
-  }
-
-  .se-icon {
-    width: 60px;
-  }
-
-  ion-list {
-    margin-bottom: 20px;
-  }
-
-  .list-item {
-    padding-left: 0;
-  }
-
-  .rememberMe {
-    padding: 0 0 40px 0;
-
-
-    .keepMeText {
-      color: #404040;
+    .icon {
+        margin-top: 40px;
     }
 
-    .remember-me-checkbox {
-      padding-right: 0;
+    .se-icon {
+        width: 60px;
     }
 
-    .checkbox-inner {
-      margin: 9px 7px 7px 9px ;
+    ion-list {
+        margin-bottom: 20px;
     }
 
-  }
+    .list-item {
+        padding-left: 0;
+    }
+
+    .rememberMe {
+        padding: 0 0 40px 0;
+
+
+        .keepMeText {
+            color: #404040;
+        }
+
+        .remember-me-checkbox {
+            padding-right: 0;
+        }
+
+        .checkbox-inner {
+            margin: 9px 7px 7px 9px ;
+        }
+
+    }
 }
 

@@ -149,6 +149,14 @@ export class BaseListComponent {
     actionRefresh() {
 
         this.refreshDate();
+        // if(this.noItems && this.listService.currentDomain == null) {
+        //     this.listService.infoMessageShown = true;
+        //     let thisRoot = this;
+        //
+        //     setTimeout(function () {
+        //         thisRoot.listService.infoMessageShown = false;
+        //     }, 15000);
+        // }
 
 
         let url = this.listService.createUrl('get', this.listService.encodedQueryUrl, -1);
