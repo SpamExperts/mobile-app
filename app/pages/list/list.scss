@@ -1,65 +1,89 @@
+@import "../../../theme/variables";
+@import "../../definitions";
+
 page-list {
 
   span {
-    font-size: 11px;
+    font-size: 12px;
   }
 
-  span.sender-span {
+  .message-title {
     font-size: 12.5px;
-    color: grey;
+    font-weight: 500;
+    padding: 0px;
+    margin-right: 3px;
+  }
+
+  .grayedout-text {
+    color: #9a9a9a;
+  }
+
+  .padding-left-10 {
+    padding-left: 10px !important;
+  }
+
+  .content {
+    margin-top: 5px;
+  }
+
+  .sender {
+    font-size: 14.1px;
+    color: gray;
+  }
+
+  .subject {
+    padding-top: 3px;
+    font-size: 16px !important;
+  }
+
+  //for the blank at the top of ion-list
+  .scroll-content {
+    margin-top: 49px !important;
+  }
+
+  .label-md {
+    margin-top: 8px !important;
+    margin-bottom: 5px !important;
+    margin-right: 0px !important;
+  }
+
+  .item-inner {
+    padding-right: 0px !important;
   }
 
   .checkbox1 {
     font-size: 30px;
   }
 
-  ion-footer.footer {
-    font-size: 224px  !important;
-  }
-
   .rotate {
-    -moz-transform: rotate(90deg);
-    -webkit-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    transform: rotate(90deg);
+    @include rotate(90deg);
   }
 
   ion-navbar.toolbar-md, ion-navbar.toolbar {
     padding: 0px !important;
-    [col-6] {
-      padding-top: 0px !important;
-    }
-    .col1 {
-      margin-top:-15px;
-      position:absolute;
-      .domain-span {
-        margin-top: -5px !important;
-        position: absolute;
+  }
 
-      }
-    }
-    .date-span {
-      margin-top: -15px;
-      padding-left: 144px !important;
-      position: absolute;
-    }
+  .space {
+    height: 0.2px;
+  }
+
+  .title {
+    margin-top:-8px;
+    font-size: 12px !important;
+  }
+
+  .date-span {
+    color: white;
+    margin-top: 0px;
+    margin-left: 218px !important;
+    position: absolute;
+    z-index: 1000;
+    font-size: 12.5px;
+    font-weight: 500;
   }
 
   .listitem {
     padding-left: 0px !important;
-  }
-
-  .label-md {
-    margin: 0px !important;
-  }
-
-  [col-2] {
-    padding-top: 8.5px !important;
-  }
-
-  [col-10] {
-    padding-left: 10px !important;
   }
 
   ion-list {
@@ -82,10 +106,9 @@ page-list {
   }
 
   .card-content-md, .card-content-ios {
-    background-color: antiquewhite;
+    background-color: #fcf8e3;
+    border-color: #d6e9c6;
     font-size: 1.2rem;
-    //padding-top: 20px;
-    //height: 57px !important;
     color: #8a6d3b;
     span.text {
       font-size: 14px;
@@ -97,8 +120,8 @@ page-list {
   }
 
   button.card {
-    color: grey;
-    background-color: antiquewhite;
+    color: gray;
+    background-color: #fcf8e3;
     padding-top: 0px;
     margin-top: -30px;
     margin-left: 315px;
@@ -107,10 +130,10 @@ page-list {
 
   .refresh-div {
     padding-top: 17px;
-    height: 57px !important;
+    height: $bar-header-height !important;
     text-align: center;
-    border-top: 1px solid #d6d6da !important;
-    border-bottom: 1px solid #d6d6da !important;
+    border-top: 1px solid #eee !important;
+    border-bottom: 1px solid #eee !important;
     span {
       position: relative;
       font-size: 15px;
@@ -118,10 +141,27 @@ page-list {
   }
 
   button {
-    background-color: #F8F8F8;
+    background-color: $metallic-gray;
   }
 
-  .badge1{
-    width: 10px;
+  ion-content{
+    .icon {
+      margin-top: 0px !important;
+    }
   }
+
+  .footer-badge {
+    width: 10px !important;
+  }
+
+  span.spam-icon {
+    color: black;
+    padding: 1px;
+    width: 5px;
+    font-size: 12.5px;
+    border: 1px solid $border-gray;
+    border-radius: 4px;
+    margin-left: 95px;
+  }
+
 }

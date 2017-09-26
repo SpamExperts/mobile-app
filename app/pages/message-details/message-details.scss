@@ -1,13 +1,21 @@
+@import "../../../theme/variables";
+@import "../../definitions";
+
 app-message-details {
+
+    ion-content .scroll-content{
+        overflow-y: hidden !important;
+    }
+
     span {
         font-size : 10px;
     }
 
     .rotate {
-        -moz-transform: rotate(90deg);
-        -webkit-transform: rotate(90deg);
-        -o-transform: rotate(90deg);
-        -ms-transform: rotate(90deg);
-        transform: rotate(90deg);
+        @include rotate(90deg);
+    }
+
+    button {
+        background-color: $metallic-gray;
     }
 }

@@ -26,7 +26,7 @@
             <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to: {{selectedItem.recipient}}@{{selectedItem.domain}} </span> <br>
         </div>
         <div col-3>
-    <span>{{incomingService.timeConvert(selectedItem.datetime)}}</span>
+            <span>{{incomingService.timeConvert(selectedItem.datetime)}}</span>
         </div>
     </ion-row>
     <hr>
@@ -37,19 +37,21 @@
 
 </ion-content>
 
-<ion-footer>
-    <ion-row>
-        <button col-4 (click)="doAction('release')">
-            <ion-icon name="checkmark"></ion-icon>
-            Release
-        </button>
-        <button col-4 (click)="doAction('remove_from_quarantine')">
-            <ion-icon name="close"></ion-icon>
-            Remove
-        </button>
-        <button col-4 (click)="openPopover($event)" >
-            <ion-icon  class="rotate" name="more"></ion-icon>
-            &nbsp;More
-        </button>
-    </ion-row>
+<ion-footer class="footer">
+    <ion-toolbar color="metalic-gray" class="toolbar">
+        <ion-row>
+            <button col-4 (click)="doAction('release')">
+                <ion-icon name="checkmark"></ion-icon>
+                &nbsp;Release
+            </button>
+            <button col-4 (click)="doAction('remove_from_quarantine')">
+                <ion-icon name="close"></ion-icon>
+                &nbsp;Remove
+            </button>
+            <button col-4 (click)="openPopover($event)">
+                <ion-icon  class="rotate" name="more"></ion-icon>
+                &nbsp;More
+            </button>
+        </ion-row>
+    </ion-toolbar>
 </ion-footer>

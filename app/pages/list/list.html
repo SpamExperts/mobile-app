@@ -4,31 +4,32 @@
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>
-            <ion-row>
-                <ion-col col-6 class = "col1" >
-                    <span> {{ messageType}} spam messages </span> <br>
-                    <span class="domain-span" *ngIf="this.listService.currentDomain"> {{ this.listService.currentDomain }} </span>
-                </ion-col>
-                <ion-col col-6 class="date-span">
-                    <span> &nbsp;&nbsp;&nbsp;&nbsp;{{ this.listService.datesInterval }} </span>
-                </ion-col>
-            </ion-row>
+            <div>
+                <span class="title"> {{ messageType}} spam messages </span>
+                <div class="space" *ngIf="this.listService.currentDomain"> </div>
+                <span class="domain" *ngIf="this.listService.currentDomain"> {{ this.listService.currentDomain }} </span>
+            </div>
         </ion-title>
-
         <button ion-button menuToggle="right" right>
             <ion-icon name="search"></ion-icon>
         </button>
     </ion-navbar>
 </ion-header>
+
+//it belongs to the header
+<div class="date-span">
+    <span> {{ this.listService.datesInterval }} </span>
+</div>
+
 <ion-content padding>
 
     <ion-refresher (ionRefresh)="refresh($event)">
         <ion-refresher-content pullingText="Release me" refreshingSpinner="ios"></ion-refresher-content>
     </ion-refresher>
 
-    <div>
+    <div *ngIf="this.listService.infoMessageShown">
         <ion-card-content *ngIf="this.listService.infoMessageShown && this.permissionService.permissions.userType =='admin' " >
-          {{ this.listService.infoMessage }}
+            {{ this.listService.infoMessage }}
         </ion-card-content>
     </div>
 
@@ -43,15 +44,22 @@
     <ion-list [hidden]="noItems" [virtualScroll]="items" [approxItemHeight]="'150px'"  [bufferRatio]="3">
         <ion-item class="listitem" *virtualItem="let item;  let idx = index;" (click)="itemTapped($event, item)" >
             <ion-row>
-                <ion-col col-10>
-                    <span>{{listService.dateConvert(item.datetime)}}</span>&nbsp;&nbsp;
-                    <ion-badge item-end outline color="light">spam</ion-badge>
-                    <br>
-                    <span class="sender-span">{{item.sender}}</span> <br>
-                    <span>{{item.subject_header}}</span> <br>
+                <ion-col col-10 class="padding-left-10">
+                    <div class="message-title">
+                        {{listService.dateConvert(item.datetime)}}
+                        <span class="spam-icon">spam</span>
+                    </div>
                 </ion-col>
                 <ion-col col-2>
-                    <span>{{listService.timeConvert(item.datetime)}}</span> <br> <br>
+                    <div class="message-title"> {{listService.timeConvert(item.datetime)}} </div>
+                </ion-col>
+            </ion-row>
+            <ion-row class="content">
+                <ion-col col-10 class="padding-left-10">
+                    <div class="grayedout-text sender">{{item.sender}}</div>
+                    <div class="subject">{{item.subject_header}}</div>
+                </ion-col>
+                <ion-col col-2>
                     <ion-icon *ngIf="!item.checked" name="square-outline" class="checkbox1" (click)="changeCheckedItems(item,$event)"></ion-icon>
                     <ion-icon *ngIf="item.checked" name="checkbox" class="checkbox1" (click)="changeCheckedItems(item,$event)"></ion-icon>
                 </ion-col>
@@ -73,18 +81,16 @@
         <ion-row>
             <button col-4 (click)="this.actionService.action('release')">
                 <ion-icon name="checkmark"></ion-icon>
-                Release
+                &nbsp;Release
             </button>
             <button col-4 (click)="this.actionService.action('remove_from_quarantine')">
                 <ion-icon name="close"></ion-icon>
-                Remove
+                &nbsp;Remove
             </button>
-            <button col-2 (click)="openPopover($event)">
+            <button col-4 (click)="openPopover($event)">
                 <ion-icon  class="rotate" name="more"></ion-icon>
                 &nbsp;More
-            </button>
-            <button col-2 color="dark" outline ion-button small>
-                <ion-badge item-end>{{listService.checkedNumber}}</ion-badge>
+                <ion-badge class="footer-badge" item-end outline >{{listService.checkedNumber}}</ion-badge>
             </button>
         </ion-row>
     </ion-toolbar>
