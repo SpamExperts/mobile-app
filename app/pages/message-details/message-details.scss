@@ -7,8 +7,38 @@ app-message-details {
         overflow-y: hidden !important;
     }
 
+    ion-content {
+        background-color: $metallic-gray !important;
+    }
+
+    app-raw>ion-content>div.scroll-content {
+        overflow-y: scroll !important;
+    }
+
+    app-raw>ion-content {
+        background-color: white !important;
+    }
+
+    app-plain>ion-content {
+        background-color: white !important;
+    }
+
+    app-normal>ion-content {
+        background-color: white !important;
+    }
+
+    .tabs-ios .tab-button[aria-selected=true], .tabs-md .tab-button[aria-selected=true] {
+        color: dimgray;
+        background-color: #eceff2;
+    }
+
     span {
         font-size : 10px;
+    }
+
+    .white {
+        background-color: white !important;
+        border-bottom: 1px solid $border-gray;
     }
 
     .rotate {
@@ -16,6 +46,11 @@ app-message-details {
     }
 
     button {
+
         background-color: $metallic-gray;
+    }
+
+    .header-row {
+        color : white;
     }
 }

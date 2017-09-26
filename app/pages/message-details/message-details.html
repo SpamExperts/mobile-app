@@ -3,13 +3,12 @@
         <button menuToggle *ngIf="!selectedItem">
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-row>
+        <ion-row class="header-row">
             <div col-9>
                 <span>Quarantined message</span> <br>
                 <span>{{selectedItem.domain}}</span>
             </div>
             <div>
-                <br>
                 <span>2.20 KiB  </span>
                 <span>&nbsp;&nbsp;spam</span>
             </div>
@@ -18,7 +17,7 @@
 </ion-header>
 
 <ion-content>
-    <ion-row>
+    <ion-row class="white">
         <div col-9>
             <span>&nbsp;sent: {{incomingService.dateConvert(selectedItem.datetime)}}</span> <br>
             {{day}}
@@ -29,7 +28,6 @@
             <span>{{incomingService.timeConvert(selectedItem.datetime)}}</span>
         </div>
     </ion-row>
-    <hr>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{{selectedItem.subject_header}}</span>
     <br><br>
     <app-tabs></app-tabs>
