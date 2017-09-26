@@ -1,40 +1,41 @@
 <ion-header>
-    <ion-navbar>
-
-        <ion-toolbar>
+    <ion-navbar class="navbar" color="se-theme-color">
+        <ion-toolbar transparent>
             <button ion-button menuToggle="left" left> <ion-icon name="menu"></ion-icon></button>
         </ion-toolbar>
-        <ion-toolbar padding="20px">
-            <ion-title class="userInfo" text-center>Hello {{ this.permissionService.username }}</ion-title>
-            <ion-label class="userInfo" text-center id="role">{{ this.permissionService.permissions.userRole.toUpperCase()  }}</ion-label>
-        </ion-toolbar>
+        <div padding="20px" class="userInfo">
+            <ion-title class="userInfo" text-center>
+                <h3>Hello {{ this.permissionService.username }} </h3>
+            </ion-title>
+            <div text-center>
+                <ion-label class="userInfo" text-center id="role">
+                    {{ this.permissionService.permissions.userRole.toUpperCase() }}
+                </ion-label>
+            </div>
+        </div>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
 
-    <ion-label text-center> Your available products </ion-label>
+    <ion-label text-center class="text"> Your available products </ion-label>
 
-    <button ion-button (click)="getIncomingMessages()" *ngIf="this.permissionsService.permissions.messagesPages.incoming" clear>
-        <ion-icon name="ios-cloud-upload-outline"></ion-icon>
-        Incoming Filtering Quarantine
-    </button>
-    <button ion-button (click)="getOutgoingMessages()" *ngIf="this.permissionsService.permissions.messagesPages.outgoing" clear>
-        <ion-icon name="ios-cloud-download-outline"></ion-icon>
-        Outgoing Filtering Quarantine
-    </button>
+    <ion-grid>
+        <ion-row>
+            <ion-col width-50>
+                <div class="button" (click)="getIncomingMessages()" *ngIf="this.permissionsService.permissions.messagesPages.incoming" clear>
+                    <div text-center><ion-icon class="button-icon" name="ios-cloud-upload-outline"></ion-icon></div>
+                    <div text-center class="button-label">Incoming Filtering <br> Quarantine</div>
+                </div>
+            </ion-col>
+            <ion-col width-50>
+                <div class="button" (click)="getOutgoingMessages()" *ngIf="this.permissionsService.permissions.messagesPages.outgoing" clear>
+                    <ion-icon text-center class="button-icon" name="ios-cloud-download-outline"></ion-icon>
+                    <div text-center class="button-label">Outgoing Filtering <br> Quarantine</div>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 
-    <!--<ion-grid>-->
-        <!--<ion-row>-->
-            <!--<ion-col ion-button (click)="getIncomingMessages()" *ngIf="this.permissionsService.permissions.messagesPages.incoming" clear>-->
-                <!--<ion-icon name="ios-cloud-upload-outline"></ion-icon>-->
-                <!--Incoming Filtering Quarantine-->
-            <!--</ion-col>-->
-            <!--<ion-col ion-button (click)="getOutgoingMessages()" *ngIf="this.permissionsService.permissions.messagesPages.outgoing" clear>-->
-                <!--<ion-icon name="ios-cloud-download-outline"></ion-icon>-->
-                <!--Outgoing Filtering Quarantine-->
-            <!--</ion-col>-->
-        <!--</ion-row>-->
-    <!--</ion-grid>-->
-    <ion-label text-center>&copy; {{ this.incomingService.getCurrentYear() }} SpamExperts</ion-label>
+    <ion-label class="se-copyright" text-center>&copy; {{ this.incomingService.getCurrentYear() }} SpamExperts</ion-label>
 </ion-content>

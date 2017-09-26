@@ -1,3 +1,96 @@
-page-home {
+@import "../../definitions";
 
+ion-header {
+
+    .navbar {
+        color: white;
+
+        .toolbar-background {
+            background: $se-theme-color url('../../../assets/background.png') no-repeat;
+            background-size: cover;
+        }
+
+        .userInfo {
+            padding-bottom: 20px;
+            width: 100%;
+
+            ion-title {
+                padding-bottom: 20px;
+            }
+
+            #role {
+                width: 110px;
+                display: inline-block;
+                border-radius: 2px;
+                padding: 4px 6px 2px;
+                margin-top: 5px;
+                border: 1px white solid;
+                text-transform: uppercase;
+                font-size: 13px;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+ion-content {
+    padding-top: 0;
+
+    .text {
+        font-weight: bold;
+        font-size: 18px;
+        padding-top: 10px;
+    }
+
+    ion-grid {
+        padding: 10px;
+
+        ion-row {
+            margin-top: 20px;
+
+            ion-col {
+                display: block;
+                width: 50%;
+                height: 100%;
+                padding-left: 20px !important;
+
+                .button {
+                    margin-top: 0;
+                    height: 100%;
+
+                    &.activated {
+                        border: 0;
+                        background: $metallic-gray;
+                        border-radius: 5px;
+                    }
+
+                    .button-icon {
+                        margin-top: 0px;
+                        padding: 10px 0 10px;
+
+                        &:before {
+                            color: $se-theme-color;
+                            font-size: 80px !important;
+                        }
+                    }
+
+                    .button-label {
+                        color: $dark-gray;
+                        margin-top: 20px;
+                        line-height: 25px;
+                        font-size: 15px;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+
+@include stick-to-bottom('.se-copyright', ($custom-header-spacer-max-height - 135px), 530px, $grid-responsive-xs-break);
+.se-copyright {
+    font-size: 13px;
+    color: $dark-gray;
 }

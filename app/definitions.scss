@@ -25,6 +25,8 @@ $custom-header-spacer-height-landscape: $custom-header-height-landscape - 10%;
 $custom-header-spacer-min-height-landscape: $custom-header-min-height-landscape - $bar-header-height;
 $custom-header-spacer-max-height-landscape: $custom-header-max-height-landscape - $bar-header-height;
 
+$grid-responsive-xs-break:        270px !default;  // smaller than portrait phone
+
 $se-theme-color: #39B0DA;
 
 @mixin rotate($deg) {
