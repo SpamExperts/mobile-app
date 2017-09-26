@@ -58,6 +58,8 @@ export class MyApp implements OnInit {
     }
 
     initializeApp() {
+
+        // this.splashScreen.show();
         this.platform.ready().then(() => {
 
             this.statusBar.styleDefault();

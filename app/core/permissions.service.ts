@@ -59,6 +59,11 @@ export class PermissionService {
 
     public setUsername(username) {
         this.username = username;
+        if(username.length > 20) {
+            this.username = username.slice(0, 20) + '...';
+        } else {
+            this.username = username;
+        }
     }
 
 }
