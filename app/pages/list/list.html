@@ -4,10 +4,9 @@
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>
-            <div>
-                <span class="title"> {{ messageType}} spam messages </span>
-                <div class="space" *ngIf="this.listService.currentDomain"> </div>
-                <span class="domain" *ngIf="this.listService.currentDomain"> {{ this.listService.currentDomain }} </span>
+            <div class="header-div">
+                <p class="title"> {{ messageType}} spam messages </p>
+                <p class="domain" *ngIf="this.listService.currentDomain"> {{ this.listService.currentDomain }} </p>
             </div>
         </ion-title>
         <button ion-button menuToggle="right" right>
