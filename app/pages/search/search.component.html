@@ -2,62 +2,71 @@
 
 <ion-content padding-top padding-left padding-right>
 
-    <!--<div class="row">-->
-        <!--<div class="col col-center">-->
-            <h4 class="page-title">Search messages</h4>
-            <div class="se-spacer"></div>
+    <h4 class="page-title">Search messages</h4>
+    <div class="se-spacer"></div>
 
-            <ion-list>
-                <ion-item class="list-item" *ngIf="this.permissionService.permissions.searchFilter.domain">
-                    <ion-label floating>Domain</ion-label>
-                    <ion-input type="text" [(ngModel)]="domain" name="domain" class="required"></ion-input>
+    <ion-list>
+        <ion-item class="list-item" *ngIf="this.permissionService.permissions.searchFilter.domain">
+            <ion-label floating>Domain</ion-label>
+            <ion-input type="text" [(ngModel)]="domain" name="domain" class="required"></ion-input>
+        </ion-item>
+
+        <ion-item class="list-item" *ngIf="this.permissionService.permissions.searchFilter.sender">
+            <ion-label floating>Sender</ion-label>
+            <ion-input type="text"  [(ngModel)]="sender" name="sender"></ion-input>
+        </ion-item>
+
+        <ion-item class="list-item" *ngIf="this.permissionService.permissions.searchFilter.recipient">
+            <ion-label floating>Recipient</ion-label>
+            <ion-input type="text" [(ngModel)]="recipient" name="recipient"></ion-input>
+        </ion-item>
+    </ion-list>
+
+    <div class="se-spacer"></div>
+    <ion-label class="sent-text">Sent</ion-label>
+    <ion-grid>
+        <ion-row>
+            <ion-col ion-button class="timeButtons" (tap)="makeactive('pastDay')" [color]="selectedInterval == 'pastDay' ? 'dark' : 'light'" outline style="font-size: 10px;">
+                Past 24H
+            </ion-col>
+            <ion-col ion-button class="timeButtons" (tap)="makeactive('pastWeek')" [color]="selectedInterval == 'pastWeek' ? 'dark' : 'light'" outline style="font-size: 10px;">
+                Past Week
+            </ion-col>
+            <ion-col ion-button class="timeButtons" (tap)="makeactive('pastMonth')" [color]="selectedInterval == 'pastMonth' ? 'dark' : 'light'" outline style="font-size: 10px;">
+                Past Month
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <div class="se-spacer"></div>
+    <ion-label class="timeframe-text">Custom timeframe</ion-label>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col width-50 class="datetime-button">
+                <ion-label class="label">From date</ion-label>
+                <ion-item>
+                    <ion-datetime class="date" displayFormat="MMM DD, YYYY HH:mm" [(ngModel)]="fromDate"></ion-datetime>
                 </ion-item>
-
-                <ion-item class="list-item" *ngIf="this.permissionService.permissions.searchFilter.sender">
-                    <ion-label floating>Sender</ion-label>
-                    <ion-input type="text"  [(ngModel)]="sender" name="sender"></ion-input>
+            </ion-col>
+            <ion-col width-50 class="datetime-button">
+                <ion-label class="label">To date</ion-label>
+                <ion-item>
+                    <ion-datetime class="date" displayFormat="MMM DD, YYYY HH:mm" [(ngModel)]="toDate"></ion-datetime>
                 </ion-item>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 
-                <ion-item class="list-item" *ngIf="this.permissionService.permissions.searchFilter.recipient">
-                    <ion-label floating>Recipient</ion-label>
-                    <ion-input type="text" [(ngModel)]="recipient" name="recipient"></ion-input>
-                </ion-item>
-            </ion-list>
 
-            <div class="se-spacer"></div>
-            <ion-label class="sent-text">Sent</ion-label>
-            <ion-grid>
-                <ion-row>
-                    <ion-col ion-button class="timeButtons" (tap)="makeactive('pastDay')" [color]="selectedInterval == 'pastDay' ? 'dark' : 'light'" outline style="font-size: 10px;">
-                        Past 24H
-                    </ion-col>
-                    <ion-col ion-button class="timeButtons" (tap)="makeactive('pastWeek')" [color]="selectedInterval == 'pastWeek' ? 'dark' : 'light'" outline style="font-size: 10px;">
-                        Past Week
-                    </ion-col>
-                    <ion-col ion-button class="timeButtons" (tap)="makeactive('pastMonth')" [color]="selectedInterval == 'pastMonth' ? 'dark' : 'light'" outline style="font-size: 10px;">
-                        Past Month
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
 
-            <div class="se-spacer"></div>
-            <ion-label class="timeframe-text">Custom timeframe</ion-label>
-            <ion-item>
-                <ion-label>From date</ion-label>
-                <ion-datetime displayFormat="MMM DD, YYYY HH:mm" [(ngModel)]="fromDate"></ion-datetime>
-            </ion-item>
-            <ion-item>
-                <ion-label>To date</ion-label>
-                <ion-datetime displayFormat="MMM DD, YYYY HH:mm" [(ngModel)]="toDate"></ion-datetime>
-            </ion-item>
+    <div class="se-spacer"></div>
+    <button class="search-button" ion-button (tap)="searchMessages()" menuToggle="right" color="dark-gray" block>
+        <ion-icon class="search-icon" name="search"></ion-icon>
+        Search messages
+    </button>
+    <button class="clear" ion-button block (tap)="clearSearch()" outline block>Clear search</button>
 
-            <div class="se-spacer"></div>
-            <button class="search-button" ion-button (tap)="searchMessages()" menuToggle="right" color="dark-gray" block>
-                <ion-icon class="search-icon" name="search"></ion-icon>
-                Search messages
-            </button>
-            <button class="clear" ion-button block (tap)="clearSearch()" outline block>Clear search</button>
-
-            <div class="se-spacer"></div>
-            <ion-label text-center id="info" *ngIf="this.permissionService.isAdmin();"> Fields marked with * are required </ion-label>
+    <div class="se-spacer"></div>
+    <ion-label text-center id="info" *ngIf="this.permissionService.isAdmin();"> Fields marked with * are required </ion-label>
 </ion-content>

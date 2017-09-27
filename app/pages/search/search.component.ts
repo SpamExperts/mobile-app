@@ -269,6 +269,7 @@ export class SearchPage {
         if (this.domain == null && this.permissionService.permissions.userType == 'admin') {
 
             typeService.setInfoMessage('requiredDomain');
+            // typeService.clearDomainNotRegisterMessage();
             typeService.infoMessageShown = true;
             setTimeout(function () {
                 typeService.infoMessageShown = false;
@@ -282,12 +283,12 @@ export class SearchPage {
                 .subscribe(
                     (data) => {
                         this.getMessagesFromSearchFilters();
+                        // typeService.clearDomainNotRegisterMessage();
                     },
                     (error) => {
                         typeService.setInfoMessage('domainNotRegistered', this.domain);
                         typeService.infoMessageShown = true;
                         typeService.currentDomain = this.domain;
-                        console.log('here');
                         setTimeout(function () {
                             typeService.infoMessageShown = false;
                         }, 15000);

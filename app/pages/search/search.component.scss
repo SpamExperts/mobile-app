@@ -50,6 +50,29 @@ ion-content {
         margin-bottom: 0px !important;
     }
 
+    .datetime-button {
+        display: block;
+        width: 50%;
+        padding-left: 0px !important;
+
+        .label {
+            width: auto;
+            font-size: 15px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        ion-item {
+
+            padding: 0;
+            .date {
+                padding: 0px;
+                font-size: 12px;
+            }
+        }
+
+    }
+
     .search-button {
         font-size: 15px;
         border-radius: 5px;

@@ -3,6 +3,18 @@
 
 page-list {
 
+    .alert-message {
+        height: auto;
+        text-align: center;
+
+        .card-text {
+            position: relative;
+            padding: 3px 15px 3px 15px;
+            font-size: 15px;
+            margin-top: 10px;
+        }
+    }
+
     span {
         font-size: 12px;
     }
@@ -112,12 +124,26 @@ page-list {
             position: absolute;
         }
     }
+    .card-content-md, .card-content-ios {
+        padding-top: 20px;
+        background-color: #fcf8e3;
+        border-color: #d6e9c6;
+        font-size: 1.2rem;
+        color: #8a6d3b;
+        span.text {
+            font-size: 14px;
+            padding: 8px;
+            margin-top: 14px !important;
+            margin-left: 10px !important;
+            position: absolute;
+        }
+    }
 
     button.card {
         color: gray;
         background-color: #fcf8e3;
         padding-top: 0px;
-        margin-top: -30px;
+        margin-top: -34px;
         margin-left: 315px;
         position: absolute;
     }

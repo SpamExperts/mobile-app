@@ -27,8 +27,8 @@
     </ion-refresher>
 
     <div *ngIf="this.listService.infoMessageShown">
-        <ion-card-content *ngIf="this.listService.infoMessageShown && this.permissionService.permissions.userType =='admin' " >
-            {{ this.listService.infoMessage }}
+        <ion-card-content class="alert-message" *ngIf="this.listService.infoMessageShown && this.permissionService.permissions.userType =='admin' " >
+            <span text-center class="card-text">{{ this.listService.infoMessage }}</span>
         </ion-card-content>
     </div>
 

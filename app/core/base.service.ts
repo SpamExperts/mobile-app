@@ -46,12 +46,17 @@ export abstract class BaseService {
         switch(condition) {
             case 'requiredDomain':
                 this.infoMessage = 'Please filter the search using a domain.';
+                this.nonExistingDomain = false;
                 break;
             case 'domainNotRegistered':
                 this.infoMessage = 'Domain ' + domainName + ' is not registered on this cluster. Please search using an existing domain.';
                 this.nonExistingDomain = true;
                 break;
         }
+    }
+
+    public clearDomainNotRegisterMessage(){
+        this.nonExistingDomain = false;
     }
 
     public getCurrentYear() {
