@@ -4,31 +4,39 @@
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-row class="header-row">
-            <div col-9>
-                <span>Quarantined message</span> <br>
-                <span>{{selectedItem.domain}}</span>
+            <div col-8>
+                <span class="generic-title">Quarantined message</span> <br>
+                <span class="search-domain">{{selectedItem.domain}}</span>
             </div>
             <div>
-                <span>2.20 KiB  </span>
-                <span>&nbsp;&nbsp;spam</span>
+                <span class="message-size">2.20 KiB </span>
+                <span class="spam-icon">spam</span>
             </div>
         </ion-row>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
-    <ion-row class="white">
+    <div class="detail-row">
+    <ion-row>
         <div col-9>
-            <span>&nbsp;sent: {{incomingService.dateConvert(selectedItem.datetime)}}</span> <br>
-            {{day}}
-            <span>from: {{shorter(selectedItem.sender)}}</span> <br>
-            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to: {{selectedItem.recipient}}@{{selectedItem.domain}} </span> <br>
+            <div class="span-group">
+                <span class="header-name"> &nbsp;sent: </span> <span class="header-value"> {{incomingService.dateConvert(selectedItem.datetime)}}</span> <br>
+            </div>
+            <div class="span-group">
+                <span class="header-name"> from: </span> <span class="header-value"> {{shorter(selectedItem.sender)}}</span> <br>
+            </div>
+            <div class="span-group">
+                <span class="header-name">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to: </span> <span class="header-value"> {{selectedItem.recipient}}@{{selectedItem.domain}} </span> <br>
+            </div>
         </div>
         <div col-3>
-            <span>{{incomingService.timeConvert(selectedItem.datetime)}}</span>
+            <span class="time-span">{{incomingService.to12hours(selectedItem.datetime)}}</span>
         </div>
     </ion-row>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{{selectedItem.subject_header}}</span>
+    </div>
+    <br>
+    <span class="subject-header" >{{selectedItem.subject_header}}</span>
     <br><br>
     <app-tabs></app-tabs>
 
@@ -48,7 +56,7 @@
             </button>
             <button col-4 (click)="openPopover($event)">
                 <ion-icon  class="rotate" name="more"></ion-icon>
-                &nbsp;More
+                &nbsp;&nbsp;More
             </button>
         </ion-row>
     </ion-toolbar>

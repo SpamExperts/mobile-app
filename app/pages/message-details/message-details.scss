@@ -32,13 +32,12 @@ app-message-details {
         background-color: #eceff2;
     }
 
-    span {
-        font-size : 10px;
-    }
-
-    .white {
+    .detail-row {
         background-color: white !important;
         border-bottom: 1px solid $border-gray;
+        height: 80px !important;
+        padding-top: 5px;
+        padding-left: 5px;
     }
 
     .rotate {
@@ -46,11 +45,68 @@ app-message-details {
     }
 
     button {
-
         background-color: $metallic-gray;
+        font-size: 16.5px;
     }
 
     .header-row {
         color : white;
+    }
+
+    .generic-title {
+        font-size:13px;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .search-domain {
+        font-size: 16px;
+    }
+
+    .header-name {
+        width: 35px;
+        font-size: 12px;
+        text-align: right;
+        color: #9a9a9a;
+    }
+
+    .header-value {
+        font-size: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .spam-icon {
+        font-size: 10px;
+        color: white;
+        border: 1px solid white;
+        border-radius: 4px;
+        padding: 1px 3px 1px 3px;
+        position: absolute;
+        margin-top: 16px;
+        margin-left: 62px;
+    }
+
+    .message-size {
+        margin-top: 18px !important;
+        font-size: 12px;
+        position: absolute;
+        margin-left: 8px;
+        white-space: nowrap;
+    }
+
+    .span-group {
+        padding: 2px !important;
+    }
+
+    .subject-header {
+        padding-left: 36px !important;
+        font-size: 14px !important;
+    }
+
+    .time-span {
+        margin-left: 16px;
+        position: absolute;
+        white-space: nowrap;
     }
 }

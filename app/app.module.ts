@@ -45,7 +45,11 @@ import { OutgoingService } from './core/outgoing.service';
     imports: [
         BrowserModule,
         HttpModule,
-        IonicModule.forRoot(MyApp, {tabsPlacement: 'top'}),
+        IonicModule.forRoot(MyApp, {
+            tabsPlacement: 'top',
+            backButtonText: '',
+            backButtonIcon: 'ios-arrow-back',
+        }),
     ],
     bootstrap: [IonicApp],
     entryComponents: [

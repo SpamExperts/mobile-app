@@ -3,165 +3,170 @@
 
 page-list {
 
-  span {
-    font-size: 12px;
-  }
-
-  .message-title {
-    font-size: 12.5px;
-    font-weight: 500;
-    padding: 0px;
-    margin-right: 3px;
-  }
-
-  .grayedout-text {
-    color: #9a9a9a;
-  }
-
-  .padding-left-10 {
-    padding-left: 10px !important;
-  }
-
-  .content {
-    margin-top: 5px;
-  }
-
-  .sender {
-    font-size: 14.1px;
-    color: gray;
-  }
-
-  .subject {
-    padding-top: 3px;
-    font-size: 16px !important;
-  }
-
-  //for the blank at the top of ion-list
-  .scroll-content {
-    margin-top: 49px !important;
-  }
-
-  .label-md {
-    margin-top: 8px !important;
-    margin-bottom: 5px !important;
-    margin-right: 0px !important;
-  }
-
-  .item-inner {
-    padding-right: 0px !important;
-  }
-
-  .checkbox1 {
-    font-size: 30px;
-  }
-
-  .rotate {
-    @include rotate(90deg);
-  }
-
-  ion-navbar.toolbar-md, ion-navbar.toolbar {
-    padding: 0px !important;
-  }
-
-  .space {
-    height: 0.2px;
-  }
-
-  .title {
-    margin-top:-8px;
-    font-size: 12px !important;
-  }
-
-  .date-span {
-    color: white;
-    margin-top: 0px;
-    margin-left: 218px !important;
-    position: absolute;
-    z-index: 1000;
-    font-size: 12.5px;
-    font-weight: 500;
-  }
-
-  .listitem {
-    padding-left: 0px !important;
-  }
-
-  ion-list {
-    padding: 0px !important;
-  }
-
-  .scroll-content {
-    padding: 0px !important;
-  }
-
-  ion-title {
-    padding-left: 0px !important;
-    div {
-      padding: 0px !important;
-    }
-  }
-
-  .domain-span {
-    padding-top: 0px !important;
-  }
-
-  .card-content-md, .card-content-ios {
-    background-color: #fcf8e3;
-    border-color: #d6e9c6;
-    font-size: 1.2rem;
-    color: #8a6d3b;
-    span.text {
-      font-size: 14px;
-      padding: 8px;
-      margin-top: 14px !important;
-      margin-left: 10px !important;
-      position: absolute;
-    }
-  }
-
-  button.card {
-    color: gray;
-    background-color: #fcf8e3;
-    padding-top: 0px;
-    margin-top: -30px;
-    margin-left: 315px;
-    position: absolute;
-  }
-
-  .refresh-div {
-    padding-top: 17px;
-    height: $bar-header-height !important;
-    text-align: center;
-    border-top: 1px solid #eee !important;
-    border-bottom: 1px solid #eee !important;
     span {
-      position: relative;
-      font-size: 15px;
+        font-size: 12px;
     }
-  }
 
-  button {
-    background-color: $metallic-gray;
-  }
-
-  ion-content{
-    .icon {
-      margin-top: 0px !important;
+    .message-title {
+        font-size: 12.5px;
+        font-weight: 500;
+        padding: 0px;
+        margin-right: 3px;
     }
-  }
 
-  .footer-badge {
-    width: 10px !important;
-  }
+    .grayedout-text {
+        color: #9a9a9a;
+    }
 
-  span.spam-icon {
-    color: black;
-    padding: 1px;
-    width: 5px;
-    font-size: 12.5px;
-    border: 1px solid $border-gray;
-    border-radius: 4px;
-    margin-left: 80px;
-  }
+    .padding-left-10 {
+        padding-left: 10px !important;
+    }
+
+    .content {
+        margin-top: 5px;
+    }
+
+    .sender {
+        font-size: 14.1px;
+        color: gray;
+    }
+
+    .subject {
+        padding-top: 3px;
+        font-size: 16px !important;
+    }
+
+    //for the blank at the top of ion-list
+    .scroll-content {
+        margin-top: 49px !important;
+    }
+
+    .label-md {
+        margin-top: 8px !important;
+        margin-bottom: 5px !important;
+        margin-right: 0px !important;
+    }
+
+    .item-inner {
+        padding-right: 0px !important;
+    }
+
+    .checkbox {
+        font-size: 30px;
+    }
+
+    .gray-checkbox {
+        color : $border-gray !important;
+    }
+
+    .rotate {
+        @include rotate(90deg);
+    }
+
+    ion-navbar.toolbar-md, ion-navbar.toolbar {
+        padding: 0px !important;
+    }
+
+    .space {
+        height: 0.2px;
+    }
+
+    .title {
+        margin-top:-8px;
+        font-size: 12px !important;
+    }
+
+    .date-span {
+        color: white;
+        margin-top: 5px;
+        margin-left: 200px !important;
+        position: absolute;
+        z-index: 1000;
+        font-size: 12.5px;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    .listitem {
+        padding-left: 0px !important;
+    }
+
+    ion-list {
+        padding: 0px !important;
+    }
+
+    .scroll-content {
+        padding: 0px !important;
+    }
+
+    ion-title {
+        padding-left: 0px !important;
+        div {
+            padding: 0px !important;
+        }
+    }
+
+    .domain-span {
+        padding-top: 0px !important;
+    }
+
+    .card-content-md, .card-content-ios {
+        background-color: #fcf8e3;
+        border-color: #d6e9c6;
+        font-size: 1.2rem;
+        color: #8a6d3b;
+        span.text {
+            font-size: 14px;
+            padding: 8px;
+            margin-top: 14px !important;
+            margin-left: 10px !important;
+            position: absolute;
+        }
+    }
+
+    button.card {
+        color: gray;
+        background-color: #fcf8e3;
+        padding-top: 0px;
+        margin-top: -30px;
+        margin-left: 315px;
+        position: absolute;
+    }
+
+    .refresh-div {
+        padding-top: 17px;
+        height: $bar-header-height !important;
+        text-align: center;
+        border-top: 1px solid #eee !important;
+        border-bottom: 1px solid #eee !important;
+        span {
+            position: relative;
+            font-size: 15px;
+        }
+    }
+
+    button {
+        background-color: $metallic-gray;
+    }
+
+    ion-content{
+        .icon {
+            margin-top: 0px !important;
+        }
+    }
+
+    .footer-badge {
+        width: 10px !important;
+    }
+
+    span.spam-icon {
+        color: black;
+        padding: 1px 1px 1px 3px;
+        width: 5px;
+        font-size: 12.5px;
+        border: 1px solid $border-gray;
+        border-radius: 4px;
+        margin-left: 75px;
+    }
 
 }

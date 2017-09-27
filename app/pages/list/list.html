@@ -51,7 +51,7 @@
                     </div>
                 </ion-col>
                 <ion-col col-2>
-                    <div class="message-title"> {{listService.timeConvert(item.datetime)}} </div>
+                    <div class="message-title"> {{listService.to12hoursShort(item.datetime)}} </div>
                 </ion-col>
             </ion-row>
             <ion-row class="content">
@@ -60,8 +60,8 @@
                     <div class="subject">{{item.subject_header}}</div>
                 </ion-col>
                 <ion-col col-2>
-                    <ion-icon *ngIf="!item.checked" name="square-outline" class="checkbox1" (click)="changeCheckedItems(item,$event)"></ion-icon>
-                    <ion-icon *ngIf="item.checked" name="checkbox" class="checkbox1" (click)="changeCheckedItems(item,$event)"></ion-icon>
+                    <ion-icon *ngIf="!item.checked" name="square-outline" class="checkbox gray-checkbox" (click)="changeCheckedItems(item,$event)"></ion-icon>
+                    <ion-icon *ngIf="item.checked" name="checkbox" class="checkbox" (click)="changeCheckedItems(item,$event)"></ion-icon>
                 </ion-col>
             </ion-row>
         </ion-item>

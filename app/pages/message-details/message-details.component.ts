@@ -81,7 +81,7 @@ export class MessageDetailsPage {
     //if an item is too long, this function makes it shorter and adds ...
     public shorter(item: any): any {
 
-        return item.length<=18 ? item : item.slice(0,18) + '...';
+        return item.length<=34? item : item.slice(0,34) + '...';
     }
 
     openPopover(myEvent) {

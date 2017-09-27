@@ -137,13 +137,31 @@ export abstract class BaseService {
     }
 
     //for the view
-    public timeConvert(date: any): string {
+    public to12hours(date: any): string {
         let d = new Date(date);
+        let period = 'AM';
         let minutes = '';
         if (d.getMinutes() < 10) {
             minutes = '0';
         }
-        return d.getHours() + ':' + minutes + d.getMinutes();
+        let hours = d.getHours() + 1;
+        if( hours == 12 ) {
+            period = 'PM';
+        }
+        if( hours > 12 ) {
+            hours = hours - 12;
+            period = 'PM';
+        }
+        if( hours == 0 ) {
+            hours = 12;
+        }
+        return hours + ':' + minutes + d.getMinutes() + ' ' + period;
+    }
+
+    public to12hoursShort(date:any): string {
+        let d = this.to12hours(date);
+        d = d.slice(0, d.length - 3);
+        return d;
     }
 
     //for the server
