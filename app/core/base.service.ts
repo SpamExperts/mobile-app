@@ -33,6 +33,8 @@ export abstract class BaseService {
     public infoMessageShown: boolean = true;
     public datesInterval: string = null;
     public currentDomain: string = '';
+    nonExistingDomain: boolean = false;
+
 
     constructor(
         public api: Api,
@@ -47,10 +49,9 @@ export abstract class BaseService {
                 break;
             case 'domainNotRegistered':
                 this.infoMessage = 'Domain ' + domainName + ' is not registered on this cluster. Please search using an existing domain.';
+                this.nonExistingDomain = true;
                 break;
         }
-
-        // return message;
     }
 
     public getCurrentYear() {

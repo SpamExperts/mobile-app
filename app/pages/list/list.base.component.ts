@@ -121,7 +121,7 @@ export class BaseListComponent {
 
     refresh(refresher) {
 
-        if(this.noItems && this.listService.currentDomain == null) {
+        if(this.noItems && this.listService.currentDomain == '' || this.listService.nonExistingDomain) {
             this.listService.infoMessageShown = true;
             let thisRoot = this;
 
@@ -149,16 +149,6 @@ export class BaseListComponent {
     actionRefresh() {
 
         this.refreshDate();
-        // if(this.noItems && this.listService.currentDomain == null) {
-        //     this.listService.infoMessageShown = true;
-        //     let thisRoot = this;
-        //
-        //     setTimeout(function () {
-        //         thisRoot.listService.infoMessageShown = false;
-        //     }, 15000);
-        // }
-
-
         let url = this.listService.createUrl('get', this.listService.encodedQueryUrl, -1);
         let headers = new Headers();
 
@@ -263,7 +253,7 @@ export class BaseListComponent {
             this.listService.checkedNumber ++;
         }
         else {
-            this.listService.checkedNumber --;
+            this.listService.checkedNumber--;
         }
 
         this.listService.allItems = this.items;

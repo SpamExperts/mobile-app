@@ -1,13 +1,4 @@
-<style>
 
-    #info {
-        /*position: absolute;*/
-        bottom: 0;
-        color: #39B0DA;
-        padding: 5px;
-    }
-
-</style>
 
 <ion-content padding-top padding-left padding-right>
 
@@ -68,5 +59,5 @@
             <button class="clear" ion-button block (tap)="clearSearch()" outline block>Clear search</button>
 
             <div class="se-spacer"></div>
-            <ion-label text-center id="info"> Fields marked with * are required </ion-label>
+            <ion-label text-center id="info" *ngIf="this.permissionService.isAdmin();"> Fields marked with * are required </ion-label>
 </ion-content>

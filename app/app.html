@@ -24,19 +24,14 @@
                     <ion-icon class='button-icon' name="ios-cloud-upload-outline"></ion-icon>
                 </button>
             </ion-item>
-            <!--<ion-item>-->
-                <!--<button class="filteringButtons" menuClose ion-button clear (click)="openPage('OutgoingPage')" *ngIf="this.permissionService.permissions.messagesPages.outgoing">-->
-                    <!--Outgoing Filtering Quarantine-->
-                    <!--<ion-icon class='button-icon' name="ios-cloud-download-outline"></ion-icon>-->
-                <!--</button>-->
-            <!--</ion-item>-->
+
             <ion-item class="list-item">
                 <button class="filteringButtons" menuClose ion-button clear (click)="openPage('OutgoingPage')" *ngIf="this.permissionService.permissions.messagesPages.outgoing">
                     Outgoing Filtering Quarantine
                     <ion-icon class='button-icon' name="ios-cloud-download-outline"></ion-icon>
                 </button>
             </ion-item>
-            <ion-item></ion-item>
+            <ion-item  *ngIf="this.permissionService.permissions.messagesPages.outgoing"></ion-item>
         </ion-list>
 
         <button class="log-out-button" ion-button (click)="logout()" outline block>

@@ -287,7 +287,7 @@ export class SearchPage {
                         typeService.setInfoMessage('domainNotRegistered', this.domain);
                         typeService.infoMessageShown = true;
                         typeService.currentDomain = this.domain;
-
+                        console.log('here');
                         setTimeout(function () {
                             typeService.infoMessageShown = false;
                         }, 15000);
