@@ -6,13 +6,31 @@ page-list {
     .alert-message {
         height: auto;
 
+        .text-alert {
+            width: 80% !important;
+        }
+
+        .button-alert {
+            width: 20%;
+        }
+
         .card-text {
             position: relative;
             padding: 3px 15px 3px 0px;
-            font-size: 15px;
+            font-size: 13px;
             margin: 0px !important;
             text-align: justify;
             width: 90%;
+        }
+
+
+        button.card {
+            color: gray;
+            background-color: #fcf8e3;
+            padding-top: 5%;
+            //margin-top: -15%;
+            //margin-left: 90%;
+            //position: absolute;
         }
     }
 
@@ -140,14 +158,6 @@ page-list {
         }
     }
 
-    button.card {
-        color: gray;
-        background-color: #fcf8e3;
-        padding-top: 0px;
-        margin-top: -15%;
-        margin-left: 90%;
-        position: absolute;
-    }
 
     .refresh-div {
         padding-top: 17px;

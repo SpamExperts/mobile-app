@@ -28,13 +28,22 @@
 
     <div *ngIf="this.listService.infoMessageShown">
         <ion-card-content class="alert-message" *ngIf="this.listService.infoMessageShown && this.permissionService.permissions.userType =='admin' " >
-            <ion-label text-wrap class="card-text">{{ this.listService.infoMessage }}</ion-label>
+            <ion-row>
+                <ion-col col-11 class="text-alert">
+                    <ion-label text-wrap class="card-text">{{ this.listService.infoMessage }}</ion-label>
+                </ion-col>
+                <ion-col col-1 class="button-alert">
+                    <button *ngIf="this.listService.infoMessageShown && this.permissionService.permissions.userType =='admin' " class="card" #alertButton (click)="closeAlert()" clear>
+                        <ion-icon ios="ios-close" md="md-close" float-right></ion-icon>
+                    </button>
+                </ion-col>
+            </ion-row>
+
         </ion-card-content>
+
     </div>
 
-    <button *ngIf="this.listService.infoMessageShown && this.permissionService.permissions.userType =='admin' " class="card" #alertButton (click)="closeAlert()" clear>
-        <ion-icon ios="ios-close" md="md-close" float-right></ion-icon>
-    </button>
+
 
     <div class="refresh-div" *ngIf="!items.length">
         <span> No entries. Pull to refresh... </span>

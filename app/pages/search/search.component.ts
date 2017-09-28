@@ -44,12 +44,12 @@ export class SearchPage {
 
     public setThisMomentDates() {
         let now = new Date();
-        let today = new Date();
-        today.setSeconds(0);
-        today.setHours(0,0,0);
-        today.setHours(today.getHours() + 3);
+        let then = new Date();
+        then.setSeconds(0);
+        then.setDate(now.getDate() - 1);
+        then.setHours(then.getHours() + 3);
         now.setHours(now.getHours() + 3);
-        this.fromDate = today.toISOString();
+        this.fromDate = then.toISOString();
         this.toDate = now.toISOString();
     }
 
