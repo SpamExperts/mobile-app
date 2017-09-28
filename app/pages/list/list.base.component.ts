@@ -127,7 +127,7 @@ export class BaseListComponent {
 
             setTimeout(function () {
                 thisRoot.listService.infoMessageShown = false;
-            }, 15000);
+            }, 60000);
         }
 
         //not allowed when items are checked

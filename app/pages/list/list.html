@@ -28,7 +28,7 @@
 
     <div *ngIf="this.listService.infoMessageShown">
         <ion-card-content class="alert-message" *ngIf="this.listService.infoMessageShown && this.permissionService.permissions.userType =='admin' " >
-            <span text-center class="card-text">{{ this.listService.infoMessage }}</span>
+            <ion-label text-wrap class="card-text">{{ this.listService.infoMessage }}</ion-label>
         </ion-card-content>
     </div>
 

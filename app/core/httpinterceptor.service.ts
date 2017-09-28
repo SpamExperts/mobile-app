@@ -31,8 +31,14 @@ export class HttpInterceptor extends Http {
         if (options.headers == null) {
             options.headers = new Headers();
         }
+        let token;
 
-        let token = localStorage.getItem('token');
+        // if(this.platform.is('cordova')) {
+        //     token = this.secureStorage.safeStorage['token'];
+        // } else {
+            token = localStorage.getItem('token');
+        // }
+
         if(token != null) {
             options.headers.append('HTTP-X-AUTH-TOKEN', token);
             //for the error with two tokens sent
