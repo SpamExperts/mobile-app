@@ -91,10 +91,11 @@ $colors: (
 @import "noto-sans";
 
 // popover page
-$popover-md-width: 215px !important;
-$popover-ios-width: 215px !important;
-$popover-wp-width: 215px !important;
+$popover-md-width: 221px !important;
+$popover-ios-width: 221px !important;
 
+
+//headers and footers
 $toolbar-md-height: 56px !important;
 $toolbar-ios-height: 56px !important;
 
@@ -108,14 +109,9 @@ $checkbox-md-icon-background-color-off: #F8F8F8;
 $checkbox-md-icon-background-color-on: #404040;
 $checkbox-md-item-start-margin-end: 10px;
 $checkbox-md-icon-checkmark-width: 2px;
-//$checkbox-md-border-bottom-color: red !important;
-
-
 
 $button-md-height: 4.5rem !important;
 $button-md-text-transform: capitalize !important;
-
-// list page
 
 $badge-ios-background-color: #F8F8F8;
 $badge-md-background-color: #F8F8F8;

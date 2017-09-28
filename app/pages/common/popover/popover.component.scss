@@ -1,11 +1,50 @@
+@import "../../../../theme/variables";
+@import "../../../definitions";
+
 app-popover {
 
-  ion-list{
-    padding-top: 0px;
-    padding-left: 0px;
-  }
-  ion-item {
-    line-higth: 1px !important;
-  }
+    ion-list {
+        background-color: $metallic-gray;
+        padding-top: 0px;
+        padding-left: 0px;
+        margin-bottom: 0px !important;
+    }
+
+    .list-header-md {
+        margin-bottom: 0px !important;
+        padding-left: 0px !important;
+        background-color: #757575;
+        min-height: 19px !important;
+    }
+
+    ion-item {
+        padding-left: 0px !important;
+        height: 35px !important;
+        min-height: 20px !important;
+        background-color: $metallic-gray !important;
+
+        ion-label {
+            margin-left: 10px !important;
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
+        }
+
+        .inner-item {
+            padding-left: 10px !important;
+        }
+    }
+
+    .divide {
+        border-top: 1px solid $border-gray !important;
+    }
+
+    ion-list-header {
+        height: 38px !important;
+        min-height: 20px !important;
+        ion-label {
+            text-align: center;
+            margin-left: 0px !important;
+        }
+    }
 
 }
