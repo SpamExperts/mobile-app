@@ -211,4 +211,16 @@ page-list {
         margin-top: 0px;
         margin-bottom: 0px;
     }
+
+    .small-div {
+        border: 1px solid $border-gray !important;
+        border-radius: 3px;
+        padding: 1px 1px 7px 1px;
+        height: 17px;
+        width: 17px;
+        margin-top: -15px;
+        margin-left: 90px;
+        position: absolute;
+        z-index: 1000;
+    }
 }
