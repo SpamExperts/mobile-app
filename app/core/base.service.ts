@@ -199,6 +199,7 @@ export abstract class BaseService {
         this.runInfinite = false;
         this.hostname = '';
         this.infoMessageShown = true;
+        this.currentDomain = '';
     }
 
 }
