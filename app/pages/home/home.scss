@@ -96,3 +96,7 @@ ion-content {
     font-size: 13px;
     color: $dark-gray;
 }
+
+div.scroll-content {
+    overflow-y: hidden;
+}

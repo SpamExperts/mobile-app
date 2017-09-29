@@ -67,6 +67,8 @@ export class MessageDetailsPage {
 
         this.api.get(url + '?message_format=parsed', headers)
             .subscribe((data: any) => {
+                let j = JSON.parse(data._body);
+                console.log(j);
                 let result = JSON.parse(data._body).result;
                 currentService.plain = result.plain_body;
                 if (!result.html_body) {

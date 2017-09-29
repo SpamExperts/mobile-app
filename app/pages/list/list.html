@@ -1,15 +1,16 @@
 <ion-header>
     <ion-navbar color="se-theme-color">
-        <button ion-button menuToggle="left" left>
+        <button ion-button menuToggle="left" left [disabled]="this.listService.checkedNumber>0">
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>
             <div class="header-div">
                 <p class="title"> {{ messageType}} spam messages </p>
-                <p class="domain" *ngIf="this.listService.currentDomain"> {{ this.listService.currentDomain }} </p>
+                <p *ngIf="this.permissionService.permissions.userType != 'email' && this.listService.currentDomain" class="domain"> {{ this.listService.currentDomain }} </p>
+                <p *ngIf="this.permissionService.permissions.userType == 'email'" class="domain"> {{ this.listService.username }} </p>
             </div>
         </ion-title>
-        <button ion-button menuToggle="right" right>
+        <button ion-button menuToggle="right" right [disabled]="this.listService.checkedNumber>0">
             <ion-icon name="search"></ion-icon>
         </button>
     </ion-navbar>

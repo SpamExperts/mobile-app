@@ -173,6 +173,7 @@ page-list {
 
     button {
         background-color: $metallic-gray;
+        font-size: 16.5px;
     }
 
     ion-content{
@@ -216,9 +217,9 @@ page-list {
         border: 1px solid $border-gray !important;
         border-radius: 3px;
         padding: 1px 1px 7px 1px;
-        height: 17px;
-        width: 17px;
-        margin-top: -15px;
+        height: 18px;
+        width: 18px;
+        margin-top: -20px;
         margin-left: 90px;
         position: absolute;
         z-index: 1000;

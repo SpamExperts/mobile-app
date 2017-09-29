@@ -6,10 +6,11 @@
         <ion-row class="header-row">
             <div col-8>
                 <span class="generic-title">Quarantined message</span> <br>
-                <span class="search-domain">{{selectedItem.domain}}</span>
+                <span *ngIf="this.permissionService.permissions.userType != 'email'" class="search-domain">{{selectedItem.domain}}</span>
+                <span *ngIf="this.permissionService.permissions.userType=='email'" class="search-domain">{{this.outgoingService.username}}</span>
             </div>
             <div>
-                <span class="message-size">2.20 KiB </span>
+                <!--<span class="message-size">2.20 KiB </span>-->
                 <span class="spam-icon">spam</span>
             </div>
         </ion-row>
