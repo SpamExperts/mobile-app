@@ -7,7 +7,7 @@
             <div col-8>
                 <span class="generic-title">Quarantined message</span> <br>
                 <span *ngIf="this.permissionService.permissions.userType == 'admin'" class="search-domain">{{selectedItem.domain}}</span>
-                <span *ngIf="this.permissionService.permissions.userType != 'admin'" class="search-domain">{{this.incomingService.username}}</span>
+                <span *ngIf="this.permissionService.permissions.userType != 'admin'" class="search-domain">{{this.permissionService.username}}</span>
             </div>
             <div>
                 <!--<span class="message-size">2.20 KiB </span>-->

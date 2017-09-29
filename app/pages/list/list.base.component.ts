@@ -15,7 +15,7 @@ export class BaseListComponent {
     @ViewChild('alertButton') alertButton: ElementRef;
 
     selectedItem: any;
-    items: {}[] = [];
+    items: any = [];
     slice: number = 20;
     page: number;
     infiniteScroll: any = null;
@@ -219,6 +219,9 @@ export class BaseListComponent {
                 this.infiniteScroll.enable(true);
             }
         }
+        else {
+            console.log(this.infiniteScroll);
+        }
     }
 
     refreshDate() {
@@ -277,5 +280,15 @@ export class BaseListComponent {
 
     closeAlert() {
         this.listService.infoMessageShown = false;
+    }
+
+    clearSelection() {
+        for(let item of this.items) {
+            if(item.checked == true) {
+                item.checked = !item.checked;
+            }
+        }
+        this.listService.allItems = [];
+        this.listService.checkedNumber = 0;
     }
 }

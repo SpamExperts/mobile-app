@@ -7,7 +7,7 @@
             <div class="header-div">
                 <p class="title"> {{ messageType}} spam messages </p>
                 <p *ngIf="this.permissionService.permissions.userType == 'admin' " class="domain"> {{ this.listService.currentDomain }} </p>
-                <p *ngIf="this.permissionService.permissions.userType != 'admin' " class="domain"> {{ this.listService.username }} </p>
+                <p *ngIf="this.permissionService.permissions.userType != 'admin' " class="domain"> {{ this.permissionService.username }} </p>
             </div>
         </ion-title>
         <button ion-button menuToggle="right" right [disabled]="this.listService.checkedNumber>0">
@@ -99,7 +99,7 @@
             <button col-4 (click)="openPopover($event)">
                 <ion-icon  class="rotate" name="more"></ion-icon>
                 &nbsp;More
-                <div class="small-div"> {{listService.checkedNumber}} </div>
+                <div (tap)="clearSelection()" class="small-div"> {{listService.checkedNumber}} </div>
             </button>
         </ion-row>
     </ion-toolbar>
