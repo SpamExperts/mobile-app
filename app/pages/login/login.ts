@@ -46,9 +46,13 @@ export class LoginPage {
         this.menu.enable(false, 'searchMenu');
         this.menu.enable(false, 'primaryMenu');
 
+        console.log(this.incomingService.currentDomain);
+
     }
 
     login() {
+
+        console.log(this.incomingService.currentDomain);
 
         this.incomingService.refreshData();
         this.outgoingService.refreshData();
