@@ -291,4 +291,8 @@ export class BaseListComponent {
         this.listService.allItems = [];
         this.listService.checkedNumber = 0;
     }
+
+    log() {
+        console.log('htuiegfnurebg');
+    }
 }

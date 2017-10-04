@@ -51,7 +51,12 @@
     </div>
 
     <ion-list [hidden]="noItems" [virtualScroll]="items" [approxItemHeight]="'150px'"  [bufferRatio]="3">
-        <ion-item class="listitem" *virtualItem="let item;  let idx = index;" (click)="itemTapped($event, item)" >
+        <ion-item
+                class="listitem"
+                *virtualItem="let item;  let idx = index;"
+                (click)="itemTapped($event, item)"
+                (ion-long-tap)="log()"
+        >
             <ion-row>
                 <ion-col col-10 class="padding-left-10">
                     <div class="message-title">
